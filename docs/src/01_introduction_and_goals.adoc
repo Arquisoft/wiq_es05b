@@ -23,7 +23,7 @@ WIQ is a project forked from the University of Oviedo latest base repo offered b
 * Rubén Rubio, UO276255@uniovi.es
 * David Álvarez, UO288705@uniovi.es
 
-This is basically a Trivial Pursuit like game aimed to develop its users' general knowledge aswell as increasing their reflects, analytical thinking and also their focus. This will be achieved with all the main app functionality that includes:
+This is basically a Trivial Pursuit like game aimed to develop its users' general knowledge as well as increasing their reflects, analytical thinking and also their focus. This will be achieved with all the main app functionality that includes:
 
 * Scoring systems based on response times
 * Different question categories
@@ -60,7 +60,7 @@ Users will be able to interact with our system in a lot of different ways.
 * A fun Q&A game
 * A user registration system
 * An API to obtain user information respecting the privacy terms accorded
-* An API to obtain generated questions using real time updated and thruthful information from the WikiData Programming Interface.
+* An API to obtain generated questions using real time updated and truthful information from the WikiData Programming Interface.
 
 More information can be obtained following this https://docs.google.com/document/d/1pahOfYFY--Wi7_9bbxiKOGevB_9tOSyRm78blncgBKg[link], where the course project is fully described and detailed.
 
@@ -106,7 +106,7 @@ The following table describes the project's quality goals in a descending order.
 | *_Testability_*
 | The performance of the system is needed to be tested covering as many use cases as possible so all the other goals will be met.
 
-| *_Accesibility_*
+| *_Accessibility_*
 | The project should be accesible and fun for all types of user, a game must always be as open as the development capabilities allow.
 
 |=== 
