@@ -15,6 +15,14 @@ This repo is a basic application composed of several components.
 
 Both the user and auth service share a Mongo database that is accessed with mongoose.
 
+## Contributors
+
+- Donato Martín (UO288787@uniovi.es)
+- Luna Valdés (UO289321@uniovi.es)
+- Álvaro García (UO289295@uniovi.es)
+- Rubén Rubio (UO276255@uniovi.es)
+- David Álvarez (UO288705@uniovi.es)
+
 ## Quick start guide
 
 ### Using docker
