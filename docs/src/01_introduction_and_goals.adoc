@@ -1,7 +1,7 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-introduction-and-goals]]
-== Introduction and Goals (wiq_es05b)
+== Introduction and Goals
 
 [role="arc42help"]
 ****
@@ -14,6 +14,20 @@ These include
 * quality goals for the architecture and
 * relevant stakeholders and their expectations
 ****
+
+WIQ is a project forked from the University of Oviedo latest base repo offered by the Software Architecture course. The development team (es05b) is formed by the following engineering students:
+
+* Donato Martín, UO288787@uniovi.es
+* Luna Valdés, UO289321@uniovi.es
+* Álvaro García, UO289295@uniovi.es
+* Rubén Rubio, UO276255@uniovi.es
+* David Álvarez, UO288705@uniovi.es
+
+This is basically a Trivial Pursuit like game aimed to develop its users' general knowledge aswell as increasing their reflects, analytical thinking and also their focus. This will be achieved with all the main app functionality that includes:
+
+* Scoring systems based on response times
+* Different question categories
+* A history of past games
 
 === Requirements Overview
 
@@ -41,6 +55,15 @@ See https://docs.arc42.org/section-1/[Introduction and Goals] in the arc42 docum
 
 ****
 
+Users will be able to interact with our system in a lot of different ways.
+
+* A fun Q&A game
+* A user registration system
+* An API to obtain user information respecting the privacy terms accorded
+* An API to obtain generated questions using real time updated and thruthful information from the WikiData Programming Interface.
+
+More information can be obtained following this https://docs.google.com/document/d/1pahOfYFY--Wi7_9bbxiKOGevB_9tOSyRm78blncgBKg[link], where the course project is fully described and detailed.
+
 === Quality Goals
 
 [role="arc42help"]
@@ -62,6 +85,31 @@ If you as an architect do not know how the quality of your work will be judged..
 .Form
 A table with quality goals and concrete scenarios, ordered by priorities
 ****
+
+The following table describes the project's quality goals in a descending order.
+
+|=== 
+| Quality Goal | Motivation
+
+| *_Usability_*
+| The application must be not only easy to learn and use but also fun because if a game has no joy in it, then it shall never be called for that name.
+
+| *_Maintainability_*
+| Projects should always have enough quality to be able to be modified without making more changes than necessary. Not following this principle would make an information system fail in the long run.
+
+| *_Security_*
+| Security is always key and therefore effort will be put into defending against unauthorised access of information, including the users' personal or sensitive data that the information system may contain.
+
+| *_Scalability_*
+| The application may or may not increase its demand given enough time so not pursuing this goal might lead to an unavoidable failure.
+
+| *_Testability_*
+| The performance of the system is needed to be tested covering as many use cases as possible so all the other goals will be met.
+
+| *_Accesibility_*
+| The project should be accesible and fun for all types of user, a game must always be as open as the development capabilities allow.
+
+|=== 
 
 === Stakeholders
 
@@ -86,8 +134,21 @@ Table with role names, person names, and their expectations with respect to the 
 ****
 
 [options="header",cols="1,2,2"]
+
 |===
-|Role/Name|Contact|Expectations
-| _<Role-1>_ | _<Contact-1>_ | _<Expectation-1>_
-| _<Role-2>_ | _<Contact-2>_ | _<Expectation-2>_
+
+|Role/Name|Description|Expectations
+
+| _Development Team_
+| Donato Martín, Luna Valdés, Álvaro García, Rubén Rubio and David Álvarez 
+| The engineering students are expected to improve communication, teamwork and coding skills adopting a developer role in this project.
+
+| _Teachers_
+| José Emilio Labra and Cristian Augusto Alonso
+| Teachers are in charge of supervising the developers work aswell as helping them solve environment, development issues or any other that may arise.
+
+| _Users_
+| Final users of WIQ
+| They are just expected to use this project as it is intended to work.
+
 |===
