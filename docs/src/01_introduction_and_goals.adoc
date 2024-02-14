@@ -23,11 +23,14 @@ WIQ is a project forked from the University of Oviedo latest base repo offered b
 * Rubén Rubio, UO276255@uniovi.es
 * David Álvarez, UO288705@uniovi.es
 
-This is basically a Trivial Pursuit like game aimed to develop its users' general knowledge as well as increasing their reflects, analytical thinking and also their focus. This will be achieved with all the main app functionality that includes:
+This is basically a Trivial Pursuit like game inspired in spanish TV show "Saber y Ganar" aimed to develop its users' general knowledge as well as increasing their reflects, analytical thinking and also their focus. This will be achieved with all the main app functionality that includes:
 
 * Scoring systems based on response times
 * Different question categories
 * A history of past games
+
+
+image::jordi-hurtado-happy.jpg["Jordi Hurtado"]
 
 === Requirements Overview
 
