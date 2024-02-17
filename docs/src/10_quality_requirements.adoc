@@ -3,6 +3,15 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-quality-scenarios]]
 == Quality Requirements
 
+The required quality goals are:
+
+- Privacy: Sensitive user information must be kept private at all times to prevent any third party from accessing it without consent.
+- Usability: The application must be intuitive to use, with a clear design and without distractions.
+This will facilitate the use of the application by any user without any effort.
+- Perfomance: Performance is critical in the application, especially in the game itself.
+This is intended to save the user long waiting times between questions, providing a fast and fluid experience.
+- Maintainability and Escalability:  The application must be well structured so that functionalities
+can be added or modified at any time in a simple and intuitive way, which will facilitate the work of the developers.
 
 [role="arc42help"]
 ****
@@ -27,6 +36,8 @@ See https://docs.arc42.org/section-10/[Quality Requirements] in the arc42 docume
 
 === Quality Tree
 
+image::10_quality_tree.png[quality tree]
+
 [role="arc42help"]
 ****
 .Content
@@ -47,6 +58,64 @@ In any case the tree should include links to the scenarios of the following sect
 ****
 
 === Quality Scenarios
+
+==== Usage scenarios
+
+===== Privacy
+[%header, cols="1, 3"]
+|===
+|Usage Scenario |System Response
+
+|The user reaches the landing page, enters the login screen and logs in.
+|The system checks that the user's information is correct, if it is, it takes them
+to the main page of the game, if not, it returns them to the login screen and
+informs them of the error.
+|===
+
+===== Perfomance
+[%header, cols="1, 3"]
+|===
+|Usage Scenario |System Response
+
+|On the main page the user can view the different game modes, of which they must choose one
+|When a game mode is chosen, the system will choose various questions to ask
+the user, obtain all the information corresponding to the answers and show them
+to the user.
+|===
+
+===== Usability
+[%header, cols="4, 3"]
+|===
+|Usage Scenario |System Response
+
+|A new user starts using the application, given the design of the page, they
+quickly know what they have to do to register and how they have to use the application.
+|Since the app has been designed with usability in mind, it will be very easy to use for new users.
+
+|
+|===
+==== Change scenarios
+
+===== Maintainability and Escalability
+
+[%header, cols="1, 3"]
+|===
+|Change Scenario |System Response
+
+|Add new game mode
+|When new game modes are added, the previous ones should not be modified or
+influenced by the new changes. All previous functionality should still be usable.
+
+|Add alternative forms of login / signup 
+|When new login / signup forms of login are added (e.g. with Google accounts),
+the previous ones should still be valid and work properly.
+
+|Implement hotfixes
+|When critical errors are found, they must be corrected and applied on the go,
+in a transparent way to the user and avoiding having to shut down the service for a long period of time.
+
+|===
+
 
 [role="arc42help"]
 ****
