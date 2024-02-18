@@ -58,8 +58,14 @@ Alice -> Bob: Another authentication Request
 Alice <-- Bob: another authentication Response
 ----
 
-=== <Runtime Scenario 2>
+=== Register
 
-=== ...
+image::diagram-register.drawio.png["Register Diagram"]
 
-=== <Runtime Scenario n>
+=== Login
+
+image::diagram-login.drawio.png["Login Diagram"]
+
+=== Question Flow
+
+image::diagram-question.drawio.png["Question Diagram"]
