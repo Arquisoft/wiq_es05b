@@ -37,6 +37,8 @@ _Update when final architecture decisions are made_
 
 The initial architecture decisions are the use of:
 
+[options="header",cols="1,3"] 
+
 |=== 
 | Decision | Utility 
 | JavaScript | Lightweight programming languaje used to code the application
