@@ -31,12 +31,57 @@ See https://docs.arc42.org/section-12/[Glossary] in the arc42 documentation.
 ****
 
 [cols="e,2e" options="header"]
+
 |===
-|Term |Definition
 
-|<Term-1>
-|<definition-1>
+| Term | Definition
 
-|<Term-2>
-|<definition-2>
+| WIQ
+| Wikidata Infinite Quest
+
+| Saber y Ganar
+| A spanish TV show hosted by Jordi Hurtado which inspires this project
+
+| HappySw
+| The company in charge of the development of this app
+
+| Arc42
+| 
+
+| React
+| 
+
+| MongoDB
+| 
+
+| Azure
+| 
+
+| Docker
+| 
+
+| React
+| 
+
+| Backend
+| 
+
+| Wikidata
+| 
+
+| Git
+| 
+
+| ADR
+| Arquitechtural Design Record. 
+
+| API
+|
+
+| Continuous integration and delivery
+|
+
+| Microservice
+| 
+
 |===
