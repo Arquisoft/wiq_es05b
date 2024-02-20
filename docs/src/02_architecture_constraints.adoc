@@ -4,8 +4,8 @@ ifndef::imagesdir[:imagesdir: ../images]
 == Architecture Constraints
 
 
-[options="header",cols="2,7"]
 === 1. Technical Constraints
+[options="header",cols="2,7"]
 ****
 .Contents
 Any requirement that constraints software architects in their freedom of design and implementation decisions or decision about the development process. These constraints sometimes go beyond individual systems and are valid for whole organizations and companies.
@@ -26,8 +26,11 @@ See https://docs.arc42.org/section-2/[Architecture Constraints] in the arc42 doc
 
 ****
 
-|===
+These constraints are set by the project, and we believe that altering them would be counterproductive.
+Therefore, we have chosen to adhere to them
 
+[options="header",cols="2,7"]
+|===
 | Constraint | Explanation
 |*_Docker_*
 | The app will be running in a Docker Host.
@@ -65,7 +68,7 @@ in developing a real-world application.
 |===
 
 [options="header",cols="2,7"]
-=== 2. Convention Constraints
+=== 3. Convention Constraints
 |===
 
 | Constraint | Explanation
