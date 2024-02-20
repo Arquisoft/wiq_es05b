@@ -46,18 +46,15 @@ See https://docs.arc42.org/section-12/[Glossary] in the arc42 documentation.
 | The company in charge of the development of this app
 
 | Arc42
-| 
+| Template used for the documentation
 
 | React
-| 
+| Library for the interfaces used in the application
 
 | MongoDB
-| 
+| Database used for the application data storage
 
 | Azure
-| 
-
-| Docker
 | 
 
 | React
