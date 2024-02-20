@@ -70,7 +70,7 @@ image::03_business_context.png["Business Context diagram"]
 | Questions and answers 
 |===
 
-image::03_business_context.png["Diagram of business context"]
+image::03_business_context.drawio.png["Diagram of business context"]
 
 === Technical Context
 
@@ -90,7 +90,7 @@ together with a mapping table showing the relationships between channels and inp
 
 **Technical Context diagram**
 
-image::04_technical_context.png["Technical Context diagram"]
+image::04_technical_context.drawio.png["Technical Context diagram"]
 
 [options="header",cols="1,3,3"] 
 |===  
