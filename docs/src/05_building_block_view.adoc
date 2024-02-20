@@ -65,9 +65,8 @@ In the best case you will get away with examples or simple signatures.
 
 === Level 1: Whitebox Overall System
 
-[plantuml, Level1-diagram, svg]
+[plantuml, "Level1-diagram", png]
 ----
-@startuml
 actor UserAgent
 rectangle App
 rectangle "Wikidata API" as API
@@ -76,7 +75,6 @@ UserAgent -> App: Interaction
 App -> API: Consumes
 API --> App: Retrieve data
 
-@enduml
 ----
 
 
@@ -131,9 +129,8 @@ Please prefer relevance over completeness. Specify important, surprising, risky,
 Leave out normal, simple, boring or standardized parts of your system
 ****
 
-[plantuml, Level2-diagram, svg]
+[plantuml, "Level2-diagram", png]
 ----
-@startuml
 left to right direction
 skinparam packageStyle rectangle
 
@@ -183,9 +180,8 @@ Contained Building Blocks::
 
 === Level 3:
 
-[plantuml, Level2-diagram, svg]
+[plantuml, "Level2-diagram", png]
 ----
-@startuml
 
 rectangle "Controller" as controller
 rectangle "Service" as service
@@ -196,7 +192,6 @@ model -> db : Retrieve data
 service -> model : Data processing
 controller -> service : Request
 
-@enduml
 ----
 
 Motivation::
