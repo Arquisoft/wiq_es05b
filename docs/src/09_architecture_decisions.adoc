@@ -37,9 +37,14 @@ _Update when final architecture decisions are made_
 
 The initial architecture decisions are in the GitHub Wiki. 
 
-*https://github.com/Arquisoft/wiq_es05b/wiki/ADR-01-‐-JavaScript [ADR 01 - JavaScript]
-*https://github.com/Arquisoft/wiq_es05b/wiki/ADR-02-‐-Wikidata [ADR 02 - Wikidata]
-*https://github.com/Arquisoft/wiq_es05b/wiki/ADR-03-‐-Docker [ADR 03 - Docker]
-*https://github.com/Arquisoft/wiq_es05b/wiki/ADR-04-‐-React [ADR 04 - React]
-*https://github.com/Arquisoft/wiq_es05b/wiki/ADR-05-‐-MongoDB [ADR 05 - MongoDB]
-*https://github.com/Arquisoft/wiq_es05b/wiki/ADR-06-‐-ExpressJS [ADR 06 - ExpressJS]
+* https://github.com/Arquisoft/wiq_es05b/wiki/ADR-01-‐-JavaScript [ADR 01 - JavaScript]
+
+* https://github.com/Arquisoft/wiq_es05b/wiki/ADR-02-‐-Wikidata [ADR 02 - Wikidata]
+
+* https://github.com/Arquisoft/wiq_es05b/wiki/ADR-03-‐-Docker [ADR 03 - Docker]
+
+* https://github.com/Arquisoft/wiq_es05b/wiki/ADR-04-‐-React [ADR 04 - React]
+
+* https://github.com/Arquisoft/wiq_es05b/wiki/ADR-05-‐-MongoDB [ADR 05 - MongoDB]
+
+* https://github.com/Arquisoft/wiq_es05b/wiki/ADR-06-‐-ExpressJS [ADR 06 - ExpressJS]
