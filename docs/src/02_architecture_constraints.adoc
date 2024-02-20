@@ -30,6 +30,9 @@ These constraints are set by the project, and we believe that altering them woul
 Therefore, we have chosen to adhere to them
 
 [options="header",cols="2,7"]
+=== 1. Technical Constraints
+
+[options="header",cols="2,7"]
 |===
 | Constraint | Explanation
 |*_Docker_*
