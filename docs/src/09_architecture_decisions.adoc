@@ -44,6 +44,7 @@ The initial architecture decisions are the use of:
 | MongoDB | Open-source document database used to store data
 | Docker | Open-source platform used to deploy the application
 | Wikidata | Document-oritented database used to obtain the questions and answers for the app
+| ExpressJS | Framework built on the top of Node.js and used in the backend
 |===
 
 
