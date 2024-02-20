@@ -54,20 +54,60 @@ image::08-Crosscutting-Concepts-Structure-EN.png["Possible topics for crosscutti
 
 See https://docs.arc42.org/section-8/[Concepts] in the arc42 documentation.
 ****
+=== Domain Model
+----
+object User{
+    Id: Long
+    name: String
+    lastName: String
+    email: String
+    password: String
+}
 
+object Question{
+    Id: Long
+    question: String
+    answer: String
+    option1: String
+    option2: String
+    option3: String
+}
 
-=== _<Concept 1>_
+object Rank{
+    Id: Long
+    games: Number
+    answered: Number
+    corect: Number
+    wrong: Number
+    totalTime: Time
+    totalPoints: Number
+    User: User
+}
 
-_<explanation>_
+object Game{
+    Id: Long
+    correct: Number
+    wrong: Numer
+    time: Time
+    User: User
+    points: Number
+}
+----
+=== User Experience
+While we haven't settled on the final appearance of the app, its core functionality revolves around a quiz game.
+It features multiple questions across different categories, offering various possible answers with only one being correct
 
+=== Security
+As we prioritize user information security, it's crucial for our app.
+We'll be encrypting users' passwords and minimizing the amount of information we request from them
 
+=== Testing
+To ensure the system functions correctly, we've opted to implement unit tests for the majority of its components.
+Additionally, we'll conduct thorough checks on the overall functionality of the app to enhance the user experience.
+To facilitate testing procedures, we've are going to create a dedicated branch.
+This branch will be utilized specifically for conducting tests when needed
 
-=== _<Concept 2>_
-
-_<explanation>_
-
-...
-
-=== _<Concept n>_
-
-_<explanation>_
+=== Usability
+Usability is crucial for any application, as it directly impacts user interaction efficiency.
+To ensure our app's usability, we conducted extensive user research, leading to an intuitive interface design.
+Employing a user-centric approach throughout development, we prioritized user experience, facilitating easy navigation

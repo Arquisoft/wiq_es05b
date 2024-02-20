@@ -37,29 +37,14 @@ See https://docs.arc42.org/section-6/[Runtime View] in the arc42 documentation.
 
 ****
 
-=== <Runtime Scenario 1>
+=== Register
 
+image::diagram-register.drawio.png["Register Diagram"]
 
-* _<insert runtime diagram or textual description of the scenario>_
-* _<insert description of the notable aspects of the interactions between the
-building block instances depicted in this diagram.>_
+=== Login
 
-It is possible to use a sequence diagram:
+image::diagram-login.drawio.png["Login Diagram"]
 
-[plantuml,"Sequence diagram",png]
-----
-actor Alice
-actor Bob
-database Pod as "Bob's Pod"
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-Alice  --> Pod: Store route
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
-----
+=== Question Flow
 
-=== <Runtime Scenario 2>
-
-=== ...
-
-=== <Runtime Scenario n>
+image::diagram-question.drawio.png["Question Diagram"]
