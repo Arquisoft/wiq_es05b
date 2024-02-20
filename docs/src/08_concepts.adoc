@@ -57,15 +57,15 @@ See https://docs.arc42.org/section-8/[Concepts] in the arc42 documentation.
 === Domain Model
 ----
 object User{
-    Id : Long
-    name : String
-    lastName : String
-    email : String
-    password : String
+    Id: Long
+    name: String
+    lastName: String
+    email: String
+    password: String
 }
 
 object Question{
-    Id : Long
+    Id: Long
     question: String
     answer: String
     option1: String
