@@ -39,12 +39,12 @@ See https://docs.arc42.org/section-6/[Runtime View] in the arc42 documentation.
 
 === Register
 
-image::diagram-register.drawio.png["Register Diagram"]
+image::06_register.drawio.png["Register Diagram"]
 
 === Login
 
-image::diagram-login.drawio.png["Login Diagram"]
+image::06_login.drawio.png["Login Diagram"]
 
 === Question Flow
 
-image::diagram-question.drawio.png["Question Diagram"]
+image::06_question.drawio.png["Question Diagram"]

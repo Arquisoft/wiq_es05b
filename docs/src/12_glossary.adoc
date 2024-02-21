@@ -46,7 +46,7 @@ See https://docs.arc42.org/section-12/[Glossary] in the arc42 documentation.
 | The company in charge of the development of this app
 
 | Arc42
-| Template used for the documentation
+| Architecture documentation template used in this project
 
 | React
 | Library for the interfaces used in the application
@@ -68,9 +68,6 @@ See https://docs.arc42.org/section-12/[Glossary] in the arc42 documentation.
 
 | ADR
 | Arquitechtural Design Record. 
-
-| API
-|Application Programming Interface
 
 | Continuous integration and delivery
 |The process of automating the integration of code changes from multiple contributors into a single software project.   

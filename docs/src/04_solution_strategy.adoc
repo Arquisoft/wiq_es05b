@@ -3,7 +3,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-solution-strategy]]
 == Solution Strategy
 
-
 [role="arc42help"]
 ****
 .Contents
@@ -55,10 +54,8 @@ for different purpouses. For instance, we currently have the following microserv
 
 === Decisions taken to achieve quality goals
 
-[%header, cols="2*"]
 |===
-|Quality goal
-|Decision made
+| Quality goal | Decision made
 
 |*_Privacy_*
 |The credential storage and the login/signup process must encrypt the user data

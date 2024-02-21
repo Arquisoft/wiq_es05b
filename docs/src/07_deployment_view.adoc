@@ -101,7 +101,6 @@ Quality and/or Performance Features::
 Mapping of Building Blocks to Infrastructure::
 
 |===
-
 | Component | Description
 
 | User agent

@@ -23,7 +23,7 @@ This allows you to communicate with your stakeholder on an abstract level withou
 The building block view is a hierarchical collection of black boxes and white boxes
 (see figure below) and their descriptions.
 
-image::05_building_blocks-EN.png["Hierarchy of building blocks"]
+image::05_building_blocks.png["Hierarchy of building blocks"]
 
 *Level 1* is the white box description of the overall system together with black
 box descriptions of all contained building blocks.
@@ -77,7 +77,6 @@ API --> App: Retrieve data
 
 ----
 
-
 Motivation::
 
 The main purpose of the system is to run a quiz game using info dynamically retrieved from the Wikidata API. 
@@ -86,7 +85,7 @@ The main purpose of the system is to run a quiz game using info dynamically retr
 Contained Building Blocks::
 
 |===
-|Name| Description
+| Name | Description
 
 |User Agent
 
@@ -157,21 +156,19 @@ This level aims to shed some light on the internal structure of the App componen
 Contained Building Blocks::
 
 |===
-|Name| Description
+| Name | Description
 
-|Web App
+| Web App
+| React frontend in which the game will take place
 
-|React frontend in which the game will take place
+| Gateway
+| Service in charge of communicating the web app with the backend. Its main purpose its to forward all the  requests sent from the client to the corresponding service and return the response to the client.
 
-|Gateway
+| Authentication
+| Service which will handle the user authentication process when a new user logs in
 
-|Service in charge of communicating the web app with the backend. Its main purpose its to forward all the  requests sent from the client to the corresponding service and return the response to the client.
-
-|Authentication
-|Service which will handle the user authentication process when a new user logs in
-
-|Users
-|Service containing all user related information such as scores or history of games played.
+| Users
+| Service containing all user related information such as scores or history of games played.
 
 |Questions
 |Service that bears the responsability of interacting with te Wikidata API and generating the questions to be presented to the user.
@@ -199,21 +196,19 @@ Motivation::
 This third level provides a deeper insight into the microservices that compose the application. As the diagram showcases, each one is implemented using an n-layer architecture so as to ensure a clear separation of concerns and a high degree of modularity, which in turn will make the system more maintainable and scalable.
 
 |===
-|Name| Description
+| Name | Description
 
-|Controller
+| Controller
+| Component in charge of handling the requests sent from the gateway and returning the corresponding response.
 
-|Component in charge of handling the requests sent from the gateway and returning the corresponding response.
+| Service
+| Module that contains the business logic of the service. It is responsible for processing the data from the model and returning it to the controller.
 
-|Service
+| Model
+| Component that interacts with the database and retrieves the data to be processed by the service.
 
-|Module that contains the business logic of the service. It is responsible for processing the data from the model and returning it to the controller.
-
-|Model
-|Component that interacts with the database and retrieves the data to be processed by the service.
-
-|DB
-|Component independent for each service that contains the data related to it.
+| DB
+| Component independent for each service that contains the data related to it.
 
 |===
 

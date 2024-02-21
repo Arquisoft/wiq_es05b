@@ -33,7 +33,8 @@ See https://docs.arc42.org/section-9/[Architecture Decisions] in the arc42 docum
 There you will find links and examples about ADR.
 
 ****
-_Update when final architecture decisions are made_
+
+* [ ] _Update when final architecture decisions are made_
 
 The initial architecture decisions are in the GitHub Wiki. 
 

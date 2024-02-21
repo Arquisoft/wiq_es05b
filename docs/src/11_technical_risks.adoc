@@ -26,6 +26,7 @@ See https://docs.arc42.org/section-11/[Risks and Technical Debt] in the arc42 do
 
 === Technical risks
 
+[options="header",cols="1,3,3"] 
 |===
 | Description | Priority |  Considerations
 
@@ -45,6 +46,7 @@ See https://docs.arc42.org/section-11/[Risks and Technical Debt] in the arc42 do
 
 === Technical debts
 
+[options="header",cols="1,3,3"] 
 |===
 
 | Description | Priority | Considerations
