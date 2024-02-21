@@ -23,7 +23,7 @@ This allows you to communicate with your stakeholder on an abstract level withou
 The building block view is a hierarchical collection of black boxes and white boxes
 (see figure below) and their descriptions.
 
-image::05_building_blocks.png["Hierarchy of building blocks"]
+image::05_building_blocks-EN.png["Hierarchy of building blocks"]
 
 *Level 1* is the white box description of the overall system together with black
 box descriptions of all contained building blocks.
@@ -63,10 +63,9 @@ In the best case you will get away with examples or simple signatures.
 
 ****
 
-=== Level 1: Whitebox Overall System
-
-[plantuml, "Level1-diagram", png]
+[plantuml, Level1-diagram, svg]
 ----
+@startuml
 actor UserAgent
 rectangle App
 rectangle "Wikidata API" as API
@@ -75,7 +74,9 @@ UserAgent -> App: Interaction
 App -> API: Consumes
 API --> App: Retrieve data
 
+@enduml
 ----
+
 
 Motivation::
 
@@ -85,7 +86,7 @@ The main purpose of the system is to run a quiz game using info dynamically retr
 Contained Building Blocks::
 
 |===
-| Name | Description
+|Name| Description
 
 |User Agent
 
@@ -128,8 +129,9 @@ Please prefer relevance over completeness. Specify important, surprising, risky,
 Leave out normal, simple, boring or standardized parts of your system
 ****
 
-[plantuml, "Level2-diagram", png]
+[plantuml, Level2-diagram, svg]
 ----
+@startuml
 left to right direction
 skinparam packageStyle rectangle
 
@@ -150,25 +152,27 @@ gateway --> webapp: Response
 
 Motivation::
 
-This level aims to shed some light on the internal structure of the App component and the information in it. 
+This level aims to shed some light on the internal structure of the App component and the information flow in it. 
 
 
 Contained Building Blocks::
 
 |===
-| Name | Description
+|Name| Description
 
-| Web App
-| React frontend in which the game will take place
+|Web App
 
-| Gateway
-| Service in charge of communicating the web app with the backend. Its main purpose its to forward all the  requests sent from the client to the corresponding service and return the response to the client.
+|React frontend in which the game will take place
 
-| Authentication
-| Service which will handle the user authentication process when a new user logs in
+|Gateway
 
-| Users
-| Service containing all user related information such as scores or history of games played.
+|Service in charge of communicating the web app with the backend. Its main purpose its to forward all the  requests sent from the client to the corresponding service and return the response to the client.
+
+|Authentication
+|Service which will handle the user authentication process when a new user logs in
+
+|Users
+|Service containing all user related information such as scores or history of games played.
 
 |Questions
 |Service that bears the responsability of interacting with te Wikidata API and generating the questions to be presented to the user.
@@ -177,8 +181,9 @@ Contained Building Blocks::
 
 === Level 3:
 
-[plantuml, "Level2-diagram", png]
+[plantuml, Level3-diagram, svg]
 ----
+@startuml
 
 rectangle "Controller" as controller
 rectangle "Service" as service
@@ -189,6 +194,7 @@ model -> db : Retrieve data
 service -> model : Data processing
 controller -> service : Request
 
+@enduml
 ----
 
 Motivation::
@@ -196,19 +202,21 @@ Motivation::
 This third level provides a deeper insight into the microservices that compose the application. As the diagram showcases, each one is implemented using an n-layer architecture so as to ensure a clear separation of concerns and a high degree of modularity, which in turn will make the system more maintainable and scalable.
 
 |===
-| Name | Description
+|Name| Description
 
-| Controller
-| Component in charge of handling the requests sent from the gateway and returning the corresponding response.
+|Controller
 
-| Service
-| Module that contains the business logic of the service. It is responsible for processing the data from the model and returning it to the controller.
+|Component in charge of handling the requests sent from the gateway and returning the corresponding response.
 
-| Model
-| Component that interacts with the database and retrieves the data to be processed by the service.
+|Service
 
-| DB
-| Component independent for each service that contains the data related to it.
+|Module that contains the business logic of the service. It is responsible for processing the data from the model and returning it to the controller.
+
+|Model
+|Component that interacts with the database and retrieves the data to be processed by the service.
+
+|DB
+|Component independent for each service that contains the data related to it.
 
 |===
 
