@@ -36,4 +36,4 @@ ifndef::imagesdir[:imagesdir: ../images]
 |===
 
 == Legend
-image::12_legend.drawio.png["Legend"]
+image::12_legend.drawio.png["Legend", align="center"]

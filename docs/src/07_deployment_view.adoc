@@ -12,7 +12,7 @@ The infrastructure of our system consists mainly of a single server, which is ho
 
 ==== Overview Diagram
 
-image::07_overview.drawio.png["Login Diagram"]
+image::07_overview.drawio.png["Login Diagram", align="center"]
 
 
 Motivation::

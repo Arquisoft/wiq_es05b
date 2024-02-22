@@ -8,12 +8,12 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === Register
 
-image::06_register.drawio.png["Register Diagram"]
+image::06_register.drawio.png["Register Diagram", align="center"]
 
 === Login
 
-image::06_login.drawio.png["Login Diagram"]
+image::06_login.drawio.png["Login Diagram", align="center"]
 
 === Question Flow
 
-image::06_question.drawio.png["Question Diagram"]
+image::06_question.drawio.png["Question Diagram", align="center"]

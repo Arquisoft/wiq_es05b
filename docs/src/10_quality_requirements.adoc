@@ -36,7 +36,7 @@ See https://docs.arc42.org/section-10/[Quality Requirements] in the arc42 docume
 
 === Quality Tree
 
-image::10_quality_tree.drawio.png[quality tree]
+image::10_quality_tree.drawio.png[quality tree, align="center"]
 
 === Quality Scenarios
 

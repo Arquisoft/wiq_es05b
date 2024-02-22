@@ -7,7 +7,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === Whitebox Overall System
 
-image::05_level1.drawio.png["Login Diagram"]
+image::05_level1.drawio.png["Level 1 Diagram", align="center"]
 
 
 Motivation::
@@ -35,7 +35,7 @@ Contained Building Blocks::
 
 === Level 2: 
 
-image::05_level2.drawio.png["Login Diagram"]
+image::05_level2.drawio.png["Level 2 Diagram", align="center"]
 
 
 Motivation::
@@ -69,7 +69,7 @@ Contained Building Blocks::
 
 === Level 3:
 
-image::05_level3.drawio.png["Login Diagram"]
+image::05_level3.drawio.png["Level 3 Diagram", align="center"]
 
 Motivation::
 

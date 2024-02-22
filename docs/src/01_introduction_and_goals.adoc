@@ -18,7 +18,7 @@ This is basically a Trivial Pursuit like game inspired in spanish TV show "Saber
 * A history of past games
 
 .El presentador Jordi Hurtado RTVE. Imagen de "www.elconfidencial.com".
-image::01_jordi_hurtado_happy.jpg[Free to use, 1600, 900]
+image::01_jordi_hurtado_happy.jpg[Jordi Hurtado, 1600, 900, align="center"]
 
 
 === Requirements Overview
