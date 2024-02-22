@@ -517,6 +517,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#section-glossary">12. Glossary</a></li>
+<li><a href="#_legend">13. Legend</a></li>
 </ul>
 </div>
 </div>
@@ -612,8 +613,9 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/01_jordi_hurtado_happy.jpg" alt="Jordi Hurtado">
+<img src="./images/01_jordi_hurtado_happy.jpg" alt="Free to use" width="1600" height="900">
 </div>
+<div class="title">Figure 1. El presentador Jordi Hurtado RTVE. Imagen de "www.elconfidencial.com".</div>
 </div>
 <div class="sect2">
 <h3 id="_requirements_overview">1.1. Requirements Overview</h3>
@@ -676,10 +678,6 @@ For documentation of your own system you use better the <em>plain</em> version.<
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Testability</em></strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The performance of the system is needed to be tested covering as many use cases as possible so all the other goals will be met.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Accessibility</em></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The project should be accesible and fun for all types of user, a game must always be as open as the development capabilities allow.</p></td>
 </tr>
 </tbody>
 </table>
@@ -783,12 +781,12 @@ Therefore, we have chosen to adhere to them</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The app will be running in a Docker Host.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>React</em></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A JavaScript framework used for constructing visual interfaces.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Wikidata</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This project will be using wikidata as its only question related data retrieval API.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>GitHub</em></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Remote repository to develop the app, allows us to communicate efficiently, manage version control and
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remote repository service to develop the app in sync, allows us to communicate efficiently, manage version control and
 allocate tasks appropriately among team members.</p></td>
 </tr>
 </tbody>
@@ -1064,11 +1062,6 @@ for different purpouses. For instance, we currently have the following microserv
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Privacy</em></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The credential storage and the login/signup process must encrypt the user data
-in order to prevent data stealing.</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Usability</em></strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The user must be able to use the application without any doubt or trouble.
 For this purpose, we will have to use some techniques such as the use of the conventions.</p></td>
@@ -1123,7 +1116,7 @@ any critical decisions that need to be made about the project.</p>
 <h3 id="_whitebox_overall_system">5.1. Whitebox Overall System</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Level1-diagram.svg" alt="Level1 diagram" width="319" height="200">
+<img src="./images/05_level1.drawio.png" alt="Login Diagram">
 </div>
 </div>
 <div class="dlist">
@@ -1166,7 +1159,7 @@ any critical decisions that need to be made about the project.</p>
 <h3 id="_level_2">5.2. Level 2:</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Level2-diagram.svg" alt="Level2 diagram" width="603" height="142">
+<img src="./images/05_level2.drawio.png" alt="Login Diagram">
 </div>
 </div>
 <div class="dlist">
@@ -1217,7 +1210,7 @@ any critical decisions that need to be made about the project.</p>
 <h3 id="_level_3">5.3. Level 3:</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Level3-diagram.svg" alt="Level3 diagram" width="635" height="68">
+<img src="./images/05_level3.drawio.png" alt="Login Diagram">
 </div>
 </div>
 <div class="dlist">
@@ -1300,14 +1293,11 @@ any critical decisions that need to be made about the project.</p>
 </div>
 <div class="sect2">
 <h3 id="_infrastructure_level_1">7.1. Infrastructure Level 1</h3>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Overview Diagram</dt>
-</dl>
-</div>
+<div class="sect3">
+<h4 id="_overview_diagram">7.1.1. Overview Diagram</h4>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Infrastructure%20Diagram.png" alt="Infrastructure Diagram" width="524" height="418">
+<img src="./images/07_overview.drawio.png" alt="Login Diagram">
 </div>
 </div>
 <div class="dlist">
@@ -1368,6 +1358,7 @@ any critical decisions that need to be made about the project.</p>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_infrastructure_level_2">7.2. Infrastructure Level 2</h3>
@@ -1480,7 +1471,7 @@ Employing a user-centric approach throughout development, we prioritized user ex
 <p><a href="https://github.com/Arquisoft/wiq_es05b/wiki/ADR-01-‐-JavaScript">ADR 01 - JavaScript</a></p>
 </li>
 <li>
-<p><a href="https://github.com/Arquisoft/wiq_es05b/wiki/ADR-02-‐-Wikidata">ADR 02 - Wikidata</a></p>
+<p>TODO: Include question-generator separate microservice implementation</p>
 </li>
 <li>
 <p><a href="https://github.com/Arquisoft/wiq_es05b/wiki/ADR-03-‐-Docker">ADR 03 - Docker</a></p>
@@ -1720,14 +1711,9 @@ in a transparent way to the user and avoiding having to shut down the service fo
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Insufficient documentation of legacy code</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If the existing codebase lacks proper documentation, understanding and extending it can be challenging. This may lead to increased development time and the introduction of errors. Efforts should be made to document the existing code thoroughly before initiating any modifications.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lack of documentation standards</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lack of documentation and coding standards</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Absence of clear documentation standards at the beginning of the project can result in inconsistent and insufficient documentation. Establishing and enforcing documentation standards early on is crucial for knowledge transfer and future maintainability.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Absence of clear standards at the beginning of the project can result in inconsistent and insufficient documentation. Establishing and enforcing documentation standards early on is crucial for knowledge transfer and future maintainability.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Use of new tools</p></td>
@@ -1760,7 +1746,7 @@ in a transparent way to the user and avoiding having to shut down the service fo
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Wikidata Infinite Quest</em></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Saber y Ganar</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>"Saber y Ganar"</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>A spanish TV show hosted by Jordi Hurtado which inspires this project</em></p></td>
 </tr>
 <tr>
@@ -1772,28 +1758,8 @@ in a transparent way to the user and avoiding having to shut down the service fo
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Architecture documentation template used in this project</em></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>React</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Library for the interfaces used in the application</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>MongoDB</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Database used for the application data storage</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Azure</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Cloud provider in which the application is hosted</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Backend</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Server-side part of the application</em></p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Wikidata</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>API consumed by the application to generate the questions of the game</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Git</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Control version system used during the development of the application</em></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>ADR</em></p></td>
@@ -1805,17 +1771,27 @@ in a transparent way to the user and avoiding having to shut down the service fo
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Microservice</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Each of the components in which the application is divided into. Each one is independent and can be developed, deployed and scaled independently.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Each of the components/modules in which the application is divided into. Each one is independent and can be developed, deployed and scaled independently.</em></p></td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_legend">13. Legend</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="./images/12_legend.drawio.png" alt="Legend">
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-02-22 10:12:41 UTC
+Last updated 2024-02-22 12:12:29 UTC
 </div>
 </div>
 </body>
