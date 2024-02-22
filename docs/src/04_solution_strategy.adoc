@@ -12,8 +12,6 @@ we have decided to use the following technologies:
 * *_React_*: JavaScript library used in the design of graphical user interfaces.
 * *_ExpressJS_*: Framework built on the top of _Node.js_ and used in the backend.
 * *_Github_*: Used for versioning the proyect and as a mean of communication for the dev team.
-* *_Docker_*: Container platform used for the app deployment.
-* *_Wikidata_*: Open data knowledge graph used to obtain the information for the game.
 
 === Top-level Decomposition
 
