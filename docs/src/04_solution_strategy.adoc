@@ -30,3 +30,65 @@ Refer to details in the following sections.
 See https://docs.arc42.org/section-4/[Solution Strategy] in the arc42 documentation.
 
 ****
+
+=== Technology Decisions
+
+In order to develop an application that meets the expected quality criteria,
+we have decided to use the following technologies:
+
+* *_JavaScript_*: Main programming language. It is used in both back and front end.
+* *_React_*: JavaScript library used in the design of graphical user interfaces.
+* *_ExpressJS_*: Framework built on the top of _Node.js_ and used in the backend.
+* *_Github_*: Used for versioning the proyect and as a mean of communication for the dev team.
+* *_Docker_*: Container platform used for the app deployment.
+* *_Wikidata_*: Open data knowledge graph used to obtain the information for the game.
+
+=== Top-level Decomposition
+
+We have decided to implement a microservices arquitecture, with diferrent modules
+for different purpouses. For instance, we currently have the following microservices:
+
+* *_User service_*: Service used to add new users.
+* *_Auth service_*: Service used for the authentication of users.
+* *_Gateway service_*: Service exposed to the public and used as a proxy to the two previous ones.
+* *_Webapp service_*. Web application that uses the _gateway service_ to allow basic login and user features.
+
+=== Decisions taken to achieve quality goals
+
+[%header, cols="2*"]
+|===
+|Quality goal
+|Decision made
+
+|*_Privacy_*
+|The credential storage and the login/signup process must encrypt the user data
+in order to prevent data stealing.
+
+|*_Usability_*
+|The user must be able to use the application without any doubt or trouble.
+For this purpose, we will have to use some techniques such as the use of the conventions.
+
+|*_Perfomance_*
+|To achieve a good performance we will try to make as few requests as possible to
+WikiData in order to avoid overloading its services.
+
+|*_Maintainability and Escalability_*
+|The application must be well structured so the modifications or expansions that
+will have to be made can be done in a simple way without having to modify the previous
+code excessively. For it,we will use design patterns and coding conventions to obtain a clean code.
+
+|===
+
+
+=== Organizational Decisions
+
+We have taken the following organizational decisions:
+
+* *_Tasks_*: We have decided to distribute the tasks equally per person so that
+everyone has more or less the same workload. We think it is a good idea that once
+a task is done, it should be reviewed by at least 50% of the group to be taken as valid.
+* *_Github Issues_*: We will use _Github Issues_ to create the tasks mentioned
+above and assign them to different team members. We will also use them to discuss
+any critical decisions that need to be made about the project.
+* *_Github Projects_*: We will use _Github Projects_ to organize the workflow and to track the progress of the project.
+* *_Language_*: We have agreed that we will develop the project in _English_ so the code and documentation will use it as the main language.

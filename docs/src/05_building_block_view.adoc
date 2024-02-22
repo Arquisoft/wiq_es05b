@@ -63,18 +63,43 @@ In the best case you will get away with examples or simple signatures.
 
 ****
 
-_**<Overview Diagram>**_
+=== Level 1: Whitebox Overall System
+
+[plantuml, "Level1-diagram", png]
+----
+actor UserAgent
+rectangle App
+rectangle "Wikidata API" as API
+
+UserAgent -> App: Interaction
+App -> API: Consumes
+API --> App: Retrieve data
+
+----
+
 
 Motivation::
 
-_<text explanation>_
+The main purpose of the system is to run a quiz game using info dynamically retrieved from the Wikidata API. 
 
 
 Contained Building Blocks::
-_<Description of contained building block (black boxes)>_
 
-Important Interfaces::
-_<Description of important interfaces>_
+|===
+|Name| Description
+
+|User Agent
+
+|Client of the application that will interact with the system.
+
+|App
+
+|The main component of the system to be developed. In charge of generating the questions based on the data retrieved from the Wikidata API and present them to the user as a quiz game format.
+
+|Wikidata API
+|Web service that will provide the data to be used by the application .
+
+|===
 
 [role="arc42help"]
 ****
@@ -90,63 +115,11 @@ responsibility according to the following schema:
 | _<black box 2>_ | _<Text>_
 |===
 
-
-
 If you use a list of black box descriptions then you fill in a separate black box template for every important building block .
 Its headline is the name of the black box.
 ****
 
-
-==== <Name black box 1>
-
-[role="arc42help"]
-****
-Here you describe <black box 1>
-according the the following black box template:
-
-* Purpose/Responsibility
-* Interface(s), when they are not extracted as separate paragraphs. This interfaces may include qualities and performance characteristics.
-* (Optional) Quality-/Performance characteristics of the black box, e.g.availability, run time behavior, ....
-* (Optional) directory/file location
-* (Optional) Fulfilled requirements (if you need traceability to requirements).
-* (Optional) Open issues/problems/risks
-
-****
-
-_<Purpose/Responsibility>_
-
-_<Interface(s)>_
-
-_<(Optional) Quality/Performance Characteristics>_
-
-_<(Optional) Directory/File Location>_
-
-_<(Optional) Fulfilled Requirements>_
-
-_<(optional) Open Issues/Problems/Risks>_
-
-
-
-
-==== <Name black box 2>
-
-_<black box template>_
-
-==== <Name black box n>
-
-_<black box template>_
-
-
-==== <Name interface 1>
-
-...
-
-==== <Name interface m>
-
-
-
-=== Level 2
-
+=== Level 2: 
 [role="arc42help"]
 ****
 Here you can specify the inner structure of (some) building blocks from level 1 as white boxes.
@@ -156,57 +129,92 @@ Please prefer relevance over completeness. Specify important, surprising, risky,
 Leave out normal, simple, boring or standardized parts of your system
 ****
 
-==== White Box _<building block 1>_
+[plantuml, "Level2-diagram", png]
+----
+left to right direction
+skinparam packageStyle rectangle
 
-[role="arc42help"]
-****
-...describes the internal structure of _building block 1_.
-****
+rectangle "Web App" as webapp
+rectangle "Gateway" as gateway
+rectangle "Users" as users
+rectangle "Authentication" as auth
+rectangle "Questions" as questions
 
-_<white box template>_
-
-==== White Box _<building block 2>_
-
-
-_<white box template>_
-
-...
-
-==== White Box _<building block m>_
-
-
-_<white box template>_
+webapp --> gateway: Interaction
+gateway --> users: Scores and stats
+gateway --> auth: Credentials
+questions --> gateway: Game info
+gateway --> webapp: Response
+@enduml
+----
 
 
+Motivation::
 
-=== Level 3
-
-[role="arc42help"]
-****
-Here you can specify the inner structure of (some) building blocks from level 2 as white boxes.
-
-When you need more detailed levels of your architecture please copy this
-part of arc42 for additional levels.
-****
+This level aims to shed some light on the internal structure of the App component and the information in it. 
 
 
-==== White Box <_building block x.1_>
+Contained Building Blocks::
 
-[role="arc42help"]
-****
-Specifies the internal structure of _building block x.1_.
-****
+|===
+|Name| Description
+
+|Web App
+
+|React frontend in which the game will take place
+
+|Gateway
+
+|Service in charge of communicating the web app with the backend. Its main purpose its to forward all the  requests sent from the client to the corresponding service and return the response to the client.
+
+|Authentication
+|Service which will handle the user authentication process when a new user logs in
+
+|Users
+|Service containing all user related information such as scores or history of games played.
+
+|Questions
+|Service that bears the responsability of interacting with te Wikidata API and generating the questions to be presented to the user.
+
+|===
+
+=== Level 3:
+
+[plantuml, "Level2-diagram", png]
+----
+
+rectangle "Controller" as controller
+rectangle "Service" as service
+rectangle "Model" as model
+database "DB" as db
+
+model -> db : Retrieve data
+service -> model : Data processing
+controller -> service : Request
+
+----
+
+Motivation::
+
+This third level provides a deeper insight into the microservices that compose the application. As the diagram showcases, each one is implemented using an n-layer architecture so as to ensure a clear separation of concerns and a high degree of modularity, which in turn will make the system more maintainable and scalable.
+
+|===
+|Name| Description
+
+|Controller
+
+|Component in charge of handling the requests sent from the gateway and returning the corresponding response.
+
+|Service
+
+|Module that contains the business logic of the service. It is responsible for processing the data from the model and returning it to the controller.
+
+|Model
+|Component that interacts with the database and retrieves the data to be processed by the service.
+
+|DB
+|Component independent for each service that contains the data related to it.
+
+|===
 
 
-_<white box template>_
-
-
-==== White Box <_building block x.2_>
-
-_<white box template>_
-
-
-
-==== White Box <_building block y.1_>
-
-_<white box template>_

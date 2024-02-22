@@ -31,12 +31,51 @@ See https://docs.arc42.org/section-12/[Glossary] in the arc42 documentation.
 ****
 
 [cols="e,2e" options="header"]
+
 |===
-|Term |Definition
 
-|<Term-1>
-|<definition-1>
+| Term | Definition
 
-|<Term-2>
-|<definition-2>
+| WIQ
+| Wikidata Infinite Quest
+
+| Saber y Ganar
+| A spanish TV show hosted by Jordi Hurtado which inspires this project
+
+| HappySw
+| The company in charge of the development of this app
+
+| Arc42
+| Template used for the documentation
+
+| React
+| Library for the interfaces used in the application
+
+| MongoDB
+| Database used for the application data storage
+
+| Azure
+| Cloud provider in which the application is hosted
+
+| Backend
+| Server-side part of the application
+
+| Wikidata
+| API consumed by the application to generate the questions of the game
+
+| Git
+| Control version system used during the development of the application
+
+| ADR
+| Arquitechtural Design Record. 
+
+| API
+|Application Programming Interface
+
+| Continuous integration and delivery
+|The process of automating the integration of code changes from multiple contributors into a single software project.   
+
+| Microservice
+| Each of the components in which the application is divided into. Each one is independent and can be developed, deployed and scaled independently.
+
 |===

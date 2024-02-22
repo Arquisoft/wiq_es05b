@@ -29,7 +29,7 @@ cross-cutting concepts. Therefore, there is a need to know the infrastructure.
 
 Maybe a highest level deployment diagram is already contained in section 3.2. as
 technical context with your own infrastructure as ONE black box. In this section one can
-zoom into this black box using additional deployment diagrams:
+zoom into this black box using addition docs/src/asdadas.jsal deployment diagrams:
 
 * UML offers deployment diagrams to express that view. Use it, probably with nested diagrams,
 when your infrastructure is more complex.
@@ -41,6 +41,10 @@ when your infrastructure is more complex.
 See https://docs.arc42.org/section-7/[Deployment View] in the arc42 documentation.
 
 ****
+
+
+The infrastructure of our system consists mainly of a single server, which is hosted in a B1s Azure virtual machine. It contains a dockerized nodejs app based on microservices architecture which exposes port 3000 to the internet as an entry point to de user interface of the system. The server contains a MongoDB database used to store the application data and interacts with the Wikidata API in order to provide dynamic-generated content to the user based on the information retrieved.
+
 
 === Infrastructure Level 1
 
@@ -56,18 +60,65 @@ Describe (usually in a combination of diagrams, tables, and text):
 For multiple environments or alternative deployments please copy and adapt this section of arc42 for all relevant environments.
 ****
 
-_**<Overview Diagram>**_
+Overview Diagram::
+
+[plantuml, "Infrastructure Diagram", png]
+----
+!define ICONURL https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v2.1.0
+!includeurl ICONURL/common.puml
+
+skinparam componentStyle uml2
+
+node "Azure VM (B1s)" as AzureVM {
+    [Docker] as DockerizedApp
+    [MongoDB] as Database
+    [Microservices] as Microservices
+}
+
+cloud "User Agent" {
+    [User Interface] as UI
+}
+
+UI -- AzureVM : Port 3000
+DockerizedApp -- Database : Application Data
+DockerizedApp -- Microservices : Application Data
+AzureVM -- [Wikidata API] : Dynamic Content
+----
+
 
 Motivation::
-
-_<explanation in text form>_
+The main reason for this infrastructure choice lies in the simplicity and flexibility of a dockerized microservice architecture solution, which allows a fast and straightforward deployment of the system in any environment.
 
 Quality and/or Performance Features::
+- Scalability: The system can be easily scaled horizontally by adding more instances of the same service with ease thanks to the container orchestrator.
 
-_<explanation in text form>_
+- Portability: The app can be deployed in any environment that supports docker containers, which allows the system to be easily migrated to other cloud providers should it be necessary.
+
+- Maintainability: The system can be updated by replacing the docker containers with new versions of the application, which allows the system to be maintained without remarkable issues.
+
+- Security: The system is hosted in a secure environment provided by the Azure cloud platform, which ensures its security and availability.
 
 Mapping of Building Blocks to Infrastructure::
-_<description of the mapping>_
+
+|===
+
+| Component | Description
+
+| User agent
+| The client that will access the system through the web app.
+
+
+| Azure B1s Virtual Machine
+| Server in which the system is hosted.
+
+| Docker
+| Containerization platform used to deploy the system.
+
+| Wikidata API
+| External service used to retrieve dynamic content for the system.
+
+|===
+
 
 
 === Infrastructure Level 2
@@ -79,16 +130,9 @@ Here you can include the internal structure of (some) infrastructure elements fr
 Please copy the structure from level 1 for each selected element.
 ****
 
-==== _<Infrastructure Element 1>_
+==== Docker component
 
-_<diagram + explanation>_
+The system is deployed in a dockerized enviroment in which each microservice is contained in a separate container. Docker compose is the selected orchestrator as it is a simple solution that meets the few deployment requirements necessary for a small system like ours. It allows the app to be easily deployed with different profiles by using a docker-compose file.
 
-==== _<Infrastructure Element 2>_
 
-_<diagram + explanation>_
 
-...
-
-==== _<Infrastructure Element n>_
-
-_<diagram + explanation>_

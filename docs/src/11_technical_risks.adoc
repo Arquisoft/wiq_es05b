@@ -23,3 +23,42 @@ List of risks and/or technical debts, probably including suggested measures to m
 See https://docs.arc42.org/section-11/[Risks and Technical Debt] in the arc42 documentation.
 
 ****
+
+=== Technical risks
+
+|===
+| Description | Priority |  Considerations
+
+| Poor knowledge of base project and tools used
+| 8
+| This factor will clearly constraint the development as it creates a new set of research tasks to be accomplished by each team member, but given the deadline and the consequences of starting greenfield, it seems like the most reasonable option
+
+| Limited expertise in emerging technologies
+| 7
+| Ignorance of emerging technologies relevant to the project might result in missed opportunities for innovation and efficiency. Regular training sessions or workshops should be considered to keep the team updated on the latest industry trends.
+
+| Incomplete infrastructure planning
+| 6
+| A lack of comprehensive planning for the project's infrastructure can result in delayed implementation and increased costs. Ensuring a detailed infrastructure plan is in place, including hardware and software requirements, is vital for a smooth project start.
+
+|===
+
+=== Technical debts
+
+|===
+
+| Description | Priority | Considerations
+
+| Insufficient documentation of legacy code
+| 9
+| If the existing codebase lacks proper documentation, understanding and extending it can be challenging. This may lead to increased development time and the introduction of errors. Efforts should be made to document the existing code thoroughly before initiating any modifications.
+
+| Lack of documentation standards
+| 5
+| Absence of clear documentation standards at the beginning of the project can result in inconsistent and insufficient documentation. Establishing and enforcing documentation standards early on is crucial for knowledge transfer and future maintainability.
+
+| Use of new tools
+| 3
+| Each developer should adapt to the use of new tools and paradigms which will decrease the production time and quality of the project. Quick adaptation capabilities of the team members should be key to put a fix on this debt.
+
+|===
