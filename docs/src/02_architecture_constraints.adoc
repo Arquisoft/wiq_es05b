@@ -17,11 +17,11 @@ Therefore, we have chosen to adhere to them
 |*_Docker_*
 | The app will be running in a Docker Host.
 
-|*_React_*
-| A JavaScript framework used for constructing visual interfaces.
+|*_Wikidata_*
+| This project will be using wikidata as its only question related data retrieval API.
 
 |*_GitHub_*
-| Remote repository to develop the app, allows us to communicate efficiently, manage version control and
+| Remote repository service to develop the app in sync, allows us to communicate efficiently, manage version control and
 allocate tasks appropriately among team members.
 
 |===

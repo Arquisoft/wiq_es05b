@@ -9,7 +9,7 @@ The initial architecture decisions are in the GitHub Wiki.
 
 * https://github.com/Arquisoft/wiq_es05b/wiki/ADR-01-‐-JavaScript[ADR 01 - JavaScript]
 
-* https://github.com/Arquisoft/wiq_es05b/wiki/ADR-02-‐-Wikidata[ADR 02 - Wikidata]
+* TODO: Include question-generator separate microservice implementation
 
 * https://github.com/Arquisoft/wiq_es05b/wiki/ADR-03-‐-Docker[ADR 03 - Docker]
 

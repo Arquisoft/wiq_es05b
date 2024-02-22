@@ -7,19 +7,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === Whitebox Overall System
 
-[plantuml, Level1-diagram, svg]
-----
-@startuml
-actor UserAgent
-rectangle App
-rectangle "Wikidata API" as API
-
-UserAgent -> App: Interaction
-App -> API: Consumes
-API --> App: Retrieve data
-
-@enduml
-----
+image::05_level1.drawio.png["Login Diagram"]
 
 
 Motivation::
@@ -47,25 +35,7 @@ Contained Building Blocks::
 
 === Level 2: 
 
-[plantuml, Level2-diagram, svg]
-----
-@startuml
-left to right direction
-skinparam packageStyle rectangle
-
-rectangle "Web App" as webapp
-rectangle "Gateway" as gateway
-rectangle "Users" as users
-rectangle "Authentication" as auth
-rectangle "Questions" as questions
-
-webapp --> gateway: Interaction
-gateway --> users: Scores and stats
-gateway --> auth: Credentials
-questions --> gateway: Game info
-gateway --> webapp: Response
-@enduml
-----
+image::05_level2.drawio.png["Login Diagram"]
 
 
 Motivation::
@@ -99,21 +69,7 @@ Contained Building Blocks::
 
 === Level 3:
 
-[plantuml, Level3-diagram, svg]
-----
-@startuml
-
-rectangle "Controller" as controller
-rectangle "Service" as service
-rectangle "Model" as model
-database "DB" as db
-
-model -> db : Retrieve data
-service -> model : Data processing
-controller -> service : Request
-
-@enduml
-----
+image::05_level3.drawio.png["Login Diagram"]
 
 Motivation::
 

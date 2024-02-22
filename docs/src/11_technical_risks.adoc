@@ -30,13 +30,9 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 | Description | Priority | Considerations
 
-| Insufficient documentation of legacy code
-| 9
-| If the existing codebase lacks proper documentation, understanding and extending it can be challenging. This may lead to increased development time and the introduction of errors. Efforts should be made to document the existing code thoroughly before initiating any modifications.
-
-| Lack of documentation standards
+| Lack of documentation and coding standards
 | 5
-| Absence of clear documentation standards at the beginning of the project can result in inconsistent and insufficient documentation. Establishing and enforcing documentation standards early on is crucial for knowledge transfer and future maintainability.
+| Absence of clear standards at the beginning of the project can result in inconsistent and insufficient documentation. Establishing and enforcing documentation standards early on is crucial for knowledge transfer and future maintainability.
 
 | Use of new tools
 | 3

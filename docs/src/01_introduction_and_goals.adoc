@@ -17,8 +17,9 @@ This is basically a Trivial Pursuit like game inspired in spanish TV show "Saber
 * Different question categories
 * A history of past games
 
+.El presentador Jordi Hurtado RTVE. Imagen de "www.elconfidencial.com".
+image::01_jordi_hurtado_happy.jpg[Free to use, 1600, 900]
 
-image::01_jordi_hurtado_happy.jpg["Jordi Hurtado"]
 
 === Requirements Overview
 
@@ -52,9 +53,6 @@ The following table describes the project's quality goals in a descending order.
 
 | *_Testability_*
 | The performance of the system is needed to be tested covering as many use cases as possible so all the other goals will be met.
-
-| *_Accessibility_*
-| The project should be accesible and fun for all types of user, a game must always be as open as the development capabilities allow.
 
 |=== 
 

@@ -30,10 +30,6 @@ for different purpouses. For instance, we currently have the following microserv
 |===
 | Quality goal | Decision made
 
-|*_Privacy_*
-|The credential storage and the login/signup process must encrypt the user data
-in order to prevent data stealing.
-
 |*_Usability_*
 |The user must be able to use the application without any doubt or trouble.
 For this purpose, we will have to use some techniques such as the use of the conventions.

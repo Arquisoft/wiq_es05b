@@ -10,30 +10,9 @@ The infrastructure of our system consists mainly of a single server, which is ho
 
 === Infrastructure Level 1
 
-Overview Diagram::
+==== Overview Diagram
 
-[plantuml, "Infrastructure Diagram", png]
-----
-!define ICONURL https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v2.1.0
-!includeurl ICONURL/common.puml
-
-skinparam componentStyle uml2
-
-node "Azure VM (B1s)" as AzureVM {
-    [Docker] as DockerizedApp
-    [MongoDB] as Database
-    [Microservices] as Microservices
-}
-
-cloud "User Agent" {
-    [User Interface] as UI
-}
-
-UI -- AzureVM : Port 3000
-DockerizedApp -- Database : Application Data
-DockerizedApp -- Microservices : Application Data
-AzureVM -- [Wikidata API] : Dynamic Content
-----
+image::07_overview.drawio.png["Login Diagram"]
 
 
 Motivation::

@@ -12,7 +12,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 | WIQ
 | Wikidata Infinite Quest
 
-| Saber y Ganar
+| "Saber y Ganar"
 | A spanish TV show hosted by Jordi Hurtado which inspires this project
 
 | HappySw
@@ -21,23 +21,8 @@ ifndef::imagesdir[:imagesdir: ../images]
 | Arc42
 | Architecture documentation template used in this project
 
-| React
-| Library for the interfaces used in the application
-
-| MongoDB
-| Database used for the application data storage
-
-| Azure
-| Cloud provider in which the application is hosted
-
-| Backend
-| Server-side part of the application
-
 | Wikidata
 | API consumed by the application to generate the questions of the game
-
-| Git
-| Control version system used during the development of the application
 
 | ADR
 | Arquitechtural Design Record. 
@@ -46,6 +31,9 @@ ifndef::imagesdir[:imagesdir: ../images]
 |The process of automating the integration of code changes from multiple contributors into a single software project.   
 
 | Microservice
-| Each of the components in which the application is divided into. Each one is independent and can be developed, deployed and scaled independently.
+| Each of the components/modules in which the application is divided into. Each one is independent and can be developed, deployed and scaled independently.
 
 |===
+
+== Legend
+image::12_legend.drawio.png["Legend"]
