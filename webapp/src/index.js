@@ -1,13 +1,19 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/index.css';
-import App from './App';
+import Home from './Home';
 import reportWebVitals from './reportWebVitals';
+import Nav from "./components/Nav";
+import Footer from "./components/Footer";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+      <Fragment> {/* This should go to App */}
+          <Nav />
+          <Home />
+          <Footer />
+      </Fragment>
   </React.StrictMode>
 );
 
