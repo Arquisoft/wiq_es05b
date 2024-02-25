@@ -20,6 +20,7 @@ for different purpouses. For instance, we currently have the following microserv
 
 * *_User service_*: Service used to add new users.
 * *_Auth service_*: Service used for the authentication of users.
+* *_Question Generation service_*. Service that generates random questions and gets the answers from WikiData.
 * *_Gateway service_*: Service exposed to the public and used as a proxy to the two previous ones.
 * *_Webapp service_*. Web application that uses the _gateway service_ to allow basic login and user features.
 
