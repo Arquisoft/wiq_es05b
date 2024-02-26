@@ -15,11 +15,15 @@ function Home() {
             <Particles />
             <Container sx={{
                 position: "absolute",
-                height: 1,
+                height: "fit-content",
                 textAlign: "center",
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "center"}}
+                justifyContent: "center",
+                justifySelf: "center",
+                transform: "translate(-50%, -50%)",
+                left: "50%",
+                top: "50%"}}
             >
                 <Typography component="p" sx={{
                     textShadow: shadowConfig,
