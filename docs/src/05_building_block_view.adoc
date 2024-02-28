@@ -73,7 +73,7 @@ image::05_level3.drawio.png["Level 3 Diagram", align="center"]
 
 Motivation::
 
-This third level provides a deeper insight into the microservices that compose the application. As the diagram showcases, each one is implemented using an n-layer architecture so as to ensure a clear separation of concerns and a high degree of modularity, which in turn will make the system more maintainable and scalable.
+This third level provides a deeper insight into the questions microservice. As the diagram showcases, it is implemented using an n-layer architecture so as to ensure a clear separation of concerns and a high degree of modularity, which in turn will make the system more maintainable.
 
 |===
 |Name| Description
@@ -84,7 +84,7 @@ This third level provides a deeper insight into the microservices that compose t
 
 |Service
 
-|Module that contains the business logic of the service. It is responsible for processing the data from the model and returning it to the controller.
+|Module that contains the business logic of the service. It is responsible for processing the data retrieved from both the model and the Wikidata API and returning it to the controller.
 
 |Model
 |Component that interacts with the database and retrieves the data to be processed by the service.
