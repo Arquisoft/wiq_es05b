@@ -66,6 +66,16 @@ services:
     ports:
       - "3000:3000" 
 
+  jordi:
+    image: ghcr.io/arquisoft/wiq_es05b/gatewayservice:latest
+    container_name: jordi
+    profiles: ["dev", "prod"]
+    build: ./jordi
+    ports:
+      - "8003:8003"
+    
+  ## only dev
+
   prometheus:
     image: prom/prometheus
     container_name: prometheus-${teamname:-defaultASW}
