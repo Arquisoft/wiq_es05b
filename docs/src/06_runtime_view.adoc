@@ -8,7 +8,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === Register
 
-image::06_register.drawio.png["Register Diagram", align="center"]
+image::06_signup.drawio.png["Signup Diagram", align="center"]
 
 === Login
 
