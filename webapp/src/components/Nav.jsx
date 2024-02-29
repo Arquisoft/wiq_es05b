@@ -12,10 +12,19 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import {Link} from "react-router-dom";
 
-const pages = ['Home', 'Global Ranking', 'About'];
-const settings = ['Account', 'Sign Up', 'Login', 'Logout'];
+const pages = [
+    { displayed: 'Home', link: "/home" },
+    { displayed: 'Global Ranking', link: "/ranking" },
+    { displayed: 'About', link: "/about" }
+];
 
+const settings = [
+    { displayed:'Account', link: "/account" },
+    { displayed: 'Sign Up', link: "/signup" },
+    { displayed: 'Login', link: "/login" },
+    { displayed: 'Logout', link: "/logout" }];
 
 function Nav() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -44,8 +53,8 @@ function Nav() {
                     <Typography
                         variant="h6"
                         noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
+                        component={Link}
+                        to="/home"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -89,8 +98,8 @@ function Nav() {
                             }}
                         >
                             {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
+                                <MenuItem key={page.displayed} onClick={handleCloseNavMenu} component={Link} to={page.link}>
+                                    <Typography textAlign="center">{page.displayed}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -99,8 +108,8 @@ function Nav() {
                     <Typography
                         variant="h5"
                         noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
+                        component={Link}
+                        to="/home"
                         sx={{
                             mr: 2,
                             display: { xs: 'flex', md: 'none' },
@@ -117,11 +126,12 @@ function Nav() {
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
                             <Button
-                                key={page}
+                                key={page.displayed}
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
+                                to={page.link}
                             >
-                                {page}
+                                {page.displayed}
                             </Button>
                         ))}
                     </Box>
@@ -129,7 +139,7 @@ function Nav() {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="https://i.imgur.com/rnFjdQJ.jpeg" />
+                                <Avatar alt="Jordi Hurtado" src="https://i.imgur.com/rnFjdQJ.jpeg" />
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -149,8 +159,8 @@ function Nav() {
                             onClose={handleCloseUserMenu}
                         >
                             {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
+                                <MenuItem key={setting.displayed} onClick={handleCloseUserMenu} component={Link} to={setting.link}>
+                                    <Typography textAlign="center">{setting.displayed}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>

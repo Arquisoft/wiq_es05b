@@ -5,16 +5,26 @@ import Home from './Home';
 import reportWebVitals from './reportWebVitals';
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
+import {Route, Routes} from "react-router";
+import {BrowserRouter} from "react-router-dom";
+
+const App = () => {
+    return (
+        <Fragment>
+            <Nav />
+            <Routes>
+                <Route path="/" element={<Home />}/>
+            </Routes>
+            <Footer />
+        </Fragment>
+    )
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-      <Fragment> {/* This should go to App */}
-          <Nav />
-          <Home />
-          <Footer />
-      </Fragment>
-  </React.StrictMode>
+  <BrowserRouter>
+      <App />
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

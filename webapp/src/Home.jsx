@@ -3,6 +3,7 @@ import Typography from "@mui/material/Typography";
 import {Button} from "@mui/material";
 import Particles from "./components/Particles";
 import {Fragment} from "react";
+import {Link} from "react-router-dom";
 
 
 function Home() {
@@ -38,8 +39,22 @@ function Home() {
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce varius placerat mi, vitae ornare odio.
                 </Typography>
                 <Container>
-                    <Button variant="contained" sx={buttonConfig}>Play</Button>
-                    <Button variant="contained" sx={buttonConfig}>Register</Button>
+                    <Button
+                        variant="contained"
+                        sx={buttonConfig}
+                        component={Link}
+                        to="/login"
+                    >
+                        Play
+                    </Button>
+                    <Button
+                        variant="contained"
+                        sx={buttonConfig}
+                        component={Link}
+                        to="/signup"
+                    >
+                        Register
+                    </Button>
                 </Container>
             </Container>
         </Fragment>
