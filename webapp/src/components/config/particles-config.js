@@ -48,7 +48,7 @@ const config = {
     "line_linked": {
         "enable": true,
             "distance": 150,
-            "color": "#000000",
+            "color": "#034001",
             "opacity": 0.4,
             "width": 3
     },
@@ -88,7 +88,7 @@ const config = {
             }
         },
         "bubble": {
-            "distance": 400,
+            "distance": 100,
                 "size": 40,
                 "duration": 2,
                 "opacity": 8,

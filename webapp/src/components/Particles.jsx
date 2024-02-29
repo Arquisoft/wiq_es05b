@@ -3,17 +3,18 @@ import 'particles.js';
 import config from "./config/particles-config";
 const particlesJS = window.particlesJS;
 
-const Particles = () => {
+export default function Particles() {
+
     useEffect(() => {
         particlesJS('particles-js', config);
     }, []);
 
     return <div id="particles-js" style={{
         position: "absolute",
-        height: "99%",
+        height: "90%",
         width: "100%",
-        background: "rgba(0, 0, 0, 0.1)",
+        background: "rgba(255, 255, 255)",
         filter: "blur(2px)"}}></div>;
+
 };
 
-export default Particles;

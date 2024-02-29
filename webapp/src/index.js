@@ -1,21 +1,29 @@
-import React, {Fragment} from 'react';
+import React from 'react';
+import {Fragment} from 'react';
 import ReactDOM from 'react-dom/client';
-import './styles/index.css';
-import Home from './Home';
-import reportWebVitals from './reportWebVitals';
-import Nav from "./components/Nav";
-import Footer from "./components/Footer";
 import {Route, Routes} from "react-router";
 import {BrowserRouter} from "react-router-dom";
+
+import reportWebVitals from './reportWebVitals';
+import Home from './Home';
+import Nav from "./components/Nav";
+import Footer from "./components/Footer";
+import Login from "./Login"
+import Signup from "./Signup"
+import About from "./About"
 
 const App = () => {
     return (
         <Fragment>
-            <Nav />
+            <Nav/>
             <Routes>
-                <Route path="/" element={<Home />}/>
+                <Route path="/" element={<Home/>} />
+                <Route path="/home" element={<Home/>} />
+                <Route path="/signup" element={<Signup/>} />
+                <Route path="/login" element={<Login/>} />
+                <Route path="/about" element={<About/>} />
             </Routes>
-            <Footer />
+            <Footer/>       
         </Fragment>
     )
 }
@@ -23,11 +31,8 @@ const App = () => {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-      <App />
+    <App/>
   </BrowserRouter>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

@@ -47,14 +47,6 @@ function Home() {
                     >
                         Play
                     </Button>
-                    <Button
-                        variant="contained"
-                        sx={buttonConfig}
-                        component={Link}
-                        to="/signup"
-                    >
-                        Register
-                    </Button>
                 </Container>
             </Container>
         </Fragment>

@@ -1,9 +1,10 @@
 // src/components/Login.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import { Container, Typography, TextField, Button, Snackbar, Link } from '@mui/material';
 
-const Login = () => {
+export default function Login() {
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -73,8 +74,11 @@ const Login = () => {
           )}
         </div>
       )}
+
+      <Typography variant="body2" sx={{ marginTop: 2 }}>
+        Don't have an account? <Link href="/signup" variant="body2">Signup</Link>
+      </Typography>
+
     </Container>
   );
 };
-
-export default Login;
