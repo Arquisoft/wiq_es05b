@@ -1,5 +1,7 @@
 import React from 'react';
 import { Container, Typography, Paper, Link } from '@mui/material';
+import {ReactComponent as Logo} from "./media/logoL.svg";
+import "./style/about.css"
 
 export default function About() {
     return (
@@ -8,6 +10,9 @@ export default function About() {
                 <Typography variant="h4" gutterBottom>
                     About Us
                 </Typography>
+                <div className="svg-container">
+                    <Logo />
+                </div>
                 <Typography variant="body1" paragraph>
                     Welcome to our project! We are dedicated to providing quality content and services to our users.
                 </Typography>
