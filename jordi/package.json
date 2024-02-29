@@ -1,8 +1,9 @@
 {
     "name": "jordi",
+    "author": "Donato Martín",
     "version": "1.0.0",
     "description": " Question generator service, in charge of genearting wikidata-based Q&A chunks",
-    "main": "service.js",
+    "main": "jordi.js",
     "scripts": {
         "start": "node jordi.js",
         "test": "jest"
@@ -11,24 +12,16 @@
         "type": "git",
         "url": "git+https://github.com/arquisoft/wiq_0.git"
     },
-    "author": "Donato Martín",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/arquisoft/wiq_0/issues"
-    },
+    "bugs": { "url": "https://github.com/arquisoft/wiq_0/issues" },
     "homepage": "https://github.com/arquisoft/wiq_0#readme",
+    "license": "ISC",
     "dependencies": {
-        "bcrypt": "^5.1.1",
-        "cookie-parser": "^1.4.6",
-        "cors": "^2.8.5",
         "express": "^4.18.2",
+        "mongoose": "^8.0.4"
+    },
+    "devDependencies": {
         "jest": "^29.7.0",
-        "jest-mock-req-res": "^1.0.2",
-        "jsonwebtoken": "^9.0.2",
-        "mariadb": "^3.2.3",
-        "sequelize": "^6.36.0",
-        "sqlite": "^5.1.1",
-        "sqlite3": "^5.1.7",
-        "uuid": "^9.0.1"
+        "mongodb-memory-server": "^9.1.5",
+        "supertest": "^6.3.4"
     }
 }
