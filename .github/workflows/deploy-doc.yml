@@ -1,7 +1,7 @@
 name: Deploy Pages
 on:
   push:
-    branches: [ doc ]
+    branches: [ develop ]
 
 jobs:
   build-and-deploy:
