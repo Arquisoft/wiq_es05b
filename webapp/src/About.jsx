@@ -1,18 +1,20 @@
 import React from 'react';
 import { Container, Typography, Paper, Link } from '@mui/material';
 import {ReactComponent as Logo} from "./media/logoL.svg";
-import "./style/about.css"
 
 export default function About() {
     return (
         <Container maxWidth="md" style={{ marginTop: '2rem'}}>
+            
             <Paper elevation={3} style={{ padding: '2rem' }}>
                 <Typography variant="h4" gutterBottom>
                     About Us
                 </Typography>
-                <div className="svg-container">
-                    <Logo />
-                </div>
+                
+                <Container className="svg-container" style={{textAlign: "center", margin: "1rem"}}>
+                    <Logo style={{ width: '50%', height: '50%' }} />
+                </Container>
+
                 <Typography variant="body1" paragraph>
                     Welcome to our project! We are dedicated to providing quality content and services to our users.
                 </Typography>
@@ -30,7 +32,7 @@ export default function About() {
                 </Typography>
             </Paper>
 
-            <Paper elevation={3} style={{ padding: '2rem', marginTop: '2rem', height: '50rem' }}>
+            <Paper elevation={3} style={{ padding: '2rem', marginTop: '2rem'}}>
                 <Typography variant="h4" gutterBottom>
                     Contact Us
                 </Typography>
@@ -38,12 +40,18 @@ export default function About() {
                     You can reach us via the following channels:
                 </Typography>
                 <Typography variant="body1" paragraph>
-                    GitHub: <Link href="https://github.com/Arquisoft/wiq_es05b" target="_blank" rel="noopener noreferrer">Checkout our github page!</Link>
-                </Typography>
-                <Typography variant="body1" paragraph>
                     Mailing Info: <Link href="mailto:UO288787@uniovi.es">uo288787@uniovi.es</Link>
                 </Typography>
+                <Typography variant="body1" paragraph>
+                    Mailing Info: <Link href="mailto:UO289295@uniovi.es">uo289295@uniovi.es</Link>
+                </Typography>
+                <Typography variant="subtitle1">
+                    <Link href="https://github.com/Arquisoft/wiq_es05b" target="_blank" rel="noopener noreferrer">Checkout our github page!</Link>
+                </Typography>
+                
             </Paper>
+
+            <Container style={{clear:'both', height: '6rem'}}></Container>
 
         </Container>
         
