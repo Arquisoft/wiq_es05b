@@ -73,8 +73,13 @@ services:
     build: ./jordi
     ports:
       - "8003:8003"
-    network:
+    networks:
       - mynetwork
+
+  restapi:
+    build: ./restapi
+    ports:
+      - "8004:8004"
     
   ## only dev
 
