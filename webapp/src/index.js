@@ -13,10 +13,31 @@ import Signup from "./Signup"
 import About from "./About"
 import Ranking from "./Ranking"
 
+import Particles from "./components/Particles"
+
+import { ThemeProvider } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#055902', // Your primary color
+    },
+  },
+
+  typography: {
+    fontFamily: 'Verdana, sans-serif', // Your preferred font family
+    fontSize: 16, // Base font size
+  },
+  // Other theme options (spacing, breakpoints, etc.)
+});
+
 const App = () => {
     return (
         <Fragment>
+            <ThemeProvider theme={theme}>
             <Nav/>
+            <Particles/>
             <Routes>
                 <Route path="/home" element={<Home/>} />
                 <Route path="/signup" element={<Signup/>} />
@@ -25,7 +46,8 @@ const App = () => {
                 <Route path="/ranking" element={<Ranking/>} />
                 <Route path="*" element={<Home/>} />
             </Routes>
-            <Footer/>       
+            <Footer/>   
+            </ThemeProvider>    
         </Fragment>
     )
 }
@@ -33,7 +55,7 @@ const App = () => {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-    <App/>
+      <App/>
   </BrowserRouter>
 );
 

@@ -1,19 +1,14 @@
 import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
 import {Button} from "@mui/material";
-import Particles from "./components/Particles";
 import {Fragment} from "react";
 import {Link} from "react-router-dom";
-
+import { ReactComponent as Logo } from './media/logoL.svg';
 
 function Home() {
 
-    const shadowConfig = "7px 7px 16px"
-    const buttonConfig = {margin: "1rem", width: "10em", height: "4em"}
-
     return(
         <Fragment>
-            <Particles />
+
             <Container sx={{
                 position: "absolute",
                 height: "fit-content",
@@ -26,22 +21,14 @@ function Home() {
                 left: "50%",
                 top: "50%"}}
             >
-                <Typography component="p" sx={{
-                    textShadow: shadowConfig,
-                    fontSize: {xs: "h5.fontSize", md: "h4.fontSize"}}}
-                >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce varius placerat mi, vitae ornare odio.
-                </Typography>
-                <Typography component="p" sx={{
-                    textShadow: shadowConfig,
-                    fontSize: {md: "h5.fontSize"}}}
-                >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce varius placerat mi, vitae ornare odio.
-                </Typography>
+                <Container className="svg-container" style={{textAlign: "center", margin: "1rem"}}>
+                    <Logo style={{ width: '75%', height: '75%' }} />
+                </Container>
+
                 <Container>
                     <Button
                         variant="contained"
-                        sx={buttonConfig}
+                        sx={{margin: "1rem", width: "10em", height: "4em"}}
                         component={Link}
                         to="/login"
                     >
