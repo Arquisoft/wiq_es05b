@@ -4,7 +4,7 @@ import {ReactComponent as Logo} from "./media/logoL.svg";
 
 export default function About() {
     return (
-        <Container maxWidth="md" style={{ marginTop: '2rem'}}>
+        <Container maxWidth="md" style={{paddingTop: '2rem', paddingBottom: '7rem'}}>
             
             <Paper elevation={3} style={{ padding: '2rem' }}>
                 <Typography variant="h4" gutterBottom>
@@ -12,7 +12,7 @@ export default function About() {
                 </Typography>
                 
                 <Container className="svg-container" style={{textAlign: "center", margin: "1rem"}}>
-                    <Logo style={{ width: '50%', height: '50%' }} />
+                    <Logo style={{ width: '75%', height: '75%' }} />
                 </Container>
 
                 <Typography variant="body1" paragraph>
@@ -47,11 +47,8 @@ export default function About() {
                 </Typography>
                 <Typography variant="subtitle1">
                     <Link href="https://github.com/Arquisoft/wiq_es05b" target="_blank" rel="noopener noreferrer">Checkout our github page!</Link>
-                </Typography>
-                
+                </Typography>   
             </Paper>
-
-            <Container style={{clear:'both', height: '6rem'}}></Container>
 
         </Container>
         
