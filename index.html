@@ -737,6 +737,30 @@ See <a href="https://arc42.org" class="bare">https://arc42.org</a>.</p>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_1_technical_constraints">2.1. 1. Technical Constraints</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<div class="title">Contents</div>
+<p>Any requirement that constraints software architects in their freedom of design and implementation decisions or decision about the development process. These constraints sometimes go beyond individual systems and are valid for whole organizations and companies.</p>
+</div>
+<div class="paragraph">
+<div class="title">Motivation</div>
+<p>Architects should know exactly where they are free in their design decisions and where they must adhere to constraints.
+Constraints must always be dealt with; they may be negotiable, though.</p>
+</div>
+<div class="paragraph">
+<div class="title">Form</div>
+<p>Simple tables of constraints with explanations.
+If needed you can subdivide them into
+technical constraints, organizational and political constraints and
+conventions (e.g. programming or versioning guidelines, documentation or naming conventions)</p>
+</div>
+<div class="paragraph">
+<div class="title">Further Information</div>
+<p>See <a href="https://docs.arc42.org/section-2/">Architecture Constraints</a> in the arc42 documentation.</p>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>These constraints are set by the project, and we believe that altering them would be counterproductive.
 Therefore, we have chosen to adhere to them</p>
@@ -746,8 +770,8 @@ Therefore, we have chosen to adhere to them</p>
 <h3 id="_1_technical_constraints_2">2.2. 1. Technical Constraints</h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 22.2222%;">
+<col style="width: 77.7778%;">
 </colgroup>
 <thead>
 <tr>
@@ -758,16 +782,21 @@ Therefore, we have chosen to adhere to them</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Docker</em></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The app will be running in a Docker Host.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The app will be running in a Docker Host
+due to interoperability, security, and ease of deployment.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Wikidata</em></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">This project will be using wikidata as its only question related data retrieval API.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>WikiData</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This project will be using wikidata to retrieve the source of the game questions.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>GitHub</em></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Remote repository service to develop the app in sync, allows us to communicate efficiently, manage version control and
-allocate tasks appropriately among team members.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>React</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A JavaScript framework used for constructing visual interfaces.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Git/GitHub</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Our development process will leverage Git for version control and GitHub as a remote repository. This combination empowers us to:
+collaborate effectively, maintain a clean codebase and assign tasks</p></td>
 </tr>
 </tbody>
 </table>
@@ -815,13 +844,11 @@ in developing a real-world application.</p></td>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Constraint</th>
-<th class="tableblock halign-left valign-top">Explanation</th>
-</tr>
-</thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constraint</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Explanation</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Clean Code</em></strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The code composing the application must prioritize clarity and cleanliness, facilitating comprehension and ease of
@@ -1354,44 +1381,9 @@ any critical decisions that need to be made about the project.</p>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_domain_model">8.1. Domain Model</h3>
-<div class="listingblock">
+<div class="imageblock">
 <div class="content">
-<pre>object User{
-    Id: Long
-    name: String
-    lastName: String
-    email: String
-    password: String
-}
-
-object Question{
-    Id: Long
-    question: String
-    answer: String
-    option1: String
-    option2: String
-    option3: String
-}
-
-object Rank{
-    Id: Long
-    games: Number
-    answered: Number
-    corect: Number
-    wrong: Number
-    totalTime: Time
-    totalPoints: Number
-    User: User
-}
-
-object Game{
-    Id: Long
-    correct: Number
-    wrong: Numer
-    time: Time
-    User: User
-    points: Number
-}</pre>
+<img src="./images/domainmodel.png" alt="domainmodel" width="397" height="528">
 </div>
 </div>
 </div>
@@ -1761,7 +1753,7 @@ in a transparent way to the user and avoiding having to shut down the service fo
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-02-28 21:23:06 UTC
+Last updated 2024-03-01 06:42:13 UTC
 </div>
 </div>
 </body>
