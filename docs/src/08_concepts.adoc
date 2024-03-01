@@ -55,6 +55,7 @@ image::08-Crosscutting-Concepts-Structure-EN.png["Possible topics for crosscutti
 See https://docs.arc42.org/section-8/[Concepts] in the arc42 documentation.
 ****
 === Domain Model
+[plantuml, "domainmodel", png]
 ----
 object User{
     Id: Long
@@ -91,7 +92,13 @@ object Game{
     time: Time
     User: User
     points: Number
+    Questions: List<question>
 }
+
+User "1  " -- " 1 " Rank
+User "1" -- "*" Game
+Game "*" -- "*" Question
+
 ----
 === User Experience
 While we haven't settled on the final appearance of the app, its core functionality revolves around a quiz game.
