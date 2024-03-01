@@ -5,208 +5,93 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 == Building Block View
 
-[role="arc42help"]
-****
-.Content
-The building block view shows the static decomposition of the system into building blocks (modules, components, subsystems, classes, interfaces, packages, libraries, frameworks, layers, partitions, tiers, functions, macros, operations, data structures, ...) as well as their dependencies (relationships, associations, ...)
-
-This view is mandatory for every architecture documentation.
-In analogy to a house this is the _floor plan_.
-
-.Motivation
-Maintain an overview of your source code by making its structure understandable through
-abstraction.
-
-This allows you to communicate with your stakeholder on an abstract level without disclosing implementation details.
-
-.Form
-The building block view is a hierarchical collection of black boxes and white boxes
-(see figure below) and their descriptions.
-
-image::05_building_blocks-EN.png["Hierarchy of building blocks"]
-
-*Level 1* is the white box description of the overall system together with black
-box descriptions of all contained building blocks.
-
-*Level 2* zooms into some building blocks of level 1.
-Thus it contains the white box description of selected building blocks of level 1, together with black box descriptions of their internal building blocks.
-
-*Level 3* zooms into selected building blocks of level 2, and so on.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-5/[Building Block View] in the arc42 documentation.
-
-****
-
 === Whitebox Overall System
 
-[role="arc42help"]
-****
-Here you describe the decomposition of the overall system using the following white box template. It contains
+image::05_level1.drawio.png["Level 1 Diagram", align="center"]
 
- * an overview diagram
- * a motivation for the decomposition
- * black box descriptions of the contained building blocks. For these we offer you alternatives:
-
-   ** use _one_ table for a short and pragmatic overview of all contained building blocks and their interfaces
-   ** use a list of black box descriptions of the building blocks according to the black box template (see below).
-   Depending on your choice of tool this list could be sub-chapters (in text files), sub-pages (in a Wiki) or nested elements (in a modeling tool).
-
-
- * (optional:) important interfaces, that are not explained in the black box templates of a building block, but are very important for understanding the white box.
-Since there are so many ways to specify interfaces why do not provide a specific template for them.
- In the worst case you have to specify and describe syntax, semantics, protocols, error handling,
- restrictions, versions, qualities, necessary compatibilities and many things more.
-In the best case you will get away with examples or simple signatures.
-
-****
-
-_**<Overview Diagram>**_
 
 Motivation::
 
-_<text explanation>_
+The main purpose of the system is to run a quiz game using info dynamically retrieved from the Wikidata API. 
 
 
 Contained Building Blocks::
-_<Description of contained building block (black boxes)>_
 
-Important Interfaces::
-_<Description of important interfaces>_
-
-[role="arc42help"]
-****
-Insert your explanations of black boxes from level 1:
-
-If you use tabular form you will only describe your black boxes with name and
-responsibility according to the following schema:
-
-[cols="1,2" options="header"]
 |===
-| **Name** | **Responsibility**
-| _<black box 1>_ | _<Text>_
-| _<black box 2>_ | _<Text>_
+|Name| Description
+
+|User Agent
+
+|Client of the application that will interact with the system.
+
+|App
+
+|The main component of the system to be developed. In charge of generating the questions based on the data retrieved from the Wikidata API and present them to the user as a quiz game format.
+
+|Wikidata API
+|Web service that will provide the data to be used by the application .
+
 |===
 
+=== Level 2: 
+
+image::05_level2.drawio.png["Level 2 Diagram", align="center"]
 
 
-If you use a list of black box descriptions then you fill in a separate black box template for every important building block .
-Its headline is the name of the black box.
-****
+Motivation::
+
+This level aims to shed some light on the internal structure of the App component and the information flow in it. 
 
 
-==== <Name black box 1>
+Contained Building Blocks::
 
-[role="arc42help"]
-****
-Here you describe <black box 1>
-according the the following black box template:
+|===
+|Name| Description
 
-* Purpose/Responsibility
-* Interface(s), when they are not extracted as separate paragraphs. This interfaces may include qualities and performance characteristics.
-* (Optional) Quality-/Performance characteristics of the black box, e.g.availability, run time behavior, ....
-* (Optional) directory/file location
-* (Optional) Fulfilled requirements (if you need traceability to requirements).
-* (Optional) Open issues/problems/risks
+|Web App
 
-****
+|React frontend in which the game will take place
 
-_<Purpose/Responsibility>_
+|Gateway
 
-_<Interface(s)>_
+|Service in charge of communicating the web app with the backend. Its main purpose its to forward all the  requests sent from the client to the corresponding service and return the response to the client.
 
-_<(Optional) Quality/Performance Characteristics>_
+|Authentication
+|Service which will handle the user authentication process when a new user logs in
 
-_<(Optional) Directory/File Location>_
+|Users
+|Service containing all user related information such as scores or history of games played.
 
-_<(Optional) Fulfilled Requirements>_
+|Questions
+|Service that bears the responsability of interacting with te Wikidata API and generating the questions to be presented to the user.
 
-_<(optional) Open Issues/Problems/Risks>_
+|===
 
+=== Level 3:
 
+image::05_level3.drawio.png["Level 3 Diagram", align="center"]
 
+Motivation::
 
-==== <Name black box 2>
+This third level provides a deeper insight into the questions microservice. As the diagram showcases, it is implemented using an n-layer architecture so as to ensure a clear separation of concerns and a high degree of modularity, which in turn will make the system more maintainable.
 
-_<black box template>_
+|===
+|Name| Description
 
-==== <Name black box n>
+|Controller
 
-_<black box template>_
+|Component in charge of handling the requests sent from the gateway and returning the corresponding response.
 
+|Service
 
-==== <Name interface 1>
+|Module that contains the business logic of the service. It is responsible for processing the data retrieved from both the model and the Wikidata API and returning it to the controller.
 
-...
+|Model
+|Component that interacts with the database and retrieves the data to be processed by the service.
 
-==== <Name interface m>
+|DB
+|Component independent for each service that contains the data related to it.
 
-
-
-=== Level 2
-
-[role="arc42help"]
-****
-Here you can specify the inner structure of (some) building blocks from level 1 as white boxes.
-
-You have to decide which building blocks of your system are important enough to justify such a detailed description.
-Please prefer relevance over completeness. Specify important, surprising, risky, complex or volatile building blocks.
-Leave out normal, simple, boring or standardized parts of your system
-****
-
-==== White Box _<building block 1>_
-
-[role="arc42help"]
-****
-...describes the internal structure of _building block 1_.
-****
-
-_<white box template>_
-
-==== White Box _<building block 2>_
+|===
 
 
-_<white box template>_
-
-...
-
-==== White Box _<building block m>_
-
-
-_<white box template>_
-
-
-
-=== Level 3
-
-[role="arc42help"]
-****
-Here you can specify the inner structure of (some) building blocks from level 2 as white boxes.
-
-When you need more detailed levels of your architecture please copy this
-part of arc42 for additional levels.
-****
-
-
-==== White Box <_building block x.1_>
-
-[role="arc42help"]
-****
-Specifies the internal structure of _building block x.1_.
-****
-
-
-_<white box template>_
-
-
-==== White Box <_building block x.2_>
-
-_<white box template>_
-
-
-
-==== White Box <_building block y.1_>
-
-_<white box template>_

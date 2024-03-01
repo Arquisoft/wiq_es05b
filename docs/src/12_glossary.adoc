@@ -3,40 +3,37 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-glossary]]
 == Glossary
 
-[role="arc42help"]
-****
-.Contents
-The most important domain and technical terms that your stakeholders use when discussing the system.
-
-You can also see the glossary as source for translations if you work in multi-language teams.
-
-.Motivation
-You should clearly define your terms, so that all stakeholders
-
-* have an identical understanding of these terms
-* do not use synonyms and homonyms
-
-
-.Form
-
-A table with columns <Term> and <Definition>.
-
-Potentially more columns in case you need translations.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-12/[Glossary] in the arc42 documentation.
-
-****
-
 [cols="e,2e" options="header"]
-|===
-|Term |Definition
 
-|<Term-1>
-|<definition-1>
-
-|<Term-2>
-|<definition-2>
 |===
+
+| Term | Definition
+
+| WIQ
+| Wikidata Infinite Quest
+
+| "Saber y Ganar"
+| A spanish TV show hosted by Jordi Hurtado which inspires this project
+
+| HappySw
+| The company in charge of the development of this app
+
+| Arc42
+| Architecture documentation template used in this project
+
+| Wikidata
+| API consumed by the application to generate the questions of the game
+
+| ADR
+| Arquitechtural Design Record. 
+
+| Continuous integration and delivery
+|The process of automating the integration of code changes from multiple contributors into a single software project.   
+
+| Microservice
+| Each of the components/modules in which the application is divided into. Each one is independent and can be developed, deployed and scaled independently.
+
+|===
+
+== Legend
+image::12_legend.drawio.png["Legend", align="center"]

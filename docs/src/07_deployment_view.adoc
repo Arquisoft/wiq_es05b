@@ -5,90 +5,55 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 == Deployment View
 
-[role="arc42help"]
-****
-.Content
-The deployment view describes:
+The infrastructure of our system consists mainly of a single server, which is hosted in a B1s Azure virtual machine. It contains a dockerized nodejs app based on microservices architecture which exposes port 3000 to the internet as an entry point to de user interface of the system. The server contains a MongoDB database used to store the application data and interacts with the Wikidata API in order to provide dynamic-generated content to the user based on the information retrieved.
 
- 1. technical infrastructure used to execute your system, with infrastructure elements like geographical locations, environments, computers, processors, channels and net topologies as well as other infrastructure elements and
-
-2. mapping of (software) building blocks to that infrastructure elements.
-
-Often systems are executed in different environments, e.g. development environment, test environment, production environment. In such cases you should document all relevant environments.
-
-Especially document a deployment view if your software is executed as distributed system with more than one computer, processor, server or container or when you design and construct your own hardware processors and chips.
-
-From a software perspective it is sufficient to capture only those elements of an infrastructure that are needed to show a deployment of your building blocks. Hardware architects can go beyond that and describe an infrastructure to any level of detail they need to capture.
-
-.Motivation
-Software does not run without hardware.
-This underlying infrastructure can and will influence a system and/or some
-cross-cutting concepts. Therefore, there is a need to know the infrastructure.
-
-.Form
-
-Maybe a highest level deployment diagram is already contained in section 3.2. as
-technical context with your own infrastructure as ONE black box. In this section one can
-zoom into this black box using additional deployment diagrams:
-
-* UML offers deployment diagrams to express that view. Use it, probably with nested diagrams,
-when your infrastructure is more complex.
-* When your (hardware) stakeholders prefer other kinds of diagrams rather than a deployment diagram, let them use any kind that is able to show nodes and channels of the infrastructure.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-7/[Deployment View] in the arc42 documentation.
-
-****
 
 === Infrastructure Level 1
 
-[role="arc42help"]
-****
-Describe (usually in a combination of diagrams, tables, and text):
+==== Overview Diagram
 
-* distribution of a system to multiple locations, environments, computers, processors, .., as well as physical connections between them
-* important justifications or motivations for this deployment structure
-* quality and/or performance features of this infrastructure
-* mapping of software artifacts to elements of this infrastructure
+image::07_overview.drawio.png["Login Diagram", align="center"]
 
-For multiple environments or alternative deployments please copy and adapt this section of arc42 for all relevant environments.
-****
-
-_**<Overview Diagram>**_
 
 Motivation::
-
-_<explanation in text form>_
+The main reason for this infrastructure choice lies in the simplicity and flexibility of a dockerized microservice architecture solution, which allows a fast and straightforward deployment of the system in any environment.
 
 Quality and/or Performance Features::
+- Scalability: The system can be easily scaled horizontally by adding more instances of the same service with ease thanks to the container orchestrator.
 
-_<explanation in text form>_
+- Portability: The app can be deployed in any environment that supports docker containers, which allows the system to be easily migrated to other cloud providers should it be necessary.
+
+- Maintainability: The system can be updated by replacing the docker containers with new versions of the application, which allows the system to be maintained without remarkable issues.
+
+- Security: The system is hosted in a secure environment provided by the Azure cloud platform, which ensures its security and availability.
 
 Mapping of Building Blocks to Infrastructure::
-_<description of the mapping>_
+
+|===
+| Component | Description
+
+| User agent
+| The client that will access the system through the web app.
+
+
+| Azure B1s Virtual Machine
+| Server in which the system is hosted.
+
+| Docker
+| Containerization platform used to deploy the system.
+
+| Wikidata API
+| External service used to retrieve dynamic content for the system.
+
+|===
+
 
 
 === Infrastructure Level 2
 
-[role="arc42help"]
-****
-Here you can include the internal structure of (some) infrastructure elements from level 1.
+==== Docker component
 
-Please copy the structure from level 1 for each selected element.
-****
+The system is deployed in a dockerized enviroment in which each microservice is contained in a separate container. Docker compose is the selected orchestrator as it is a simple solution that meets the few deployment requirements necessary for a small system like ours. It allows the app to be easily deployed with different profiles by using a docker-compose file.
 
-==== _<Infrastructure Element 1>_
 
-_<diagram + explanation>_
 
-==== _<Infrastructure Element 2>_
-
-_<diagram + explanation>_
-
-...
-
-==== _<Infrastructure Element n>_
-
-_<diagram + explanation>_

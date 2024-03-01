@@ -3,34 +3,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-solution-strategy]]
 == Solution Strategy
 
-
-[role="arc42help"]
-****
-.Contents
-A short summary and explanation of the fundamental decisions and solution strategies, that shape system architecture. It includes
-
-* technology decisions
-* decisions about the top-level decomposition of the system, e.g. usage of an architectural pattern or design pattern
-* decisions on how to achieve key quality goals
-* relevant organizational decisions, e.g. selecting a development process or delegating certain tasks to third parties.
-
-.Motivation
-These decisions form the cornerstones for your architecture. They are the foundation for many other detailed decisions or implementation rules.
-
-.Form
-Keep the explanations of such key decisions short.
-
-Motivate what was decided and why it was decided that way,
-based upon problem statement, quality goals and key constraints.
-Refer to details in the following sections.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-4/[Solution Strategy] in the arc42 documentation.
-
-****
-
 === Technology Decisions
 
 In order to develop an application that meets the expected quality criteria,
@@ -40,8 +12,6 @@ we have decided to use the following technologies:
 * *_React_*: JavaScript library used in the design of graphical user interfaces.
 * *_ExpressJS_*: Framework built on the top of _Node.js_ and used in the backend.
 * *_Github_*: Used for versioning the proyect and as a mean of communication for the dev team.
-* *_Docker_*: Container platform used for the app deployment.
-* *_Wikidata_*: Open data knowledge graph used to obtain the information for the game.
 
 === Top-level Decomposition
 
@@ -50,19 +20,14 @@ for different purpouses. For instance, we currently have the following microserv
 
 * *_User service_*: Service used to add new users.
 * *_Auth service_*: Service used for the authentication of users.
+* *_Question Generation service_*. Service that generates random questions and gets the answers from WikiData.
 * *_Gateway service_*: Service exposed to the public and used as a proxy to the two previous ones.
 * *_Webapp service_*. Web application that uses the _gateway service_ to allow basic login and user features.
 
 === Decisions taken to achieve quality goals
 
-[%header, cols="2*"]
 |===
-|Quality goal
-|Decision made
-
-|*_Privacy_*
-|The credential storage and the login/signup process must encrypt the user data
-in order to prevent data stealing.
+| Quality goal | Decision made
 
 |*_Usability_*
 |The user must be able to use the application without any doubt or trouble.
