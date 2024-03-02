@@ -60,3 +60,5 @@ root.render(
 );
 
 reportWebVitals();
+
+export default App;
