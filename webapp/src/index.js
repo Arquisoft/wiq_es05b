@@ -25,7 +25,16 @@ const theme = createTheme({
   palette: {
     primary: {
       main: '#055902', // Your primary color
+      contrastText: '#FFF'
     },
+    darkGreen: {
+        main: '#034001',
+        contrastText: '#F2F2F2'
+    },
+    lightGreen: {
+        main: '#86A656',
+        contrastText: '#F2F2F2'
+    }
   },
 
   typography: {

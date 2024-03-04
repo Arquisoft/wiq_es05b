@@ -26,7 +26,6 @@ export default function Signup() {
   };
 
   return (
-      // TODO - Should be <Paper elevation={3} style={{ padding: '2rem' }}>
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
      <Paper elevation={3} style={{ padding: '2rem' }}>
       <Typography component="h1" variant="h5">
