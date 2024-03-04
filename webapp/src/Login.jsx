@@ -1,7 +1,7 @@
 // src/components/Login.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import {Container, Typography, TextField, Button, Snackbar, Paper} from '@mui/material';
 import {Link} from "react-router-dom";
 
 export default function Login() {
@@ -36,8 +36,8 @@ export default function Login() {
   };
 
   return (
-      // <Paper elevation={3} style={{ padding: '2rem' }}>
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
+      <Paper elevation={3} sx={{ padding: '2rem' }}>
       {loginSuccess ? (
         <div>
           <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
@@ -81,7 +81,7 @@ export default function Login() {
         {/* TODO - Add green color to link */}
         Don't have an account? <Link to="/signup">Signup</Link>
       </Typography>
-
+      </Paper>
     </Container>
   );
 };

@@ -12,7 +12,7 @@ export default function Particles() {
     return <div id="particles-js" 
     style={{
         position: "absolute",
-        height: "90%",
+        height: "80%",
         width: "100%",
         background: "rgba(255, 255, 255)",
         filter: "blur(2px)",
