@@ -17,6 +17,9 @@ import Particles from "./components/Particles"
 
 import { ThemeProvider } from '@mui/material/styles';
 import { createTheme } from '@mui/material/styles';
+import GameMenu from "./GameMenu";
+import GameView from "./GameView";
+import Account from "./Account";
 
 const theme = createTheme({
   palette: {
@@ -34,21 +37,22 @@ const theme = createTheme({
 
 const App = () => {
     return (
-        <Fragment>
-            <ThemeProvider theme={theme}>
-            <Nav/>
-            <Particles/>
-            <Routes>
-                <Route path="/home" element={<Home/>} />
-                <Route path="/signup" element={<Signup/>} />
-                <Route path="/login" element={<Login/>} />
-                <Route path="/about" element={<About/>} />
-                <Route path="/ranking" element={<Ranking/>} />
-                <Route path="*" element={<Home/>} />
-            </Routes>
-            <Footer/>   
-            </ThemeProvider>    
-        </Fragment>
+        <ThemeProvider theme={theme}>
+        <Nav/>
+        <Particles/>
+        <Routes>
+            <Route path="/home" element={<Home/>} />
+            <Route path="/signup" element={<Signup/>} />
+            <Route path="/login" element={<Login/>} />
+            <Route path="/about" element={<About/>} />
+            <Route path="/ranking" element={<Ranking/>} />
+            <Route path="/menu" element={<GameMenu/>} />
+            <Route path="/play" element={<GameView/>} />
+            <Route path="/account" element={<Account/>} />
+            <Route path="*" element={<Home/>} />
+        </Routes>
+        <Footer/>
+        </ThemeProvider>
     )
 }
 
