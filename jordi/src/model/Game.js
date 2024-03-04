@@ -4,10 +4,10 @@ import {User} from "./User";
 const mongoose = require('mongoose')
 
 const GameSchema = new mongoose.Schema({
-        correct: {
+        total: {
             type: Number, required: true
         },
-        wrong: {
+        correct: {
             type: Number, required: true
         },
         start: {
