@@ -67,45 +67,6 @@ const config = {
         }
     }
 },
-    "interactivity": {
-    "detect_on": "canvas",
-        "events": {
-        "onhover": {
-            "enable": true,
-                "mode": "grab"
-        },
-        "onclick": {
-            "enable": false,
-                "mode": "push"
-        },
-        "resize": true
-    },
-    "modes": {
-        "grab": {
-            "distance": 194.89853095232286,
-                "line_linked": {
-                "opacity": 1
-            }
-        },
-        "bubble": {
-            "distance": 100,
-                "size": 40,
-                "duration": 2,
-                "opacity": 8,
-                "speed": 3
-        },
-        "repulse": {
-            "distance": 200,
-                "duration": 0.4
-        },
-        "push": {
-            "particles_nb": 4
-        },
-        "remove": {
-            "particles_nb": 2
-        }
-    }
-},
     "retina_detect": true
 }
 
