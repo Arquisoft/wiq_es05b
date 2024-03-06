@@ -9,7 +9,7 @@ function Home() {
     return(
         <Fragment>
 
-            <Container sx={{
+            <Container style={{
                 position: "absolute",
                 height: "fit-content",
                 textAlign: "center",
@@ -28,7 +28,7 @@ function Home() {
                 <Container>
                     <Button
                         variant="contained"
-                        sx={{margin: "1rem", width: "10em", height: "4em"}}
+                        style={{margin: "1rem", width: "10em", height: "4em"}}
                         component={Link}
                         to="/login"
                     >

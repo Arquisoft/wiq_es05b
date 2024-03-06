@@ -4,15 +4,16 @@ const axios = require('axios');
 async function getCountryCapital() {
     const sparqlQuery =
         `SELECT DISTINCT ?countryLabel ?capitalLabel WHERE {
-    ?country wdt:P31 wd:Q6256.
-    ?country wdt:P36 ?capital.
-    ?country wdt:P1082 ?population.
-    ?country rdfs:label ?countryLabel.
-    ?capital rdfs:label ?capitalLabel.
-    FILTER(LANG(?countryLabel) = "es").
-    FILTER(LANG(?capitalLabel) = "es").
-    FILTER(?population > 30000000).
-}`;
+            ?country wdt:P31 wd:Q6256.
+            ?country wdt:P36 ?capital.
+            ?country wdt:P1082 ?population.
+            ?country rdfs:label ?countryLabel.
+            ?capital rdfs:label ?capitalLabel.
+            FILTER(LANG(?countryLabel) = "es").
+            FILTER(LANG(?capitalLabel) = "es").
+            FILTER(?population > 30000000).
+        }`;
+        
     const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(sparqlQuery)}&format=json`;
 
     try {

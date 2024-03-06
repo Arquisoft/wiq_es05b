@@ -1,6 +1,8 @@
 import { Button, Container, Divider, Paper, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 
+const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+
 export default function GameView() {
 
     //State storing all questions
@@ -14,11 +16,11 @@ export default function GameView() {
 
     //Fetch questions just at the beginning
     useEffect(() => {
-        fetchQuestions();
+        fetchQuestions(`${apiEndpoint}/questions/mock`);
     }, []);
 
-    const fetchQuestions = async () => {
-        const response = await fetch('http://localhost:8000/questions/mock');
+    const fetchQuestions = async (url) => {
+        const response = await fetch(url);
         const data = await response.json();
         setQuestions(data);
     }

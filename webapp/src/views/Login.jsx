@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import {Container, Typography, TextField, Button, Snackbar, Paper} from '@mui/material';
-import {Link} from "@mui/material";
+import {Link} from "react-router-dom"
 
 export default function Login() {
 
@@ -78,7 +78,7 @@ export default function Login() {
       )}
 
       <Typography variant="body2" sx={{ marginTop: 2 }}>
-        Don't have an account? <Link href="/signup">Signup</Link>
+        Don't have an account? <Link to="/signup" style={{color: "#034001"}}>Signup</Link>
       </Typography>
       </Paper>
     </Container>

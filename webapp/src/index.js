@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import {Route, Routes} from "react-router";
 import {BrowserRouter} from "react-router-dom";
 
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from './scripts/reportWebVitals';
 import Home from './views/Home';
 import Nav from "./views/components/Nav";
 import Footer from "./views/components/Footer";
@@ -12,9 +12,8 @@ import Signup from "./views/Signup"
 import About from "./views/About"
 import Ranking from "./views/Ranking"
 import GameMenu from "./views/GameMenu";
-import GameView from "./views/GameView";
+import GamePlay from "./views/GamePlay";
 import Account from "./views/Account";
-
 
 import Particles from "./views/components/Particles"
 
@@ -56,7 +55,7 @@ const App = () => {
             <Route path="/about" element={<About/>} />
             <Route path="/ranking" element={<Ranking/>} />
             <Route path="/menu" element={<GameMenu/>} />
-            <Route path="/play" element={<GameView/>} />
+            <Route path="/play" element={<GamePlay/>} />
             <Route path="/account" element={<Account/>} />
             <Route path="*" element={<Home/>} />
         </Routes>
