@@ -48,9 +48,8 @@ class Capital {
                     questions.push(new Question ({
                         category: "Country",
                         statement: this.getStatement(country),
-                        answer: capital,
+                        options: [capital]
                     }));
-                    console.log(`La capital de ${pais} es: ${capi}`);
                 });
                 
                 // TODO: mirar si esto funciona
@@ -61,7 +60,7 @@ class Capital {
                     const nums = getRandomNumbers(rest.length, 3);
 
                     nums.forEach(x => {
-                        question.options(rest[x].answer);
+                        question.options.push(rest[x].options[0]);
                     })
 
                 });
@@ -91,4 +90,4 @@ function getRandomNumbers(length, n){
     return res;
 }
 
-Capital.generate();
+module.exports = Capital;

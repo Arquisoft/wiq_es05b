@@ -1,15 +1,21 @@
 
-function script () {
+const Capitals = require("./templates/Capitals.js");
 
-        const templates = {
-            capitals: 0.2,
-            animals: 0.5,
-            jordihurtado: 0.3,
+async function script () {
+
+    const capitalsInstance = new Capitals();
+    
+    try {
+        const capitals = await capitalsInstance.generate(20);
+
+        for (const capital of capitals) {
+            console.log(capital.statement);
+            console.log(capital.options);
         }
-        const questions = []
-
-        random.generate(templatequestions)
-        
-        Question.save(questions)
+    } catch (error) {
+        console.error("Error:", error);
+    }
 
 }
+
+script();
