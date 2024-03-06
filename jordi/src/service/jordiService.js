@@ -1,8 +1,8 @@
 
-const questionModel = require('./questionModelFacade')
+const questionModel = require('./jordiModel')
 
-function getQuestionMock(){
-    return questionModel.getQuestionMock();
+function getQuestions(category, n) {
+    
 }
 
 module.exports = {getQuestionMock};

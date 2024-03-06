@@ -2,7 +2,10 @@
 const mongoose = require('mongoose')
 
 const QuestionsSchema = new mongoose.Schema({
-        question: {
+        category: {
+            type: String, required: true
+        },
+        statement: {
             type: String, required: true
         },
         answer: {
