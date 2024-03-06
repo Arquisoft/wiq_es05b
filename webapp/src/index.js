@@ -1,25 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {Fragment} from 'react';
 import {Route, Routes} from "react-router";
 import {BrowserRouter} from "react-router-dom";
 
 import reportWebVitals from './reportWebVitals';
-import Home from './Home';
-import Nav from "./components/Nav";
-import Footer from "./components/Footer";
-import Login from "./Login"
-import Signup from "./Signup"
-import About from "./About"
-import Ranking from "./Ranking"
+import Home from './views/Home';
+import Nav from "./views/components/Nav";
+import Footer from "./views/components/Footer";
+import Login from "./views/Login"
+import Signup from "./views/Signup"
+import About from "./views/About"
+import Ranking from "./views/Ranking"
+import GameMenu from "./views/GameMenu";
+import GameView from "./views/GameView";
+import Account from "./views/Account";
 
-import Particles from "./components/Particles"
+
+import Particles from "./views/components/Particles"
 
 import { ThemeProvider } from '@mui/material/styles';
 import { createTheme } from '@mui/material/styles';
-import GameMenu from "./GameMenu";
-import GameView from "./GameView";
-import Account from "./Account";
 
 const theme = createTheme({
   palette: {
@@ -68,7 +68,7 @@ const App = () => {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-      <App/>
+    <App/>
   </BrowserRouter>
 );
 

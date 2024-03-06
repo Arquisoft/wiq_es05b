@@ -1,10 +1,10 @@
 import React from 'react';
 import { Container, Typography, Paper, Link } from '@mui/material';
-import {ReactComponent as Logo} from "./media/logoL.svg";
+import {ReactComponent as Logo} from "../media/logoL.svg";
 
 export default function About() {
     return (
-        <Container maxWidth="md" style={{paddingTop: '2rem', paddingBottom: '7rem'}}>
+        <Container maxWidth="md" style={{paddingTop: '2rem'}}>
             
             <Paper elevation={3} style={{ padding: '2rem' }}>
                 <Typography variant="h4" gutterBottom>

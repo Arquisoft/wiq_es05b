@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AppBar, Box, Container, IconButton, Toolbar, Tooltip, Avatar, Button, Typography, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
-import { ReactComponent as CustomIcon } from '../media/logoS.svg';
+import { ReactComponent as CustomIcon } from '../../media/logoS.svg';
 
 const pages = [
   { displayed: 'Home', link: '/home' },

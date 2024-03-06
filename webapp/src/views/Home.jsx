@@ -2,7 +2,7 @@ import Container from "@mui/material/Container";
 import {Button} from "@mui/material";
 import {Fragment} from "react";
 import {Link} from "react-router-dom";
-import { ReactComponent as Logo } from './media/logoL.svg';
+import { ReactComponent as Logo } from '../media/logoL.svg';
 
 function Home() {
 
