@@ -13,11 +13,10 @@ SELECT DISTINCT ?countryLabel ?capitalLabel WHERE {
 }
 `
 
-function getStatement(country) {
+function getStatement(capital) {
     const statements = [
-        `The capital of ${country} is...`,
-        `What is the capital of ${country}?`,
-        `Select the capital of ${country}`
+        `${capital} is the capital of...`,
+        `Which country does ${capital} belong to?`,
     ]
 
     return statements[Math.floor(Math.random() * statements.length)];
@@ -28,14 +27,14 @@ function pushQuestion(Question, questions, data, x) {
     const capital = data.results.bindings[x].capitalLabel.value;
     questions.push(new Question({
         category: "Country",
-        statement: getStatement(country),
-        options: [capital]
+        statement: getStatement(capital),
+        options: [country]
     }));
 }
 
-capitals = new WikidataQAFetcher(
+countries = new WikidataQAFetcher(
     sparqlquery,
     pushQuestion,
 );
 
-module.exports = capitals;
+module.exports = countries;

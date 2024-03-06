@@ -1,10 +1,10 @@
 
-const capitals = require("./templates/Capitals");
+const capitals = require("./templates/capitals");
+const countries = require("./templates/countries");
 
 async function script () {
-    
     try {
-        const questions = await capitals.generate(20);
+        const questions = await countries.generate(20);
 
         for (const question of questions) {
             console.log(question.statement);

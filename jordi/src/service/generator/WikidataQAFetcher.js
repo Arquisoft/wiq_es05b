@@ -1,22 +1,13 @@
 
-const Question = require("../../../persistence/Question.js");
+const Question = require("../../persistence/Question");
 
 const axios = require('axios');
 
 class Template {
 
-    constructor(sparqlquery) {
+    constructor(sparqlquery, pushQuestion) {
         this.sparqlquery = sparqlquery;
-    }
-
-    getStatement(country) {
-        const statements = [
-            `The capital of ${country} is...`,
-            `What is the capital of ${country}?`,
-            `Select the capital of ${country}`
-        ]
-    
-        return statements[Math.floor(Math.random() * statements.length)];
+        this.pushQuestion = pushQuestion;
     }
 
     async generate(n) {
@@ -28,22 +19,15 @@ class Template {
             const data = response.data;
             if (data.results.bindings.length > 0) {
 
-                const nums = getNRandomNumbers(data.results.bindings.length,n);
+                const nums = getNRandomNumbers(data.results.bindings.length, n);
                 const questions = [];
 
                 nums.forEach(x => {
-                    
-                    const country = data.results.bindings[x].countryLabel.value;
-                    const capital = data.results.bindings[x].capitalLabel.value;
-                    questions.push(new Question ({
-                        category: "Country",
-                        statement: this.getStatement(country),
-                        options: [capital]
-                    }));
+                    this.pushQuestion(Question, questions, data, x)
                 });
 
-                questions.forEach(question => { 
-                    
+                questions.forEach(question => {
+
                     const rest = questions.filter(x => x != question)
 
                     const nums = getNRandomNumbers(rest.length, 3);
@@ -55,24 +39,25 @@ class Template {
                 });
 
                 return questions;
-                
+
             } else {
                 throw new Error("No data found")
             }
         } catch (error) {
+            console.log(error);
             throw new Error("Error obtaining data");
         }
 
     }
 
-}
+    }
 
 // Obtiene n números aleatorios dentro del rango de 0 a length - 1.
-function getNRandomNumbers(length, n){
+function getNRandomNumbers(length, n) {
     const res = [];
-    while(res.length < n){
+    while (res.length < n) {
         const randomNum = Math.floor(Math.random() * Math.floor(length - 1));
-        if(!res.includes(randomNum)){
+        if (!res.includes(randomNum)) {
             res.push(randomNum);
         }
     }
