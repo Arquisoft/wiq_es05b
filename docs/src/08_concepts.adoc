@@ -4,6 +4,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 == Cross-cutting Concepts
 
 === Domain Model
+[plantuml, "domainmodel", png]
 ----
 object User{
     Id: Long
@@ -41,6 +42,9 @@ object Game{
     User: User
     points: Number
 }
+Game *--Question
+Rank *--Game
+Rank *-- User
 ----
 === User Experience
 While we haven't settled on the final appearance of the app, its core functionality revolves around a quiz game.
