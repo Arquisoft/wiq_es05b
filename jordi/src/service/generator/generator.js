@@ -1,16 +1,14 @@
 
-const Capitals = require("./templates/Capitals.js");
+const capitals = require("./templates/Capitals");
 
 async function script () {
-
-    const capitalsInstance = new Capitals();
     
     try {
-        const capitals = await capitalsInstance.generate(20);
+        const questions = await capitals.generate(20);
 
-        for (const capital of capitals) {
-            console.log(capital.statement);
-            console.log(capital.options);
+        for (const question of questions) {
+            console.log(question.statement);
+            console.log(question.options);
         }
     } catch (error) {
         console.error("Error:", error);
