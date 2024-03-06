@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import {Container, Typography, TextField, Button, Snackbar, Paper} from '@mui/material';
-import {Link} from "react-router-dom";
+import {Link} from "@mui/material";
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
@@ -58,7 +58,7 @@ export default function Signup() {
 
       <Typography variant="body2" sx={{ marginTop: 2 }}>
           {/* TODO - Add green color to link */}
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account? <Link href="/login">Login</Link>
       </Typography>
       </Paper>
     </Container>
