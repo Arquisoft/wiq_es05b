@@ -5,9 +5,9 @@ const axios = require('axios');
 
 class Template {
 
-    constructor(sparqlquery, pushQuestion) {
+    constructor(sparqlquery, getStatement) {
         this.sparqlquery = sparqlquery;
-        this.pushQuestion = pushQuestion;
+        this.getStatement = getStatement;
     }
 
     async generate(n) {
@@ -22,8 +22,16 @@ class Template {
                 const nums = getNRandomNumbers(data.results.bindings.length, n);
                 const questions = [];
 
-                nums.forEach(x => {
-                    this.pushQuestion(Question, questions, data, x)
+                nums.forEach(pos => {
+                    const country = data.results.bindings[pos].countryLabel.value;
+                    const capital = data.results.bindings[pos].capitalLabel.value;
+                    const statement = this.getStatement(country);
+                    questions.push(new Question({
+                        category: "Country",
+                        statement: statement,
+                        answer: capital,
+                        options: [capital]
+                    }));
                 });
 
                 questions.forEach(question => {
@@ -33,8 +41,12 @@ class Template {
                     const nums = getNRandomNumbers(rest.length, 3);
 
                     nums.forEach(x => {
+
                         question.options.push(rest[x].options[0]);
+
                     })
+
+                    question.options.sort(() => Math.random() - 0.5);
 
                 });
 
@@ -49,8 +61,8 @@ class Template {
         }
 
     }
-
-    }
+    
+}
 
 // Obtiene n números aleatorios dentro del rango de 0 a length - 1.
 function getNRandomNumbers(length, n) {

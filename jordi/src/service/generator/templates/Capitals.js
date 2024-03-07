@@ -23,19 +23,10 @@ function getStatement(country) {
     return statements[Math.floor(Math.random() * statements.length)];
 }
 
-function pushQuestion(Question, questions, data, x) {
-    const country = data.results.bindings[x].countryLabel.value;
-    const capital = data.results.bindings[x].capitalLabel.value;
-    questions.push(new Question({
-        category: "Country",
-        statement: getStatement(country),
-        options: [capital]
-    }));
-}
 
 capitals = new WikidataQAFetcher(
     sparqlquery,
-    pushQuestion,
+    getStatement
 );
 
 module.exports = capitals;

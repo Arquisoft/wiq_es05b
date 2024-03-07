@@ -22,12 +22,13 @@ function getStatement(capital) {
     return statements[Math.floor(Math.random() * statements.length)];
 }
 
-function pushQuestion(Question, questions, data, x) {
-    const country = data.results.bindings[x].countryLabel.value;
-    const capital = data.results.bindings[x].capitalLabel.value;
+function pushQuestion(Question, questions, data, pos) {
+    const country = data.results.bindings[pos].countryLabel.value;
+    const capital = data.results.bindings[pos].capitalLabel.value;
     questions.push(new Question({
         category: "Country",
         statement: getStatement(capital),
+        answer: capital,
         options: [country]
     }));
 }
