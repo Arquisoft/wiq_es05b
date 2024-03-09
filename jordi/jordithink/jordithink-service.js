@@ -1,14 +1,16 @@
 
 const capitals = require("./categories/capitals");
 const countries = require("./categories/countries");
-const cron = require('node-cron');
+const population = require("./categories/population");
+const languages = require("./categories/languages");
 
-
+// const cron = require('node-cron');
 
 async function script() {
+    
     try {
 
-        const questions = capitals.generate(20);
+        const questions = await languages.generate(20);
 
         for (const question of questions) {
             console.log(question.statement);
@@ -16,19 +18,25 @@ async function script() {
             console.log("\tOptions: " + question.options);
             console.log("\tAnswer: " + question.answer);
         }
+        
+    }
 
-    } catch (error) {
+    catch (error) {
+
         console.error("Error:", error);
     }
 
 }
 
+script();
+
 // Ejecuta el script cada hora
-cron.schedule('0 * * * *', () => {
-    console.log("Running script at : " + new Date());
-    script();
-}, {
-    scheduled: true,
-    timezone: "Europe/Madrid"
-});
+// cron.schedule('0 * * * *', () => {
+//     console.log("Running script at : " + new Date());
+//     script();
+// }, {
+//     scheduled: true,
+//     timezone: "Europe/Madrid"
+// });
+
 

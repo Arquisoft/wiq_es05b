@@ -1,5 +1,4 @@
-
-const Question = require("../../persistence/Question");
+const Question = require("../model/Question");
 
 const axios = require('axios');
 
@@ -45,6 +44,8 @@ class Template {
 
                     const nums = this.getNRandomNumbers(rest.length, 3);
 
+                    console.log(nums);
+
                     nums.forEach(x => {
 
                         question.options.push(rest[x].options[0]);
@@ -59,10 +60,11 @@ class Template {
 
             } else {
                 throw new Error("No Data found")
+                console.error(error);
             }
         } catch (error) {
-            console.log(error);
             throw new Error("Error obtaining Data");
+            console.error(error);
         }
 
     }
