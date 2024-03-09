@@ -2,7 +2,7 @@ const Question = require("../model/Question");
 
 const axios = require('axios');
 
-class Template {
+class WikidataQAFetcher {
 
     constructor(sparqlquery, statements, categories) {
         this.sparqlquery = sparqlquery;
@@ -30,7 +30,7 @@ class Template {
                     const categories = this.categories;
 
                     questions.push(new Question({
-                        categories: [categories],
+                        categories: categories,
                         statement: statement,
                         answer: answer,
                         options: [answer]
@@ -43,9 +43,7 @@ class Template {
                     const rest = questions.filter(x => x != question)
 
                     const nums = this.getNRandomNumbers(rest.length, 3);
-
-                    console.log(nums);
-
+                    
                     nums.forEach(x => {
 
                         question.options.push(rest[x].options[0]);
@@ -88,4 +86,4 @@ class Template {
     
 }
 
-module.exports = Template;
+module.exports = WikidataQAFetcher;

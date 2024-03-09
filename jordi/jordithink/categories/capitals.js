@@ -22,7 +22,7 @@ const statements = [
 capitals = new WikidataQAFetcher(
     sparqlquery,
     statements,
-    "Geography"
+    ["Geography", "Countries"]
 );
 
 module.exports = capitals;
