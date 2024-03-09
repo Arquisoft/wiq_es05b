@@ -1,7 +1,8 @@
 version: '3'
 services:
+  
   mongodb:
-    container_name: mongodb-${teamname:-defaultASW}
+    container_name: mongodb-${teamname:-wiq_es05b}
     image: mongo
     profiles: ["dev", "prod"]
     volumes:
@@ -11,8 +12,21 @@ services:
     networks:
       - mynetwork
 
+  postgres:
+    container_name: postgres-${teamname:-wiq_es05b}
+    image: postgres
+    profiles: ["dev", "prod"]
+    volumes:
+      - postgres_data:/data/db
+    ports:
+      - "5432:5432"
+    networks:
+      - mynetwork
+    environment:
+      POSTGRES_PASSWORD: jordishhh
+
   authservice:
-    container_name: authservice-${teamname:-defaultASW}
+    container_name: authservice-${teamname:-wiq_es05b}
     image: ghcr.io/arquisoft/wiq_es05b/authservice:latest
     profiles: ["dev", "prod"]
     build: ./users/authservice
@@ -26,7 +40,7 @@ services:
       MONGODB_URI: mongodb://mongodb:27017/userdb
 
   userservice:
-    container_name: userservice-${teamname:-defaultASW}
+    container_name: userservice-${teamname:-wiq_es05b}
     image: ghcr.io/arquisoft/wiq_es05b/userservice:latest
     profiles: ["dev", "prod"]
     build: ./users/userservice
@@ -40,7 +54,7 @@ services:
       MONGODB_URI: mongodb://mongodb:27017/userdb
 
   gatewayservice:
-    container_name: gatewayservice-${teamname:-defaultASW}
+    container_name: gatewayservice-${teamname:-wiq_es05b}
     image: ghcr.io/arquisoft/wiq_es05b/gatewayservice:latest
     profiles: ["dev", "prod"]
     build: ./gatewayservice
@@ -55,10 +69,10 @@ services:
     environment:
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
-      JORDI_SERVICE_URL: http://jordi:8003
+      JORDI_ASK_SERVICE_URL: http://jordi-ask:8003
 
   webapp:
-    container_name: webapp-${teamname:-defaultASW}
+    container_name: webapp-${teamname:-wiq_es05b}
     image: ghcr.io/arquisoft/wiq_es05b/webapp:latest
     profiles: ["dev", "prod"]
     build: ./webapp
@@ -67,11 +81,23 @@ services:
     ports:
       - "3000:3000" 
 
-  jordi:
-    image: ghcr.io/arquisoft/wiq_es05b/jordi:latest
-    container_name: jordi
+  jordi-ask:
+    container_name: jordi-ask-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/jordi-ask:latest
     profiles: ["dev", "prod"]
-    build: ./jordi
+    build: ./jordi/jordi-ask
+    ports:
+      - "8004:8004"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/questions
+
+  jordi-think:
+    container_name: jordi-think-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/jordi-think:latest
+    profiles: ["dev", "prod"]
+    build: ./jordi/jordi-think
     ports:
       - "8003:8003"
     networks:
@@ -79,11 +105,23 @@ services:
     environment:
       MONGODB_URI: mongodb://mongodb:27017/questions
 
+  ranking:
+    container_name: ranking-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/ranking:latest
+    profiles: ["dev", "prod"]
+    build: ./ranking
+    ports:
+      - "8005:8005"
+    networks:
+      - mynetwork
+    environment:
+      POSTGRES_URI: postgres://postgres:5432/ranking
+
   ## only dev
 
   prometheus:
     image: prom/prometheus
-    container_name: prometheus-${teamname:-defaultASW}
+    container_name: prometheus-${teamname:-wiq_es05b}
     profiles: ["dev"]
     networks:
       - mynetwork
@@ -97,7 +135,7 @@ services:
       
   grafana:
     image: grafana/grafana
-    container_name: grafana-${teamname:-defaultASW}
+    container_name: grafana-${teamname:-wiq_es05b}
     profiles: ["dev"]
     networks:
       - mynetwork
@@ -114,9 +152,9 @@ services:
     depends_on: 
       - prometheus
 
-
 volumes:
   mongodb_data:
+  postgres_data:
   prometheus_data: 
   grafana_data: 
 

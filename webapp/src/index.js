@@ -11,8 +11,8 @@ import Login from "./views/Login"
 import Signup from "./views/Signup"
 import About from "./views/About"
 import Ranking from "./views/Ranking"
-import GameMenu from "./views/GameMenu";
-import GamePlay from "./views/GamePlay";
+import Menu from "./views/Menu";
+import Game from "./views/Game";
 import Account from "./views/Account";
 
 import Particles from "./views/components/Particles"
@@ -54,8 +54,8 @@ const App = () => {
             <Route path="/login" element={<Login/>} />
             <Route path="/about" element={<About/>} />
             <Route path="/ranking" element={<Ranking/>} />
-            <Route path="/menu" element={<GameMenu/>} />
-            <Route path="/play" element={<GamePlay/>} />
+            <Route path="/menu" element={<Menu/>} />
+            <Route path="/game/:category" element={<Game/>} />
             <Route path="/account" element={<Account/>} />
             <Route path="*" element={<Home/>} />
         </Routes>

@@ -9,7 +9,6 @@ const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/questions
 //Endpoints 
 app.get("/categories", async (req, res) => {
     await mongoose.connect(mongoUri);
-    console.log("before")
     let result = await mongoose.connection.collection('questions').distinct("category");
     await mongoose.disconnect();
     res.json(result);

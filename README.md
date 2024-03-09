@@ -47,9 +47,11 @@ docker compose --profile dev down
 
 ### Starting Component by component
 
-First, start the database. Either install and run Mongo or run it using docker:
+First, start the databases. Either install and run Mongo & PostgreSQL or run them using docker:
 
 ```docker run -d -p 27017:27017 --name=my-mongo mongo:latest```
+
+```docker run -d --name mi_postgres -e POSTGRES_PASSWORD=jordishhh -p 5432:5432 postgres:latest```
 
 You can also use services like Mongo Altas for running a Mongo database in the cloud.
 

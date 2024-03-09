@@ -8,7 +8,7 @@ const port = 8000;
 
 const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
-const questionServiceUrl = process.env.JORDI_SERVICE_URL || 'http://localhost:8003';
+const questionServiceUrl = process.env.JORDI_ASK_SERVICE_URL || 'http://localhost:8003';
 
 app.use(cors());
 app.use(express.json());
@@ -63,6 +63,14 @@ app.get('/questions/:category', async (req, res) => {
     res.status(error.response.status).json({ error: error.response.data.error });
   }
 });
+
+app.post("/game/uploadresult", (req, res) => {
+
+})
+
+app.get("/game/:id", (req, res) => {
+  
+})
 
 // Start the gateway service
 const server = app.listen(port, () => {

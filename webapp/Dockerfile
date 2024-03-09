@@ -13,6 +13,8 @@ ENV REACT_APP_API_ENDPOINT=$API_URI
 RUN npm run build
 RUN npm install serve
 
+EXPOSE 3000
+
 #Execute npm run prod to run the server
 CMD [ "npm", "run", "prod" ]
 #CMD ["npm", "start"]

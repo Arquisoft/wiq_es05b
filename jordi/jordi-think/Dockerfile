@@ -2,7 +2,7 @@
 FROM node:20
 
 # Set the working directory in the container
-WORKDIR /usr/src/gatewayservice
+WORKDIR /usr/src/jordi-think
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
@@ -13,7 +13,8 @@ RUN npm install
 # Copy the app source code to the working directory
 COPY . .
 
-EXPOSE 8000
+# Expose the port the app runs on
+EXPOSE 8003
 
 # Define the command to run your app
-CMD ["node", "gateway-service.js"]
+CMD ["node", "jordithink-service.js"]

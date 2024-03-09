@@ -1,9 +1,12 @@
 import { Button, Container, Divider, Paper, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
-export default function GameView() {
+export default function Game() {
+
+    const {category} = useParams();
 
     //State storing all questions
     const [questions, setQuestions] = useState([]);
@@ -16,7 +19,7 @@ export default function GameView() {
 
     //Fetch questions just at the beginning
     useEffect(() => {
-        fetchQuestions(`${apiEndpoint}/questions/mock`);
+        fetchQuestions(`${apiEndpoint}/questions/` + category);
     }, []);
 
     const fetchQuestions = async (url) => {
@@ -26,7 +29,7 @@ export default function GameView() {
     }
 
     const answer = (i) => {
-        if (questions[current].answer === i) {
+        if (questions[current].answer === questions[current].options[i]) {
             setCorrectAnswers(correctAnswers + 1);
             setCurrent(current + 1);
         }
@@ -44,27 +47,27 @@ export default function GameView() {
 
     return (
         <Container component="main" maxWidth="md" sx={{ marginTop: 4, display: "flex", flexDirection: { xs: "row", md: "column" } }}>
-            <p>Correct answers: {correctAnswers}</p>
             <Paper elevation={3} sx={{ margin: "2rem 0", padding: "1rem" }}>
                 <Typography variant="h4">
-                    {questions[current].question}
+                    {questions[current].statement}
                 </Typography>
 
                 <Divider sx={{ margin: "10px 0" }} />
 
                 {questions[current].options.map((option, i) => (
 
-                    <Typography key={i} component="p" variant="h6">
-                        {i}) {option}
-                    </Typography>
+                <Typography key={i} component="p" variant="h6">
+                    {String.fromCharCode(97 + i).toUpperCase()}. {option} 
+                </Typography>
+
                 ))}
 
             </Paper>
             <Container sx={{ display: "flex", justifyContent: "space-around", flexDirection: { xs: "column", md: "row" }, alignItems: { xs: "stretch" } }} >
-                <Button color="darkGreen" variant="contained" sx={buttonStyle} onClick={() => answer(0)}>0</Button>
-                <Button color="lightGreen" variant="contained" sx={buttonStyle} onClick={() => answer(1)}>1</Button>
-                <Button color="darkGreen" variant="contained" sx={buttonStyle} onClick={() => answer(2)}>2</Button>
-                <Button color="lightGreen" variant="contained" sx={buttonStyle} onClick={() => answer(3)}>3</Button>
+                <Button color="darkGreen" variant="contained" sx={buttonStyle} onClick={() => answer(0)}>A</Button>
+                <Button color="lightGreen" variant="contained" sx={buttonStyle} onClick={() => answer(1)}>B</Button>
+                <Button color="darkGreen" variant="contained" sx={buttonStyle} onClick={() => answer(2)}>C</Button>
+                <Button color="lightGreen" variant="contained" sx={buttonStyle} onClick={() => answer(3)}>D</Button>
             </Container>
 
         </Container>

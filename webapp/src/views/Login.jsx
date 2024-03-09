@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import {Container, Typography, TextField, Button, Snackbar, Paper} from '@mui/material';
 import {Link} from "react-router-dom"
+import { Navigate } from 'react-router';
 
 export default function Login() {
 
@@ -39,14 +40,7 @@ export default function Login() {
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
       <Paper elevation={3} sx={{ padding: '2rem' }}>
       {loginSuccess ? (
-        <div>
-          <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
-            Hello {username}!
-          </Typography>
-          <Typography component="p" variant="body1" sx={{ textAlign: 'center', marginTop: 2 }}>
-            Your account was created on {new Date(createdAt).toLocaleDateString()}.
-          </Typography>
-        </div>
+        <Navigate to="/menu" />
       ) : (
         <div>
           <Typography component="h1" variant="h5">

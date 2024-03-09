@@ -1,18 +1,34 @@
 import {Button, Container, Divider, Paper, Typography} from "@mui/material";
+import {Link} from "react-router-dom";
+import axios from 'axios';
+import { useEffect, useState } from "react";
 
 const buttonConfig = {
-    width: "7rem"
+    width: "9rem",
+    height: "5rem",
 }
 
 const buttonGroup = {display: "flex", justifyContent: "space-evenly", margin: "1rem 0"}
 
-const MyButton = ({text}) => {
+const MyButton = ({text, link}) => {
     return (
-        <Button variant="contained" sx={buttonConfig}>{text}</Button>
+        <Button variant="contained" sx={buttonConfig} component={Link} to={link} >{text}</Button>
     )
 }
 
 export default function GameMenu() {
+
+    const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+    const [categories, setCategories] = useState([])
+
+    const getCategories = async () => {
+        const response = await axios.get(`${apiEndpoint}/categories`);
+        setCategories(response.data);
+    };
+
+    useEffect(() => {
+        getCategories();
+    }, [])
 
     return (
         <Container component="main" maxWidth="md" sx={{ marginTop: 4, display: "flex", flexDirection: {xs:"row", md:"column"} }}>
@@ -20,7 +36,7 @@ export default function GameMenu() {
                 <Typography variant="h3" component="p" sx={{marginBottom: "2rem"}}>
                     Menu
                 </Typography>
-                <Container>
+                {/* <Container>
                     <Typography variant="h5" component="p">
                         Options
                     </Typography>
@@ -28,14 +44,13 @@ export default function GameMenu() {
                         <MyButton text="Time" />
                         <MyButton text="Custom" />
                     </Container>
-                </Container>
+                </Container> */}
                 <Container>
                     <Typography variant="h5" component="p">Choose a category to play</Typography>
                     <Container sx={buttonGroup}>
-                        <MyButton text="Countries" />
-                        <MyButton text="Other Category" />
-                        <MyButton text="Other Category" />
-                        <MyButton text="Other Category" />
+                        {categories.map((category) => (
+                            <MyButton text={category} link={"/game/" + category} />
+                        ))}
                     </Container>
                 </Container>
             </Paper>
