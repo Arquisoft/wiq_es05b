@@ -5,6 +5,7 @@
     "main": "service.js",
     "scripts": {
         "start": "node gateway-service.js",
+        "dev": "nodemon gateway-service.js",
         "test": "jest"
     },
     "repository": {

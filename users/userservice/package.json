@@ -5,6 +5,7 @@
   "main": "service.js",
   "scripts": {
     "start": "node user-service.js",
+    "dev": "nodemon user-service.js",
     "test": "jest"
   },
   "repository": {
