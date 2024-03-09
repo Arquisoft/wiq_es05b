@@ -3,17 +3,22 @@ let express = require('express');
 let pg = require('pg');
 
 let app = express();
-let port = 8004;
+let port = 8005;
 
-const mongoUri = process.env.POSTGRES_URI || 'postgres://localhost:5432/ranking';
+const pgUri = "postgres://postgres:jordishhh@localhost:5432/postgres";
 
 //Endpoints 
-app.get("/ranking", async (req, res) => {
 
-})
+// get top n ranking
+app.get("/ranking/:n", async (req, res) => {
+    let client = new pg.Client(pgUri);
+    await client.connect();
 
-app.post('/score', async (req, res) => {
+    let result = await client.query('SELECT * FROM ranking ORDER BY points DESC LIMIT $1', [req.params.n]);
+    
+    res.send(result.rows);
 
+    client.end();
 });
 
 // Run the server

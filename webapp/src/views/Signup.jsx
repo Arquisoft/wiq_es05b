@@ -57,8 +57,7 @@ export default function Signup() {
       )}
 
       <Typography variant="body2" sx={{ marginTop: 2 }}>
-          {/* TODO - Add green color to link */}
-          Already have an account? <Link to="/login" style={{color: "#034001"}}>Login</Link>
+          Already have an account? <Link to="/login">Login</Link>
       </Typography>
       </Paper>
     </Container>

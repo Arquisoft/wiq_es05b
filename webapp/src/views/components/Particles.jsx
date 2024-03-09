@@ -15,7 +15,6 @@ export default function Particles() {
         top: "10%",
         height: "85%",
         width: "100%",
-        background: "rgba(255, 255, 255)",
         filter: "blur(2px)",
         zIndex: -1,
     }}

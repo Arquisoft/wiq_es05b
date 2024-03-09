@@ -3,9 +3,6 @@ const mongoose = require('mongoose')
 
 const QuestionsSchema = new mongoose.Schema(
     {
-        date: {
-            type: Date, default: Date.now()
-        },
         category: {
             type: String, required: true
         },

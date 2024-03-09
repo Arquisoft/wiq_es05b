@@ -1,0 +1,14 @@
+{
+    "scripts": {
+        "start": "npm run mongo && npm run postgres && ",
+        "mongo":  "docker run -d -p 27017:27017 --name=my-mongo mongo:latest",
+        "postgres": "docker run -d --name my_postgres -e POSTGRES_PASSWORD=jordishhh -p 5432:5432 postgres:latest",
+        "webapp": "cd webapp && npm start",
+        "gateway": "cd gatewayservice && npm start",
+        "auth": "cd users/authservice && npm start",
+        "user": "cd users/userservice && npm start",
+        "think": "cd jordi/jordi-think && npm start",
+        "ask": "cd jordi/jordi-ask && npm start",
+        "ranking": "cd ranking && npm start"
+    }
+}

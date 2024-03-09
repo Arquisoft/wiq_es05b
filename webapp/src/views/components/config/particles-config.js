@@ -17,7 +17,7 @@ const config = {
                 "color": "#000000"
         },
         "polygon": {
-            "nb_sides": 5
+            "nb_sides": 3
         },
         "image": {
             "src": "img/github.svg",
@@ -48,7 +48,7 @@ const config = {
     "line_linked": {
         "enable": true,
             "distance": 150,
-            "color": "#034001",
+            "color": "#104280",
             "opacity": 0.4,
             "width": 3
     },

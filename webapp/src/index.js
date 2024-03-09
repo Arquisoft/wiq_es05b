@@ -23,15 +23,15 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#055902', // Your primary color
+      main: '#2e3487', // Your primary color
       contrastText: '#FFF'
     },
     darkGreen: {
-        main: '#034001',
+        main: '#0f0f5e',
         contrastText: '#F2F2F2'
     },
     lightGreen: {
-        main: '#86A656',
+        main: '#5e86cf',
         contrastText: '#F2F2F2'
     }
   },

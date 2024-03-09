@@ -1,6 +1,6 @@
 const WikidataQAManager = require('../WikidataQAManager');
 
-// TODO: common languages repeat themselves across several questions
+// FIXME: common languages repeat themselves across several questions
 
 const sparqlquery = `
 SELECT DISTINCT ?question ?answer WHERE {

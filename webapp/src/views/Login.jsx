@@ -72,7 +72,7 @@ export default function Login() {
       )}
 
       <Typography variant="body2" sx={{ marginTop: 2 }}>
-        Don't have an account? <Link to="/signup" style={{color: "#034001"}}>Signup</Link>
+        Don't have an account? <Link to="/signup">Signup</Link>
       </Typography>
       </Paper>
     </Container>
