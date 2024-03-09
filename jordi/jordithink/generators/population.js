@@ -1,4 +1,4 @@
-const WikidataQAFetcher = require('../WikidataQAFetcher');
+const WikidataQAManager = require('../WikidataQAManager');
 
 const sparqlquery = `
 SELECT DISTINCT ?question ?answer WHERE {
@@ -15,10 +15,10 @@ const statements = [
     `Select the population of ?question`
 ]
 
-const population = new WikidataQAFetcher(
+const population = new WikidataQAManager(
     sparqlquery,
     statements,
-    "Geography"
+    "population"
 );
 
 module.exports = population;

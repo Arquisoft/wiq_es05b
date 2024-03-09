@@ -44,10 +44,20 @@ app.post('/adduser', async (req, res) => {
 
 //Question related endpoints
 
-app.get('/questions/mock', async (req, res) => {
+app.get('/categories', async (req, res) => {
   try {
     // Forward the get questions request to the user service
-    const questionResponse = await axios.get(questionServiceUrl+'/questions/mock');
+    const questionResponse = await axios.get(questionServiceUrl+`/categories`);
+    res.json(questionResponse.data);
+  } catch (error) {
+    res.status(error.response.status).json({ error: error.response.data.error });
+  }
+});
+
+app.get('/questions/:category', async (req, res) => {
+  try {
+    // Forward the get questions request to the user service
+    const questionResponse = await axios.get(questionServiceUrl+`/questions/${req.params.category}`);
     res.json(questionResponse.data);
   } catch (error) {
     res.status(error.response.status).json({ error: error.response.data.error });

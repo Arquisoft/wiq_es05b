@@ -1,6 +1,6 @@
-const WikidataQAFetcher = require('../WikidataQAFetcher');
+const WikidataQAManager = require('../WikidataQAManager');
 
-// Fix: common languages repeat themselves across several questions
+// TODO: common languages repeat themselves across several questions
 
 const sparqlquery = `
 SELECT DISTINCT ?question ?answer WHERE {
@@ -23,10 +23,10 @@ const statements = [
     `Select the official language of ?question`
 ];
 
-const languages = new WikidataQAFetcher(
+const languages = new WikidataQAManager(
     sparqlquery,
     statements,
-    ["Geography", "Languages"]
+    "languages"
 );
 
 module.exports = languages;

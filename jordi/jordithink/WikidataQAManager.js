@@ -2,15 +2,19 @@ const Question = require("../model/Question");
 
 const axios = require('axios');
 
-class WikidataQAFetcher {
+class WikidataQAManager {
 
-    constructor(sparqlquery, statements, categories) {
+    constructor(sparqlquery, statements, category) {
         this.sparqlquery = sparqlquery;
         this.statements = statements;
-        this.categories = categories;
+        this.category = category;
     }
 
-    async generate(n) {
+    getCategory() {
+        return this.category;
+    }
+
+    async generate() {
 
         const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(this.sparqlquery)}&format=json`;
 
@@ -18,19 +22,18 @@ class WikidataQAFetcher {
             const response = await axios.get(url);
             const data = response.data;
             if (data.results.bindings.length > 0) {
-
-                const nums = this.getNRandomNumbers(data.results.bindings.length, n);
+                
                 const questions = [];
 
-                nums.forEach(pos => {
+                data.results.bindings.forEach(q => {
     
-                    const questionParam = data.results.bindings[pos].question.value;
-                    const answer = data.results.bindings[pos].answer.value;
+                    const questionParam = q.question.value;
+                    const answer = q.answer.value;
                     const statement = this.getStatement(questionParam);
-                    const categories = this.categories;
+                    const category = this.getCategory();
 
                     questions.push(new Question({
-                        categories: categories,
+                        category: category,
                         statement: statement,
                         answer: answer,
                         options: [answer]
@@ -58,11 +61,9 @@ class WikidataQAFetcher {
 
             } else {
                 throw new Error("No Data found")
-                console.error(error);
             }
         } catch (error) {
             throw new Error("Error obtaining Data");
-            console.error(error);
         }
 
     }
@@ -86,4 +87,4 @@ class WikidataQAFetcher {
     
 }
 
-module.exports = WikidataQAFetcher;
+module.exports = WikidataQAManager;

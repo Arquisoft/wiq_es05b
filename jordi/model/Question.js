@@ -6,9 +6,9 @@ const QuestionsSchema = new mongoose.Schema(
         date: {
             type: Date, default: Date.now()
         },
-        categories: [{
+        category: {
             type: String, required: true
-        }],
+        },
         statement: {
             type: String, required: true
         },
