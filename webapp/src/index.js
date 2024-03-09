@@ -26,11 +26,11 @@ const theme = createTheme({
       main: '#2e3487', // Your primary color
       contrastText: '#FFF'
     },
-    darkGreen: {
+    dark: {
         main: '#0f0f5e',
         contrastText: '#F2F2F2'
     },
-    lightGreen: {
+    light: {
         main: '#5e86cf',
         contrastText: '#F2F2F2'
     }

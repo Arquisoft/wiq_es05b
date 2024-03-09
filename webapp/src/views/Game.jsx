@@ -64,10 +64,10 @@ export default function Game() {
 
             </Paper>
             <Container sx={{ display: "flex", justifyContent: "space-around", flexDirection: { xs: "column", md: "row" }, alignItems: { xs: "stretch" } }} >
-                <Button color="darkGreen" variant="contained" sx={buttonStyle} onClick={() => answer(0)}>A</Button>
-                <Button color="lightGreen" variant="contained" sx={buttonStyle} onClick={() => answer(1)}>B</Button>
-                <Button color="darkGreen" variant="contained" sx={buttonStyle} onClick={() => answer(2)}>C</Button>
-                <Button color="lightGreen" variant="contained" sx={buttonStyle} onClick={() => answer(3)}>D</Button>
+                <Button color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(0)}>A</Button>
+                <Button color="light" variant="contained" sx={buttonStyle} onClick={() => answer(1)}>B</Button>
+                <Button color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(2)}>C</Button>
+                <Button color="light" variant="contained" sx={buttonStyle} onClick={() => answer(3)}>D</Button>
             </Container>
 
         </Container>

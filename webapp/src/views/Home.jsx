@@ -41,7 +41,7 @@ function Home() {
                     <Button
                         variant="contained"
                         style={{ margin: "1rem", width: "20em", height: "4em" }}
-                        color="darkGreen"
+                        color="dark"
                         component={Link}
                         to="/menu"
                     >
