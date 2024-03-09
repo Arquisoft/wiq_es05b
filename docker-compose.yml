@@ -55,6 +55,7 @@ services:
     environment:
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
+      JORDI_SERVICE_URL: http://jordi:8003
 
   webapp:
     container_name: webapp-${teamname:-defaultASW}
@@ -67,7 +68,7 @@ services:
       - "3000:3000" 
 
   jordi:
-    image: ghcr.io/arquisoft/wiq_es05b/gatewayservice:latest
+    image: ghcr.io/arquisoft/wiq_es05b/jordi:latest
     container_name: jordi
     profiles: ["dev", "prod"]
     build: ./jordi

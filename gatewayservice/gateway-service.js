@@ -8,7 +8,7 @@ const port = 8000;
 
 const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
-const questionServiceUrl = 'http://localhost:8003';
+const questionServiceUrl = process.env.JORDI_SERVICE_URL || 'http://localhost:8003';
 
 app.use(cors());
 app.use(express.json());

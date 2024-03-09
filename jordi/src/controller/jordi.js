@@ -6,7 +6,7 @@ var port = 8003;
 
 //Endpoints 
 app.get('/questions/mock', function (req, res) {
-    const questions = questionService.getQuestionMock();
+    const questions = questionService.getQuestions();
     res.json(questions);
 });
 
