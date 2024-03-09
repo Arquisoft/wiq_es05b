@@ -15,7 +15,7 @@ export default function Particles() {
         top: "10%",
         height: "85%",
         width: "100%",
-        filter: "blur(2px)",
+        backgroundColor: "#e2e9ff",
         zIndex: -1,
     }}
         ></div>;
