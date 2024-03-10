@@ -45,7 +45,7 @@ function Home() {
                         component={Link}
                         to="/menu"
                     >
-                        Play without an account
+                        Play as guest
                     </Button>
                 </Container>
 

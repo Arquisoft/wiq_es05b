@@ -9,16 +9,17 @@ export default function Particles() {
         particlesJS('particles-js', config);
     }, []);
 
-    return <div id="particles-js" 
-    style={{
-        position: "absolute",
-        top: "10%",
-        height: "85%",
-        width: "100%",
-        backgroundColor: "#e2e9ff",
-        zIndex: -1,
-    }}
-        ></div>;
+    return <div 
+      id="particles-js"
+      style={{
+        position: "fixed", 
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0, 
+        zIndex: -1
+      }}
+    ></div>;
 
 };
 

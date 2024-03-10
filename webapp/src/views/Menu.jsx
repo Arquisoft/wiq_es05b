@@ -22,9 +22,14 @@ export default function GameMenu() {
     const [categories, setCategories] = useState([])
 
     const getCategories = async () => {
-        const response = await axios.get(`${apiEndpoint}/categories`);
-        setCategories(response.data);
-    };
+        try {
+          const response = await axios.get(`${apiEndpoint}/categories`);
+          console.log(response.data);
+          setCategories(response.data);
+        } catch (error) {
+          setCategories(['Service down Whoops! :('])
+        }
+      };
 
     useEffect(() => {
         getCategories();
