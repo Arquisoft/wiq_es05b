@@ -1,4 +1,4 @@
-import {Button, Container, Divider, Paper, Typography} from "@mui/material";
+import {Button, Container, Paper, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import axios from 'axios';
 import { useEffect, useState } from "react";
@@ -33,6 +33,7 @@ export default function GameMenu() {
 
     useEffect(() => {
         getCategories();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

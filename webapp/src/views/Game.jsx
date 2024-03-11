@@ -20,6 +20,7 @@ export default function Game() {
     //Fetch questions just at the beginning
     useEffect(() => {
         fetchQuestions(`${apiEndpoint}/questions/` + category);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const fetchQuestions = async (url) => {
@@ -34,7 +35,6 @@ export default function Game() {
             setCurrent(current + 1);
         }
     }
-
 
     const buttonStyle = {
         height: "10rem",
