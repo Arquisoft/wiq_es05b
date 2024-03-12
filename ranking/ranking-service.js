@@ -1,6 +1,7 @@
 
 let express = require('express');
 let pg = require('pg');
+import * as res from 'express/lib/response';
 
 let app = express();
 let port = 8005;
@@ -19,6 +20,20 @@ app.get("/ranking/:n", async (req, res) => {
     res.send(result.rows);
 
     client.end();
+});
+
+// add record
+app.post("/adduser", async (req, res) => {
+    
+    let client = new pg.Client(pgUri);
+    await client.connect();
+
+    let result = await client.query('INSERT INTO ranking (name, points) VALUES ($1)', [req.body.name, req.body.points]);
+
+    res.send(result.rows);
+
+    client.end(); 
+    
 });
 
 // Run the server
