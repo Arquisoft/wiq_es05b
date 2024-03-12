@@ -17,6 +17,9 @@ export default function Game() {
     // State to see correct answers
     const [correctAnswers, setCorrectAnswers] = useState(0);
 
+    // Time interval
+    const interval = null;
+
     //Fetch questions just at the beginning
     useEffect(() => {
         fetchQuestions(`${apiEndpoint}/questions/` + category);
@@ -34,6 +37,25 @@ export default function Game() {
             setCorrectAnswers(correctAnswers + 1);
             setCurrent(current + 1);
         }
+    }
+
+    startTimer = () => {
+        const countDownTime = Date.now() + 30000;
+        this.interval = setInterval(() => {
+            const now = new Date();
+            const distance = countDownTime - now;
+
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / (1000));
+
+            if (distance < 0) {
+                clearInterval(this.interval);
+                alert('Quiz has ended!');
+            } else {
+                
+            }
+        }, 1000);
+
     }
 
     const buttonStyle = {
