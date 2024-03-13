@@ -16,9 +16,15 @@ router.get('/questions/:category', async (req, res) => {
     const category = req.params.category;
     await mongoose.connect(mongoUri);
     let result = await mongoose.connection.collection('questions').find({category: category}).toArray();
-
     await mongoose.disconnect();
-    res.json(result);
+
+    //Return questions without answer
+    const answerLessQuestions = result.map(q => {
+        const {answer, ...rest} = q;
+        return rest;
+    });
+
+    res.json(answerLessQuestions);
 });
 
 router.post('/answer', async (req, res) => {
