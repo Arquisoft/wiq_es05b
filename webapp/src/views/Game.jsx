@@ -33,6 +33,8 @@ export default function Game() {
         if (questions[current].answer === questions[current].options[i]) {
             setCorrectAnswers(correctAnswers + 1);
             setCurrent(current + 1);
+        } else {
+            setCurrent(current + 1);
         }
     }
 
