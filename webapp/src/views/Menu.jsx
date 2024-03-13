@@ -25,7 +25,6 @@ export default function GameMenu () {
     const getCategories = async () => {
         try {
           const response = await axios.get(`${apiEndpoint}/categories`);
-          console.log(response.data);
           setCategories(response.data);
         } catch (error) {
           setCategories(['Service down Whoops! :('])

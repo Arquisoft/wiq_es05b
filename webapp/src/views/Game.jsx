@@ -1,13 +1,16 @@
 import { Button, Container, Divider, Paper, Typography, LinearProgress, Box } from "@mui/material";
-import { useState, useEffect, useRef, Fragment } from "react";
+import { useState, useEffect, useRef, Fragment, useContext } from "react";
 import { useParams } from "react-router-dom";
 import ProtectedComponent from "./components/ProtectedComponent";
+import axios from "axios";
+import { AuthContext } from "../App";
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 export default function Game() {
 
     const { category } = useParams();
+    const { user } = useContext(AuthContext)
 
     //State storing all questions
     const [questions, setQuestions] = useState([]);
@@ -54,7 +57,7 @@ export default function Game() {
                 setProgressBarPercent(0);
             }
         }
-    }, [timeLeft]);
+    }, [timeLeft, progressBarPercent, current]);
 
 
     //Fetch questions just at the beginning
@@ -72,22 +75,14 @@ export default function Game() {
     const answer = async (i) => {
         //Server-side validation
         const params = {
+            token: JSON.parse(user)["token"],
             id: questions[current]._id,
             answer: questions[current].options[i]
         }
 
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(params)
-        };
+        const response = await axios.post(`${apiEndpoint}/game/answer`, params)
 
-        const response = await fetch(`${apiEndpoint}/game/answer`, requestOptions);
-        const result = await response.json();
-
-        if (result === true) {
+        if (response.data === true) {
             setCorrectAnswers(correctAnswers + 1);
             changeButtonColor(i, true);
         } else
@@ -103,7 +98,6 @@ export default function Game() {
         const button = document.getElementById(`button${i}`);
 
         const currentColor = button.style.backgroundColor;
-
 
         const color = isCorrect ? "green" : "red";
         button.style.backgroundColor = color;

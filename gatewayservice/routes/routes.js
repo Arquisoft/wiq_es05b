@@ -47,7 +47,6 @@ router.get("/categories", async (req, res) => {
     );
     res.json(questionResponse.data);
   } catch (error) {
-    console.log(error);
     res
       .status(error.response.status)
       .json({ error: error.response.data.error });

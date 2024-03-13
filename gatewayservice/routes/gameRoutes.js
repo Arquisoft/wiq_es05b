@@ -16,18 +16,9 @@ router.post("/answer", authMiddleware, async (req, res) => {
         answer: req.body.answer
     }
 
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(params)
-    };
+    const response = await axios.post(`${questionServiceUrl}/answer`, params);
 
-    const response = await fetch(`${questionServiceUrl}/answer`, requestOptions);
-    const result = await response.json();
-
-    res.send(result);
+    res.send(response.data);
 
 });
 

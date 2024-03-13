@@ -124,7 +124,7 @@ export default function Nav() {
               {settings.map((setting) => {
                 let logged = false
                 if(userData && userData !== "") logged = true
-                if (logged !== setting.logged) return
+                if (logged !== setting.logged) return null
                 return (<MenuItem key={setting.displayed} onClick={handleCloseUserMenu} component={Link} to={setting.link}>
                   <Typography textAlign="center">{setting.displayed}</Typography>
                 </MenuItem>)

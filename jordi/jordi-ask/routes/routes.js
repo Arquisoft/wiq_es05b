@@ -1,6 +1,6 @@
 let express = require('express');
 let mongoose = require('mongoose');
-const { ObjectId } = require('mongodb');
+let ObjectId = mongoose.Types.ObjectId
 let router = express.Router();
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/questions';
@@ -18,7 +18,10 @@ router.get('/questions/:category', async (req, res) => {
     let result = await mongoose.connection.collection('questions').find({category: category}).toArray();
     await mongoose.disconnect();
 
-    //Return questions without answer
+    // Randomize the order of questions
+    result = result.sort(() => Math.random() - 0.5);
+
+    // Return questions without answer
     const answerLessQuestions = result.map(q => {
         const {answer, ...rest} = q;
         return rest;
@@ -31,8 +34,7 @@ router.post('/answer', async (req, res) => {
     const {id, answer} = req.body;
 
     await mongoose.connect(mongoUri);
-    const idObj = new ObjectId(id);
-    const question = await mongoose.connection.collection('questions').findOne({_id: idObj});    
+    const question = await mongoose.connection.collection('questions').findOne({_id: new ObjectId(id)});    
     await mongoose.disconnect();
 
     if(answer === question.answer)

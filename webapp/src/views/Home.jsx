@@ -37,18 +37,6 @@ function Home() {
                     </Button>
                 </Container>
 
-                <Container>
-                    <Button
-                        variant="contained"
-                        style={{ margin: "1rem", width: "20em", height: "4em" }}
-                        color="dark"
-                        component={Link}
-                        to="/menu"
-                    >
-                        Play as guest
-                    </Button>
-                </Container>
-
 
             </Container>
         </Fragment>
