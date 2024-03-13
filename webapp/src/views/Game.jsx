@@ -18,7 +18,7 @@ export default function Game() {
     const [correctAnswers, setCorrectAnswers] = useState(0);
 
     // Linear time bar
-    const initialTime = 15; // seconds
+    const initialTime = 10; // seconds
 
     const [timeLeft, setTimeLeft] = useState(initialTime);
 
@@ -49,7 +49,7 @@ export default function Game() {
  
             if (timeLeft === 0 && timerId.current) {
                 setCurrent(current + 1);
-                setTimeLeft(15);
+                setTimeLeft(initialTime);
                 setProgressBarPercent(0);
             }
         }
@@ -72,7 +72,7 @@ export default function Game() {
         if (questions[current].answer === questions[current].options[i]) {
             setCorrectAnswers(correctAnswers + 1);
             setCurrent(current + 1);
-            setTimeLeft(15);
+            setTimeLeft(initialTime);
         }
     }
 
@@ -80,6 +80,15 @@ export default function Game() {
         height: "10rem",
         width: { xs: "auto", md: "10rem" },
         fontSize: "4rem"
+    }
+
+    const MiLinea = () => {
+        if(progressBarPercent > 80) {
+            return (<LinearProgress color="red" variant={"determinate"} value={progressBarPercent} />)
+        } else {
+            return (<LinearProgress color="light" variant={"determinate"} value={progressBarPercent} />)
+        }
+        
     }
 
     if (questions.length === 0)
@@ -103,17 +112,14 @@ export default function Game() {
                 ))}
 
             </Paper>
-            <Box><LinearProgress color="light" variant={"determinate"} value={progressBarPercent} 
-                 sx={{
-                    [`& .${linearProgressClasses.bar1Determinate}`]: {
-                        backgroundColor: progressBarPercent > 80 ? "red" : "blue"
-                    }
-                }}/>
-            </Box>
-            <Box sx={{ ml: 1, display: "flex" }}>
-                <Typography sx={{ fontWeight: 400, fontSize: "10px" }}>
+            
+            <Box sx={{ ml: 1, display: "flex", margin: "5px" }}>
+                <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
                     Time left: {timeLeft}
                 </Typography>
+            </Box>
+            <Box sx={{ margin: "10px" }}>
+                <MiLinea />
             </Box>
                 
             <Container sx={{ display: "flex", justifyContent: "space-around", flexDirection: { xs: "column", md: "row" }, alignItems: { xs: "stretch" } }} >
