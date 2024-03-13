@@ -1,5 +1,5 @@
-import { Button, Container, Divider, Paper, Typography } from "@mui/material";
-import { useState, useEffect } from "react";
+import { Button, Container, Divider, Paper, Typography, LinearProgress, linearProgressClasses, Box } from "@mui/material";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
@@ -17,8 +17,44 @@ export default function Game() {
     // State to see correct answers
     const [correctAnswers, setCorrectAnswers] = useState(0);
 
-    // Time interval
-    const interval = null;
+    // Linear time bar
+    const initialTime = 15; // seconds
+
+    const [timeLeft, setTimeLeft] = useState(initialTime);
+
+    const [progressBarPercent, setProgressBarPercent] = useState(0);
+
+    const timerId = useRef();
+
+    useEffect(() => {
+        if (initialTime) {
+            timerId.current = window.setInterval(() => {
+                setTimeLeft((prevProgress) => prevProgress - 1);
+            }, 1000);
+ 
+            return () => {
+                clearInterval(timerId.current);
+            };
+        }
+    }, []);
+
+    useEffect(() => {
+        if (initialTime) {
+            if (progressBarPercent < 100) {
+                let updateProgressPercent = Math.round(
+                    ((initialTime - (timeLeft - 1)) / initialTime) * 100
+                );
+                setProgressBarPercent(updateProgressPercent);
+            }
+ 
+            if (timeLeft === 0 && timerId.current) {
+                setCurrent(current + 1);
+                setTimeLeft(15);
+                setProgressBarPercent(0);
+            }
+        }
+    }, [timeLeft]);
+
 
     //Fetch questions just at the beginning
     useEffect(() => {
@@ -36,26 +72,8 @@ export default function Game() {
         if (questions[current].answer === questions[current].options[i]) {
             setCorrectAnswers(correctAnswers + 1);
             setCurrent(current + 1);
+            setTimeLeft(15);
         }
-    }
-
-    startTimer = () => {
-        const countDownTime = Date.now() + 30000;
-        this.interval = setInterval(() => {
-            const now = new Date();
-            const distance = countDownTime - now;
-
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / (1000));
-
-            if (distance < 0) {
-                clearInterval(this.interval);
-                alert('Quiz has ended!');
-            } else {
-                
-            }
-        }, 1000);
-
     }
 
     const buttonStyle = {
@@ -85,6 +103,19 @@ export default function Game() {
                 ))}
 
             </Paper>
+            <Box><LinearProgress color="light" variant={"determinate"} value={progressBarPercent} 
+                 sx={{
+                    [`& .${linearProgressClasses.bar1Determinate}`]: {
+                        backgroundColor: progressBarPercent > 80 ? "red" : "blue"
+                    }
+                }}/>
+            </Box>
+            <Box sx={{ ml: 1, display: "flex" }}>
+                <Typography sx={{ fontWeight: 400, fontSize: "10px" }}>
+                    Time left: {timeLeft}
+                </Typography>
+            </Box>
+                
             <Container sx={{ display: "flex", justifyContent: "space-around", flexDirection: { xs: "column", md: "row" }, alignItems: { xs: "stretch" } }} >
                 <Button color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(0)}>A</Button>
                 <Button color="light" variant="contained" sx={buttonStyle} onClick={() => answer(1)}>B</Button>
