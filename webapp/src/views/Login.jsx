@@ -1,12 +1,14 @@
-// src/components/Login.jsx
-import React, { useState } from 'react';
-// import axios from 'axios';
+import React, { useState, useContext } from 'react';
+import axios from 'axios';
 import {Container, Typography, TextField, Button, Snackbar, Paper} from '@mui/material';
 import {Link} from "react-router-dom"
 import { Navigate } from 'react-router';
+import { AuthContext } from '../App';
+
+
 
 export default function Login() {
-
+  const { _ , setUser } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,16 +16,23 @@ export default function Login() {
   // const [createdAt, setCreatedAt] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  // const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
-
+  const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
   const loginUser = async () => {
     try {
       // TODO - Persist the user jwt token in the browser's local storage
       // TODO - Disabled for first release
-      // const response = await axios.post(`${apiEndpoint}/login`, { username, password });
+      const response = await axios.post(`${apiEndpoint}/login`, { username, password });
 
-      // Extract data from the response
-      // const { createdAt: userCreatedAt } = response.data;
+      if (response.data.error) {
+        setError(response.data.error);
+        setLoginSuccess(false);
+        localStorage.removeItem("user");
+        return;
+      }
+
+      const { token, username: user } = response.data;
+      
+      setUser(JSON.stringify({token: token, username: user}))
 
       // setCreatedAt(userCreatedAt);
       setLoginSuccess(true);

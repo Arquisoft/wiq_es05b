@@ -1,5 +1,6 @@
 let express = require('express');
 let mongoose = require('mongoose');
+const { ObjectId } = require('mongodb');
 let router = express.Router();
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/questions';
@@ -18,6 +19,20 @@ router.get('/questions/:category', async (req, res) => {
 
     await mongoose.disconnect();
     res.json(result);
+});
+
+router.post('/answer', async (req, res) => {
+    const {id, answer} = req.body;
+
+    await mongoose.connect(mongoUri);
+    const idObj = new ObjectId(id);
+    const question = await mongoose.connection.collection('questions').findOne({_id: idObj});    
+    await mongoose.disconnect();
+
+    if(answer === question.answer)
+        res.json('true');
+    else    
+        res.json('false');
 });
 
 module.exports = router
