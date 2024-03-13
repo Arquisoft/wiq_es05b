@@ -29,8 +29,25 @@ export default function Game() {
         setQuestions(data);
     }
 
-    const answer = (i) => {
-        if (questions[current].answer === questions[current].options[i]) {
+    const answer = async (i) => {
+        //Server-side validation
+        const params = {
+            id: questions[current]._id,
+            answer: questions[current].options[i]
+        }
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify(params)
+        };
+
+        const response = await fetch(`${apiEndpoint}/game/answer`, requestOptions);
+        const result = await response.json();
+        
+        if(result === true) {
             setCorrectAnswers(correctAnswers + 1);
             setCurrent(current + 1);
         }
