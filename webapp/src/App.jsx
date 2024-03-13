@@ -28,6 +28,10 @@ const theme = createTheme({
       main: "#5e86cf",
       contrastText: "#F2F2F2",
     },
+    red: {
+      main: '#BA0000',
+      contrastText: '#FFF'
+    }
   },
 
   typography: {

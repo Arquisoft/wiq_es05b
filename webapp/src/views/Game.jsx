@@ -1,5 +1,5 @@
-import { Button, Container, Divider, Paper, Typography } from "@mui/material";
-import { useState, useEffect } from "react";
+import { Button, Container, Divider, Paper, Typography, LinearProgress, linearProgressClasses, Box } from "@mui/material";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
@@ -22,6 +22,45 @@ export default function Game() {
 
     // State to track if the answer is correct or incorrect
     const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
+
+    // Linear time bar
+    const initialTime = 10; // seconds
+
+    const [timeLeft, setTimeLeft] = useState(initialTime);
+
+    const [progressBarPercent, setProgressBarPercent] = useState(0);
+
+    const timerId = useRef();
+
+    useEffect(() => {
+        if (initialTime) {
+            timerId.current = window.setInterval(() => {
+                setTimeLeft((prevProgress) => prevProgress - 1);
+            }, 1000);
+ 
+            return () => {
+                clearInterval(timerId.current);
+            };
+        }
+    }, []);
+
+    useEffect(() => {
+        if (initialTime) {
+            if (progressBarPercent < 100) {
+                let updateProgressPercent = Math.round(
+                    ((initialTime - (timeLeft - 1)) / initialTime) * 100
+                );
+                setProgressBarPercent(updateProgressPercent);
+            }
+ 
+            if (timeLeft === 0 && timerId.current) {
+                setCurrent(current + 1);
+                setTimeLeft(initialTime);
+                setProgressBarPercent(0);
+            }
+        }
+    }, [timeLeft]);
+
 
     //Fetch questions just at the beginning
     useEffect(() => {
@@ -66,6 +105,7 @@ export default function Game() {
         });
         setTimeout(() => {
             setCurrent(current + 1);
+            setTimeLeft(initialTime);
             setIsAnswerCorrect(null);
         }, 200);
     }
@@ -78,6 +118,15 @@ export default function Game() {
             backgroundColor: clickedButtonIndices[current] === i ? (isAnswerCorrect ? "green" : "red") : "inherit" // Apply green color if the answer is correct, red if incorrect, and this button was clicked
         };
     };
+
+    const MiLinea = () => {
+        if(progressBarPercent > 80) {
+            return (<LinearProgress color="red" variant={"determinate"} value={progressBarPercent} />)
+        } else {
+            return (<LinearProgress color="light" variant={"determinate"} value={progressBarPercent} />)
+        }
+        
+    }
 
     if (questions.length === 0)
         return null;
@@ -98,6 +147,16 @@ export default function Game() {
                 ))}
 
             </Paper>
+            
+            <Box sx={{ ml: 1, display: "flex", margin: "5px" }}>
+                <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
+                    Time left: {timeLeft}
+                </Typography>
+            </Box>
+            <Box sx={{ margin: "10px" }}>
+                <MiLinea />
+            </Box>
+                
             <Container sx={{ display: "flex", justifyContent: "space-around", flexDirection: { xs: "column", md: "row" }, alignItems: { xs: "stretch" } }} >
                 <Button color="dark" variant="contained" sx={buttonStyle(0)} onClick={() => answer(0)}>A</Button>
                 <Button color="light" variant="contained" sx={buttonStyle(1)} onClick={() => answer(1)}>B</Button>
