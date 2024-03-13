@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { AppBar, Box, Container, IconButton, Toolbar, Tooltip, Avatar, Button, Typography, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
 import { ReactComponent as CustomIcon } from '../../media/logoS.svg';
+import { AuthContext } from '../../App';
 
 const pages = [
   { displayed: 'Home', link: '/home' },
@@ -11,14 +12,14 @@ const pages = [
 ];
 
 const settings = [
-  { displayed: 'Account', link: '/account' },
-  { displayed: 'Sign Up', link: '/signup' },
-  { displayed: 'Login', link: '/login' },
-  { displayed: 'Logout', link: '/logout' }
+  { displayed: 'Account', link: '/account', logged: true },
+  { displayed: 'Sign Up', link: '/signup', logged: false },
+  { displayed: 'Login', link: '/login', logged: false },
+  { displayed: 'Logout', link: '/logout', logged: true }
 ];
 
 export default function Nav() {
-
+  const { user, _ } = useContext(AuthContext)
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [width, setWidth] = useState(window.innerWidth);
@@ -28,6 +29,8 @@ export default function Nav() {
   const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
   const handleCloseNavMenu = () => setAnchorElNav(null);
   const handleCloseUserMenu = () => setAnchorElUser(null);
+
+  const userData = JSON.parse(user)
 
   useEffect(() => {
     const handleResizeWindow = () => setWidth(window.innerWidth);
@@ -75,6 +78,11 @@ export default function Nav() {
     </Box>
   );
 
+  const MyAvatar = () => {
+    if (!userData) return <Avatar alt="Suspicious User"></Avatar>
+    return <Avatar alt={userData["username"]}>{userData["username"] ? userData["username"].charAt(0) : ""}</Avatar>
+  }
+
   return (
     <AppBar position="sticky">
       <Container maxWidth="xl">
@@ -85,7 +93,7 @@ export default function Nav() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Jordi Hurtado" src="https://i.imgur.com/rnFjdQJ.jpeg" />
+                <MyAvatar />
               </IconButton>
             </Tooltip>
             <Menu
@@ -98,11 +106,14 @@ export default function Nav() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting.displayed} onClick={handleCloseUserMenu} component={Link} to={setting.link}>
+              {settings.map((setting) => {
+                let logged = false
+                if(userData && userData !== "") logged = true
+                if (logged !== setting.logged) return
+                return (<MenuItem key={setting.displayed} onClick={handleCloseUserMenu} component={Link} to={setting.link}>
                   <Typography textAlign="center">{setting.displayed}</Typography>
-                </MenuItem>
-              ))}
+                </MenuItem>)
+              })}
             </Menu>
           </Box>
         </Toolbar>
