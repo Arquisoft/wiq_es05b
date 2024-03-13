@@ -19,7 +19,7 @@ const settings = [
 ];
 
 export default function Nav() {
-  const { user, _ } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [width, setWidth] = useState(window.innerWidth);
@@ -109,7 +109,7 @@ export default function Nav() {
               {settings.map((setting) => {
                 let logged = false
                 if(userData && userData !== "") logged = true
-                if (logged !== setting.logged) return
+                if (logged !== setting.logged) return null
                 return (<MenuItem key={setting.displayed} onClick={handleCloseUserMenu} component={Link} to={setting.link}>
                   <Typography textAlign="center">{setting.displayed}</Typography>
                 </MenuItem>)

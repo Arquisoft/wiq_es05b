@@ -1,7 +1,8 @@
 import {Button, Container, Paper, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import axios from 'axios';
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import ProtectedComponent from "./components/ProtectedComponent";
 
 const buttonConfig = {
     width: "9rem",
@@ -16,7 +17,7 @@ const MyButton = ({text, link}) => {
     )
 }
 
-export default function GameMenu() {
+export default function GameMenu () {
 
     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
     const [categories, setCategories] = useState([])
@@ -37,29 +38,32 @@ export default function GameMenu() {
     }, [])
 
     return (
-        <Container component="main" maxWidth="md" sx={{ marginTop: 4, display: "flex", flexDirection: {xs:"row", md:"column"} }}>
-            <Paper elevation={3} sx={{margin: "2rem 0", padding: "1rem", textAlign: "center"}}>
-                <Typography variant="h3" component="p" sx={{marginBottom: "2rem"}}>
-                    Menu
-                </Typography>
-                {/* <Container>
-                    <Typography variant="h5" component="p">
-                        Options
+        <Fragment>
+            <ProtectedComponent />
+            <Container component="main" maxWidth="md" sx={{ marginTop: 4, display: "flex", flexDirection: {xs:"row", md:"column"} }}>
+                <Paper elevation={3} sx={{margin: "2rem 0", padding: "1rem", textAlign: "center"}}>
+                    <Typography variant="h3" component="p" sx={{marginBottom: "2rem"}}>
+                        Menu
                     </Typography>
-                    <Container sx={buttonGroup}>
-                        <MyButton text="Time" />
-                        <MyButton text="Custom" />
+                    {/* <Container>
+                        <Typography variant="h5" component="p">
+                            Options
+                        </Typography>
+                        <Container sx={buttonGroup}>
+                            <MyButton text="Time" />
+                            <MyButton text="Custom" />
+                        </Container>
+                    </Container> */}
+                    <Container>
+                        <Typography variant="h5" component="p">Choose a category to play</Typography>
+                        <Container sx={buttonGroup}>
+                            {categories.map((category) => (
+                                <MyButton text={category} link={"/game/" + category} />
+                            ))}
+                        </Container>
                     </Container>
-                </Container> */}
-                <Container>
-                    <Typography variant="h5" component="p">Choose a category to play</Typography>
-                    <Container sx={buttonGroup}>
-                        {categories.map((category) => (
-                            <MyButton text={category} link={"/game/" + category} />
-                        ))}
-                    </Container>
-                </Container>
-            </Paper>
-        </Container>
+                </Paper>
+            </Container>
+        </Fragment>
     )
 }

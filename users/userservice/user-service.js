@@ -38,7 +38,8 @@ app.post('/adduser', async (req, res) => {
         });
 
         await newUser.save();
-        res.json(newUser);
+        // res.json(newUser);
+        res.json({ message: 'User created successfully' });
     } catch (error) {
         res.status(400).json({ error: error.message }); 
     }});

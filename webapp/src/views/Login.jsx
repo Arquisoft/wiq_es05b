@@ -8,12 +8,11 @@ import { AuthContext } from '../App';
 
 
 export default function Login() {
-  const { _ , setUser } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loginSuccess, setLoginSuccess] = useState(false);
-  // const [createdAt, setCreatedAt] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
@@ -34,7 +33,6 @@ export default function Login() {
       
       setUser(JSON.stringify({token: token, username: user}))
 
-      // setCreatedAt(userCreatedAt);
       setLoginSuccess(true);
 
       setOpenSnackbar(true);

@@ -38,6 +38,7 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
+      SECRET: a-very-secret-string
 
   userservice:
     container_name: userservice-${teamname:-wiq_es05b}
@@ -70,6 +71,7 @@ services:
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
       JORDI_ASK_SERVICE_URL: http://jordi-ask:8003
+      SECRET: a-very-secret-string
 
   webapp:
     container_name: webapp-${teamname:-wiq_es05b}

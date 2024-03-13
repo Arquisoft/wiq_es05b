@@ -1,6 +1,7 @@
-import { Button, Container, Divider, Paper, Typography, LinearProgress, linearProgressClasses, Box } from "@mui/material";
-import { useState, useEffect, useRef } from "react";
+import { Button, Container, Divider, Paper, Typography, LinearProgress, Box } from "@mui/material";
+import { useState, useEffect, useRef, Fragment } from "react";
 import { useParams } from "react-router-dom";
+import ProtectedComponent from "./components/ProtectedComponent";
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
@@ -132,7 +133,9 @@ export default function Game() {
         return null;
 
     return (
-        <Container component="main" maxWidth="md" sx={{ marginTop: 4, display: "flex", flexDirection: { xs: "row", md: "column" } }}>
+        <Fragment>
+            <ProtectedComponent />
+            <Container component="main" maxWidth="md" sx={{ marginTop: 4, display: "flex", flexDirection: { xs: "row", md: "column" } }}>
             <Paper elevation={3} sx={{ margin: "2rem 0", padding: "1rem" }}>
                 <Typography variant="h4">
                     {questions[current].statement}
@@ -165,5 +168,6 @@ export default function Game() {
             </Container>
 
         </Container>
+        </Fragment>
     )
 }
