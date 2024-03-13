@@ -18,12 +18,6 @@ export default function Game() {
     // State to see correct answers
     const [correctAnswers, setCorrectAnswers] = useState(0);
 
-    // State to store the index of the clicked button for each question
-    const [clickedButtonIndices, setClickedButtonIndices] = useState([]);
-
-    // State to track if the answer is correct or incorrect
-    const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
-
     // Linear time bar
     const initialTime = 10; // seconds
 
@@ -38,7 +32,7 @@ export default function Game() {
             timerId.current = window.setInterval(() => {
                 setTimeLeft((prevProgress) => prevProgress - 1);
             }, 1000);
- 
+
             return () => {
                 clearInterval(timerId.current);
             };
@@ -53,7 +47,7 @@ export default function Game() {
                 );
                 setProgressBarPercent(updateProgressPercent);
             }
- 
+
             if (timeLeft === 0 && timerId.current) {
                 setCurrent(current + 1);
                 setTimeLeft(initialTime);
@@ -85,48 +79,53 @@ export default function Game() {
         const requestOptions = {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json' 
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(params)
         };
 
         const response = await fetch(`${apiEndpoint}/game/answer`, requestOptions);
         const result = await response.json();
-        
-        if(result === true) {
+
+        if (result === true) {
             setCorrectAnswers(correctAnswers + 1);
-            setIsAnswerCorrect(true);
-        } else {
-            setIsAnswerCorrect(false);
-        }
-        setClickedButtonIndices(prevIndices => {
-            const updatedIndices = [...prevIndices];
-            updatedIndices[current] = i; // Store the clicked button index for the current question
-            return updatedIndices;
-        });
+            changeButtonColor(i, true);
+        } else
+            changeButtonColor(i, false);
+
         setTimeout(() => {
             setCurrent(current + 1);
             setTimeLeft(initialTime);
-            setIsAnswerCorrect(null);
         }, 200);
     }
 
-    const buttonStyle = (i) => {
-        return {
-            height: "10rem",
-            width: { xs: "auto", md: "10rem" },
-            fontSize: "4rem",
-            backgroundColor: clickedButtonIndices[current] === i ? (isAnswerCorrect ? "green" : "red") : "inherit" // Apply green color if the answer is correct, red if incorrect, and this button was clicked
-        };
-    };
+    const changeButtonColor = (i, isCorrect) => {
+        const button = document.getElementById(`button${i}`);
+
+        const currentColor = button.style.backgroundColor;
+
+
+        const color = isCorrect ? "green" : "red";
+        button.style.backgroundColor = color;
+
+        setTimeout(() => {
+            button.style.backgroundColor = currentColor;
+        }, 500);
+    }
+
+    const buttonStyle = {
+        height: "10rem",
+        width: { xs: "auto", md: "10rem" },
+        fontSize: "4rem"
+    }
 
     const MiLinea = () => {
-        if(progressBarPercent > 80) {
+        if (progressBarPercent > 80) {
             return (<LinearProgress color="red" variant={"determinate"} value={progressBarPercent} />)
         } else {
             return (<LinearProgress color="light" variant={"determinate"} value={progressBarPercent} />)
         }
-        
+
     }
 
     if (questions.length === 0)
@@ -150,7 +149,7 @@ export default function Game() {
                 ))}
 
             </Paper>
-            
+
             <Box sx={{ ml: 1, display: "flex", margin: "5px" }}>
                 <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
                     Time left: {timeLeft}
@@ -159,12 +158,12 @@ export default function Game() {
             <Box sx={{ margin: "10px" }}>
                 <MiLinea />
             </Box>
-                
+
             <Container sx={{ display: "flex", justifyContent: "space-around", flexDirection: { xs: "column", md: "row" }, alignItems: { xs: "stretch" } }} >
-                <Button color="dark" variant="contained" sx={buttonStyle(0)} onClick={() => answer(0)}>A</Button>
-                <Button color="light" variant="contained" sx={buttonStyle(1)} onClick={() => answer(1)}>B</Button>
-                <Button color="dark" variant="contained" sx={buttonStyle(2)} onClick={() => answer(2)}>C</Button>
-                <Button color="light" variant="contained" sx={buttonStyle(3)} onClick={() => answer(3)}>D</Button>
+                <Button id="button0" color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(0)}>A</Button>
+                <Button id="button1" color="light" variant="contained" sx={buttonStyle} onClick={() => answer(1)}>B</Button>
+                <Button id="button2" color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(2)}>C</Button>
+                <Button id="button3" color="light" variant="contained" sx={buttonStyle} onClick={() => answer(3)}>D</Button>
             </Container>
 
         </Container>

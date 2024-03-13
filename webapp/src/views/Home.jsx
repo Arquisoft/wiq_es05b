@@ -2,7 +2,7 @@ import Container from "@mui/material/Container";
 import { Button } from "@mui/material";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { ReactComponent as Logo } from '../media/logoL.svg';
+import { ReactComponent as Logo } from '../media/logoM.svg';
 
 function Home() {
 
@@ -22,8 +22,8 @@ function Home() {
                 top: "50%"
             }}
             >
-                <Container className="svg-container" style={{ textAlign: "center", margin: "1rem" }}>
-                    <Logo style={{ width: '75%', height: '75%' }} />
+                <Container className="svg-container" style={{ textAlign: "center", margin: "0rem" }}>
+                    <Logo style={{ width: '40%' }} />
                 </Container>
 
                 <Container>

@@ -14,11 +14,21 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Particles from "./views/components/Particles";
 import React, { useState, useEffect } from "react";
 
+import configDefault from "./views/components/config/particles-config.json";
+import configJordi from "./views/components/config/particles-config-jordi";
+import configGraph from "./views/components/config/particles-config-graph";
+
+import { ConfigContext } from "./views/context/ConfigContext";
+
 const theme = createTheme({
   palette: {
     primary: {
       main: "#2e3487", // Your primary color
       contrastText: "#FFF",
+    },
+    secondary: {
+      main: "#f2f2f2", // Your secondary color
+      contrastText: "#2e3487",
     },
     dark: {
       main: "#0f0f5e",
@@ -44,7 +54,21 @@ const theme = createTheme({
 export const AuthContext = React.createContext();
 
 export default function App() {
+
   const [user, setUser] = useState(localStorage.getItem("user") || null);
+  const [config, setConfig] = useState(configDefault);
+
+  let configs = [
+    configDefault,
+    configGraph,
+    configJordi,
+  ];
+
+  function swapConfig() {
+    const currentIndex = configs.findIndex(c => c === config);
+    const nextIndex = (currentIndex + 1) % configs.length;
+    setConfig(configs[nextIndex]);
+  }
 
   useEffect(() => {
     if(!user)
@@ -55,6 +79,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <ConfigContext.Provider value={{ config, swapConfig }}>
       <AuthContext.Provider value={{user: user, setUser:setUser}}>
         <Nav />
         <Particles />
@@ -72,6 +97,7 @@ export default function App() {
         </Routes>
         <Footer />
       </AuthContext.Provider>
+      </ConfigContext.Provider>
     </ThemeProvider>
   );
 }
