@@ -6,7 +6,7 @@ const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000
 
 export default function Game() {
 
-    const {category} = useParams();
+    const { category } = useParams();
 
     //State storing all questions
     const [questions, setQuestions] = useState([]);
@@ -16,6 +16,12 @@ export default function Game() {
 
     // State to see correct answers
     const [correctAnswers, setCorrectAnswers] = useState(0);
+
+    // State to store the index of the clicked button for each question
+    const [clickedButtonIndices, setClickedButtonIndices] = useState([]);
+
+    // State to track if the answer is correct or incorrect
+    const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
 
     //Fetch questions just at the beginning
     useEffect(() => {
@@ -49,15 +55,29 @@ export default function Game() {
         
         if(result === true) {
             setCorrectAnswers(correctAnswers + 1);
-            setCurrent(current + 1);
+            setIsAnswerCorrect(true);
+        } else {
+            setIsAnswerCorrect(false);
         }
+        setClickedButtonIndices(prevIndices => {
+            const updatedIndices = [...prevIndices];
+            updatedIndices[current] = i; // Store the clicked button index for the current question
+            return updatedIndices;
+        });
+        setTimeout(() => {
+            setCurrent(current + 1);
+            setIsAnswerCorrect(null);
+        }, 200);
     }
 
-    const buttonStyle = {
-        height: "10rem",
-        width: { xs: "auto", md: "10rem" },
-        fontSize: "4rem"
-    }
+    const buttonStyle = (i) => {
+        return {
+            height: "10rem",
+            width: { xs: "auto", md: "10rem" },
+            fontSize: "4rem",
+            backgroundColor: clickedButtonIndices[current] === i ? (isAnswerCorrect ? "green" : "red") : "inherit" // Apply green color if the answer is correct, red if incorrect, and this button was clicked
+        };
+    };
 
     if (questions.length === 0)
         return null;
@@ -72,19 +92,17 @@ export default function Game() {
                 <Divider sx={{ margin: "10px 0" }} />
 
                 {questions[current].options.map((option, i) => (
-
-                <Typography key={i} component="p" variant="h6">
-                    {String.fromCharCode(97 + i).toUpperCase()}. {option} 
-                </Typography>
-
+                    <Typography key={i} component="p" variant="h6">
+                        {String.fromCharCode(97 + i).toUpperCase()}. {option}
+                    </Typography>
                 ))}
 
             </Paper>
             <Container sx={{ display: "flex", justifyContent: "space-around", flexDirection: { xs: "column", md: "row" }, alignItems: { xs: "stretch" } }} >
-                <Button color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(0)}>A</Button>
-                <Button color="light" variant="contained" sx={buttonStyle} onClick={() => answer(1)}>B</Button>
-                <Button color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(2)}>C</Button>
-                <Button color="light" variant="contained" sx={buttonStyle} onClick={() => answer(3)}>D</Button>
+                <Button color="dark" variant="contained" sx={buttonStyle(0)} onClick={() => answer(0)}>A</Button>
+                <Button color="light" variant="contained" sx={buttonStyle(1)} onClick={() => answer(1)}>B</Button>
+                <Button color="dark" variant="contained" sx={buttonStyle(2)} onClick={() => answer(2)}>C</Button>
+                <Button color="light" variant="contained" sx={buttonStyle(3)} onClick={() => answer(3)}>D</Button>
             </Container>
 
         </Container>
