@@ -1,46 +1,46 @@
 {
   "particles": {
     "number": {
-      "value": 6,
+      "value": 100,
       "density": {
         "enable": true,
-        "value_area": 800
+        "value_area": 2004.2650760819035
       }
     },
     "color": {
-      "value": "#b3bbf8"
+      "value": "#1b1e34"
     },
     "shape": {
-      "type": "polygon",
+      "type": "image",
       "stroke": {
         "width": 0,
         "color": "#000"
       },
       "polygon": {
-        "nb_sides": 6
+        "nb_sides": 3
       },
       "image": {
-        "src": "img/github.svg",
-        "width": 100,
+        "src": "https://images.hola.com/imagenes/actualidad/20200616170259/jordi-hurtado-cumple/0-836-639/jordihurtado-gtres-t.jpg",
+        "width": 160,
         "height": 100
       }
     },
     "opacity": {
-      "value": 0.3,
+      "value": 0.2805971106514665,
       "random": true,
       "anim": {
-        "enable": false,
-        "speed": 1,
+        "enable": true,
+        "speed": 1.3805312609122866,
         "opacity_min": 0.1,
         "sync": false
       }
     },
     "size": {
-      "value": 160,
+      "value": 140,
       "random": false,
       "anim": {
         "enable": true,
-        "speed": 10,
+        "speed": 26.79854800594439,
         "size_min": 40,
         "sync": false
       }
@@ -54,15 +54,15 @@
     },
     "move": {
       "enable": true,
-      "speed": 2,
+      "speed": 19.22388442605866,
       "direction": "none",
-      "random": false,
+      "random": true,
       "straight": false,
       "out_mode": "out",
       "bounce": false,
       "attract": {
         "enable": false,
-        "rotateX": 600,
+        "rotateX": 881.8766334760375,
         "rotateY": 1200
       }
     }
@@ -88,7 +88,7 @@
         }
       },
       "bubble": {
-        "distance": 150,
+        "distance": 400,
         "size": 40,
         "duration": 2,
         "opacity": 8,
