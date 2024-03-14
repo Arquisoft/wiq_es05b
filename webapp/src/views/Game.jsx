@@ -128,7 +128,7 @@ export default function Game() {
             document.getElementById('button2').color = "dark";
             document.getElementById('button3').color = "light";
 
-        }, 500);
+        }, 200);
     }
 
     const buttonStyle = {
