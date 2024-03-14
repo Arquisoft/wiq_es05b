@@ -96,17 +96,16 @@ export default function Game() {
         }
 
         const response = await axios.post(`${apiEndpoint}/game/answer`, params)
-        
+
 
         // Mark in red the incorrect answers and in green the correct one
-        if (response.data !== questions[current].options[i]) {
-            changeButtonColor(i, "red");
-        }
+        const correct = questions[current].options.filter( o => o == response.data);
+        const correctIndex = questions[current].options.indexOf(correct[0]);
 
-        for (let j = 0; j < 4; j++) {
-            if (String(response.data) === String(questions[current].options[j]))
-                 changeButtonColor(j, "green");
-        }
+        if(i != correct)
+            changeButtonColor(i, "red");
+        changeButtonColor(correctIndex, "green");
+
 
         setTimeout(() => {
             next();
@@ -120,15 +119,9 @@ export default function Game() {
         const button = document.getElementById(`button${i}`);
 
         button.style.backgroundColor = color;
-
         setTimeout(() => {
-            
-            document.getElementById('button0').color = "dark";
-            document.getElementById('button1').color = "light";
-            document.getElementById('button2').color = "dark";
-            document.getElementById('button3').color = "light";
-
-        }, 200);
+            button.style.backgroundColor = ""; 
+        }, 500); 
     }
 
     const buttonStyle = {
@@ -153,23 +146,23 @@ export default function Game() {
         <Fragment>
             <ProtectedComponent />
             <Container component="main" maxWidth="md" sx={{ marginTop: 4, display: "flex", flexDirection: { xs: "row", md: "column" } }}>
-            
-            <Paper elevation={3} sx={{ margin: "2rem 0", padding: "1rem" }}>
-                <Typography variant="h4">
-                    {questions[current].statement}
-                </Typography>
 
-                <Divider sx={{ margin: "10px 0" }} />
-
-                {questions[current].options.map((option, i) => (
-                    <Typography key={i} component="p" variant="h6">
-                        {String.fromCharCode(97 + i).toUpperCase()}. {option}
+                <Paper elevation={3} sx={{ margin: "2rem 0", padding: "1rem" }}>
+                    <Typography variant="h4">
+                        {questions[current].statement}
                     </Typography>
-                ))}
 
-            </Paper>
+                    <Divider sx={{ margin: "10px 0" }} />
 
-            <Paper sx={{padding: "1rem", marginBottom:"1rem"}}>
+                    {questions[current].options.map((option, i) => (
+                        <Typography key={i} component="p" variant="h6">
+                            {String.fromCharCode(97 + i).toUpperCase()}. {option}
+                        </Typography>
+                    ))}
+
+                </Paper>
+
+                <Paper sx={{ padding: "1rem", marginBottom: "1rem" }}>
 
                     <Box sx={{ ml: 1, display: "flex", margin: "5px" }}>
                         <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
@@ -177,19 +170,19 @@ export default function Game() {
                         </Typography>
                     </Box>
 
-                <Box sx={{ margin: "10px" }}>
-                    <MiLinea />
-                </Box>
+                    <Box sx={{ margin: "10px" }}>
+                        <MiLinea />
+                    </Box>
 
-            </Paper>
+                </Paper>
 
-            <Container sx={{ display: "flex", justifyContent: "space-around", flexDirection: { xs: "column", md: "row" }, alignItems: { xs: "stretch" } }} >
-                <Button id="button0" color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(0)}>A</Button>
-                <Button id="button1" color="light" variant="contained" sx={buttonStyle} onClick={() => answer(1)}>B</Button>
-                <Button id="button2" color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(2)}>C</Button>
-                <Button id="button3" color="light" variant="contained" sx={buttonStyle} onClick={() => answer(3)}>D</Button>
+                <Container sx={{ display: "flex", justifyContent: "space-around", flexDirection: { xs: "column", md: "row" }, alignItems: { xs: "stretch" } }} >
+                    <Button id="button0" color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(0)}>A</Button>
+                    <Button id="button1" color="light" variant="contained" sx={buttonStyle} onClick={() => answer(1)}>B</Button>
+                    <Button id="button2" color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(2)}>C</Button>
+                    <Button id="button3" color="light" variant="contained" sx={buttonStyle} onClick={() => answer(3)}>D</Button>
+                </Container>
             </Container>
-        </Container>
         </Fragment>
     )
 }
