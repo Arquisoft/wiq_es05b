@@ -5,49 +5,27 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 
 === 1. Technical Constraints
-[options="header",cols="2,7"]
-****
-.Contents
-Any requirement that constraints software architects in their freedom of design and implementation decisions or decision about the development process. These constraints sometimes go beyond individual systems and are valid for whole organizations and companies.
-
-.Motivation
-Architects should know exactly where they are free in their design decisions and where they must adhere to constraints.
-Constraints must always be dealt with; they may be negotiable, though.
-
-.Form
-Simple tables of constraints with explanations.
-If needed you can subdivide them into
-technical constraints, organizational and political constraints and
-conventions (e.g. programming or versioning guidelines, documentation or naming conventions)
-
-.Further Information
-
-See https://docs.arc42.org/section-2/[Architecture Constraints] in the arc42 documentation.
-
-****
 
 These constraints are set by the project, and we believe that altering them would be counterproductive.
 Therefore, we have chosen to adhere to them
 
-[options="header",cols="2,7"]
 === 1. Technical Constraints
 
-[options="header",cols="2,7"]
 |===
 | Constraint | Explanation
+
 |*_Docker_*
 | The app will be running in a Docker Host.
 
-|*_React_*
-| A JavaScript framework used for constructing visual interfaces.
+|*_Wikidata_*
+| This project will be using wikidata as its only question related data retrieval API.
 
 |*_GitHub_*
-| Remote repository to develop the app, allows us to communicate efficiently, manage version control and
+| Remote repository service to develop the app in sync, allows us to communicate efficiently, manage version control and
 allocate tasks appropriately among team members.
 
 |===
 
-[options="header",cols="2,7"]
 === 2. Organizational Constraints
 
 |===
@@ -70,10 +48,9 @@ in developing a real-world application.
 
 |===
 
-[options="header",cols="2,7"]
 === 3. Convention Constraints
-|===
 
+|===
 | Constraint | Explanation
 
 |*_Clean Code_*

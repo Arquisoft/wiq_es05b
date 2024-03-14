@@ -1,0 +1,28 @@
+{
+  "name": "ranking",
+  "version": "1.0.0",
+  "description": "Ranking microservice for the app",
+  "main": "ranking-service.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node ranking-service.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arquisoft/wiq_es05b.git"
+  },
+  "keywords": [
+    "ranking"
+  ],
+  "author": "Álvaro G. and Donato M.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Arquisoft/wiq_es05b/issues"
+  },
+  "homepage": "https://github.com/Arquisoft/wiq_es05b#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "sequelize": "^6.37.1",
+    "pg": "^8.7.1"
+  }
+}

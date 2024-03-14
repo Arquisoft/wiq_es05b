@@ -15,8 +15,6 @@ app.use(bodyParser.json());
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
 mongoose.connect(mongoUri);
 
-
-
 // Function to validate required fields in the request body
 function validateRequiredFields(req, requiredFields) {
     for (const field of requiredFields) {
@@ -40,7 +38,8 @@ app.post('/adduser', async (req, res) => {
         });
 
         await newUser.save();
-        res.json(newUser);
+        // res.json(newUser);
+        res.json({ message: 'User created successfully' });
     } catch (error) {
         res.status(400).json({ error: error.message }); 
     }});

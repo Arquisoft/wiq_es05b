@@ -1,0 +1,32 @@
+{
+    "name": "jordi",
+    "author": "Donato Martín",
+    "version": "1.0.0",
+    "description": " Question generator service, in charge of genearting wikidata-based Q&A chunks",
+    "main": "jordi.js",
+    "scripts": {
+        "start": "node jordiask-service.js",
+        "dev": "nodemon jordiask-service.js",
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/arquisoft/wiq_0.git"
+    },
+    "bugs": {
+        "url": "https://github.com/arquisoft/wiq_0/issues"
+    },
+    "homepage": "https://github.com/arquisoft/wiq_0#readme",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.18.3",
+        "mongoose": "^8.0.4",
+        "mongodb": "^6.0.0",
+        "axios": "^1.6.7"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0",
+        "mongodb-memory-server": "^9.1.5",
+        "supertest": "^6.3.4"
+    }
+}

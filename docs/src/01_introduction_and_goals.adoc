@@ -3,19 +3,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-introduction-and-goals]]
 == Introduction and Goals
 
-[role="arc42help"]
-****
-Describes the relevant requirements and the driving forces that software architects and development team must consider. 
-These include
-
-* underlying business goals, 
-* essential features, 
-* essential functional requirements, 
-* quality goals for the architecture and
-* relevant stakeholders and their expectations
-****
-
-WIQ is a project forked from the University of Oviedo latest base repo offered by the Software Architecture course. The development team (es05b) is formed by the following engineering students:
+WIQ (Wikidata Infinite Quest) is a project forked from the University of Oviedo latest base repo offered by the Software Architecture course. The development team (es05b) is formed by the following engineering students:
 
 * Donato Martín, UO288787@uniovi.es
 * Luna Valdés, UO289321@uniovi.es
@@ -29,34 +17,11 @@ This is basically a Trivial Pursuit like game inspired in spanish TV show "Saber
 * Different question categories
 * A history of past games
 
+.El presentador Jordi Hurtado RTVE. Imagen de "www.elconfidencial.com".
+image::01_jordi_hurtado_happy.jpg[Jordi Hurtado, 1600, 900, align="center"]
 
-image::jordi-hurtado-happy.jpg["Jordi Hurtado"]
 
 === Requirements Overview
-
-[role="arc42help"]
-****
-.Contents
-Short description of the functional requirements, driving forces, extract (or abstract)
-of requirements. Link to (hopefully existing) requirements documents
-(with version number and information where to find it).
-
-.Motivation
-From the point of view of the end users a system is created or modified to
-improve support of a business activity and/or improve the quality.
-
-.Form
-Short textual description, probably in tabular use-case format.
-If requirements documents exist this overview should refer to these documents.
-
-Keep these excerpts as short as possible. Balance readability of this document with potential redundancy w.r.t to requirements documents.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-1/[Introduction and Goals] in the arc42 documentation.
-
-****
 
 Users will be able to interact with our system in a lot of different ways.
 
@@ -68,26 +33,6 @@ Users will be able to interact with our system in a lot of different ways.
 More information can be obtained following this https://docs.google.com/document/d/1pahOfYFY--Wi7_9bbxiKOGevB_9tOSyRm78blncgBKg[link], where the course project is fully described and detailed.
 
 === Quality Goals
-
-[role="arc42help"]
-****
-.Contents
-The top three (max five) quality goals for the architecture whose fulfillment is of highest importance to the major stakeholders. 
-We really mean quality goals for the architecture. Don't confuse them with project goals.
-They are not necessarily identical.
-
-Consider this overview of potential topics (based upon the ISO 25010 standard):
-
-image::01_2_iso-25010-topics-EN.drawio.png["Categories of Quality Requirements"]
-
-.Motivation
-You should know the quality goals of your most important stakeholders, since they will influence fundamental architectural decisions. 
-Make sure to be very concrete about these qualities, avoid buzzwords.
-If you as an architect do not know how the quality of your work will be judged...
-
-.Form
-A table with quality goals and concrete scenarios, ordered by priorities
-****
 
 The following table describes the project's quality goals in a descending order.
 
@@ -109,49 +54,31 @@ The following table describes the project's quality goals in a descending order.
 | *_Testability_*
 | The performance of the system is needed to be tested covering as many use cases as possible so all the other goals will be met.
 
-| *_Accessibility_*
-| The project should be accesible and fun for all types of user, a game must always be as open as the development capabilities allow.
-
 |=== 
 
 === Stakeholders
 
-[role="arc42help"]
-****
-.Contents
-Explicit overview of stakeholders of the system, i.e. all person, roles or organizations that
-
-* should know the architecture
-* have to be convinced of the architecture
-* have to work with the architecture or with code
-* need the documentation of the architecture for their work
-* have to come up with decisions about the system or its development
-
-.Motivation
-You should know all parties involved in development of the system or affected by the system.
-Otherwise, you may get nasty surprises later in the development process.
-These stakeholders determine the extent and the level of detail of your work and its results.
-
-.Form
-Table with role names, person names, and their expectations with respect to the architecture and its documentation.
-****
-
-[options="header",cols="1,2,2"]
-
 |===
+| Role/Name | Description | Expectations
 
-|Role/Name|Description|Expectations
-
-| _Development Team_
-| Donato Martín, Luna Valdés, Álvaro García, Rubén Rubio and David Álvarez 
+| *_Development Team_*
+a| 
+* Donato Martín
+* Luna Valdés
+* Álvaro García
+* Rubén Rubio
+* David Álvarez 
 | The engineering students are expected to improve communication, teamwork and coding skills adopting a developer role in this project.
 
-| _Teachers_
-| José Emilio Labra and Cristian Augusto Alonso
+| *_Teachers_*
+a|
+- José Emilio Labra
+- Cristian Augusto Alonso
 | Teachers are in charge of supervising the developers work aswell as helping them solve environment, development issues or any other that may arise.
 
-| _Users_
-| Final users of WIQ
+| *_Users_*
+a|
+- Final users of WIQ
 | They are just expected to use this project as it is intended to work.
 
 |===
