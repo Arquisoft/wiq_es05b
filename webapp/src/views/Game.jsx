@@ -1,6 +1,6 @@
 import { Button, Container, Divider, Paper, Typography, LinearProgress, Box } from "@mui/material";
 import { useState, useEffect, useRef, Fragment, useContext, useCallback } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ProtectedComponent from "./components/ProtectedComponent";
 import axios from "axios";
 import { AuthContext } from "../App";
@@ -30,12 +30,13 @@ export default function Game() {
 
     const timerId = useRef();
 
+    const navigate = useNavigate();
+
     // Next question 
     const next = useCallback(() => {
 
         if (current === questions.length - 1) {
-            // Redirect to home
-            return <Navigate to="/menu"/>;
+            navigate("/menu");
         }
 
         setCurrent(current + 1);
@@ -97,15 +98,13 @@ export default function Game() {
         const response = await axios.post(`${apiEndpoint}/game/answer`, params)
         
 
-
-
         // Mark in red the incorrect answers and in green the correct one
         if (response.data !== questions[current].options[i]) {
             changeButtonColor(i, "red");
         }
 
         for (let j = 0; j < 4; j++) {
-            if (response.data === questions[current].options[j])
+            if (String(response.data) === String(questions[current].options[j]))
                  changeButtonColor(j, "green");
         }
 
@@ -115,19 +114,20 @@ export default function Game() {
 
     }
 
+
     // Change button color
     const changeButtonColor = (i, color) => {
         const button = document.getElementById(`button${i}`);
 
-        const currentColor = button.style.backgroundColor;
-
         button.style.backgroundColor = color;
-        button.disabled = true;
-        
 
         setTimeout(() => {
-            button.style.backgroundColor = currentColor;
-            button.disabled = false;
+            
+            document.getElementById('button0').color = "dark";
+            document.getElementById('button1').color = "light";
+            document.getElementById('button2').color = "dark";
+            document.getElementById('button3').color = "light";
+
         }, 500);
     }
 
@@ -189,10 +189,6 @@ export default function Game() {
                 <Button id="button2" color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(2)}>C</Button>
                 <Button id="button3" color="light" variant="contained" sx={buttonStyle} onClick={() => answer(3)}>D</Button>
             </Container>
-
-
-            
-
         </Container>
         </Fragment>
     )

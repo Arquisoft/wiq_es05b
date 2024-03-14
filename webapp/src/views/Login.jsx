@@ -42,41 +42,53 @@ export default function Login() {
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
       <Paper elevation={3} sx={{ padding: '2rem' }}>
-      {isAuthenticated() ? (
-        <Navigate to="/menu" />
-      ) : (
-        <div>
-          <Typography component="h1" variant="h5">
-            Login
-          </Typography>
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button variant="contained" color="primary" onClick={loginUser}>
-            Login
-          </Button>
-          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
-          {error && (
-            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
-          )}
-        </div>
-      )}
+        {isAuthenticated() ? (
+          <Navigate to="/menu" />
+        ) : (
+          <div>
+            <Typography component="h1" variant="h5">
+              Login
+            </Typography>
+            <TextField
+              required
+              margin="normal"
+              fullWidth
+              label="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  loginUser();
+                }
+              }}
+            />
+            <TextField
+              required
+              margin="normal"
+              fullWidth
+              label="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  loginUser();
+                }
+              }}
+            />
+            <Button variant="contained" color="primary" onClick={loginUser}>
+              Login
+            </Button>
+            <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
+            {error && (
+              <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
+            )}
+          </div>
+        )}
 
-      <Typography variant="body2" sx={{ marginTop: 2 }}>
-        Don't have an account? <Link to="/signup">Signup</Link>
-      </Typography>
+        <Typography variant="body2" sx={{ marginTop: 2 }}>
+          Don't have an account? <Link to="/signup">Signup</Link>
+        </Typography>
       </Paper>
     </Container>
   );
