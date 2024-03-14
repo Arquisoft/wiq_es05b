@@ -95,7 +95,13 @@ export default function Game() {
             answer: questions[current].options[i]
         }
 
-        const response = await axios.post(`${apiEndpoint}/game/answer`, params)
+        //Fetch correct answer
+        let response;
+        try{
+            response = await axios.post(`${apiEndpoint}/game/answer`, params)
+        }catch(error){
+            console.log("Error fetching response");
+        }
 
 
         // Mark in red the incorrect answers and in green the correct one
@@ -117,11 +123,12 @@ export default function Game() {
     // Change button color
     const changeButtonColor = (i, color) => {
         const button = document.getElementById(`button${i}`);
-
-        button.style.backgroundColor = color;
-        setTimeout(() => {
-            button.style.backgroundColor = ""; 
-        }, 500); 
+        if(button != null){
+            button.style.backgroundColor = color;
+            setTimeout(() => {
+                button.style.backgroundColor = ""; 
+            }, 500); 
+        }
     }
 
     const buttonStyle = {
