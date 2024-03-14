@@ -30,11 +30,10 @@ export default function Game() {
 
     const timerId = useRef();
 
+    const navigate = useNavigate();
     
     // Next question 
     const next = useCallback(() => {
-        const navigate = useNavigate();
-
         if (current === questions.length - 1) {
             navigate("/menu");
         }
@@ -42,7 +41,7 @@ export default function Game() {
         setCurrent(current + 1);
         setTimeLeft(initialTime);
         setProgressBarPercent(0);
-    }, [current, questions.length, initialTime]);
+    }, [current, questions.length, initialTime, navigate]);
 
     // Timer
     useEffect(() => {
