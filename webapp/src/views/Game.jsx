@@ -1,6 +1,6 @@
 import { Button, Container, Divider, Paper, Typography, LinearProgress, Box } from "@mui/material";
 import { useState, useEffect, useRef, Fragment, useContext, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import ProtectedComponent from "./components/ProtectedComponent";
 import axios from "axios";
 import { AuthContext } from "../App";
@@ -34,12 +34,8 @@ export default function Game() {
     const next = useCallback(() => {
 
         if (current === questions.length - 1) {
-            alert(`Game Over! You got ${correctAnswers} correct answers!`);
-            setCurrent(0);
-            setTimeLeft(initialTime);
-            setProgressBarPercent(0);
-            setCorrectAnswers(0);
-            return;
+            // Redirect to home
+            return <Navigate to="/menu"/>;
         }
 
         setCurrent(current + 1);
@@ -100,14 +96,17 @@ export default function Game() {
 
         const response = await axios.post(`${apiEndpoint}/game/answer`, params)
         
+
+
+
         // Mark in red the incorrect answers and in green the correct one
         if (response.data !== questions[current].options[i]) {
-            changeButtonColor(i, false);
+            changeButtonColor(i, "red");
         }
 
         for (let j = 0; j < 4; j++) {
             if (response.data === questions[current].options[j])
-                 changeButtonColor(j, true);
+                 changeButtonColor(j, "green");
         }
 
         setTimeout(() => {
@@ -116,18 +115,19 @@ export default function Game() {
 
     }
 
-
     // Change button color
-    const changeButtonColor = (i, isCorrect) => {
+    const changeButtonColor = (i, color) => {
         const button = document.getElementById(`button${i}`);
 
         const currentColor = button.style.backgroundColor;
 
-        const color = isCorrect ? "green" : "red";
         button.style.backgroundColor = color;
+        button.disabled = true;
+        
 
         setTimeout(() => {
             button.style.backgroundColor = currentColor;
+            button.disabled = false;
         }, 500);
     }
 
@@ -153,6 +153,7 @@ export default function Game() {
         <Fragment>
             <ProtectedComponent />
             <Container component="main" maxWidth="md" sx={{ marginTop: 4, display: "flex", flexDirection: { xs: "row", md: "column" } }}>
+            
             <Paper elevation={3} sx={{ margin: "2rem 0", padding: "1rem" }}>
                 <Typography variant="h4">
                     {questions[current].statement}
@@ -168,14 +169,19 @@ export default function Game() {
 
             </Paper>
 
-            <Box sx={{ ml: 1, display: "flex", margin: "5px" }}>
-                <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
-                    Time left: {timeLeft}
-                </Typography>
-            </Box>
-            <Box sx={{ margin: "10px" }}>
-                <MiLinea />
-            </Box>
+            <Paper sx={{padding: "1rem", marginBottom:"1rem"}}>
+
+                    <Box sx={{ ml: 1, display: "flex", margin: "5px" }}>
+                        <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
+                            Time left: {timeLeft}
+                        </Typography>
+                    </Box>
+
+                <Box sx={{ margin: "10px" }}>
+                    <MiLinea />
+                </Box>
+
+            </Paper>
 
             <Container sx={{ display: "flex", justifyContent: "space-around", flexDirection: { xs: "column", md: "row" }, alignItems: { xs: "stretch" } }} >
                 <Button id="button0" color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(0)}>A</Button>
@@ -183,6 +189,9 @@ export default function Game() {
                 <Button id="button2" color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(2)}>C</Button>
                 <Button id="button3" color="light" variant="contained" sx={buttonStyle} onClick={() => answer(3)}>D</Button>
             </Container>
+
+
+            
 
         </Container>
         </Fragment>
