@@ -19,7 +19,7 @@ export default function Game() {
     const [current, setCurrent] = useState(0);
 
     // State to see correct answers
-    const [correctAnswers, setCorrectAnswers] = useState(0);
+    // const [correctAnswers, setCorrectAnswers] = useState(0);
 
     // Linear time bar
     const initialTime = 10; // seconds
@@ -31,10 +31,9 @@ export default function Game() {
     const timerId = useRef();
 
     const navigate = useNavigate();
-
+    
     // Next question 
     const next = useCallback(() => {
-
         if (current === questions.length - 1) {
             navigate("/menu");
         }
@@ -42,7 +41,7 @@ export default function Game() {
         setCurrent(current + 1);
         setTimeLeft(initialTime);
         setProgressBarPercent(0);
-    }, [current, questions.length, correctAnswers, initialTime]);
+    }, [current, questions.length, initialTime, navigate]);
 
     // Timer
     useEffect(() => {
@@ -71,7 +70,7 @@ export default function Game() {
                 next();
             }
         }
-    }, [timeLeft, progressBarPercent, current, correctAnswers, next]);
+    }, [timeLeft, progressBarPercent, current, next]);
 
 
     //Fetch questions just at the beginning
