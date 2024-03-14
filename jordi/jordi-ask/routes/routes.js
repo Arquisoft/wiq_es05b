@@ -12,10 +12,10 @@ router.get("/categories", async (req, res) => {
     res.json(result);
 })
 
-router.get('/questions/:category', async (req, res) => {
+router.get('/questions/:category/:n', async (req, res) => {
     const category = req.params.category;
     await mongoose.connect(mongoUri);
-    let result = await mongoose.connection.collection('questions').find({category: category}).toArray();
+    let result = await mongoose.connection.collection('questions').find({category: category}).limit(parseInt(req.params.n)).toArray();
     await mongoose.disconnect();
 
     // Randomize the order of questions
@@ -31,16 +31,13 @@ router.get('/questions/:category', async (req, res) => {
 });
 
 router.post('/answer', async (req, res) => {
-    const {id, answer} = req.body;
+    const { id } = req.body;
 
     await mongoose.connect(mongoUri);
     const question = await mongoose.connection.collection('questions').findOne({_id: new ObjectId(id)});    
     await mongoose.disconnect();
 
-    if(answer === question.answer)
-        res.json('true');
-    else    
-        res.json('false');
+    return res.json(question.answer);
 });
 
 module.exports = router

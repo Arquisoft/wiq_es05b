@@ -53,11 +53,11 @@ router.get("/categories", async (req, res) => {
   }
 });
 
-router.get("/questions/:category", async (req, res) => {
+router.get("/questions/:category/:n", async (req, res) => {
   try {
     // Forward the get questions request to the user service
     const questionResponse = await axios.get(
-      `${questionServiceUrl}/questions/${req.params.category}`
+      `${questionServiceUrl}/questions/${req.params.category}/${req.params.n}`
     );
     res.json(questionResponse.data);
   } catch (error) {

@@ -1,5 +1,5 @@
 import { Button, Container, Divider, Paper, Typography, LinearProgress, Box } from "@mui/material";
-import { useState, useEffect, useRef, Fragment, useContext } from "react";
+import { useState, useEffect, useRef, Fragment, useContext, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import ProtectedComponent from "./components/ProtectedComponent";
 import axios from "axios";
@@ -10,7 +10,7 @@ const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000
 export default function Game() {
 
     const { category } = useParams();
-    const { user } = useContext(AuthContext)
+    const { getUser } = useContext(AuthContext)
 
     //State storing all questions
     const [questions, setQuestions] = useState([]);
@@ -30,6 +30,24 @@ export default function Game() {
 
     const timerId = useRef();
 
+    // Next question 
+    const next = useCallback(() => {
+
+        if (current === questions.length - 1) {
+            alert(`Game Over! You got ${correctAnswers} correct answers!`);
+            setCurrent(0);
+            setTimeLeft(initialTime);
+            setProgressBarPercent(0);
+            setCorrectAnswers(0);
+            return;
+        }
+
+        setCurrent(current + 1);
+        setTimeLeft(initialTime);
+        setProgressBarPercent(0);
+    }, [current, questions.length, correctAnswers, initialTime]);
+
+    // Timer
     useEffect(() => {
         if (initialTime) {
             timerId.current = window.setInterval(() => {
@@ -42,6 +60,7 @@ export default function Game() {
         }
     }, []);
 
+    // Update progress bar
     useEffect(() => {
         if (initialTime) {
             if (progressBarPercent < 100) {
@@ -52,48 +71,53 @@ export default function Game() {
             }
 
             if (timeLeft === 0 && timerId.current) {
-                setCurrent(current + 1);
-                setTimeLeft(initialTime);
-                setProgressBarPercent(0);
+                next();
             }
         }
-    }, [timeLeft, progressBarPercent, current]);
+    }, [timeLeft, progressBarPercent, current, correctAnswers, next]);
 
 
     //Fetch questions just at the beginning
     useEffect(() => {
-        fetchQuestions(`${apiEndpoint}/questions/` + category);
+        fetchQuestions(`${apiEndpoint}/questions/${category}/10`);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    // Function to fetch questions
     const fetchQuestions = async (url) => {
-        const response = await fetch(url);
-        const data = await response.json();
-        setQuestions(data);
+        const response = await axios.get(url);
+        setQuestions(response.data);
     }
 
+    // Function to answer a question
     const answer = async (i) => {
         //Server-side validation
         const params = {
-            token: JSON.parse(user)["token"],
+            token: getUser()["token"],
             id: questions[current]._id,
             answer: questions[current].options[i]
         }
 
         const response = await axios.post(`${apiEndpoint}/game/answer`, params)
-
-        if (response.data === true) {
-            setCorrectAnswers(correctAnswers + 1);
-            changeButtonColor(i, true);
-        } else
+        
+        // Mark in red the incorrect answers and in green the correct one
+        if (response.data !== questions[current].options[i]) {
             changeButtonColor(i, false);
+        }
+
+        for (let j = 0; j < 4; j++) {
+            if (response.data === questions[current].options[j])
+                 changeButtonColor(j, true);
+        }
 
         setTimeout(() => {
-            setCurrent(current + 1);
-            setTimeLeft(initialTime);
+            next();
         }, 200);
+
     }
 
+
+    // Change button color
     const changeButtonColor = (i, isCorrect) => {
         const button = document.getElementById(`button${i}`);
 

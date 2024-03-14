@@ -4,9 +4,9 @@ import { Navigate } from "react-router";
 
 export default function ProtectedComponent() {
 
-  let { user } = useContext(AuthContext);
+  let { isAuthenticated } = useContext(AuthContext);
 
-    if (!user || user === "")
+    if (!isAuthenticated())
       return <Navigate to="/login" />;
     return null
 }

@@ -53,10 +53,48 @@ const theme = createTheme({
 
 export const AuthContext = React.createContext();
 
-export default function App() {
+function useAuth(i = null) {
+  const init = (input) => {
+    if(!input)
+      return null;
+    if (typeof input !== "string") {
+      sUser(input);
+    } else {
+      sUser(JSON.parse(input));
+    }
+  }
+  const [user, sUser] = useState(i ? init(i) : localStorage.getItem("user"));
 
-  const [user, setUser] = useState(localStorage.getItem("user") || null);
+  useEffect(() => {
+    if(!user)
+      localStorage.removeItem('user');
+    else
+      localStorage.setItem('user', JSON.stringify(user));
+  }, [user])
+
+  const getUser = () => {
+      return user ? user : null;
+  }
+  const isAuthenticated = () => {
+    return user ? true : false;
+  }
+  const logout = () => {
+    sUser(null);
+  }
+
+  const setUser = i => init(i);
+  return {
+    getUser,
+    isAuthenticated,
+    logout,
+    setUser
+  }
+}
+
+export default function App() {
   const [config, setConfig] = useState(configDefault);
+
+  let auth = useAuth()
 
   let configs = [
     configDefault,
@@ -70,17 +108,10 @@ export default function App() {
     setConfig(configs[nextIndex]);
   }
 
-  useEffect(() => {
-    if(!user)
-      localStorage.removeItem('user');
-    else
-      localStorage.setItem('user', user);
-  }, [user])
-
   return (
     <ThemeProvider theme={theme}>
-      <ConfigContext.Provider value={{ config, swapConfig }}>
-      <AuthContext.Provider value={{user: user, setUser:setUser}}>
+      <ConfigContext.Provider value={{config, swapConfig}}>
+      <AuthContext.Provider value={auth}>
         <Nav />
         <Particles />
         <Routes>

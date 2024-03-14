@@ -14,7 +14,7 @@ export default function Ranking() {
         <Container style={{paddingTop: '2rem'}}>
             <Paper elevation={3} style={{ padding: 16, maxWidth: 400, margin: 'auto' }}>
             <Typography variant="h4" component="h1" align="center" gutterBottom>
-                User Ranking
+                Global Ranking
             </Typography>
             <List>
                 {users.map((user, index) => (

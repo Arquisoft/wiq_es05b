@@ -8,7 +8,7 @@ import { ConfigContext } from '../context/ConfigContext';
 
 const pages = [
     { displayed: 'Home', link: '/home' },
-    { displayed: 'Ranking', link: '/ranking' },
+    { displayed: 'Global Ranking', link: '/ranking' },
     { displayed: 'About', link: '/about' }
 ];
 
@@ -21,7 +21,7 @@ const settings = [
 
 export default function Nav() {
 
-    const { user } = useContext(AuthContext)
+    const { isAuthenticated, getUser } = useContext(AuthContext)
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [width, setWidth] = useState(window.innerWidth);
@@ -31,8 +31,6 @@ export default function Nav() {
     const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
     const handleCloseNavMenu = () => setAnchorElNav(null);
     const handleCloseUserMenu = () => setAnchorElUser(null);
-
-    const userData = JSON.parse(user)
 
     useEffect(() => {
         const handleResizeWindow = () => setWidth(window.innerWidth);
@@ -81,8 +79,8 @@ export default function Nav() {
     );
 
     const MyAvatar = () => {
-        if (!userData) return <Avatar alt="Suspicious User"></Avatar>
-        return <Avatar alt={userData["username"]}>{userData["username"] ? userData["username"].charAt(0) : ""}</Avatar>
+        if (!isAuthenticated()) return <Avatar alt="Suspicious User"></Avatar>
+        return <Avatar alt={getUser()["username"]}>{getUser()["username"] ? getUser()["username"].charAt(0) : ""}</Avatar>
     }
 
     const JordiButton = () => {
@@ -122,9 +120,7 @@ export default function Nav() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => {
-                let logged = false
-                if(userData && userData !== "") logged = true
-                if (logged !== setting.logged) return null
+                if (isAuthenticated() !== setting.logged) return null
                 return (<MenuItem key={setting.displayed} onClick={handleCloseUserMenu} component={Link} to={setting.link}>
                   <Typography textAlign="center">{setting.displayed}</Typography>
                 </MenuItem>)

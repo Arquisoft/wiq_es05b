@@ -8,7 +8,7 @@ import { AuthContext } from '../App';
 
 
 export default function Login() {
-  const { setUser } = useContext(AuthContext);
+  const { setUser, isAuthenticated, logout } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -25,13 +25,13 @@ export default function Login() {
       if (response.data.error) {
         setError(response.data.error);
         setLoginSuccess(false);
-        localStorage.removeItem("user");
+        logout()
         return;
       }
 
       const { token, username: user } = response.data;
       
-      setUser(JSON.stringify({token: token, username: user}))
+      setUser({"token": token, "username": user})
 
       setLoginSuccess(true);
 
@@ -48,7 +48,7 @@ export default function Login() {
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
       <Paper elevation={3} sx={{ padding: '2rem' }}>
-      {loginSuccess ? (
+      {isAuthenticated() ? (
         <Navigate to="/menu" />
       ) : (
         <div>

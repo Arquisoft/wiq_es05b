@@ -51,7 +51,7 @@ async function generateQuestions(count) {
 script();
 
 // * segundo * minuto * hora * dia * mes * año
-cron.schedule('* * * */7 * *', () => {
+cron.schedule('* * * * 1 *', () => {
     console.log("Running script at : " + new Date());
     script();
 }, {

@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose')
 
-const QuestionsSchema = new mongoose.Schema(
+const questionSchema = new mongoose.Schema(
     {
         category: {
             type: String, required: true
@@ -16,8 +16,7 @@ const QuestionsSchema = new mongoose.Schema(
             type: String, required: true,
         }]
     },
-    {collection:'Question'}
 );
 
-const Question = mongoose.model('Question',QuestionsSchema,'Question');
+const Question = mongoose.model('questions',questionSchema);
 module.exports = Question;
