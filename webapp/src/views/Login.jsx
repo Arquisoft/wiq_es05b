@@ -5,14 +5,11 @@ import {Link} from "react-router-dom"
 import { Navigate } from 'react-router';
 import { AuthContext } from '../App';
 
-
-
 export default function Login() {
   const { setUser, isAuthenticated, logout } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [loginSuccess, setLoginSuccess] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
@@ -24,7 +21,6 @@ export default function Login() {
 
       if (response.data.error) {
         setError(response.data.error);
-        setLoginSuccess(false);
         logout()
         return;
       }
@@ -32,8 +28,6 @@ export default function Login() {
       const { token, username: user } = response.data;
       
       setUser({"token": token, "username": user})
-
-      setLoginSuccess(true);
 
       setOpenSnackbar(true);
     } catch (error) {
