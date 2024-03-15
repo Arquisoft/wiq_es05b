@@ -11,7 +11,6 @@ export default function Game() {
 
     const { category } = useParams();
     const { getUser } = useContext(AuthContext)
-
     //State storing all questions
     const [questions, setQuestions] = useState([]);
 
@@ -25,14 +24,16 @@ export default function Game() {
     const initialTime = 10; // seconds
 
     const [timeLeft, setTimeLeft] = useState(initialTime);
-
+    let currentPoints = 0;
+    const correctPoints = 100;
+    const wrongPoints = -20;
     const [progressBarPercent, setProgressBarPercent] = useState(0);
 
     const timerId = useRef();
 
     const navigate = useNavigate();
-    
-    // Next question 
+
+    // Next question
     const next = useCallback(() => {
         if (current === questions.length - 1) {
             navigate("/menu");
@@ -107,11 +108,14 @@ export default function Game() {
         const correct = questions[current].options.filter( o => o == response.data);
         const correctIndex = questions[current].options.indexOf(correct[0]);
 
-        if(i != correct)
+        if(i != correct){
+            currentPoints+= wrongPoints;
             changeButtonColor(i, "red");
-        changeButtonColor(correctIndex, "green");
+        } else {
+            currentPoints+= correctPoints;
+            changeButtonColor(correctIndex, "green");
 
-
+        }
         setTimeout(() => {
             next();
         }, 200);
@@ -125,8 +129,8 @@ export default function Game() {
         if(button != null){
             button.style.backgroundColor = color;
             setTimeout(() => {
-                button.style.backgroundColor = ""; 
-            }, 500); 
+                button.style.backgroundColor = "";
+            }, 500);
         }
     }
 
@@ -169,7 +173,6 @@ export default function Game() {
                 </Paper>
 
                 <Paper sx={{ padding: "1rem", marginBottom: "1rem" }}>
-
                     <Box sx={{ ml: 1, display: "flex", margin: "5px" }}>
                         <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
                             Time left: {timeLeft}
