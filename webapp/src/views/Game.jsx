@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import ProtectedComponent from "./components/ProtectedComponent";
 import axios from "axios";
 import { AuthContext } from "../App";
+import coinImage from '../media/coin.svg';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
@@ -159,13 +160,18 @@ export default function Game() {
         <Fragment>
             <ProtectedComponent />
             <Container component="main" maxWidth="md" sx={{ marginTop: 4, display: "flex", flexDirection: { xs: "row", md: "column" } }}>
-
-                <Paper elevation={3} sx={{ margin: "2rem 0", padding: "1rem" }}>
+                <Box sx={{ ml: 1, display: "flex", alignItems: "center", marginLeft: "1000px" }}>
+                    <Typography sx={{ fontWeight: 400, fontSize: "35px" }}>
+                        {pointsUpdated}
+                    </Typography>
+                    <img src={coinImage} alt="Coin" style={{ marginLeft: "10px", height: "70px", width: "70px" }} />
+                </Box>
+                <Paper elevation={3} sx={{margin: "2rem 0", padding: "1rem"}}>
                     <Typography variant="h4">
                         {questions[current].statement}
                     </Typography>
 
-                    <Divider sx={{ margin: "10px 0" }} />
+                    <Divider sx={{margin: "10px 0"}}/>
 
                     {questions[current].options.map((option, i) => (
                         <Typography key={i} component="p" variant="h6">
@@ -175,16 +181,11 @@ export default function Game() {
 
                 </Paper>
 
-                <Paper sx={{ padding: "1rem", marginBottom: "1rem" }}>
+                <Paper sx={{padding: "1rem", marginBottom: "1rem"}}>
 
-                    <Box sx={{ ml: 1, display: "flex", margin: "5px" }}>
+                    <Box sx={{ml: 1, display: "flex", margin: "5px" }}>
                         <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
                             Time left: {timeLeft}
-                        </Typography>
-                    </Box>
-                    <Box sx={{ ml: 1, display: "flex", margin: "5px" }}>
-                        <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
-                            Points: {pointsUpdated}
                         </Typography>
                     </Box>
 
