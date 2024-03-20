@@ -15,5 +15,5 @@ require("./routes/routes")(app, rankingRepository)
 
 // Run the server
 app.listen(port, () => {
-    console.log('Jordi listening on port ' + port);
+    console.log('Ranking listening on port ' + port);
 });

@@ -17,5 +17,5 @@ require("./routes/routes")(app, questionsRepository);
 
 // Run the server
 app.listen(port, function () {
-    console.log('Jordi listening on port ' + port);
+    console.log('Jordi (Ask) listening on port ' + port);
 });

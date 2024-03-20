@@ -1,25 +1,15 @@
-let express = require("express");
-let router = express.Router();
-let axios = require('axios');
-let authMiddleware = require('../middleware/AuthMiddleware');
 
 const questionServiceUrl = process.env.JORDI_ASK_SERVICE_URL || 'http://localhost:8003';
 
-router.post("/uploadresult", authMiddleware, (req, res) => { });
 
-router.get("/:id", (req, res) => { });
-
-router.post("/answer", authMiddleware, async (req, res) => {
-
-    const params = {
-        id: req.body.id,
-        answer: req.body.answer
-    }
-
-    const response = await axios.post(`${questionServiceUrl}/answer`, params);
-
-    res.send(response.data);
-
-});
-
-module.exports = router;
+module.exports = function(app, axios, authMiddleware) {
+    app.post("/game/uploadresult", authMiddleware, (req, res) => { });
+    
+    app.post("/game/answer", authMiddleware, async (req, res) => {
+        const { data } = await axios.post(`${questionServiceUrl}/answer`, req.body);
+        
+        res.send(data);
+    });
+    
+    app.get("/game/:id", (req, res) => { });
+}

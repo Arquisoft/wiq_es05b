@@ -4,12 +4,11 @@ module.exports = {
     
     init: async function(client) {
         this.client = client
-
         try {
             await this.client.connect()
-            let exists = await this.client.query("SELECT EXISTS (SELECT 1 FROM"
-                + "information_schema.tables WHERE table_name = 'records')"
-                + "AS table_existence;")
+            let exists = await this.client.query("SELECT EXISTS (SELECT 1 FROM "
+            + "information_schema.tables WHERE table_name = 'records') "
+            + "AS table_existence;")
             if(!exists.rows[0].table_existence) {
                 let data = fs.readFileSync('schema.sql', 'utf8')
                 console.log('Table not found, creating records database')

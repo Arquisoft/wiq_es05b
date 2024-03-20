@@ -1,22 +1,22 @@
 const express = require('express');
 const cors = require('cors');
 const promBundle = require('express-prom-bundle');
+const axios = require('axios');
 
 const app = express();
 const port = 8000;
 
-let router = require("./routes/routes")
-let gameRouter = require("./routes/gameRoutes")
-
 app.use(cors());
 app.use(express.json());
+
+let authMiddleware = require('./middleware/AuthMiddleware')
 
 //Prometheus configuration
 const metricsMiddleware = promBundle({includeMethod: true});
 app.use(metricsMiddleware);
 
-app.use("/", router)
-app.use("/game", gameRouter)
+require("./routes/routes")(app, axios)
+require("./routes/gameRoutes")(app, axios, authMiddleware)
 
 // Start the gateway service
 const server = app.listen(port, () => {

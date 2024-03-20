@@ -1,6 +1,6 @@
 module.exports = function (app, questionsRepository) {
 
-    app.get("/categories", async (req, res) => {
+    app.get("/categories", async (_req, res) => {
         questionsRepository.getCategories()
             .then(result => res.json(result))
             .catch(err => res.status(500).json({error: err}));
