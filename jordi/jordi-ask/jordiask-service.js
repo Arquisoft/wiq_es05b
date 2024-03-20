@@ -1,14 +1,19 @@
 
-let express = require('express');
-let app = express();
-let port = 8003;
+const express = require('express');
+const mongoose = require('mongoose');
 
-let router = require("./routes/routes")
+const app = express();
+const port = 8003;
+
+const questionsRepository = require('./repositories/questionRepository');
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/questions';
+
+questionsRepository.init(mongoose, mongoUri);
 
 // Middleware to analyze request bodies 
 app.use(express.json());
 
-app.use("/", router)
+require("./routes/routes")(app, questionsRepository);
 
 // Run the server
 app.listen(port, function () {

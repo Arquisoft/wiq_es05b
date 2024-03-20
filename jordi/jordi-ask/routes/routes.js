@@ -1,43 +1,38 @@
-let express = require('express');
-let mongoose = require('mongoose');
-let ObjectId = mongoose.Types.ObjectId
-let router = express.Router();
+module.exports = function (app, questionsRepository) {
 
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/questions';
+    app.get("/categories", async (req, res) => {
+        questionsRepository.getCategories()
+            .then(result => res.json(result))
+            .catch(err => res.status(500).json({error: err}));
+    })
 
-router.get("/categories", async (req, res) => {
-    await mongoose.connect(mongoUri);
-    let result = await mongoose.connection.collection('questions').distinct("category");
-    await mongoose.disconnect();
-    res.json(result);
-})
+    app.get('/questions/:category/:n', async (req, res) => {
+        const { category, n } = req.params;
 
-router.get('/questions/:category/:n', async (req, res) => {
-    const category = req.params.category;
-    await mongoose.connect(mongoUri);
-    let result = await mongoose.connection.collection('questions').find({category: category}).limit(parseInt(req.params.n)).toArray();
-    await mongoose.disconnect();
-
-    // Randomize the order of questions
-    result = result.sort(() => Math.random() - 0.5);
-
-    // Return questions without answer
-    const answerLessQuestions = result.map(q => {
-        const {answer, ...rest} = q;
-        return rest;
+        questionsRepository.getQuestions(category, n)
+            .then(result => {
+                // Randomize the order of questions
+                result = result.sort(() => Math.random() - 0.5);
+                // Return questions without answer
+                const answerLessQuestions = result.map(q => {
+                    const {answer, ...rest} = q;
+                    return rest;
+                });
+                res.json(answerLessQuestions);
+            })
+            .catch(err => res.status(500).json({error: err}))
     });
 
-    res.json(answerLessQuestions);
-});
+    app.post('/answer', async (req, res) => {
+        const { id } = req.body;
 
-router.post('/answer', async (req, res) => {
-    const { id } = req.body;
+        if(!id) {
+            res.status(400).json({ error: "No id provided" })
+            return
+        }
 
-    await mongoose.connect(mongoUri);
-    const question = await mongoose.connection.collection('questions').findOne({_id: new ObjectId(id)});    
-    await mongoose.disconnect();
-
-    return res.json(question.answer);
-});
-
-module.exports = router
+        questionsRepository.findQuestionById(id)
+            .then(result => res.json({ answer: result.answer }))
+            .catch(err => res.status(500).json({error: err}))
+    });
+}
