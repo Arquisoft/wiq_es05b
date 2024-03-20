@@ -1,7 +1,7 @@
 let express = require("express");
 let router = express.Router();
 let axios = require('axios');
-let authMiddleware = require('../middleware/authMiddleware');
+let authMiddleware = require('../middleware/AuthMiddleware');
 
 const questionServiceUrl = process.env.JORDI_ASK_SERVICE_URL || 'http://localhost:8003';
 
