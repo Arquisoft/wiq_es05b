@@ -4,6 +4,7 @@
   "description": "Ranking microservice for the app",
   "main": "ranking-service.js",
   "scripts": {
+    "dev": "nodemon ranking-service.js",
     "test": "jest",
     "start": "node ranking-service.js"
   },

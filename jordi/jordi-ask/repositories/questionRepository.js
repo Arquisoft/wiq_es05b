@@ -18,7 +18,7 @@ module.exports = {
                 .distinct("category");
             await this.mongoose.disconnect();
             return result;
-        } catch (error) { return {error: error} }
+        } catch (error) { return error }
     },
 
     getQuestions: async function (category, n=10) {
@@ -33,7 +33,7 @@ module.exports = {
                 .toArray();
             await this.mongoose.disconnect();
             return result
-        } catch (error) { return {error: error} }
+        } catch (error) { return error }
     },
 
     findQuestionById: async function (id) {
@@ -46,6 +46,6 @@ module.exports = {
                 .findOne({_id: new this.mongoose.Types.ObjectId(id)});
             await this.mongoose.disconnect();
             return question;
-        } catch (error) { return {error: error} }
+        } catch (error) { return error }
     }
 }

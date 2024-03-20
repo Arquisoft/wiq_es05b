@@ -1,15 +1,19 @@
-let express = require('express');
-let pg = require('pg');
-// import * as res from 'express/lib/response';
+const express = require('express');
+const pg = require('pg');
 
-let app = express();
-let port = 8005;
+const app = express();
+const port = 8005;
 
-let router = require("./routes/routes")
+const pgUri = "postgres://postgres:jordishhh@localhost:5432/postgres";
 
-app.use("/", router)
+const rankingRepository = require("./repositories/rankingRepository")
+rankingRepository.init(new pg.Client(pgUri))
+
+app.use(express.json())
+
+require("./routes/routes")(app, rankingRepository)
 
 // Run the server
-app.listen(port, function () {
+app.listen(port, () => {
     console.log('Jordi listening on port ' + port);
 });
