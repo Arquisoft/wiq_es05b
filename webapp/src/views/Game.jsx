@@ -34,20 +34,24 @@ export default function Game() {
 
     const [pointsUpdated, setPointsUpdated] = useState(0);
 
+    const [correct, setCorrect] = useState(0);
+    const [wrong, setWrong] = useState(0);
+
     const timerId = useRef();
 
     const navigate = useNavigate();
-
+    const startTime = performance.now();
     // Next question
     const next = useCallback(() => {
         if (current === questions.length - 1) {
-            navigate("/menu");
+            let endTime = performance.now();
+            navigate("/endgame", { state: { correct:correct,wrong:wrong,time:endTime-startTime} });
         }
 
         setCurrent(current + 1);
         setTimeLeft(initialTime);
         setProgressBarPercent(0);
-        }, [current, questions.length, initialTime, navigate]);
+    }, [current, questions.length, initialTime, navigate]);
 
     // Timer
     useEffect(() => {
@@ -87,8 +91,8 @@ export default function Game() {
 
     // Function to fetch questions
     const fetchQuestions = async (url) => {
-        const {data} = await axios.get(url);
-        setQuestions(data);
+        const response = await axios.get(url);
+        setQuestions(response.data);
     }
 
     // Function to answer a question
@@ -108,13 +112,16 @@ export default function Game() {
             console.log("Error fetching response");
         }
 
+
         // Mark in red the incorrect answers and in green the correct one
-        const correct = questions[current].options.filter( o => o == response.data.answer);
+        const correct = questions[current].options.filter( o => o == response.data);
         const correctIndex = questions[current].options.indexOf(correct[0]);
 
-        if(i != correct) changeButtonColor(i, "red");
-
+        if(i != correct){
+            changeButtonColor(i, "red");
+        }
         changeButtonColor(correctIndex, "green");
+        (i === correctIndex ? setWrong(wrong+1) : setCorrect(correct+1));
         const newPoints = pointsUpdated + (i === correctIndex ? correctPoints : wrongPoints);
         setPointsUpdated(newPoints);
 
@@ -162,7 +169,7 @@ export default function Game() {
                     <Typography sx={{ fontWeight: 400, fontSize: "35px" }}>
                         {pointsUpdated}
                     </Typography>
-                    <img src={coinImage} alt="Coin" style={{marginLeft: "10px"}}/>
+                    <img src={coinImage} alt="Coin" style={{ marginLeft: "10px", height: "70px", width: "70px" }} />
                 </Box>
                 <Paper elevation={3} sx={{margin: "2rem 0", padding: "1rem"}}>
                     <Typography variant="h4">
@@ -179,7 +186,7 @@ export default function Game() {
 
                 </Paper>
 
-                <Paper elevation={3} sx={{padding: "1rem", marginBottom: "2rem"}}>
+                <Paper sx={{padding: "1rem", marginBottom: "1rem"}}>
 
                     <Box sx={{ml: 1, display: "flex", margin: "5px" }}>
                         <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
