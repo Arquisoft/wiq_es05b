@@ -17,7 +17,8 @@ export default function Endgame() {
     }
     return (
         <Container maxWidth="md" sx={{paddingTop: '2rem'}}>
-            <Paper elevation={3} sx={{ padding: '2rem', textAlign: "center", display: "flex", flexFlow: "column",  gap: "1rem" }}>
+            <Paper elevation={3} sx={{padding: '2rem', textAlign: "center", display: "flex", flexFlow: "column", gap: "1rem"}}>
+                <img src="/jordi-celebration.png" alt="Ou yea"/>
                 <Typography variant="h4" component="p">Game result</Typography>
                 <Typography variant="h5" component="p">Total points: {points}</Typography>
                 <Typography variant="h5" component="p">Correct answers: {correct}</Typography>
