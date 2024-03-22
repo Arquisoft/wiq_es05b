@@ -50,8 +50,7 @@ export default function Game() {
         setCurrent(current + 1);
         setTimeLeft(initialTime);
         setProgressBarPercent(0);
-    }, [current, questions.length, initialTime, navigate]);
-
+    }, [current, questions.length, initialTime, navigate, pointsUpdated, correctA, wrongA]);
     // Timer
     useEffect(() => {
         if (initialTime) {
@@ -115,12 +114,12 @@ export default function Game() {
         const correct = questions[current].options.filter( o => o == response.data.answer);
         const correctIndex = questions[current].options.indexOf(correct[0]);
 
-        if(i != correct) changeButtonColor(i, "red");
-
-        changeButtonColor(correctIndex, "green");
         const newPoints = pointsUpdated + (i === correctIndex ? correctPoints : wrongPoints);
         setPointsUpdated(newPoints);
         (i === correctIndex ? setCorrectA(correctA+1) : setWrongA(wrongA+1) );
+
+        if(i != correct) changeButtonColor(i, "red");
+        changeButtonColor(correctIndex, "green");
 
         setTimeout(() => {
             next();
