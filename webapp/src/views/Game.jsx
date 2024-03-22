@@ -162,7 +162,7 @@ export default function Game() {
                     <Typography sx={{ fontWeight: 400, fontSize: "35px" }}>
                         {pointsUpdated}
                     </Typography>
-                    <img src={coinImage} alt="Coin" style={{ marginLeft: "10px", height: "70px", width: "70px" }} />
+                    <img src={coinImage} alt="Coin" style={{marginLeft: "10px"}}/>
                 </Box>
                 <Paper elevation={3} sx={{margin: "2rem 0", padding: "1rem"}}>
                     <Typography variant="h4">
