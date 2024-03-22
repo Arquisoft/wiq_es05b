@@ -87,8 +87,8 @@ export default function Game() {
 
     // Function to fetch questions
     const fetchQuestions = async (url) => {
-        const response = await axios.get(url);
-        setQuestions(response.data);
+        const {data} = await axios.get(url);
+        setQuestions(data);
     }
 
     // Function to answer a question
@@ -108,14 +108,12 @@ export default function Game() {
             console.log("Error fetching response");
         }
 
-
         // Mark in red the incorrect answers and in green the correct one
-        const correct = questions[current].options.filter( o => o == response.data);
+        const correct = questions[current].options.filter( o => o == response.data.answer);
         const correctIndex = questions[current].options.indexOf(correct[0]);
 
-        if(i != correct){
-            changeButtonColor(i, "red");
-        }
+        if(i != correct) changeButtonColor(i, "red");
+
         changeButtonColor(correctIndex, "green");
         const newPoints = pointsUpdated + (i === correctIndex ? correctPoints : wrongPoints);
         setPointsUpdated(newPoints);
@@ -181,7 +179,7 @@ export default function Game() {
 
                 </Paper>
 
-                <Paper sx={{padding: "1rem", marginBottom: "1rem"}}>
+                <Paper elevation={3} sx={{padding: "1rem", marginBottom: "2rem"}}>
 
                     <Box sx={{ml: 1, display: "flex", margin: "5px" }}>
                         <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
