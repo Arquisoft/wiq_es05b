@@ -33,19 +33,18 @@ export default function Game() {
     const [progressBarPercent, setProgressBarPercent] = useState(0);
 
     const [pointsUpdated, setPointsUpdated] = useState(0);
-
-    const [correct, setCorrect] = useState(0);
-    const [wrong, setWrong] = useState(0);
-
+    const [correctA, setCorrectA] = useState(0);
+    const [wrongA, setWrongA] = useState(0);
     const timerId = useRef();
 
     const navigate = useNavigate();
     const startTime = performance.now();
+
     // Next question
     const next = useCallback(() => {
         if (current === questions.length - 1) {
             let endTime = performance.now();
-            navigate("/endgame", { state: { correct:correct,wrong:wrong,time:endTime-startTime} });
+            navigate("/endgame", { state: { points:pointsUpdated,correct:correctA,wrong:wrongA,time:endTime-startTime} });
         }
 
         setCurrent(current + 1);
@@ -91,8 +90,8 @@ export default function Game() {
 
     // Function to fetch questions
     const fetchQuestions = async (url) => {
-        const response = await axios.get(url);
-        setQuestions(response.data);
+        const {data} = await axios.get(url);
+        setQuestions(data);
     }
 
     // Function to answer a question
@@ -112,18 +111,16 @@ export default function Game() {
             console.log("Error fetching response");
         }
 
-
         // Mark in red the incorrect answers and in green the correct one
-        const correct = questions[current].options.filter( o => o == response.data);
+        const correct = questions[current].options.filter( o => o == response.data.answer);
         const correctIndex = questions[current].options.indexOf(correct[0]);
 
-        if(i != correct){
-            changeButtonColor(i, "red");
-        }
+        if(i != correct) changeButtonColor(i, "red");
+
         changeButtonColor(correctIndex, "green");
-        (i === correctIndex ? setWrong(wrong+1) : setCorrect(correct+1));
         const newPoints = pointsUpdated + (i === correctIndex ? correctPoints : wrongPoints);
         setPointsUpdated(newPoints);
+        (i === correctIndex ? setCorrectA(correctA+1) : setWrongA(wrongA+1) );
 
         setTimeout(() => {
             next();
@@ -169,7 +166,7 @@ export default function Game() {
                     <Typography sx={{ fontWeight: 400, fontSize: "35px" }}>
                         {pointsUpdated}
                     </Typography>
-                    <img src={coinImage} alt="Coin" style={{ marginLeft: "10px", height: "70px", width: "70px" }} />
+                    <img src={coinImage} alt="Coin" style={{marginLeft: "10px"}}/>
                 </Box>
                 <Paper elevation={3} sx={{margin: "2rem 0", padding: "1rem"}}>
                     <Typography variant="h4">
@@ -186,7 +183,7 @@ export default function Game() {
 
                 </Paper>
 
-                <Paper sx={{padding: "1rem", marginBottom: "1rem"}}>
+                <Paper elevation={3} sx={{padding: "1rem", marginBottom: "2rem"}}>
 
                     <Box sx={{ml: 1, display: "flex", margin: "5px" }}>
                         <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
