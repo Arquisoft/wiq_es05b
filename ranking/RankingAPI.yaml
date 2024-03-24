@@ -1,0 +1,65 @@
+openapi: 3.0.3
+info:
+  title: Ranking API specification
+  description: Internal API that handles ranking data
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8005'
+paths:
+  /ranking/{n}:
+    get:
+      summary: Get the top n users
+      parameters:
+        - name: n
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 5
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    username:
+                      type: string
+                      example: 'user'
+                    score:
+                      type: integer
+                      example: 100
+    # TODO - Add error mapping
+    # TODO - when the service is more developed, check response format
+  /adduser:
+    post:
+      summary: Add a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'user'
+                score:
+                  type: integer
+                  example: 100
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'OK'
+    # TODO - Add error mapping
+    # TODO - when the service is more developed, check response format

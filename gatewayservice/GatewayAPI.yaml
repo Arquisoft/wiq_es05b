@@ -1,0 +1,227 @@
+# TODO - Add to all endpoints a callback function in the promises to prevent server crash
+
+openapi: 3.0.3
+info:
+  title: Gateway API specification
+  description: API used by the client to access the services
+  version: 1.0.0
+servers:
+  - url: 'http://158.179.216.208:8000'
+components:
+  schemas:
+    Question:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '5f9b3b3b7b3b7b3b7b3b7b3b'
+        category:
+          type: string
+          example: 'Category 1'
+        statement:
+          type: string
+          example: 'Question 1'
+        options:
+            type: array
+            items:
+                type: string
+                example: 'Option 1'
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'OK'
+  /login:
+    post:
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: 'user'
+                password:
+                  type: string
+                  example: 'password'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIifQ.1J4Q7'
+                  username:
+                    type: string
+                    example: 'user'
+#        TODO - Remove createdAt
+        # TODO - Add 400 if body not correct
+        # TODO - Add 503 and 504
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid credentials'
+  /adduser:
+    post:
+      summary: Signup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: 'user'
+                password:
+                  type: string
+                  example: 'password'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'User created successfully'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Missing required fields'
+          # FIXME - When the database is not available it returns 200 OK with an error message -> Should return 504 and an error message
+          # FIXME - If the user service is not available the gateway crashes -> Should return 503 and an error message
+  /categories:
+    get:
+      summary: Get all categories
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: 'Category 1'
+        # TODO - Add 503 and 504
+  /questions/{category}/{n}:
+    get:
+      summary: Get n questions from a category
+      parameters:
+        - name: category
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'Category 1'
+        - name: n
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 5
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Question'
+    # TODO - If invalid category should return 404 not found rather than 200 OK with an empty array
+    # FIXME - When the database is not available it returns 500 with an empty error message -> Should be 504 not be empty
+    # TODO - Also add 503
+  /ranking/{n}:
+    get:
+      summary: Get the top n users
+      parameters:
+        - name: n
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 5
+    # TODO - Develop when the ranking works
+      responses:
+        '200':
+          description: OK
+  # TODO:
+#  /game/uploadresult:
+
+  /game/answer:
+    post:
+      summary: Get the answer of a question
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: '5f9b3b3b7b3b7b3b7b3b7b3b'
+                token:
+                  type: string
+                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIifQ.1J4Q7'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  answer:
+                    type: string
+                    example: 'Option 1'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Unauthorized'
+        # FIXME - When the database is not available it returns 500 with an empty error message -> Should be 504 not be empty
+        # FIXME - Add also 503
+        # FIXME - If no id -> App crash -> Should return 400
+
+# TODO:
+#  /game/{id}

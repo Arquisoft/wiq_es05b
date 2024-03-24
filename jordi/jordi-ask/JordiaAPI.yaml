@@ -1,0 +1,91 @@
+openapi: 3.0.3
+info:
+  title: Jordi (Ask) API Specification
+  description: Internal API that provides the questions and answers
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8003'
+components:
+  schemas:
+    Question:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '5f9b3b3b7b3b7b3b7b3b7b3b'
+        category:
+          type: string
+          example: 'Category 1'
+        statement:
+          type: string
+          example: 'Question 1'
+        options:
+          type: array
+          items:
+            type: string
+            example: 'Option 1'
+paths:
+  /categories:
+    get:
+      summary: Get all categories
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+    # TODO - Map error
+  /questions/{category}/{n}:
+    get:
+      summary: Get n questions from a category
+      parameters:
+        - name: category
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'Category 1'
+        - name: n
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 5
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Question'
+    # TODO - Add error mapping
+  /answer:
+    post:
+      summary: Get the answer of a question
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: '5f9b3b3b7b3b7b3b7b3b7b3b'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  answer:
+                    type: string
+                    example: 'Option 1'
+    # TODO - Add error mapping
