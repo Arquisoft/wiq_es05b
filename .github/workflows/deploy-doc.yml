@@ -1,7 +1,9 @@
 name: Deploy Pages
 on:
   push:
-    branches: [ develop ]
+    branches: [ master, develop ]
+    paths: 
+      - 'docs/**'
 
 jobs:
   build-and-deploy:
