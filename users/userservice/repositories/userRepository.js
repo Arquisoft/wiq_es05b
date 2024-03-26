@@ -20,4 +20,18 @@ module.exports = {
       return error;
     }
   },
+  checkUser: async function (username) {
+    try {
+      await this.mongoose.connect(this.uri);
+      let result = await this
+        .mongoose
+        .connection
+        .collection("users")
+        .findOne({username: username})
+      await this.mongoose.connection.close();
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
 };

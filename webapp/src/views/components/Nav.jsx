@@ -107,8 +107,8 @@ export default function Nav() {
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <MyAvatar />
               </IconButton>
-              <JordiButton />
             </Tooltip>
+            <JordiButton />
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"

@@ -30,7 +30,7 @@ module.exports = function (app, userRepository) {
             // Generate a JWT token
             const token = jwt.sign({ userId: result._id }, JWT_SECRET, { expiresIn: '1h' });
             // Respond with the token and user information
-            res.json({ token: token, username: username, createdAt: result.createdAt });
+            res.json({ token: token, username: username});
           } else {
             res.status(401).json({ error: 'Invalid credentials' });
           }

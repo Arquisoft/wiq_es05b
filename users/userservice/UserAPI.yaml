@@ -33,4 +33,14 @@ paths:
                   message:
                     type: string
                     example: 'User created successfully'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'User already exists'
   # TODO - Add error mapping

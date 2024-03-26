@@ -71,7 +71,6 @@ paths:
                   username:
                     type: string
                     example: 'user'
-#        TODO - Remove createdAt
         '400':
           description: Bad Request
           content:

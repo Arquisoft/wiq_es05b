@@ -15,8 +15,6 @@ export default function Login() {
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
   const loginUser = async () => {
     try {
-      // TODO - Persist the user jwt token in the browser's local storage
-      // TODO - Disabled for first release
       const response = await axios.post(`${apiEndpoint}/login`, { username, password });
 
       if (response.data.error) {
@@ -79,6 +77,7 @@ export default function Login() {
             <Button variant="contained" color="primary" onClick={loginUser}>
               Login
             </Button>
+            {/* TODO - Remove first snackbar */}
             <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
             {error && (
               <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />

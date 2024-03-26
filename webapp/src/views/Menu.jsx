@@ -56,8 +56,8 @@ export default function GameMenu () {
                     <Container>
                         <Typography variant="h5" component="p">Choose a category to play</Typography>
                         <Container sx={buttonGroup}>
-                            {categories.map((category) => (
-                                <MyButton text={category} link={"/game/" + category} />
+                            {categories.map((category, i) => (
+                                <MyButton key={i} text={category} link={"/game/" + category} />
                             ))}
                         </Container>
                     </Container>
