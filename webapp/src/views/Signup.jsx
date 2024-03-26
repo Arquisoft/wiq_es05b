@@ -11,31 +11,17 @@ export default function Signup() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const { logout, setUser } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const addUser = () => {
     axios.post(`${apiEndpoint}/adduser`, { username, password })
-      .then(() => {
-        // TODO - Move to gateway
-        axios.post(`${apiEndpoint}/login`, { username, password })
-        .then(({data}) => {
-          const { token, username: user } = data;
-          setUser({"token": token, "username": user})
-          navigate('/home');
-        })
-        .catch(({ response }) => {
-          setError(response.data.error)
-          logout()
-        });
+      .then(({data}) => {
+        setUser({"token": data.token, "username": data.username})
+        navigate('/home');
       })
       .catch(({ response }) => setError(response.data.error));
   }
-
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
-  };
 
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
@@ -75,12 +61,9 @@ export default function Signup() {
       <Button variant="contained" color="primary" onClick={addUser}>
         Create Account
       </Button>
-      {/* TODO - Remove first snackbar */}
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="User added successfully" />
       {error && (
         <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
       )}
-
       <Typography variant="body2" sx={{ marginTop: 2 }}>
           Already have an account? <Link to="/login">Login</Link>
       </Typography>

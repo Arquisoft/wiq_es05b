@@ -10,7 +10,6 @@ export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
   const loginUser = async () => {
@@ -26,15 +25,9 @@ export default function Login() {
       const { token, username: user } = response.data;
       
       setUser({"token": token, "username": user})
-
-      setOpenSnackbar(true);
     } catch (error) {
       setError(error.response.data.error);
     }
-  };
-
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
   };
 
   return (
@@ -77,8 +70,6 @@ export default function Login() {
             <Button variant="contained" color="primary" onClick={loginUser}>
               Login
             </Button>
-            {/* TODO - Remove first snackbar */}
-            <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
             {error && (
               <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
             )}
