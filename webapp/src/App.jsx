@@ -64,7 +64,8 @@ function useAuth(i = null) {
       sUser(JSON.parse(input));
     }
   }
-  const [user, sUser] = useState(i ? init(i) : localStorage.getItem("user"));
+  // TODO - On load validate that the token is, if not -> logout
+  const [user, sUser] = useState(i ? init(i) : JSON.parse(localStorage.getItem("user")));
 
   useEffect(() => {
     if(!user)

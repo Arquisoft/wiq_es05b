@@ -72,7 +72,16 @@ paths:
                     type: string
                     example: 'user'
 #        TODO - Remove createdAt
-        # TODO - Add 400 if body not correct
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Missing required fields'
         # TODO - Add 503 and 504
         '401':
           description: Unauthorized
