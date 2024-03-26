@@ -1,4 +1,4 @@
-const Question = require("./jordithink-model");
+const Question = require("./jordi-think-model");
 
 const axios = require('axios');
 

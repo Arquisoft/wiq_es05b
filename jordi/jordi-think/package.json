@@ -5,7 +5,7 @@
     "description": " Question generator service, in charge of genearting wikidata-based Q&A chunks",
     "main": "jordi.js",
     "scripts": {
-        "start": "node jordithink-service.js",
+        "start": "node jordi-think-service.js",
         "test": "jest"
     },
     "repository": {

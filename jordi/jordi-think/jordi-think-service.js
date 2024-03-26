@@ -32,10 +32,10 @@ async function script() {
                 throw new Error("Wikidata API error: No questions generated.");
             
             // Delete all questions for the generated category
-            await mongoose.connection.collection(element.groupId).deleteMany({ groupId: element.groupId });
+            await mongoose.connection.collection("questions").deleteMany({ groupId: element.groupId });
             
             // Insert the new questions
-            await mongoose.connection.collection(element.groupId).insertMany(questions);
+            await mongoose.connection.collection("questions").insertMany(questions);
             
             // Output success message
             if (DEBUG) outputQuestions(questions);
