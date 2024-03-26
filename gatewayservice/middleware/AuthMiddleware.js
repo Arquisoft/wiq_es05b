@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 
+// TODO - Move to GH secret
 const JWT_SECRET = process.env.SECRET || "a-very-secret-string"
 
 module.exports = function (req, res, next) {
@@ -10,9 +11,7 @@ module.exports = function (req, res, next) {
     }
 
     try {
-        const decoded = jwt.verify(token, JWT_SECRET);
-        // TODO - Check valid token
-        // req.user = decoded;
+        jwt.verify(token, JWT_SECRET);
         next();
     } catch(err) {
         return res.status(401).json({error: "Invalid token"});

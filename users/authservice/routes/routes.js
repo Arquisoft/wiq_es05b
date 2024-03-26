@@ -1,25 +1,14 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+// TODO - Move to GH secret
 const JWT_SECRET = process.env.SECRET || "a-very-secret-string"
-
-// Function to validate required fields in the request body
-function validateRequiredFields(req, requiredFields) {
-  for (const field of requiredFields) {
-    if (!field in req.body) {
-      throw new Error(`Missing required field: ${field}`);
-    }
-  }
-}
 
 module.exports = function (app, userRepository) {
 
   // Route for user login
   app.post('/login', async (req, res) => {
     try {
-      // Check if required fields are present in the request body
-      validateRequiredFields(req, ['username', 'password']);
-  
       const { username, password } = req.body;
       // Find the user by username in the database
 
@@ -37,6 +26,17 @@ module.exports = function (app, userRepository) {
         })
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
+  app.get('/validate/:token', (req, res) => {
+    try {
+      // Verify the token
+      jwt.verify(req.params.token, JWT_SECRET);
+      // Respond with the decoded token
+      res.json({ valid: true });
+    } catch (error) {
+      res.json({ valid: false });
     }
   });
 }

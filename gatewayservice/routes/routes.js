@@ -38,6 +38,12 @@ module.exports = function(app, axios) {
     }
   });
 
+  app.get("/validate/:token", (req, res) => {
+    axios.get(`${authServiceUrl}/validate/${req.params.token}`)
+      .then(({data}) => res.json(data))
+      .catch(error => res.status(error.response.status).json({ error: error.response.data.error }));
+  })
+
 /* ----------------------- Question related endpoints ----------------------- */
 
   app.get("/categories", async (_req, res) => {
