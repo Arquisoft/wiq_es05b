@@ -1,10 +1,21 @@
-# wiq_es05b
+# Conocer y Triunfar
 
-[![Deploy on release](https://github.com/Arquisoft/wiq_es05b/actions/workflows/release.yml/badge.svg)](https://github.com/Arquisoft/wiq_es05b/actions/workflows/release.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_es05b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_es05b)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_es05b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_es05b)
+This is a fork from the repo for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html).
 
-This is a base repo for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html). 
+[![Deploy on release](https://github.com/Arquisoft/wiq_es05b/actions/workflows/release.yml/badge.svg)](https://github.com/Arquisoft/wiq_es05b/actions/workflows/release.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_es05b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_es05b) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_es05b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_es05b) 
+
+[![Contributors](https://img.shields.io/github/contributors/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/graphs/contributors) [![Open Issues](https://img.shields.io/github/issues-raw/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/issues) [![Closed Issues](https://img.shields.io/github/issues-closed-raw/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/issues?q=is%3Aissue+is%3Aclosed)
+
+[![Repo Size](https://img.shields.io/github/repo-size/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b) [![Commit Activity](https://img.shields.io/github/commit-activity/m/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/commits/main) [![Last Commit](https://img.shields.io/github/last-commit/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/commits/main)
+
+[![Pull Requests](https://img.shields.io/github/issues-pr/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/pulls)
+
+[![License](https://img.shields.io/github/license/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/blob/main/LICENSE)
+
+[![Forks](https://img.shields.io/github/forks/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/network/members)
+[![Stars](https://img.shields.io/github/stars/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/stargazers)
+
+[![Open Source](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://opensource.org/)
 
 This repo is a basic application composed of several components.
 
@@ -12,22 +23,27 @@ This repo is a basic application composed of several components.
 - **User service**. Express service that handles the insertion of new users in the system.
 - **Auth service**. Express service that handles the authentication of users.
 - **Webapp**. React web application that uses the gateway service to allow basic login and new user features.
+- **Jordi Ask Service**. Express service that handles the wikidata-based questions generated.
+- **Jordi Think Service**. Local service that generates questions periodically using the WikiData API.
+- **Ranking Service**. Express service that handles the global scoring system of the app.
 
 Both the user and auth service share a Mongo database that is accessed with mongoose.
 
-## Contributors
+## Main Development Team
 
-- Donato Martín (UO288787@uniovi.es)
-- Luna Valdés (UO289321@uniovi.es)
-- Álvaro García (UO289295@uniovi.es)
-- Rubén Rubio (UO276255@uniovi.es)
-- David Álvarez (UO288705@uniovi.es)
+| 📚 UOId | 🧑‍💻 Name | 📧 Email | 😺 GitHub |
+| :---: | :---: | :---: | :---: |
+| UO289295 | Álvaro García | [UO289295@uniovi.es](mailto:UO289295@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-algarfer-brightgreen)](https://github.com/algarfer) |
+| UO288787 | Donato Martín | [UO288787@uniovi.es](mailto:UO288787@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-dononitram-brightgreen)](https://github.com/dononitram) |
+| UO288705 | David Álvarez | [UO288705@uniovi.es](mailto:UO288705@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-DavidAlvrz-brightgreen)](https://github.com/DavidAlvrz) |
+| UO276255 | Rubén Rubio | [UO276255@uniovi.es](mailto:UO276255@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-UO276255-brightgreen)](https://github.com/UO2766255) |
+| UO289321 | Luna Valdés | [UO289321@uniovi.es](mailto:UO289321@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-uo28931-brightgreen)](https://github.com/uo289321) |
 
 ## Quick start guide
 
 ### Using docker
 
-The fastest way for launching this sample project is using docker. Just clone the project:
+The fastest way tp launch this sample project is using docker. Just clone the project:
 
 ```sh
 git clone https://github.com/Arquisoft/wiq_es05b.git
@@ -45,6 +61,8 @@ and tear it down:
 docker compose --profile dev down
 ```
 
+availabel profiles: "dev" and "prod".
+
 ### Starting Component by component
 
 First, start the databases. Either install and run Mongo & PostgreSQL or run them using docker:
@@ -57,13 +75,15 @@ docker run -d -p 27017:27017 --name=my-mongo mongo:latest
 docker run -d --name my_postgres -e POSTGRES_PASSWORD=jordishhh -p 5432:5432 postgres:latest
 ```
 
-You can also use services like Mongo Altas for running a Mongo database in the cloud.
+You can also use services like Mongo Altas for running a Mongo database in the cloud. Or running a Postgres on your own with the proper schema.
 
-Now, launch the auth, user and gateway services. Just go to each directory and run `npm install` followed by `npm start`.
+Now, launch the ranking, users, jordis and gateway services. Just go to each directory and run `npm install` followed by `npm start`.
 
 Lastly, go to the webapp directory and launch this component with `npm install` followed by `npm start`.
 
 After all the components are launched, the app should be available in localhost in port 3000.
+
+You can also access the public API from the `port:8000`.
 
 ## Deployment
 

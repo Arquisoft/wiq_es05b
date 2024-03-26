@@ -39,9 +39,9 @@ export default function Nav() {
     }, []);
 
     const NavIcon = () => (
-        <a style={{ margin: width > threshold ? '0.5rem' : '1rem auto' }} href="/home">
+        <Link style={{ margin: width > threshold ? '0.5rem' : '1rem auto' }} to="/home">
             <CustomIcon />
-        </a>
+        </Link>
     );
 
     const DropDownMenu = () => (

@@ -10,6 +10,7 @@ import Menu from "./views/Menu";
 import Game from "./views/Game";
 import Logout from "./views/components/Logout"
 import Account from "./views/Account";
+import Error from "./views/Error";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Particles from "./views/components/Particles";
 import React, { useState, useEffect } from "react";
@@ -115,6 +116,7 @@ export default function App() {
         <Nav />
         <Particles />
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login/>} />
@@ -124,7 +126,7 @@ export default function App() {
           <Route path="/menu" element={<Menu />} />
           <Route path="/game/:category" element={<Game />} />
           <Route path="/account" element={<Account />} />
-          <Route path="*" element={<Home />} />
+          <Route path="*" element={<Error />} />
         </Routes>
         <Footer />
       </AuthContext.Provider>
