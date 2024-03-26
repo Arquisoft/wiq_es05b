@@ -12,6 +12,19 @@ describe("Home component", () => {
         await act(async () => {});
 
         expect(screen.getByText(/Play/)).toBeInTheDocument();
+    })
 
+    test( "redirect to login", async () => {
+        render(<MemoryRouter><Home /></MemoryRouter>);
+
+        const playButton = screen.getByText(/Play/i, { selector: 'a' });
+
+        await act(async () => {
+            fireEvent.click(playButton);
+        } );
+
+
+        expect(screen.getByText(/Login/i)).toBeInTheDocument();
+        expect(screen.getByText(/Don't have an account/i)).toBeInTheDocument();
     })
 })
