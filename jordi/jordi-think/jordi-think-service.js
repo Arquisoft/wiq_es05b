@@ -11,8 +11,6 @@ const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/questions
 const groups = require('./groups.json');
 const generators = groups.map(group => new WikidataQAManager(group));
 
-console.log(generators);
-
 async function script() {
     
     try {

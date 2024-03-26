@@ -6,15 +6,15 @@ const questionSchema = new mongoose.Schema(
         groupId: {
             type: String, required: true
         },
+        categories: [{
+            type: String, required: true
+        }],
         statements: [{
             type: String, required: true
         }],
         answer: {
             type: String, required: true,
         },
-        tags: [{
-            type: String, required: true
-        }],
     },
 );
 

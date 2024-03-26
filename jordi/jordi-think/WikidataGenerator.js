@@ -12,7 +12,7 @@ class WikidataGenerator {
         this.setSparQlQuery(group);
         this.groupId = group.groupId;
         this.statements = group.statements;
-        this.tags = group.tags;
+        this.categories = group.categories;
 
     }
 
@@ -63,14 +63,12 @@ class WikidataGenerator {
                 data.results.bindings.forEach(q => {
     
                     const questionParam = q.question.value;
-                    this.fillStatements(questionParam);
-                    
                     const answer = q.answer.value;
 
                     questions.push(new Question({
                         groupId: this.groupId,
-                        tags: this.tags,
-                        statements: this.statements,
+                        categories: this.categories,
+                        statements: this.fillStatements(questionParam),
                         answer: answer
                     }));
 
@@ -89,13 +87,13 @@ class WikidataGenerator {
 
     fillStatements(questionItem) {
 
-        const filledStatements = [];
+        let filledStatements = [];
 
         for (let statement of this.statements) {
             filledStatements.push(statement.replace("<QuestionItem>", questionItem));
         }
 
-        this.statements = filledStatements;
+        return filledStatements;
 
     }
     

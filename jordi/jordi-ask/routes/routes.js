@@ -11,13 +11,16 @@ module.exports = function (app, questionsRepository) {
 
         questionsRepository.getQuestions(category, n)
             .then(result => {
+
                 // Randomize the order of questions
                 result = result.sort(() => Math.random() - 0.5);
+
                 // Return questions without answer
                 const answerLessQuestions = result.map(q => {
                     const {answer, ...rest} = q;
                     return rest;
                 });
+                
                 res.json(answerLessQuestions);
             })
             .catch(err => res.status(500).json({error: err}))

@@ -15,7 +15,7 @@ module.exports = {
                 .mongoose
                 .connection
                 .collection(this.collectionName)
-                .distinct("category");
+                .distinct("categories");
             await this.mongoose.disconnect();
             return result;
         } catch (error) { return error }
@@ -24,16 +24,52 @@ module.exports = {
     getQuestions: async function (category, n=10) {
         try {
             await this.mongoose.connect(this.uri);
+
             let result = await this
                 .mongoose
                 .connection
                 .collection(this.collectionName)
-                .find({category: category})
-                .limit(parseInt(n))
+                .aggregate([
+                    { $match: { categories: category } },
+                    { $sample: { size: parseInt(n) } }
+                ])
                 .toArray();
+
+            for (let i = 0; i < result.length; i++) {
+                const question = result[i];
+                const options = await this.getDistinctOptions(question);
+                question.options = options;
+            }
+
             await this.mongoose.disconnect();
+
             return result
-        } catch (error) { return error }
+        } catch (error) { console.log(error); return error }
+    },
+
+    getDistinctOptions: async function (question) {
+        try {
+            let result = (await this
+                .mongoose
+                .connection
+                .collection(this.collectionName)
+                .aggregate([
+                    { $match: { categories: question.categories } },
+                    { $sample: { size: 3 } },
+                    { $project: { _id: 0, answer: 1 } },
+                    { $group: { _id: null, options: { $addToSet: "$answer" } } },
+                    { $unwind: "$options" },
+                    { $project: { _id: 0, option: "$options" } }
+                ])
+                .toArray()).map(x => x.option);
+
+                result.push(question.answer);
+            
+            return result;
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
     },
 
     findQuestionById: async function (id) {

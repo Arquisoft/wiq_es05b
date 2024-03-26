@@ -8,7 +8,7 @@
             "What is the capital of <QuestionItem>?",
             "Select the capital of <QuestionItem>"
         ],
-        "tags": [
+        "categories": [
             "capitals",
             "geography"
         ]
@@ -22,7 +22,7 @@
             "What is the continent of <QuestionItem>?",
             "Select the continent of <QuestionItem>"
         ],
-        "tags": [
+        "categories": [
             "continent",
             "geography"
         ]
@@ -36,7 +36,7 @@
             "What is the language spoken in <QuestionItem>?",
             "Select the language spoken in <QuestionItem>"
         ],
-        "tags": [
+        "categories": [
             "languages",
             "geography"
         ]
@@ -50,7 +50,7 @@
             "What is the population of <QuestionItem>",
             "Select the population of <QuestionItem>"
         ],
-        "tags": [
+        "categories": [
             "population",
             "geography"
         ],
@@ -66,7 +66,7 @@
             "What is the area of <QuestionItem>",
             "Select the area of <QuestionItem>"
         ],
-        "tags": [
+        "categories": [
             "area",
             "geography"
         ],
@@ -82,7 +82,7 @@
             "What is the GDP of <QuestionItem>",
             "Select the GDP of <QuestionItem>"
         ],
-        "tags": [
+        "categories": [
             "gdp",
             "geography"
         ],
@@ -98,7 +98,7 @@
             "What is the currency of <QuestionItem>",
             "Select the currency of <QuestionItem>"
         ],
-        "tags": [
+        "categories": [
             "currency",
             "geography",
             "economy"
@@ -113,7 +113,7 @@
             "Who is the president of <QuestionItem>",
             "Select the president of <QuestionItem>"
         ],
-        "tags": [
+        "categories": [
             "president",
             "geography",
             "politics"
