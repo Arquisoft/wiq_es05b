@@ -27,14 +27,22 @@ module.exports = function(app, axios) {
   app.post("/adduser", async (req, res) => {
     try {
       // Forward the add user request to the user service
-      const userResponse = await axios.post(`${userServiceUrl}/adduser`,req.body);
-      res.json(userResponse.data);
+      const {data} = await axios.post(`${userServiceUrl}/adduser`,req.body);
+      
+      const {data: d} = await axios.post(`${authServiceUrl}/login`, req.body)
+      res.json({message: data.message, token: d.token, username: d.username})
     } catch (error) {
       res
         .status(error.response.status)
         .json({ error: error.response.data.error });
     }
   });
+
+  app.get("/validate/:token", (req, res) => {
+    axios.get(`${authServiceUrl}/validate/${req.params.token}`)
+      .then(({data}) => res.json(data))
+      .catch(error => res.status(error.response.status).json({ error: error.response.data.error }));
+  })
 
 /* ----------------------- Question related endpoints ----------------------- */
 

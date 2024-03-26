@@ -14,12 +14,15 @@ import Error from "./views/Error";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Particles from "./views/components/Particles";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import configDefault from "./views/components/config/particles-config.json";
 import configJordi from "./views/components/config/particles-config-jordi";
 import configGraph from "./views/components/config/particles-config-graph";
 
 import { ConfigContext } from "./views/context/ConfigContext";
+
+const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 const theme = createTheme({
   palette: {
@@ -64,7 +67,19 @@ function useAuth(i = null) {
       sUser(JSON.parse(input));
     }
   }
-  const [user, sUser] = useState(i ? init(i) : localStorage.getItem("user"));
+  // TODO - On load validate that the token is, if not -> logout
+  const [user, sUser] = useState(i ? init(i) : JSON.parse(localStorage.getItem("user")));
+
+  useEffect(() => {
+    if(!user) return;
+    axios.get(`${apiEndpoint}/validate/${user.token}`)
+      .then(res => {
+        if(!res.data.valid) {
+          logout()
+        }
+      })
+      .catch(() => logout())
+  }, [])
 
   useEffect(() => {
     if(!user)
