@@ -1,36 +1,46 @@
 
-// Generators
-// TODO: being able to edit this in real time
-const generators = [
-    require("./generators/capitals"),
-    require("./generators/countries"),
-    require("./generators/population"),
-    require("./generators/languages"),
-]
+const DEBUG = false;
 
 const mongoose = require('mongoose');
 const cron = require('node-cron');
+const WikidataQAManager = require('./WikidataGenerator');
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/questions';
+
+// Make a WikidataQAManager for each groups.json entry
+const groups = require('./groups.json');
+const generators = groups.map(group => new WikidataQAManager(group));
+
+console.log(generators);
 
 async function script() {
     
     try {
+
         await mongoose.connect(mongoUri);
+
         for (let count = 0; count < generators.length; count++) {
+            
+            // Get the generator name for later logging
             const element = generators[count];
     
-            await mongoose.connection.collection('questions').deleteMany({category: element.getCategory()});
+            // Generate questions
             const questions = await generateQuestions(count);
-    
-            // Output questions
-            // for (const question of questions) {
-            //     console.log(question.statement);
-            // }
-            // console.log("Questions generated" + questions.length);
-    
-            await mongoose.connection.collection('questions').insertMany(questions);
-            console.log(`MongoDB: Questions updated for category -> ${element.getCategory()}`);
+
+            // If questions could not be generated, skip
+            if (questions.length == 0)
+                throw new Error("Wikidata API error: No questions generated.");
+            
+            // Delete all questions for the generated category
+            await mongoose.connection.collection(element.groupId).deleteMany({ groupId: element.groupId });
+            
+            // Insert the new questions
+            await mongoose.connection.collection(element.groupId).insertMany(questions);
+            
+            // Output success message
+            if (DEBUG) outputQuestions(questions);
+            console.log(`MongoDB: Questions updated for group -> ${element.groupId}`);
+
         }
         await mongoose.disconnect()
     }
@@ -40,18 +50,27 @@ async function script() {
 
 }
 
-// Genera las preguntas, devuelve un array e incrementa el count
+// Output the questions to the console
+function outputQuestions(questions) {
+    for (const question of questions) {
+        console.log(question.statement);
+    }
+    console.log("Questions generated " + questions.length);
+}
+
+// Generate the questions, return an array and increment the count
 async function generateQuestions(count) {
     const result = [];
     result.push(...await generators[count].generate());
     return result;
 }
 
-// Ejecuta el script una vez al inicio
+// Run script on start
 script();
 
-// * segundo * minuto * hora * dia * mes * año
-cron.schedule('* * * * 1 *', () => {
+
+// Schedule the script
+cron.schedule('* * * 1 * *', () => { // * second * minute * hour * date * month * year
     console.log("Running script at : " + new Date());
     script();
 }, {
