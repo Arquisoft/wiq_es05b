@@ -48,6 +48,10 @@ module.exports = {
     },
 
     getDistinctOptions: async function (question) {
+
+        // FIXME: Make it distinct and exclude the answer
+        // also make sure there are always 4 options at the end
+
         try {
             let result = (await this
                 .mongoose
