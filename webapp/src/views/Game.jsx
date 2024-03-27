@@ -1,5 +1,5 @@
 import { Button, Container, Divider, Paper, Typography, LinearProgress, Box } from "@mui/material";
-import { useState, useEffect, useRef, Fragment, useContext, useCallback } from "react";
+import { useState, useEffect, useRef, useContext, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ProtectedComponent from "./components/ProtectedComponent";
 import axios from "axios";
@@ -8,8 +8,76 @@ import coinImage from '../media/coin.svg';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
-export default function Game() {
 
+const buttonStyle = {
+    height: "10rem",
+    width: { xs: "auto", md: "10rem" },
+    fontSize: "4rem"
+}
+
+const MiLinea = ({progressBarPercent}) => progressBarPercent > 80 ?
+    <LinearProgress color="red" variant={"determinate"} value={progressBarPercent} /> :
+    <LinearProgress color="light" variant={"determinate"} value={progressBarPercent} />
+
+const Coin = ({pointsUpdated}) => {
+    return (
+        <Box sx={{ ml: 1, display: "flex", alignItems: "center"}}>
+            <Typography sx={{ fontWeight: 400, fontSize: "35px" }}>
+                {pointsUpdated}
+            </Typography>
+            <img src={coinImage} alt="Coin" style={{marginLeft: "10px"}}/>
+        </Box>
+    )
+}
+
+const Questions = ({questions, current}) => {
+    return (
+        <Paper elevation={3} sx={{margin: "2rem 0", padding: "1rem"}}>
+            <Typography variant="h4">
+                {/* FIXME - The statement should be selected once, currently it changes when the timer changes -> Solution: Move to the backend */}
+                {questions[current].statements[Math.floor(Math.random() * questions[current].statements.length)]}
+            </Typography>
+
+            <Divider sx={{margin: "10px 0"}}/>
+
+            {questions[current].options.map((option, i) => (
+                <Typography key={i} component="p" variant="h6">
+                    {String.fromCharCode(97 + i).toUpperCase()}. {option}
+                </Typography>
+            ))}
+
+        </Paper>
+    )
+}
+
+const Line = ({timeLeft, progressBarPercent}) => {
+    return (
+        <Paper elevation={3} sx={{padding: "1rem", marginBottom: "2rem"}}>
+            <Box sx={{ml: 1, display: "flex", margin: "5px" }}>
+                <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
+                    Time left: {timeLeft}
+                </Typography>
+            </Box>
+
+            <Box sx={{ margin: "10px" }}>
+                <MiLinea progressBarPercent={progressBarPercent} />
+            </Box>
+        </Paper>
+    )
+}
+
+const Buttons = ({answer}) => {
+    return (
+        <Container sx={{ display: "flex", justifyContent: "space-around", flexDirection: { xs: "column", md: "row" }, alignItems: { xs: "stretch" } }} >
+            <Button id="button0" color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(0)}>A</Button>
+            <Button id="button1" color="light" variant="contained" sx={buttonStyle} onClick={() => answer(1)}>B</Button>
+            <Button id="button2" color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(2)}>C</Button>
+            <Button id="button3" color="light" variant="contained" sx={buttonStyle} onClick={() => answer(3)}>D</Button>
+        </Container>
+    )
+}
+
+export default function Game() {
     const { category } = useParams();
     const { getUser } = useContext(AuthContext)
 
@@ -124,7 +192,6 @@ export default function Game() {
 
     }
 
-
     // Change button color
     const changeButtonColor = (i, color) => {
         const button = document.getElementById(`button${i}`);
@@ -136,70 +203,17 @@ export default function Game() {
         }
     }
 
-    const buttonStyle = {
-        height: "10rem",
-        width: { xs: "auto", md: "10rem" },
-        fontSize: "4rem"
-    }
-
-    const MiLinea = () => {
-        if (progressBarPercent > 80) {
-            return (<LinearProgress color="red" variant={"determinate"} value={progressBarPercent} />)
-        } else {
-            return (<LinearProgress color="light" variant={"determinate"} value={progressBarPercent} />)
-        }
-
-    }
-
-    if (questions.length === 0)
-        return null;
+    if (questions.length === 0) return null;
 
     return (
-        <Fragment>
+        <>
             <ProtectedComponent />
             <Container component="main" maxWidth="md" sx={{ marginTop: 4, display: "flex", flexDirection: { xs: "row", md: "column" } }}>
-                <Box sx={{ ml: 1, display: "flex", alignItems: "center", marginLeft: "1000px" }}>
-                    <Typography sx={{ fontWeight: 400, fontSize: "35px" }}>
-                        {pointsUpdated}
-                    </Typography>
-                    <img src={coinImage} alt="Coin" style={{marginLeft: "10px"}}/>
-                </Box>
-                <Paper elevation={3} sx={{margin: "2rem 0", padding: "1rem"}}>
-                    <Typography variant="h4">
-                        {questions[current].statement}
-                    </Typography>
-
-                    <Divider sx={{margin: "10px 0"}}/>
-
-                    {questions[current].options.map((option, i) => (
-                        <Typography key={i} component="p" variant="h6">
-                            {String.fromCharCode(97 + i).toUpperCase()}. {option}
-                        </Typography>
-                    ))}
-
-                </Paper>
-
-                <Paper elevation={3} sx={{padding: "1rem", marginBottom: "2rem"}}>
-
-                    <Box sx={{ml: 1, display: "flex", margin: "5px" }}>
-                        <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
-                            Time left: {timeLeft}
-                        </Typography>
-                    </Box>
-
-                    <Box sx={{ margin: "10px" }}>
-                        <MiLinea />
-                    </Box>
-
-                </Paper>
-
-                <Container sx={{ display: "flex", justifyContent: "space-around", flexDirection: { xs: "column", md: "row" }, alignItems: { xs: "stretch" } }} >
-                    <Button id="button0" color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(0)}>A</Button>
-                    <Button id="button1" color="light" variant="contained" sx={buttonStyle} onClick={() => answer(1)}>B</Button>
-                    <Button id="button2" color="dark" variant="contained" sx={buttonStyle} onClick={() => answer(2)}>C</Button>
-                    <Button id="button3" color="light" variant="contained" sx={buttonStyle} onClick={() => answer(3)}>D</Button>
-                </Container>
+                <Coin pointsUpdated={pointsUpdated} />
+                <Questions questions={questions} current={current} />
+                <Line timeLeft={timeLeft} progressBarPercent={progressBarPercent} />
+                <Buttons answer={answer} />
             </Container>
-        </Fragment>
+        </>
     )
 }

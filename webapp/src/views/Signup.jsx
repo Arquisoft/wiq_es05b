@@ -1,13 +1,13 @@
-// src/components/AddUser.jsx
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import {Container, Typography, TextField, Button, Snackbar, Paper} from '@mui/material';
-import { Link, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from '../App';
+import SuggestionText from './components/SuggestionText';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
-export default function Signup() {
+const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -22,11 +22,9 @@ export default function Signup() {
       })
       .catch(({ response }) => setError(response.data.error));
   }
-
   return (
-    <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
-     <Paper elevation={3} style={{ padding: '2rem' }}>
-      <Typography component="h1" variant="h5">
+    <>
+    <Typography component="h1" variant="h5">
         Signup
       </Typography>
       <TextField
@@ -64,10 +62,20 @@ export default function Signup() {
       {error && (
         <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
       )}
-      <Typography variant="body2" sx={{ marginTop: 2 }}>
-          Already have an account? <Link to="/login">Login</Link>
-      </Typography>
-      </Paper>
-    </Container>
+      </>
+  )
+}
+
+export default function Signup() {
+  const { isAuthenticated } = useContext(AuthContext);
+  return isAuthenticated()
+    ? <Navigate to="/home" />
+    : (
+      <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
+        <Paper elevation={3} style={{ padding: '2rem' }}>
+          <LoginForm />
+          <SuggestionText text="Already have an account?" linkText="Login" link="/login" />
+        </Paper>
+      </Container>
   );
 };

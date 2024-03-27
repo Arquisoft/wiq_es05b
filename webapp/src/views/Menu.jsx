@@ -1,7 +1,7 @@
 import {Button, Container, Paper, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import axios from 'axios';
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProtectedComponent from "./components/ProtectedComponent";
 
 const buttonConfig = {
@@ -17,58 +17,53 @@ const buttonGroup = {
     gap: "1rem"
 }
 
-const MyButton = ({text, link}) => {
+const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+
+const MyButton = ({text, link}) => <Button variant="contained" sx={buttonConfig} component={Link} to={link} >{text}</Button>
+
+const Buttons = ({categories}) => {
+    if (!categories || categories.length === 0)
+        return (
+            <Typography variant="h6" component="p" sx={{margin: "1rem"}}>
+                The service seems to be down, please try again later.
+            </Typography>
+        )
     return (
-        <Button variant="contained" sx={buttonConfig} component={Link} to={link} >{text}</Button>
+        <Container>
+            <Typography variant="h5" component="p">Choose a category to play</Typography>
+            <Container sx={buttonGroup}>
+                {categories.map((category, i) => (
+                    <MyButton key={i} text={category} link={"/game/" + category} />
+                ))}
+            </Container>
+        </Container>
     )
 }
 
+const getCategories = async () => {
+    let categories = undefined
+    try {
+        let response = await axios.get(`${apiEndpoint}/categories`)
+        categories = response.data
+    } catch (error) {}
+    return categories
+};
+
+const categories = await getCategories()
+
 export default function GameMenu () {
-
-    const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
-    const [categories, setCategories] = useState([])
-
-    const getCategories = async () => {
-        try {
-          const response = await axios.get(`${apiEndpoint}/categories`);
-          setCategories(response.data);
-        } catch (error) {
-          setCategories(['Service down Whoops! :('])
-        }
-      };
-
-    useEffect(() => {
-        getCategories();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
+    
     return (
-        <Fragment>
+        <>
             <ProtectedComponent />
             <Container component="main" maxWidth="md" sx={{ marginTop: 4, display: "flex", flexDirection: {xs:"row", md:"column"} }}>
                 <Paper elevation={3} sx={{margin: "2rem 0", padding: "1rem", textAlign: "center"}}>
                     <Typography variant="h3" component="p" sx={{marginBottom: "2rem"}}>
                         Menu
                     </Typography>
-                    {/* <Container>
-                        <Typography variant="h5" component="p">
-                            Options
-                        </Typography>
-                        <Container sx={buttonGroup}>
-                            <MyButton text="Time" />
-                            <MyButton text="Custom" />
-                        </Container>
-                    </Container> */}
-                    <Container>
-                        <Typography variant="h5" component="p">Choose a category to play</Typography>
-                        <Container sx={buttonGroup}>
-                            {categories.map((category, i) => (
-                                <MyButton key={i} text={category} link={"/game/" + category} />
-                            ))}
-                        </Container>
-                    </Container>
+                    <Buttons categories={categories} />
                 </Paper>
             </Container>
-        </Fragment>
+        </>
     )
 }

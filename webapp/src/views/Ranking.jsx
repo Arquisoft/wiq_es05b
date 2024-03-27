@@ -1,6 +1,7 @@
 import React from 'react';
 import { Paper, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText, Container } from '@mui/material';
 
+// TODO - Recover users from the API
 const users = [
     { id: 1, name: 'John Doe', score: 150 },
     { id: 2, name: 'Jane Smith', score: 120 },
@@ -8,24 +9,36 @@ const users = [
     { id: 4, name: 'Alice Lee', score: 90 },
 ];
 
+const RankingList = ({users}) => {
+    if (!users || users.length === 0)
+        return (
+            <Typography variant="h6" component="p" sx={{margin: "1rem"}}>
+                The service seems to be down, please try again later.
+            </Typography>
+        )
+    return (
+        <List>
+            {users.map((user, index) => (
+                <ListItem key={user.id}>
+                    <ListItemAvatar>
+                        <Avatar>{index + 1}</Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={user.name} secondary={`Score: ${user.score}`} />
+                </ListItem>
+            ))}
+        </List>
+    )
+}
+
 export default function Ranking() {
     return (
 
         <Container style={{paddingTop: '2rem'}}>
             <Paper elevation={3} style={{ padding: 16, maxWidth: 400, margin: 'auto' }}>
-            <Typography variant="h4" component="h1" align="center" gutterBottom>
-                Global Ranking
-            </Typography>
-            <List>
-                {users.map((user, index) => (
-                    <ListItem key={user.id}>
-                        <ListItemAvatar>
-                            <Avatar>{index + 1}</Avatar>
-                        </ListItemAvatar>
-                        <ListItemText primary={user.name} secondary={`Score: ${user.score}`} />
-                    </ListItem>
-                ))}
-            </List>
+                <Typography variant="h4" component="h1" align="center" gutterBottom>
+                    Global Ranking
+                </Typography>
+                <RankingList users={users} />
             </Paper>
         </Container>  
     );
