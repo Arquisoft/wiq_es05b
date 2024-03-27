@@ -11,6 +11,10 @@ module.exports = function (req, res, next) {
   
   // Signup password validation
   if(req.originalUrl === "/adduser") {
+    if (username.trim().length === 0) {
+      res.status(400).json({ error: "Username should not be empty" });
+      return;
+    }
     if (password.length < 8) {
       res.status(400).json({ error: "Password must be at least 8 characters long" });
       return;

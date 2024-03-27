@@ -8,7 +8,6 @@ import About from "./views/About";
 import Ranking from "./views/Ranking";
 import Menu from "./views/Menu";
 import Game from "./views/Game";
-import Logout from "./views/components/Logout"
 import Account from "./views/Account";
 import Error from "./views/Error";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -135,7 +134,6 @@ export default function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login/>} />
-          <Route path="/logout" element={<Logout />} />
           <Route path="/about" element={<About />} />
           <Route path="/ranking" element={<Ranking />} />
           <Route path="/menu" element={<Menu />} />

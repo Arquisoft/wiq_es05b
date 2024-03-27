@@ -9,7 +9,13 @@ const buttonConfig = {
     height: "5rem",
 }
 
-const buttonGroup = {display: "flex", justifyContent: "space-evenly", margin: "1rem 0"}
+const buttonGroup = {
+    display: "flex",
+    flexFlow: "row wrap",
+    justifyContent: "space-evenly",
+    margin: "1rem 0",
+    gap: "1rem"
+}
 
 const MyButton = ({text, link}) => {
     return (

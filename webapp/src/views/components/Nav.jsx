@@ -21,7 +21,7 @@ const settings = [
 
 export default function Nav() {
 
-    const { isAuthenticated, getUser } = useContext(AuthContext)
+    const { isAuthenticated, getUser, logout } = useContext(AuthContext)
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [width, setWidth] = useState(window.innerWidth);
@@ -95,6 +95,21 @@ export default function Nav() {
         );
     };
 
+    const generateMenuItems = () => {
+      return settings.map((setting) => {
+        if (isAuthenticated() !== setting.logged) return null
+        return (
+          <MenuItem
+            key={setting.displayed}
+            onClick={setting.link === '/logout' ? () => {handleCloseUserMenu(); logout()} : handleCloseUserMenu}
+            component={Link}
+            to={setting.link === '/logout' ? "/" : setting.link}>
+            <Typography textAlign="center">{setting.displayed}</Typography>
+          </MenuItem>
+        )
+      })
+    }
+
   return (
     <AppBar position="sticky">
       <Container maxWidth="xl">
@@ -119,12 +134,7 @@ export default function Nav() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => {
-                if (isAuthenticated() !== setting.logged) return null
-                return (<MenuItem key={setting.displayed} onClick={handleCloseUserMenu} component={Link} to={setting.link}>
-                  <Typography textAlign="center">{setting.displayed}</Typography>
-                </MenuItem>)
-              })}
+              {generateMenuItems()}
             </Menu>
           </Box>
         </Toolbar>
