@@ -14,8 +14,8 @@ const pages = [
 
 const settings = [
     { displayed: 'Account', link: '/account', logged: true },
-    { displayed: 'Sign Up', link: '/signup', logged: false },
     { displayed: 'Login', link: '/login', logged: false },
+    { displayed: 'Sign Up', link: '/signup', logged: false },
     { displayed: 'Logout', link: '/logout', logged: true }
 ];
 
