@@ -5,14 +5,20 @@ import ProtectedComponent from "./components/ProtectedComponent";
 import axios from "axios";
 import { AuthContext } from "../views/context/AuthContext";
 import coinImage from "../media/coin.svg";
+import imgFondoBtn from '../media/border.png';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 const buttonStyle = {
-  height: "10rem",
-  width: { xs: "auto", md: "10rem" },
-  fontSize: "4rem",
-};
+  height: "15rem",
+  width: "100%",
+  fontSize: "1.75rem",
+  background: `url(${imgFondoBtn})`,
+  backgroundSize: '100% 100%',
+  backgroundPosition: 'center',
+  margin: '5px',
+  color:'black'
+}
 
 // Change button color
 const changeButtonColor = (i, color) => {
@@ -85,19 +91,11 @@ const Line = ({ timeLeft, progressBarPercent }) => {
 
 const Buttons = ({ answer, n }) => {
   return (
-    <Container
-      sx={{
-        display: "flex",
-        justifyContent: "space-around",
-        flexDirection: { xs: "column", md: "row" },
-        alignItems: { xs: "stretch" },
-      }}
-    >
+      <Container sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}>
       {Array.from({ length: n }, (_, i) => (
         <Button
           key={i}
           id={`button${i}`}
-          color={i % 2 === 0 ? "dark" : "light"}
           variant="contained"
           sx={buttonStyle}
           onClick={() => answer(i)}
