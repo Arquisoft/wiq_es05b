@@ -61,14 +61,6 @@ const Questions = ({ current }) => {
   return (
     <Paper elevation={3} sx={{ margin: "2rem 0", padding: "1rem" }}>
       <Typography variant="h4">{current.statement}</Typography>
-
-      <Divider sx={{ margin: "10px 0" }} />
-
-      {current.options.map((option, i) => (
-        <Typography key={i} component="p" variant="h6">
-          {String.fromCharCode(97 + i).toUpperCase()}. {option}
-        </Typography>
-      ))}
     </Paper>
   );
 };
@@ -81,7 +73,6 @@ const Line = ({ timeLeft, progressBarPercent }) => {
           Time left: {timeLeft}
         </Typography>
       </Box>
-
       <Box sx={{ margin: "10px" }}>
         <MiLinea progressBarPercent={progressBarPercent} />
       </Box>
