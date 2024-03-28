@@ -5,22 +5,28 @@ import ProtectedComponent from "./components/ProtectedComponent";
 import axios from "axios";
 import { AuthContext } from "../views/context/AuthContext";
 import coinImage from "../media/coin.svg";
+import imgFondoBtn from '../media/border.png';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 const buttonStyle = {
-  height: "10rem",
-  width: { xs: "auto", md: "10rem" },
-  fontSize: "4rem",
-};
+  height: "15rem",
+  width: "100%",
+  fontSize: "1.75rem",
+  background: `url(${imgFondoBtn})`,
+  backgroundSize: '100% 100%',
+  backgroundPosition: 'center',
+  margin: '5px',
+  color:'black'
+}
 
 // Change button color
 const changeButtonColor = (i, color) => {
   const button = document.getElementById(`button${i}`);
   if (button != null) {
-    button.style.backgroundColor = color;
+    button.style.color = color;
     setTimeout(() => {
-      button.style.backgroundColor = "";
+      button.style.color = "black";
     }, 500);
   }
 };
@@ -55,14 +61,6 @@ const Questions = ({ current }) => {
   return (
     <Paper elevation={3} sx={{ margin: "2rem 0", padding: "1rem" }}>
       <Typography variant="h4">{current.statement}</Typography>
-
-      <Divider sx={{ margin: "10px 0" }} />
-
-      {current.options.map((option, i) => (
-        <Typography key={i} component="p" variant="h6">
-          {String.fromCharCode(97 + i).toUpperCase()}. {option}
-        </Typography>
-      ))}
     </Paper>
   );
 };
@@ -75,7 +73,6 @@ const Line = ({ timeLeft, progressBarPercent }) => {
           Time left: {timeLeft}
         </Typography>
       </Box>
-
       <Box sx={{ margin: "10px" }}>
         <MiLinea progressBarPercent={progressBarPercent} />
       </Box>
@@ -83,29 +80,15 @@ const Line = ({ timeLeft, progressBarPercent }) => {
   );
 };
 
-const Buttons = ({ answer, n }) => {
+const Buttons = ({ answer, questions }) => {
   return (
-    <Container
-      sx={{
-        display: "flex",
-        justifyContent: "space-around",
-        flexDirection: { xs: "column", md: "row" },
-        alignItems: { xs: "stretch" },
-      }}
-    >
-      {Array.from({ length: n }, (_, i) => (
-        <Button
-          key={i}
-          id={`button${i}`}
-          color={i % 2 === 0 ? "dark" : "light"}
-          variant="contained"
-          sx={buttonStyle}
-          onClick={() => answer(i)}
-        >
-          {String.fromCharCode(97 + i).toUpperCase()}
-        </Button>
-      ))}
-    </Container>
+        <Container sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}>
+          {questions.options.map((option, i) => (
+              <Button id={`button${i}`} sx={buttonStyle} onClick={() => answer(i)}>
+                {option}
+              </Button>
+          ))}
+        </Container>
   );
 };
 
@@ -244,7 +227,7 @@ export default function Game() {
         <Coin pointsUpdated={pointsUpdated} />
         <Questions current={questions[current]} />
         <Line timeLeft={timeLeft} progressBarPercent={progressBarPercent} />
-        <Buttons answer={answer} n={questions[current].options.length} />
+        <Buttons answer={answer} questions={questions[current]} />
       </Container>
     </>
   );
