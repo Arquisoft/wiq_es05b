@@ -17,7 +17,10 @@ module.exports = function (app, questionsRepository) {
 
                 // Return questions without answer
                 const answerLessQuestions = result.map(q => {
-                    const {answer, ...rest} = q;
+                    const {answer, statements, ...rest} = q;
+                    const statement = statements[Math.floor(Math.random() * statements.length)]
+                    rest.statement = statement;
+                    rest.options = rest.options.sort(() => Math.random() - 0.5);
                     return rest;
                 });
                 
