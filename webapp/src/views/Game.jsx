@@ -89,21 +89,15 @@ const Line = ({ timeLeft, progressBarPercent }) => {
   );
 };
 
-const Buttons = ({ answer, n }) => {
+const Buttons = ({ answer, questions }) => {
   return (
-      <Container sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}>
-      {Array.from({ length: n }, (_, i) => (
-        <Button
-          key={i}
-          id={`button${i}`}
-          variant="contained"
-          sx={buttonStyle}
-          onClick={() => answer(i)}
-        >
-          {String.fromCharCode(97 + i).toUpperCase()}
-        </Button>
-      ))}
-    </Container>
+        <Container sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}>
+          {questions.options.map((option, i) => (
+              <Button id={`button${i}`} sx={buttonStyle} onClick={() => answer(i)}>
+                {option}
+              </Button>
+          ))}
+        </Container>
   );
 };
 
@@ -224,7 +218,7 @@ export default function Game() {
         <Coin pointsUpdated={pointsUpdated} />
         <Questions current={questions[current]} />
         <Line timeLeft={timeLeft} progressBarPercent={progressBarPercent} />
-        <Buttons answer={answer} n={questions[current].options.length} />
+        <Buttons answer={answer} questions={questions[current]} />
       </Container>
     </>
   );
