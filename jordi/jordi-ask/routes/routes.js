@@ -1,7 +1,7 @@
 
 const errorHandler = (e, res, obj) => {
     let code = 500
-    let msg = `An error occured while fetching ${obj}`
+    let msg = `An error occured while fetching ${obj || "data"}`
     if(e.includes("ECONNREFUSED")) {
         code = 503
         msg = "Service Unavailable"

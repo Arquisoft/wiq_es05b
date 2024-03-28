@@ -1,6 +1,6 @@
 const errorHandler = (e, res, msg) => {
     let code = 500
-    let error = msg
+    let error = msg || 'Internal Server Error'
     switch (e) {
         case "ECONNREFUSED":
             code = 503

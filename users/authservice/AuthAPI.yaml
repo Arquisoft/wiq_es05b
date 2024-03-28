@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Auth API specification
   description: Internal API that handles user authentication
-  version: 1.0.0
+  version: 1.0.1
 servers:
   - url: 'http://localhost:8002'
 paths:
@@ -36,7 +36,16 @@ paths:
                   username:
                     type: string
                     example: 'user'
-        # TODO - Add 504
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid request'
         '401':
           description: Unauthorized
           content:
@@ -47,6 +56,26 @@ paths:
                   error:
                     type: string
                     example: 'Invalid credentials'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Internal server error'
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service unavailable'
   /valid/{token}:
     get:
       summary: Validate a token
@@ -68,4 +97,3 @@ paths:
                   valid:
                     type: boolean
                     example: true
-        # TODO - Add error mapping
