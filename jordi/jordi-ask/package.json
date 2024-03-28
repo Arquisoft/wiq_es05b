@@ -1,9 +1,10 @@
 {
-    "name": "jordi",
-    "author": "Donato Martín",
+    "name": "jordiaskservice",
     "version": "1.0.0",
-    "description": " Question generator service, in charge of genearting wikidata-based Q&A chunks",
-    "main": "jordi.js",
+    "description": "Question generator service, in charge of genearting wikidata-based Q&A chunks",
+    "author": "wiq_es05b",
+    "private": true,
+    "main": "jordi-ask-service.js",
     "scripts": {
         "start": "node jordi-ask-service.js",
         "dev": "nodemon jordi-ask-service.js",
@@ -17,7 +18,6 @@
         "url": "https://github.com/arquisoft/wiq_0/issues"
     },
     "homepage": "https://github.com/arquisoft/wiq_0#readme",
-    "license": "ISC",
     "dependencies": {
         "express": "^4.18.3",
         "mongoose": "^8.0.4",

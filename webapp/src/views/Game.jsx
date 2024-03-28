@@ -1,4 +1,4 @@
-import { Button, Container, Divider, Paper, Typography, LinearProgress, Box } from "@mui/material";
+import { Button, Container, Paper, Typography, LinearProgress, Box } from "@mui/material";
 import { useState, useEffect, useRef, useContext, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ProtectedComponent from "./components/ProtectedComponent";
@@ -10,7 +10,7 @@ import imgFondoBtn from '../media/border.png';
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 const buttonStyle = {
-  height: "15rem",
+  height: "13rem",
   width: "100%",
   fontSize: "1.5rem",
   background: `url(${imgFondoBtn})`,
@@ -19,6 +19,12 @@ const buttonStyle = {
   margin: '5px',
   color:'black'
 }
+
+// Linear time bar
+const initialTime = 10; // seconds
+const correctPoints = 100;
+const wrongPoints = -20;
+const startTime = performance.now();
 
 // Change button color
 const changeButtonColor = (i, color) => {
@@ -57,9 +63,9 @@ const Coin = ({ pointsUpdated }) => {
   );
 };
 
-const Questions = ({ current }) => {
+const Question = ({ current }) => {
   return (
-    <Paper elevation={3} sx={{ margin: "2rem 0", padding: "1rem" }}>
+    <Paper elevation={3} sx={{ padding: "1rem" }}>
       <Typography variant="h4">{current.statement}</Typography>
     </Paper>
   );
@@ -67,7 +73,7 @@ const Questions = ({ current }) => {
 
 const Line = ({ timeLeft, progressBarPercent }) => {
   return (
-    <Paper elevation={3} sx={{ padding: "1rem", marginBottom: "2rem" }}>
+    <Paper elevation={3} sx={{ padding: "1rem"}}>
       <Box sx={{ ml: 1, display: "flex", margin: "5px" }}>
         <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
           Time left: {timeLeft}
@@ -82,46 +88,30 @@ const Line = ({ timeLeft, progressBarPercent }) => {
 
 const Buttons = ({ answer, questions }) => {
   return (
-        <Container sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}>
-          {questions.options.map((option, i) => (
-              <Button id={`button${i}`} sx={buttonStyle} onClick={() => answer(i)}>
-                {option}
-              </Button>
-          ))}
-        </Container>
+    <Paper elevation={3} sx={{padding: "1rem 0" }}>
+      <Container sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}>
+        {questions.options.map((option, i) => (
+            <Button key={i} id={`button${i}`} sx={buttonStyle} onClick={() => answer(i)}>
+              {option}
+            </Button>
+        ))}
+      </Container>
+    </Paper>
   );
 };
 
 export default function Game() {
     const { category } = useParams();
     const { getUser } = useContext(AuthContext)
-
-    //State storing all questions
+    const timerId = useRef();
+    const navigate = useNavigate();
     const [questions, setQuestions] = useState([]);
-
-    // State to track the index of the current question
     const [current, setCurrent] = useState(0);
-
-    // State to see correct answers
-    // const [correctAnswers, setCorrectAnswers] = useState(0);
-
-    // Linear time bar
-    const initialTime = 10; // seconds
-
-    const correctPoints = 100;
-    const wrongPoints = -20;
-
     const [timeLeft, setTimeLeft] = useState(initialTime);
-
     const [progressBarPercent, setProgressBarPercent] = useState(0);
-
     const [pointsUpdated, setPointsUpdated] = useState(0);
     const [correctA, setCorrectA] = useState(0);
     const [wrongA, setWrongA] = useState(0);
-    const timerId = useRef();
-
-    const navigate = useNavigate();
-    const startTime = performance.now();
 
     // Next question
     const next = useCallback(() => {
@@ -222,10 +212,11 @@ export default function Game() {
           marginTop: 4,
           display: "flex",
           flexDirection: { xs: "row", md: "column" },
+          gap: "1rem"
         }}
       >
         <Coin pointsUpdated={pointsUpdated} />
-        <Questions current={questions[current]} />
+        <Question current={questions[current]} />
         <Line timeLeft={timeLeft} progressBarPercent={progressBarPercent} />
         <Buttons answer={answer} questions={questions[current]} />
       </Container>

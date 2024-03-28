@@ -1,7 +1,9 @@
 {
-  "name": "ranking",
+  "name": "rankingservice",
   "version": "1.0.0",
   "description": "Ranking microservice for the app",
+  "author": "wiq_es05b",
+  "private": true,
   "main": "ranking-service.js",
   "scripts": {
     "dev": "nodemon ranking-service.js",
@@ -12,11 +14,6 @@
     "type": "git",
     "url": "git+https://github.com/Arquisoft/wiq_es05b.git"
   },
-  "keywords": [
-    "ranking"
-  ],
-  "author": "Álvaro G. and Donato M.",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/Arquisoft/wiq_es05b/issues"
   },
