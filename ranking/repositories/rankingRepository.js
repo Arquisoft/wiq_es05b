@@ -1,43 +1,62 @@
 const fs = require('node:fs');
 module.exports = {
     client: null,
+    uri: null,
     
-    init: async function(client) {
+    getConnection: async function () {
+        let connection = new this.client(this.uri)
+        await connection.connect()
+        return connection
+    },
+
+    init: async function(client, uri) {
         this.client = client
+        this.uri = uri
+        let connection
         try {
-            await this.client.connect()
-            let exists = await this.client.query("SELECT EXISTS (SELECT 1 FROM "
+            connection = await this.getConnection()
+            let exists = await connection.query("SELECT EXISTS (SELECT 1 FROM "
             + "information_schema.tables WHERE table_name = 'records') "
             + "AS table_existence;")
             if(!exists.rows[0].table_existence) {
                 let data = fs.readFileSync('schema.sql', 'utf8')
                 console.log('Table not found, creating records database')
-                await this.client.query(data)
+                await connection.query(data)
             }
-            this.client.end()
-        } catch (error) { return error }
+        } catch (error) {
+            throw error.code
+        } finally {
+            connection && await connection.end()
+        }
     },
 
     getRanking: async function (n) {
+        let connection
         try {
-            await this.client.connect();
-            let result = await this.client
+            connection = await this.getConnection()
+            let result = await connection
                 .query('SELECT * FROM records ORDER BY points DESC LIMIT $1',
                     [n]);
-            this.client.end();
             return result.rows
-        } catch (error) { return error }
+        } catch (error) {
+            throw error.code
+        } finally {
+            connection && await connection.end()
+        }
     },
 
     insertRecord: async function(username, points) {
+        let connection
         try {
-            await this.client.connect()
-            let result = await this
-                .client
+            connection = await this.getConnection()
+            let result = await connection
                 .query('INSERT INTO records (name, points, date) VALUES ($1, $2, $3)',
                     [username, points, new Date()]);
-            this.client.end()
             return result.rows
-        } catch (error) { return error }
+        } catch (error) {
+            throw error.code
+        } finally {
+            connection && connection.end()
+        }
     }
 }

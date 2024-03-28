@@ -1,10 +1,12 @@
 
 const errorHandler = (e, res, obj) => {
+    let code = 500
+    let msg = `An error occured while fetching ${obj}`
     if(e.includes("ECONNREFUSED")) {
-        res.status(503).json({error: "ECONNREFUSED"})
-        return
+        code = 503
+        msg = "Service Unavailable"
     }
-    res.status(500).json({error: `An error occured while fetching ${obj}`})
+    res.status(code).json({error: msg})
 }
 
 module.exports = function (app, questionsRepository) {

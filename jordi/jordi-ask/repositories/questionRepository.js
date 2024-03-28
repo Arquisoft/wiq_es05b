@@ -16,9 +16,12 @@ module.exports = {
                 .connection
                 .collection(this.collectionName)
                 .distinct("categories");
-            await this.mongoose.disconnect();
             return result;
-        } catch (error) { throw error.message }
+        } catch (error) {
+            throw error.message
+        } finally {
+            await this.mongoose.disconnect();
+        }
     },
 
     getQuestions: async function (category, n=10) {
@@ -41,10 +44,12 @@ module.exports = {
                 question.options = options;
             }
 
-            await this.mongoose.disconnect();
-
             return result
-        } catch (error) { throw error.message }
+        } catch (error) {
+            throw error.message
+        } finally {
+            await this.mongoose.disconnect();
+        }
     },
 
     getDistinctOptions: async function (question) {
@@ -81,9 +86,12 @@ module.exports = {
                 .connection
                 .collection(this.collectionName)
                 .findOne({_id: new this.mongoose.Types.ObjectId(id)});
-            await this.mongoose.disconnect();
             return question;
-        } catch (error) { throw error.message }
+        } catch (error) {
+            throw error.message
+        } finally {
+            await this.mongoose.disconnect();
+        }
     },
     checkValidId: function (id) {
         if(!id || !this.mongoose.isValidObjectId(id)) return false

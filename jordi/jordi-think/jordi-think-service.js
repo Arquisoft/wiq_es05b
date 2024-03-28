@@ -40,10 +40,10 @@ async function script() {
             console.log(`MongoDB: Questions updated for group -> ${element.groupId}`);
 
         }
-        await mongoose.disconnect()
-    }
-    catch (error) {
+    } catch (error) {
         console.error("Error:", error);
+    } finally {
+        await mongoose.disconnect();
     }
 
 }
