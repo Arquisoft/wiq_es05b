@@ -31,8 +31,11 @@ module.exports = function (app, rankingRepository) {
     // add record
     app.post("/adduser", async (req, res) => {
         const {name, points} = req.body;
-        if (!name || !points) {
-            return res.status(400).json({error: "Name and points are required"});
+        if (!name) {
+            return res.status(400).json({error: "Missing name"});
+        }
+        if (!points) {
+            return res.status(400).json({error: "Missing points"});
         }
         rankingRepository.insertRecord(name, points)
             .then(() => res.json({messge: "Record added"}))

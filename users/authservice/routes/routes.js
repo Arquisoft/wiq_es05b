@@ -20,8 +20,12 @@ module.exports = function (app, userRepository) {
   app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     
-    if(!username || !password) {
-      res.status(400).json({ error: 'Username and password should be present' });
+    if(!username) {
+      res.status(400).json({ error: 'Missing username' });
+      return;
+    }
+    if(!password) {
+      res.status(400).json({ error: 'Missing password' });
       return;
     }
     userRepository.findUserByUsername(username)
