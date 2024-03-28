@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8004
 
 # Define the command to run your app
-CMD ["node", "jordiask-service.js"]
+CMD ["node", "jordi-ask-service.js"]

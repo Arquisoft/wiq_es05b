@@ -1,3 +1,22 @@
+const errorHandler = (e, res, msg) => {
+    let code = 500
+    let error = msg || 'Internal Server Error'
+    switch (e) {
+        case "ECONNREFUSED":
+            code = 503
+            error = "Service Unavailable"    
+            break;
+        case "42P01":
+            error = "Table not found"
+            break
+        case "22P02":
+            code = 400
+            error = "Invalid points format, should be a number (int)"
+            break
+    }
+    res.status(code).json({error: error})
+}
+
 module.exports = function (app, rankingRepository) {
 
     // get top n ranking
@@ -6,7 +25,7 @@ module.exports = function (app, rankingRepository) {
 
         rankingRepository.getRanking(n)
             .then(result => res.json(result))
-            .catch(error => res.status(500).json({error: error}));
+            .catch(error => errorHandler(error, res, "An error occured while fetching ranking"));
     });
 
     // add record
@@ -16,7 +35,7 @@ module.exports = function (app, rankingRepository) {
             return res.status(400).json({error: "Name and points are required"});
         }
         rankingRepository.insertRecord(name, points)
-            .then(result => res.json(result))
-            .catch(error => res.status(500).json({error: error}));
+            .then(() => res.json({messge: "Record added"}))
+            .catch(error => errorHandler(error, res, "An error occured while adding record"));
     });
 }

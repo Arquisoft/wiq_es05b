@@ -12,8 +12,11 @@ module.exports = {
             const user = await this
                 .User
                 .findOne({ username });
-            await this.mongoose.connection.close();
             return user;
-        } catch (error) { return error }
+        } catch (error) {
+            throw error.message
+        } finally {
+            this.mongoose.connection && await this.mongoose.connection.close();
+        }
     }
 }

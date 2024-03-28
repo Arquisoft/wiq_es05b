@@ -1,19 +1,21 @@
 const express = require('express');
-const pg = require('pg');
+const { Client } = require('pg');
 
 const app = express();
 const port = 8005;
 
+// TODO - Move to env
 const pgUri = "postgres://postgres:jordishhh@localhost:5432/postgres";
-
 const rankingRepository = require("./repositories/rankingRepository")
-rankingRepository.init(new pg.Client(pgUri))
 
 app.use(express.json())
-
 require("./routes/routes")(app, rankingRepository)
 
-// Run the server
 app.listen(port, () => {
     console.log('Ranking listening on port ' + port);
-});
+});        
+
+rankingRepository.init(Client, pgUri)
+    .catch(error => {
+        console.error(`Error initializing ranking repository: ${error}`)
+    });

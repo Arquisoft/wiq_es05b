@@ -3,18 +3,18 @@ const mongoose = require('mongoose')
 
 const questionSchema = new mongoose.Schema(
     {
-        category: {
+        groupId: {
             type: String, required: true
         },
-        statement: {
+        categories: [{
             type: String, required: true
-        },
+        }],
+        statements: [{
+            type: String, required: true
+        }],
         answer: {
             type: String, required: true,
         },
-        options: [{
-            type: String, required: true,
-        }]
     },
 );
 

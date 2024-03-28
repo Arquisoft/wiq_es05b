@@ -13,6 +13,9 @@ const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
 // Middleware to parse JSON in request body
 app.use(bodyParser.json());
 
+const dataMiddleware = require('./middleware/DataMiddleware')
+app.use("/adduser", dataMiddleware)
+
 userRepository.init(mongoose, mongoUri);
 require('./routes/routes')(app, userRepository)
 
