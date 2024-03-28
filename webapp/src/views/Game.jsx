@@ -24,9 +24,9 @@ const buttonStyle = {
 const changeButtonColor = (i, color) => {
   const button = document.getElementById(`button${i}`);
   if (button != null) {
-    button.style.backgroundColor = color;
+    button.style.color = color;
     setTimeout(() => {
-      button.style.backgroundColor = "";
+      button.style.color = "black";
     }, 500);
   }
 };
