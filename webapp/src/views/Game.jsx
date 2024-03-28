@@ -218,10 +218,9 @@ export default function Game() {
     if (i !== correct) changeButtonColor(i, "red");
 
     changeButtonColor(correctIndex, "green");
-    const newPoints =
-      pointsUpdated + (i === correctIndex ? correctPoints : wrongPoints);
+    const newPoints = pointsUpdated + (i === correctIndex ? correctPoints : wrongPoints);
     setPointsUpdated(newPoints);
-
+    (i === correctIndex ? setCorrectA(correctA+1) : setWrongA(wrongA+1) );
     setTimeout(() => {
       next();
     }, 200);
