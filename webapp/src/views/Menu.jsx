@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import axios from 'axios';
 import { useEffect, useState } from "react";
 import ProtectedComponent from "./components/ProtectedComponent";
+import grave from "../media/graveJordi.svg"
 
 const buttonConfig = {
     width: "9rem",
@@ -24,9 +25,12 @@ const MyButton = ({text, link}) => <Button variant="contained" sx={buttonConfig}
 const Buttons = ({categories}) => {
     if (!categories || categories.length === 0)
         return (
-            <Typography variant="h6" component="p" sx={{margin: "1rem"}}>
-                The service seems to be down, please try again later.
-            </Typography>
+            <Container>
+                <img src={grave} alt="Grave" />
+                <Typography variant="h6" component="p" sx={{margin: "1rem"}}>
+                    The service seems to be down, please try again later.
+                </Typography>
+            </Container>
         )
     return (
         <Container>
@@ -40,18 +44,16 @@ const Buttons = ({categories}) => {
     )
 }
 
-const getCategories = async () => {
-    let categories = undefined
-    try {
-        let response = await axios.get(`${apiEndpoint}/categories`)
-        categories = response.data
-    } catch (error) {}
-    return categories
-};
-
-const categories = await getCategories()
-
 export default function GameMenu () {
+    const [categories, setCategories] = useState([])
+
+    useEffect(() => {
+        axios.get(`${apiEndpoint}/categories`)
+            .then(response => {
+                // FIXME - Modify backend to return another status code rather than 200 to prevent app crash
+                if (response) setCategories(response.data)
+            })
+    }, [])
     
     return (
         <>

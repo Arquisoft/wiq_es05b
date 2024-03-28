@@ -34,8 +34,7 @@ const Questions = ({questions, current}) => {
     return (
         <Paper elevation={3} sx={{margin: "2rem 0", padding: "1rem"}}>
             <Typography variant="h4">
-                {/* FIXME - The statement should be selected once, currently it changes when the timer changes -> Solution: Move to the backend */}
-                {questions[current].statements[Math.floor(Math.random() * questions[current].statements.length)]}
+                {questions[current].statement}
             </Typography>
 
             <Divider sx={{margin: "10px 0"}}/>
