@@ -110,28 +110,47 @@ const Buttons = ({ answer, n }) => {
 };
 
 export default function Game() {
-  const initialTime = 10; // seconds
-  const correctPoints = 100;
-  const wrongPoints = -20;
-  const [questions, setQuestions] = useState([]);
-  const [current, setCurrent] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(initialTime);
-  const [progressBarPercent, setProgressBarPercent] = useState(0);
-  const [pointsUpdated, setPointsUpdated] = useState(0);
-  const timerId = useRef();
-  const navigate = useNavigate();
-  const { category } = useParams();
-  const { getUser } = useContext(AuthContext);
-  
-  // Next question
-  const next = useCallback(() => {
-    // TODO - Change and redirect to summary
-    if (current === questions.length - 1) navigate("/menu");
-    setCurrent(current + 1);
-    setTimeLeft(initialTime);
-    setProgressBarPercent(0);
-  }, [current, questions.length, initialTime, navigate]);
+    const { category } = useParams();
+    const { getUser } = useContext(AuthContext)
 
+    //State storing all questions
+    const [questions, setQuestions] = useState([]);
+
+    // State to track the index of the current question
+    const [current, setCurrent] = useState(0);
+
+    // State to see correct answers
+    // const [correctAnswers, setCorrectAnswers] = useState(0);
+
+    // Linear time bar
+    const initialTime = 10; // seconds
+
+    const correctPoints = 100;
+    const wrongPoints = -20;
+
+    const [timeLeft, setTimeLeft] = useState(initialTime);
+
+    const [progressBarPercent, setProgressBarPercent] = useState(0);
+
+    const [pointsUpdated, setPointsUpdated] = useState(0);
+    const [correctA, setCorrectA] = useState(0);
+    const [wrongA, setWrongA] = useState(0);
+    const timerId = useRef();
+
+    const navigate = useNavigate();
+    const startTime = performance.now();
+
+    // Next question
+    const next = useCallback(() => {
+        if (current === questions.length - 1) {
+            let endTime = performance.now();
+            navigate("/endgame", { state: { points:pointsUpdated,correct:correctA,wrong:wrongA,time:endTime-startTime} });
+        }
+
+        setCurrent(current + 1);
+        setTimeLeft(initialTime);
+        setProgressBarPercent(0);
+    }, [current, questions.length, initialTime, navigate, pointsUpdated, correctA, wrongA]);
   // Timer
   useEffect(() => {
     if (initialTime) {
