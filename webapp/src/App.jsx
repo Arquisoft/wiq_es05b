@@ -20,17 +20,18 @@ import configJordi from "./views/components/config/particles-config-jordi";
 import configGraph from "./views/components/config/particles-config-graph";
 
 import { ConfigContext } from "./views/context/ConfigContext";
+import { AuthContext } from "./views/context/AuthContext";
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#2e3487", // Your primary color
+      main: "#2e3487",
       contrastText: "#FFF",
     },
     secondary: {
-      main: "#f2f2f2", // Your secondary color
+      main: "#f2f2f2",
       contrastText: "#2e3487",
     },
     dark: {
@@ -48,23 +49,23 @@ const theme = createTheme({
   },
 
   typography: {
-    fontFamily: "Verdana, sans-serif", // Your preferred font family
-    fontSize: 16, // Base font size
+    fontFamily: "Verdana, sans-serif",
+    fontSize: 16,
   },
-  // Other theme options (spacing, breakpoints, etc.)
 });
 
-export const AuthContext = React.createContext();
+let configs = [
+  configDefault,
+  configGraph,
+  configJordi,
+];
 
 function useAuth(i = null) {
   const init = (input) => {
-    if(!input)
-      return null;
-    if (typeof input !== "string") {
-      sUser(input);
-    } else {
-      sUser(JSON.parse(input));
-    }
+    if(!input) return null;
+
+    if (typeof input !== "string") sUser(input);
+    else sUser(JSON.parse(input));
   }
   const [user, sUser] = useState(i ? init(i) : JSON.parse(localStorage.getItem("user")));
 
@@ -77,26 +78,19 @@ function useAuth(i = null) {
         }
       })
       .catch(() => logout())
+  // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
-    if(!user)
-      localStorage.removeItem('user');
-    else
-      localStorage.setItem('user', JSON.stringify(user));
+    if(!user) localStorage.removeItem('user');
+    else localStorage.setItem('user', JSON.stringify(user));
   }, [user])
 
-  const getUser = () => {
-      return user ? user : null;
-  }
-  const isAuthenticated = () => {
-    return user ? true : false;
-  }
-  const logout = () => {
-    sUser(null);
-  }
-
+  const getUser = () => user || null;
+  const isAuthenticated = () => !!user
+  const logout = () => sUser(null)
   const setUser = i => init(i);
+
   return {
     getUser,
     isAuthenticated,
@@ -108,13 +102,7 @@ function useAuth(i = null) {
 export default function App() {
   const [config, setConfig] = useState(configDefault);
 
-  let auth = useAuth()
-
-  let configs = [
-    configDefault,
-    configGraph,
-    configJordi,
-  ];
+  const auth = useAuth()
 
   function swapConfig() {
     const currentIndex = configs.findIndex(c => c === config);

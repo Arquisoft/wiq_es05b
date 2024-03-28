@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom"
 import { Navigate } from 'react-router';
-import { AuthContext } from '../App';
+import { AuthContext } from '../views/context/AuthContext';
 import CustomForm from './components/CustomForm';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
