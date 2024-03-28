@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Jordi (Ask) API Specification
   description: Internal API that provides the questions and answers
-  version: 1.0.0
+  version: 1.0.1
 servers:
   - url: 'http://localhost:8003'
 components:
@@ -13,9 +13,14 @@ components:
         _id:
           type: string
           example: '5f9b3b3b7b3b7b3b7b3b7b3b'
-        category:
+        groupId:
           type: string
-          example: 'Category 1'
+          example: 'group'
+        categories:
+          type: array
+          items:
+            type: string
+            example: 'Category 1'
         statement:
           type: string
           example: 'Question 1'
@@ -37,7 +42,26 @@ paths:
                 type: array
                 items:
                   type: string
-    # TODO - Map error
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: 'Service Unavailable'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service Unavailable'
   /questions/{category}/{n}:
     get:
       summary: Get n questions from a category
@@ -63,7 +87,27 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Question'
-    # TODO - Add error mapping
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: 'Service Unavailable'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service Unavailable'
+  # TODO - /answer shuold be GET rather than POST
   /answer:
     post:
       summary: Get the answer of a question
@@ -88,4 +132,43 @@ paths:
                   answer:
                     type: string
                     example: 'Option 1'
-    # TODO - Add error mapping
+        '400':
+          description: 'Bad Request'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'No id provided'
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Question not found'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: 'Service Unavailable'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service Unavailable'
