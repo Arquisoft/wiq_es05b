@@ -17,7 +17,9 @@ module.exports = {
       await this.mongoose.connection.close();
       return { message: "User created successfully" };
     } catch (error) {
-      return error;
+      throw error.message;
+    } finally {
+      this.mongoose.connection && await this.mongoose.connection.close()
     }
   },
   checkUser: async function (username) {
@@ -28,10 +30,11 @@ module.exports = {
         .connection
         .collection("users")
         .findOne({username: username})
-      await this.mongoose.connection.close();
       return result;
     } catch (error) {
-      return error;
+      throw error.message;
+    } finally {
+      this.mongoose.connection && await this.mongoose.connection.close();
     }
   }
 };
