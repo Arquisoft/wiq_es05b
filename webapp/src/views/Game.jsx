@@ -12,7 +12,7 @@ const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000
 const buttonStyle = {
   height: "15rem",
   width: "100%",
-  fontSize: "1.75rem",
+  fontSize: "1.5rem",
   background: `url(${imgFondoBtn})`,
   backgroundSize: '100% 100%',
   backgroundPosition: 'center',
