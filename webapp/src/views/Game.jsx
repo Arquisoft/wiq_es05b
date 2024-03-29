@@ -8,6 +8,7 @@ import coinImage from "../media/coin.svg";
 import grave from "../media/graveJordi.svg";
 import imgFondoBtn from '../media/border.png';
 import ServiceDownMessage from "./components/ServiceDownMessage";
+import Loader from "./components/Loader";
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
@@ -103,8 +104,12 @@ const Buttons = ({ answer, questions }) => {
 };
 
 const GameView = ({pointsUpdated, current, timeLeft, progressBarPercent, answer, n}) => {
-  // TODO - Show error template <ServiceDownMessage />
-  if (n === 0) return null;
+  if (n === 0)
+    return (
+      <Paper elevation={3} sx={{padding: "1rem 0" }}>
+        <Loader />
+      </Paper>
+    )
   return (
     <>
       <Coin pointsUpdated={pointsUpdated} />
@@ -140,7 +145,10 @@ export default function Game() {
         setTimeLeft(initialTime);
         setProgressBarPercent(0);
     }, [current, questions.length, initialTime, navigate, pointsUpdated, correctA, wrongA]);
+    
   // Timer
+  // FIXME - The time must start when the first questions is loaded,
+  // if there is a delay in the server the time will be wrong
   useEffect(() => {
     if (initialTime) {
       timerId.current = window.setInterval(() => {

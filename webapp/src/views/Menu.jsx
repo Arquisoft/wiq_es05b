@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import ProtectedComponent from "./components/ProtectedComponent";
 import grave from "../media/graveJordi.svg";
 import ServiceDownMessage from "./components/ServiceDownMessage";
+import Loader from "./components/Loader";
 
 const buttonConfig = {
   width: "9rem",
@@ -28,8 +29,7 @@ const MyButton = ({ text, link }) => (
 );
 
 const Buttons = ({ categories }) => {
-  // TODO - Loader component
-  // if (!categories || categories.length === 0)
+  if (!categories || categories.length === 0) return <Loader />
   return (
     <Container>
       <Typography variant="h5" component="p">
