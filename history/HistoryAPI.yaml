@@ -5,5 +5,121 @@ info:
   version: 1.0.0
 servers:
   - url: 'http://localhost:8006'
+
+# TODO - Add error mapping
 paths:
-  
+  /create/:
+    post:
+      summary: Creates a new save
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: '507f1f77bcf86cd799439011'
+                category:
+                  type: string
+                  example: 'category'
+      responses:
+        '201':
+          description: 'Created'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: '507f1f77bcf86cd799439011'
+  /add/{id}:
+    post:
+      summary: 'Adds a question to the save'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                last:
+                  type: boolean
+                  example: false
+                statement:
+                  type: string
+                  example: 'question'
+                options:
+                  type: array
+                  items:
+                    type: string
+                  example: ['option1', 'option2', 'option3', 'option4']
+                answer:
+                  type: integer
+                  example: 1
+                correct:
+                  type: boolean
+                  example: true
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Saved'
+
+  /get/{userId}/{id}:
+    get:
+      summary: 'Gets a save'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statement:
+                    type: string
+                    example: 'question'
+                  options:
+                    type: array
+                    items:
+                      type: string
+                    example: [ 'option1', 'option2', 'option3', 'option4' ]
+                  answer:
+                    type: integer
+                    example: 1
+                  correct:
+                    type: boolean
+                    example: true
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: '2021-06-01T00:00:00.000Z'
