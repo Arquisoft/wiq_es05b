@@ -42,6 +42,7 @@ paths:
                 type: array
                 items:
                   type: string
+                  example: 'Category 1'
         '500':
           description: 'Internal Server Error'
           content:
@@ -79,6 +80,7 @@ paths:
             type: integer
             example: 5
       responses:
+        # TODO - 404 when category not found
         '200':
           description: OK
           content:
@@ -107,7 +109,7 @@ paths:
                   error:
                     type: string
                     example: 'Service Unavailable'
-  # TODO - /answer shuold be GET rather than POST
+  # TODO - /answer should be GET rather than POST
   /answer:
     post:
       summary: Get the answer of a question

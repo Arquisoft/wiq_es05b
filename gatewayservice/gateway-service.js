@@ -9,19 +9,23 @@ const port = 8000;
 app.use(cors());
 app.use(express.json());
 
-
 //Prometheus configuration
 const metricsMiddleware = promBundle({includeMethod: true});
 app.use(metricsMiddleware);
 
 const dataValidatorMiddleware = require('./middleware/DataValidatorMiddleware')
+const authMiddleware = require('./middleware/AuthMiddleware')
+const errorHandler = require('./handler/errorHandler')
+
 app.use("/adduser", dataValidatorMiddleware)
 app.use("/login", dataValidatorMiddleware)
+app.use("/game", authMiddleware)
 
-require("./routes/routes")(app, axios)
-
-const authMiddleware = require('./middleware/AuthMiddleware')
-require("./routes/gameRoutes")(app, axios, authMiddleware)
+require("./routes/routes")(app)
+require("./routes/jordiaRoutes")(app, axios, errorHandler)
+require("./routes/rankingRoutes")(app, axios, errorHandler)
+require("./routes/usersRoutes")(app, axios, errorHandler)
+require("./routes/authRoutes")(app, axios, errorHandler)
 
 // Start the gateway service
 const server = app.listen(port, () => {

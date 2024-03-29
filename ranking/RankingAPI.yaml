@@ -5,6 +5,21 @@ info:
   version: 1.0.1
 servers:
   - url: 'http://localhost:8005'
+components:
+  schemas:
+    Record:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'user'
+        points:
+          type: integer
+          example: 100
+        date:
+          type: string
+          format: date-time
+          example: '2021-01-01T00:00:00Z'
 paths:
   /ranking/{n}:
     get:
@@ -17,6 +32,7 @@ paths:
             type: integer
             example: 5
       responses:
+        # TODO - If n is not a number -> Return 404
         '200':
           description: OK
           content:
@@ -24,18 +40,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                      example: 'user'
-                    points:
-                      type: integer
-                      example: 100
-                    date:
-                      type: string
-                      format: date-time
-                      example: '2021-01-01T00:00:00Z'
+                  $ref: '#/components/schemas/Record'
         '500':
           description: Internal server error
           content:

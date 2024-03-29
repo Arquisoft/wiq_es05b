@@ -20,6 +20,7 @@ const errorHandler = (e, res, msg) => {
 module.exports = function (app, rankingRepository) {
 
     // get top n ranking
+    // TODO - Check n is a number -> error 400
     app.get("/ranking/:n", async (req, res) => {
         const {n} = req.params;
 
