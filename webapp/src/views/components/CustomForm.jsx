@@ -27,6 +27,7 @@ const Form = ({ formData }) => {
         formData.fields.map((field, i) => {
           return (
             <TextField
+              key={i}
               required={field.required}
               name={field.name}
               margin="normal"
@@ -35,7 +36,7 @@ const Form = ({ formData }) => {
               value={field.value}
               type={field.type || "text"}
               onChange={field.changeHandler}
-              onKeyDown={e => introHandler(e, (e) => formData.submit(e, setError))}
+              onKeyDown={e => introHandler(e, () => formData.submit(setError))}
             />
           )
         })

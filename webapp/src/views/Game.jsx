@@ -5,7 +5,9 @@ import ProtectedComponent from "./components/ProtectedComponent";
 import axios from "axios";
 import { AuthContext } from "../views/context/AuthContext";
 import coinImage from "../media/coin.svg";
+import grave from "../media/graveJordi.svg";
 import imgFondoBtn from '../media/border.png';
+import ServiceDownMessage from "./components/ServiceDownMessage";
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
@@ -100,6 +102,19 @@ const Buttons = ({ answer, questions }) => {
   );
 };
 
+const GameView = ({pointsUpdated, current, timeLeft, progressBarPercent, answer, n}) => {
+  // TODO - Show error template <ServiceDownMessage />
+  if (n === 0) return null;
+  return (
+    <>
+      <Coin pointsUpdated={pointsUpdated} />
+      <Question current={current} />
+      <Line timeLeft={timeLeft} progressBarPercent={progressBarPercent} />
+      <Buttons answer={answer} questions={current} />
+    </>
+  )
+}
+
 export default function Game() {
     const { category } = useParams();
     const { getUser } = useContext(AuthContext)
@@ -112,6 +127,7 @@ export default function Game() {
     const [pointsUpdated, setPointsUpdated] = useState(0);
     const [correctA, setCorrectA] = useState(0);
     const [wrongA, setWrongA] = useState(0);
+    const [error, setError] = useState(null);
 
     // Next question
     const next = useCallback(() => {
@@ -160,13 +176,15 @@ export default function Game() {
   }, []);
 
   // Function to fetch questions
-  const fetchQuestions = async (url) => {
-    const { data } = await axios.get(url);
-    setQuestions(data);
+  const fetchQuestions = (url) => {
+    axios
+      .get(url)
+      .then((response) => setQuestions(response.data))
+      .catch((e) => {setError({code: e.response.status, error: e.response.data.error})});
   };
 
   // Function to answer a question
-  const answer = async (i) => {
+  const answer = (i) => {
     //Server-side validation
     const params = {
       token: getUser()["token"],
@@ -175,32 +193,27 @@ export default function Game() {
     };
 
     //Fetch correct answer
-    let response;
-    try {
-      response = await axios.post(`${apiEndpoint}/game/answer`, params);
-    } catch (error) {
-      console.log("Error fetching response");
-    }
+    axios
+      .post(`${apiEndpoint}/game/answer`, params)
+      .then(response => {
+        // Mark in red the incorrect answers and in green the correct one
+        const correct = questions[current].options.filter(
+          (o) => o === response.data.answer
+        );
+        const correctIndex = questions[current].options.indexOf(correct[0]);
 
-    // Mark in red the incorrect answers and in green the correct one
-    const correct = questions[current].options.filter(
-      (o) => o === response.data.answer
-    );
-    const correctIndex = questions[current].options.indexOf(correct[0]);
+        if (i !== correct) changeButtonColor(i, "red");
 
-    if (i !== correct) changeButtonColor(i, "red");
-
-    changeButtonColor(correctIndex, "green");
-    const newPoints = pointsUpdated + (i === correctIndex ? correctPoints : wrongPoints);
-    setPointsUpdated(newPoints);
-    (i === correctIndex ? setCorrectA(correctA+1) : setWrongA(wrongA+1) );
-    setTimeout(() => {
-      next();
-    }, 200);
+        changeButtonColor(correctIndex, "green");
+        const newPoints = pointsUpdated + (i === correctIndex ? correctPoints : wrongPoints);
+        setPointsUpdated(newPoints);
+        (i === correctIndex ? setCorrectA(correctA+1) : setWrongA(wrongA+1) );
+        setTimeout(() => {
+          next();
+        }, 200);
+      })
+      .catch((e) => {setError({code: e.response.status, error: e.response.data.error})});
   };
-
-  // TODO - Show error template <ServiceDownMessage />
-  if (questions.length === 0) return null;
 
   return (
     <>
@@ -215,10 +228,20 @@ export default function Game() {
           gap: "1rem"
         }}
       >
-        <Coin pointsUpdated={pointsUpdated} />
-        <Question current={questions[current]} />
-        <Line timeLeft={timeLeft} progressBarPercent={progressBarPercent} />
-        <Buttons answer={answer} questions={questions[current]} />
+        {error ? 
+          <Paper elevation={3} sx={{padding: "1rem 0" }}>
+            <ServiceDownMessage grave={grave} code={error.code} reason={error.error} />
+          </Paper>
+          : 
+          <GameView
+            pointsUpdated={pointsUpdated}
+            current={questions[current]}
+            timeLeft={timeLeft}
+            progressBarPercent={progressBarPercent}
+            answer={answer}
+            n={questions.length}
+          />
+        }
       </Container>
     </>
   );

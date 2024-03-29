@@ -12,6 +12,7 @@ const users = [
 ];
 
 const RankingList = ({ users }) => {
+  // TODO - Maybe add loader and ServiceDownMessage move to <Ranking> in the catch block of the promise
   if (!users || users.length === 0)
     return <ServiceDownMessage grave={grave} />
   return (

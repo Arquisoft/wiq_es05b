@@ -28,8 +28,8 @@ const MyButton = ({ text, link }) => (
 );
 
 const Buttons = ({ categories }) => {
-  if (!categories || categories.length === 0)
-    return <ServiceDownMessage grave={grave} />;
+  // TODO - Loader component
+  // if (!categories || categories.length === 0)
   return (
     <Container>
       <Typography variant="h5" component="p">
@@ -46,13 +46,14 @@ const Buttons = ({ categories }) => {
 
 export default function GameMenu() {
   const [categories, setCategories] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     axios.get(`${apiEndpoint}/categories`)
       .then((response) => {
-        // FIXME - Modify backend to return another status code rather than 200 to prevent app crash
         if (response) setCategories(response.data);
-      });
+      })
+      .catch((error) => setError({code: error.response.status, message: error.response.data.error}));
   }, []);
 
   return (
@@ -74,7 +75,11 @@ export default function GameMenu() {
           <Typography variant="h3" component="p" sx={{ marginBottom: "2rem" }}>
             Menu
           </Typography>
-          <Buttons categories={categories} />
+          {
+            error ? 
+            <ServiceDownMessage grave={grave} code={error.code} reason={error.message} /> :
+            <Buttons categories={categories} />
+          }
         </Paper>
       </Container>
     </>

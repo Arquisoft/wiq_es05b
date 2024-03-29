@@ -26,10 +26,19 @@ export default function Signup() {
       axios
         .post(`${apiEndpoint}/adduser`, { username, password })
         .then(({ data }) => {
+          if(data.error) {
+            navigate("/login");
+            return
+          }
           setUser({ token: data.token, username: data.username });
           navigate("/home");
         })
-        .catch(({ response }) => callback(response.data.error));
+        .catch(error => {
+          if(!error.response && error.code === 'ERR_NETWORK')
+            callback("Service is down")
+          else
+            callback(error.response.data.error);
+        });
     },
     fields: [
       {

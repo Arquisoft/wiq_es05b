@@ -22,23 +22,22 @@ export default function Login() {
   const formData = {
     title: "Login",
     submitButtonTx: "Login",
-    submit: async (callback) => {
-      try {
-        const response = await axios.post(`${apiEndpoint}/login`, { username, password });
-    
-        if (response.data.error) {
-          callback(response.data.error);
-          logout()
-          return;
-        }
-    
-        const { token, username: user } = response.data;
-        
-        setUser({"token": token, "username": user})
-        navigate('/menu');
-      } catch (error) {
-        callback(error.response.data.error);
-      }
+    submit: (callback) => {
+      axios
+        .post(`${apiEndpoint}/login`, { username, password })
+        .then(response => {
+          const { token, username } = response.data;
+          
+          setUser({"token": token, "username": username})
+          navigate('/menu');
+        })
+        .catch(error => {
+          if(!error.response && error.code === 'ERR_NETWORK')
+            callback("Service is down")
+          else
+            callback(error.response.data.error);
+          logout();
+        });
     },
     fields: [
       {
