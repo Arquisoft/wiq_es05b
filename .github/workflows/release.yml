@@ -171,6 +171,24 @@ jobs:
         registry: ghcr.io
         workdir: ranking
         platforms: linux/arm64, linux/amd64
+  docker-push-history:
+    name: Push history service Docker Image to GitHub Packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    needs: [e2e-tests]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@v5
+      with:
+        name: arquisoft/wiq_es05b/history
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: ghcr.io
+        workdir: history
+        platforms: linux/arm64, linux/amd64
   deploy:
     name: Deploy over SSH
     runs-on: ubuntu-latest

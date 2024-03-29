@@ -119,6 +119,20 @@ services:
     environment:
       POSTGRES_URI: postgres://postgres:5432/ranking
 
+  history:
+    container_name: history-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/history:latest
+    profiles: ["dev", "prod"]
+    build: ./history
+    depends_on:
+      - mongodb
+    ports:
+      - "8006:8006"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/history
+
   ## only dev
 
   prometheus:

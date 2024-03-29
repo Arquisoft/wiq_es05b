@@ -1,0 +1,9 @@
+openapi: 3.0.3
+info:
+  title: History API specification
+  description: Internal API that handles games history data
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8006'
+paths:
+  

@@ -1,0 +1,28 @@
+{
+  "name": "history",
+  "version": "1.0.0",
+  "description": "Stores the user's game history",
+  "author": "wiq_es05b",
+  "private": true,
+  "main": "history-service.js",
+  "scripts": {
+    "start": "node history-service.js",
+    "dev": "nodemon history-service.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arquisoft/wiq_es05b.git"
+  },
+  "bugs": {
+    "url": "https://github.com/arquisoft/wiq_es05b/issues"
+  },
+  "homepage": "https://github.com/arquisoft/wiq_es05b#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.2.4"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
