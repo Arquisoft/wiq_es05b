@@ -1,10 +1,17 @@
 import React from 'react';
 import { render, fireEvent, screen, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Home from '../views/Home.jsx';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+import Home from 'Home.jsx';
 import {MemoryRouter} from "react-router";
 
+const mockAxios = new MockAdapter(axios);
+
 describe("Home component", () => {
+    beforeEach(() => {
+        mockAxios.reset();
+    });
 
     test("renders component", async () => {
         render(<MemoryRouter><Home /></MemoryRouter>);
@@ -19,10 +26,9 @@ describe("Home component", () => {
 
         const playButton = screen.getByText(/Play/i, { selector: 'a' });
 
-        await act(async () => {
-            fireEvent.click(playButton);
-        } );
+        mockAxios.onPost('http://localhost:8000/login');
 
+        await act(async () => {});
 
         expect(screen.getByText(/Login/i)).toBeInTheDocument();
         expect(screen.getByText(/Don't have an account/i)).toBeInTheDocument();

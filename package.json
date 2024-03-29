@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "mongo":  "docker run -d -p 27017:27017 --name=my-mongo mongo:latest",
+        "mongo": "docker run -d -p 27017:27017 --name=my-mongo mongo:latest",
         "postgres": "docker run -d --name my_postgres -e POSTGRES_PASSWORD=jordishhh -p 5432:5432 postgres:latest",
         "webapp": "cd webapp && npm start",
         "gateway": "cd gatewayservice && npm start",
@@ -9,5 +9,13 @@
         "think": "cd jordi/jordi-think && npm start",
         "ask": "cd jordi/jordi-ask && npm start",
         "ranking": "cd ranking && npm start"
+    },
+    "dependencies": {
+        "axios": "^1.6.8",
+        "es6": "^0.0.7"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0",
+        "typescript": "^5.4.3"
     }
 }
