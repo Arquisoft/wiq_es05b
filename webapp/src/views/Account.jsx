@@ -42,13 +42,13 @@ const UserData = () => {
     {description: "Email", value: "admin@localhost"},
     {description: "Created at", value: new Date().getFullYear()},
   ]
+  // TODO - If down show ServerDownMessage
   return (
     <Paper
       elevation={3}
       sx={{
         display: "flex",
         flexFlow: "column",
-        // justifyContent: "center",
         alignItems: "center",
         gap: "1rem",
         paddingTop: "1rem",
@@ -85,8 +85,8 @@ const Buttons = () => {
       <Button
         sx={{height: "fit-content"}}
         onClick={() => {navigate("/"); logout()}}
+        startIcon={<LogoutIcon />}
       >
-        <LogoutIcon />
         <Typography variant="button">Logout</Typography>
       </Button>
     </Paper>
@@ -121,8 +121,7 @@ export default function Account() {
         sx={{
           marginTop: 4,
           display: "grid",
-          gridTemplateColumns: "1fr 2fr",
-          gridColumnGap: "1rem"
+          gridTemplateColumns: "1fr 2fr"
         }}
       >
         <AccountPanel />

@@ -33,7 +33,7 @@ module.exports = (app, saveRepository) => {
     const {id} = req.params
     const {last, statement, options, answer, correct, time, points} = req.body
 
-    if(!"last" in req.body) {
+    if(!("last" in req.body)) {
       res.status(400).json({error: "Missing last"})
       return
     }
@@ -45,23 +45,23 @@ module.exports = (app, saveRepository) => {
       res.status(400).json({error: "Missing options"})
       return
     }
-    if(!"answer" in req.body) {
+    if(!("answer" in req.body)) {
       res.status(400).json({error: "Missing answer"})
       return
     }
-    if(!"correct" in req.body) {
+    if(!("correct" in req.body)) {
       res.status(400).json({error: "Missing correct"})
       return
     }
-    if(!"time" in req.body) {
+    if(!("time" in req.body)) {
       res.status(400).json({error: "Missing time"})
       return
     }
-    if(!"points" in req.body) {
+    if(!("points" in req.body)) {
       res.status(400).json({error: "Missing points"})
       return
     }
-    if(saveRepository.isValidObjectId(id)) {
+    if(!saveRepository.isValidObjectId(id)) {
       res.status(400).json({error: "Invalid id format"})
       return
     }
