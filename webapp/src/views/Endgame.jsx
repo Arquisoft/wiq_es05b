@@ -8,7 +8,7 @@ export default function Endgame() {
     const wrong = location.state?.wrong;
     const time = convertirTiempo(location.state?.time);
     function convertirTiempo(time) {
-        const sec = Math.round(time/ 100);
+        const sec = Math.round(time/ 1000);
         const min = Math.round(sec/60);
         const minFormat = String(min).padStart(2, '0');
         const secFormat = String(sec).padStart(2, '0');
