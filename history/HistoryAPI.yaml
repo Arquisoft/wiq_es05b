@@ -30,6 +30,9 @@ components:
         time:
           type: integer
           example: 10
+        points:
+          type: integer
+          example: 10
     Save:
       type: object
       properties:
@@ -122,6 +125,9 @@ paths:
                 time:
                   type: integer
                   example: 10
+                points:
+                  type: integer
+                  example: 10
       responses:
         '200':
           description: 'OK'
@@ -180,6 +186,12 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Save'
+                type: object
+                properties:
+                  maxPages:
+                    type: integer
+                    example: 1
+                  saves:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Save'

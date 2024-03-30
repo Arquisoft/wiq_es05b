@@ -31,7 +31,7 @@ module.exports = (app, saveRepository) => {
   // TODO - Gateway should check if the user is owner of the save
   app.post("/add/:id", (req, res) => {
     const {id} = req.params
-    const {last, statement, options, answer, correct, time} = req.body
+    const {last, statement, options, answer, correct, time, points} = req.body
 
     if(!"last" in req.body) {
       res.status(400).json({error: "Missing last"})
@@ -57,6 +57,10 @@ module.exports = (app, saveRepository) => {
       res.status(400).json({error: "Missing time"})
       return
     }
+    if(!"points" in req.body) {
+      res.status(400).json({error: "Missing points"})
+      return
+    }
     if(saveRepository.isValidObjectId(id)) {
       res.status(400).json({error: "Invalid id format"})
       return
@@ -67,7 +71,8 @@ module.exports = (app, saveRepository) => {
       options,
       answer,
       correct,
-      time
+      time,
+      points
     }
 
     saveRepository

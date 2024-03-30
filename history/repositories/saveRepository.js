@@ -28,17 +28,6 @@ module.exports = {
   isValidObjectId: function(id) {
     return this.mongoose.Types.ObjectId.isValid(id)
   },
-  findSave: async function(id) {
-    try {
-      await this.mongoose.connect(this.uri)
-      const result = await this.Save.findById(id)
-      return result
-    } catch (e) {
-      throw e.message
-    } finally {
-      this.mongoose.connection && await this.mongoose.disconnect()
-    }
-  },
   addAnswer: async function(question, id, close) {
     try {
       await this.mongoose.connect(this.uri)
@@ -71,11 +60,16 @@ module.exports = {
     }
   },
   getUserSaves: async function(userId, page=-1, limit=-1) {
+    const filter = { userId: userId, finished: true }
+    const order = {createdAt: -1}
     try {
       await this.mongoose.connect(this.uri)
-      if(page === -1 || limit === -1) return await this.Save.find({ userId: userId }).sort({createdAt: -1})
-      return await this.Save.find({ userId: userId }).sort({createdAt: -1}).skip(page * limit).limit(limit)
-
+      let result
+      const total = await this.Save.countDocuments(filter)
+      const totalPages = Math.ceil(total / limit);
+      if(page > -1 && limit > -1) result = await this.Save.find(filter).sort(order).skip(page * limit).limit(limit)
+      else result = await this.Save.find(filter).sort(order)
+      return { saves: result, maxPages: (page > -1 && limit > -1) ? totalPages : 1}
     } catch (e) {
       throw e.message
     } finally {
