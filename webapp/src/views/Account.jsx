@@ -1,10 +1,11 @@
 import ProtectedComponent from "./components/ProtectedComponent";
-import {Button, Container, Divider, Paper, Typography} from "@mui/material";
+import {Button, Container, Paper, Typography} from "@mui/material";
 import {useContext} from "react";
 import {AuthContext} from "./context/AuthContext";
 import MyAvatar from "./components/MyAvatar";
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useNavigate} from "react-router-dom";
+import SaveList from "./components/SaveList";
 
 const Field = ({description, value}) => {
   return (
@@ -104,8 +105,9 @@ const AccountPanel = () => {
 
 const HistoryPanel = () => {
   return (
-    <Paper>
-      <Typography variant="h3" component="p">History</Typography>
+    <Paper elevation={3} sx={{padding:"1rem 1rem 2rem"}}>
+      <Typography variant="h3" component="p" sx={{textAlign: "center"}}>History</Typography>
+      <SaveList />
     </Paper>
   )
 }
@@ -120,8 +122,7 @@ export default function Account() {
           marginTop: 4,
           display: "grid",
           gridTemplateColumns: "1fr 2fr",
-          gridColumnGap: "1rem",
-          height: "82vh"
+          gridColumnGap: "1rem"
         }}
       >
         <AccountPanel />
