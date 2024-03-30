@@ -23,27 +23,6 @@ const saveSchema = new mongoose.Schema({
   },
 });
 
-const questionSchema = new mongoose.Schema({
-  statement: {
-    type: String,
-    required: true,
-  },
-  options: {
-    type: Array,
-    required: true,
-  },
-  answer: {
-    type: Number,
-    required: true,
-  },
-  correct: {
-    type: Number,
-    required: true,
-  },
-})
-
 const Save = mongoose.model("Save", saveSchema);
-const Question = mongoose.model("Question", questionSchema);
 
 module.exports = Save;
-module.exports = Question;

@@ -14,7 +14,6 @@ module.exports = {
         password: password,
       });
       await user.save();
-      await this.mongoose.connection.close();
       return { message: "User created successfully" };
     } catch (error) {
       throw error.message;

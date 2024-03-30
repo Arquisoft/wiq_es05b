@@ -5,7 +5,57 @@ info:
   version: 1.0.0
 servers:
   - url: 'http://localhost:8006'
-
+components:
+  schemas:
+    Question:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '5f9b3b3b7b3b7b3b7b3b7b3b'
+        statement:
+          type: string
+          example: 'Question 1'
+        options:
+          type: array
+          items:
+            type: string
+            example: 'Category 1'
+        answer:
+          type: integer
+          example: 1
+        correct:
+          type: integer
+          example: 0
+        time:
+          type: integer
+          example: 10
+    Save:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '5f9b3b3b7b3b7b3b7b3b7b3b'
+        userId:
+          type: string
+          example: '507f1f77bcf86cd799439011'
+        category:
+          type: string
+          example: 'Category 1'
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Question'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2021-06-01T00:00:00.000Z'
+        finished:
+          type: boolean
+          example: false
+        __v:
+          type: integer
+          example: 0
 # TODO - Add error mapping
 paths:
   /create/:
@@ -57,18 +107,21 @@ paths:
                   example: false
                 statement:
                   type: string
-                  example: 'question'
+                  example: 'Question 1'
                 options:
                   type: array
                   items:
                     type: string
-                  example: ['option1', 'option2', 'option3', 'option4']
+                    example: 'Category 1'
                 answer:
                   type: integer
                   example: 1
                 correct:
-                  type: boolean
-                  example: true
+                  type: integer
+                  example: 0
+                time:
+                  type: integer
+                  example: 10
       responses:
         '200':
           description: 'OK'
@@ -103,23 +156,30 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  statement:
-                    type: string
-                    example: 'question'
-                  options:
-                    type: array
-                    items:
-                      type: string
-                    example: [ 'option1', 'option2', 'option3', 'option4' ]
-                  answer:
-                    type: integer
-                    example: 1
-                  correct:
-                    type: boolean
-                    example: true
-                  createdAt:
-                    type: string
-                    format: date-time
-                    example: '2021-06-01T00:00:00.000Z'
+                $ref: '#/components/schemas/Save'
+
+  /get/{userId}?page={page}&limit={limit}:
+    get:
+      summary: 'Gets all saves from a user'
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            example: 1
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            example: 10
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Save'
