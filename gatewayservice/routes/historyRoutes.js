@@ -6,12 +6,14 @@ module.exports = (app, axios, errorHandler) => {
     const { page, limit } = req.query
     const { userId: userIdBody } = req.body
 
-    if (userIdBody && userIdBody !== userId) {
-      res.status(401).json({ error: "You don't own this save" })
-      return
-    }
+    // TODO - Debug
+    // if (userIdBody && userIdBody !== userId) {
+    //   res.status(401).json({ error: "You don't own this save" })
+    //   return
+    // }
 
-    let url = `${historyService}/get/${userId}`
+    // let url = `${historyService}/get/${userId}`
+    let url = `${historyService}/get/${userIdBody}`
 
     if(!isNaN(parseInt(page)) && !isNaN(parseInt(limit))) {
       url += `?page=${page}&limit=${limit}`
