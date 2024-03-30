@@ -20,12 +20,14 @@ const errorHandler = require('./handler/errorHandler')
 app.use("/adduser", dataValidatorMiddleware)
 app.use("/login", dataValidatorMiddleware)
 app.use("/game", authMiddleware)
+app.use("/history", authMiddleware)
 
 require("./routes/routes")(app)
 require("./routes/jordiaRoutes")(app, axios, errorHandler)
 require("./routes/rankingRoutes")(app, axios, errorHandler)
 require("./routes/usersRoutes")(app, axios, errorHandler)
 require("./routes/authRoutes")(app, axios, errorHandler)
+require("./routes/historyRoutes")(app, axios, errorHandler)
 
 // Start the gateway service
 const server = app.listen(port, () => {

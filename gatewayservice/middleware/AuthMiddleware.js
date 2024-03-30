@@ -4,16 +4,26 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.SECRET || "a-very-secret-string"
 
 module.exports = function (req, res, next) {
-    const token = req.body.token || req.headers['authorization'];
+  let {token} = req.body
 
-    if(!token) {
+  if (!token) {
+    const authHeader = req.headers['authorization'];
+    if (authHeader) {
+      const authHeaderParts = authHeader.split(' ');
+      if (authHeaderParts.length === 2 && authHeaderParts[0].toLowerCase() === 'bearer') {
+        token = authHeaderParts[1];
+      } else {
         return res.status(401).json({error: "No session token provided"});
+      }
     }
+  }
 
-    try {
-        jwt.verify(token, JWT_SECRET);
-        next();
-    } catch(err) {
-        return res.status(401).json({error: "Invalid token"});
-    }
+  // TODO - Move this functionality to auth service (modify validate endpoint)
+  try {
+    const {userId} = jwt.verify(token, JWT_SECRET);
+    req.body.userId = userId;
+    next();
+  } catch (err) {
+    return res.status(401).json({error: "Invalid token"});
+  }
 }

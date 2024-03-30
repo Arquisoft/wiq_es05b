@@ -139,7 +139,6 @@ paths:
                   message:
                     type: string
                     example: 'Saved'
-
   /get/{userId}/{id}:
     get:
       summary: 'Gets a save'
@@ -163,7 +162,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Save'
-
   /get/{userId}?page={page}&limit={limit}:
     get:
       summary: 'Gets all saves from a user'
