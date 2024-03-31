@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, screen, waitFor, act } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import Login from '../Login.jsx';
+import Login from '../views/Login.jsx';
 import {MemoryRouter} from "react-router";
 
 const mockAxios = new MockAdapter(axios);
