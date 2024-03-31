@@ -1,15 +1,9 @@
-import React from "react";
-import { Paper, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText, Container } from "@mui/material";
-import grave from "../media/graveRanking.svg"
+import { Avatar, Container, List, ListItem, ListItemAvatar, ListItemText, Paper, Typography } from "@mui/material";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import grave from "../media/graveRanking.svg";
 import ServiceDownMessage from "./components/ServiceDownMessage";
 
-// TODO - Recover users from the API
-const users = [
-  { id: 1, name: "John Doe", score: 150 },
-  { id: 2, name: "Jane Smith", score: 120 },
-  { id: 3, name: "Bob Johnson", score: 100 },
-  { id: 4, name: "Alice Lee", score: 90 },
-];
 
 const RankingList = ({ users }) => {
   // TODO - Maybe add loader and ServiceDownMessage move to <Ranking> in the catch block of the promise
@@ -33,6 +27,20 @@ const RankingList = ({ users }) => {
 };
 
 export default function Ranking() {
+
+  const [users, setUsers] = useState([]);
+
+  // Fetch the top 10 users at first render
+  useEffect(() => {
+    const response = axios.get(`${process.env.REACT_APP_API_ENDPOINT}/ranking/10`)
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <Container style={{ paddingTop: "2rem" }}>
       <Paper
