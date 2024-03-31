@@ -108,9 +108,10 @@ services:
 
   #   restart: always
 
+  # TODO: fetch latest
   jordi-think:
     container_name: jordi-think-${teamname:-wiq_es05b}
-    image: ghcr.io/arquisoft/wiq_es05b/jordi-think:latest
+    image: ghcr.io/arquisoft/wiq_es05b/jordi-think:develop-deploy
     # profiles: ["dev", "prod"]
     build: ./jordi/jordi-think
     ports:
