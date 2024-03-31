@@ -1,13 +1,8 @@
 name: Deploy on release
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches:
-      - master
+  release:
+    types: [published]
 
 jobs:
 
