@@ -2,7 +2,9 @@
     "name": "authservice",
     "version": "1.0.0",
     "description": " Authentication service, in charge of authenticating users in the application",
-    "main": "service.js",
+    "author": "wiq_es05b",
+    "private": true,
+    "main": "auth-service.js",
     "scripts": {
         "start": "node auth-service.js",
         "dev": "nodemon auth-service.js",
@@ -12,8 +14,6 @@
         "type": "git",
         "url": "git+https://github.com/arquisoft/wiq_es05b.git"
     },
-    "author": "",
-    "license": "ISC",
     "bugs": {
         "url": "https://github.com/arquisoft/wiq_es05b/issues"
     },

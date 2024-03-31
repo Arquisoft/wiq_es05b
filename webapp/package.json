@@ -1,7 +1,16 @@
 {
   "name": "webapp",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "Front-End of the application",
+  "author": "wiq_es05b",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arquisoft/wiq_es05b.git"
+  },
+  "bugs": {
+    "url": "https://github.com/arquisoft/wiq_es05b/issues"
+  },
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",

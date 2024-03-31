@@ -1,43 +1,69 @@
-let express = require('express');
-let mongoose = require('mongoose');
-let ObjectId = mongoose.Types.ObjectId
-let router = express.Router();
 
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/questions';
+const errorHandler = (e, res, obj) => {
+    let code = 500
+    let msg = `An error occured while fetching ${obj || "data"}`
+    if(e.includes("ECONNREFUSED")) {
+        code = 503
+        msg = "Service Unavailable"
+    }
+    res.status(code).json({error: msg})
+}
 
-router.get("/categories", async (req, res) => {
-    await mongoose.connect(mongoUri);
-    let result = await mongoose.connection.collection('questions').distinct("category");
-    await mongoose.disconnect();
-    res.json(result);
-})
+module.exports = function (app, questionsRepository) {
 
-router.get('/questions/:category/:n', async (req, res) => {
-    const category = req.params.category;
-    await mongoose.connect(mongoUri);
-    let result = await mongoose.connection.collection('questions').find({category: category}).limit(parseInt(req.params.n)).toArray();
-    await mongoose.disconnect();
+    app.get("/categories", async (_req, res) => {
+        questionsRepository.getCategories()
+            .then(result => res.json(result))
+            .catch(err => errorHandler(err, res, "categories"));
+    })
 
-    // Randomize the order of questions
-    result = result.sort(() => Math.random() - 0.5);
+    // TODO - Should return 404 if category not found
+    // TODO - Check n is a number -> error 400
+    app.get('/questions/:category/:n', async (req, res) => {
+        const { category, n } = req.params;
 
-    // Return questions without answer
-    const answerLessQuestions = result.map(q => {
-        const {answer, ...rest} = q;
-        return rest;
+        questionsRepository.getQuestions(category, n)
+            .then(result => {
+
+                // Randomize the order of questions
+                result = result.sort(() => Math.random() - 0.5);
+
+                // Return questions without answer
+                const answerLessQuestions = result.map(q => {
+                    const {answer, statements, ...rest} = q;
+                    const statement = statements[Math.floor(Math.random() * statements.length)]
+                    rest.statement = statement;
+                    rest.options = rest.options.sort(() => Math.random() - 0.5);
+                    return rest;
+                });
+                
+                res.json(answerLessQuestions);
+            })
+            .catch(err => errorHandler(err, res, "questions"))
     });
 
-    res.json(answerLessQuestions);
-});
+    // TODO - Should be GET rather than POST
+    app.post('/answer', async (req, res) => {
+        const { id } = req.body;
 
-router.post('/answer', async (req, res) => {
-    const { id } = req.body;
+        if(!id) {
+            res.status(400).json({ error: "No id provided" })
+            return
+        }
 
-    await mongoose.connect(mongoUri);
-    const question = await mongoose.connection.collection('questions').findOne({_id: new ObjectId(id)});    
-    await mongoose.disconnect();
+        if(!questionsRepository.checkValidId(id)) {
+            res.status(400).json({ error: "Invalid id format" })
+            return
+        }
 
-    return res.json(question.answer);
-});
-
-module.exports = router
+        questionsRepository.findQuestionById(id)
+            .then(result => {
+                if(!result) {
+                    res.status(404).json({ error: "Question not found" })
+                    return
+                }
+                res.json({ answer: result.answer })
+            })
+            .catch(err => errorHandler(err, res, "answer"))
+    });
+}

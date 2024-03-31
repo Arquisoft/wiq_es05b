@@ -1,0 +1,65 @@
+openapi: 3.0.3
+info:
+  title: User API specification
+  description: Internal API used to handle user creation
+  version: 1.0.1
+servers:
+  - url: 'http://localhost:8001'
+paths:
+  /adduser:
+    post:
+      summary: Signup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: 'user'
+                password:
+                  type: string
+                  example: 'password'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'User created successfully'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'User already exists'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Service Unavailable'

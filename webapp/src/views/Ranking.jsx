@@ -1,32 +1,66 @@
-import React from 'react';
-import { Paper, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText, Container } from '@mui/material';
+import { Avatar, Container, List, ListItem, ListItemAvatar, ListItemText, Paper, Typography } from "@mui/material";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import grave from "../media/graveRanking.svg";
+import Loader from "./components/Loader";
+import ServiceDownMessage from "./components/ServiceDownMessage";
 
-const users = [
-    { id: 1, name: 'John Doe', score: 150 },
-    { id: 2, name: 'Jane Smith', score: 120 },
-    { id: 3, name: 'Bob Johnson', score: 100 },
-    { id: 4, name: 'Alice Lee', score: 90 },
-];
+
+const RankingList = ({ scores }) => {
+  // TODO - Maybe add loader and ServiceDownMessage move to <Ranking> in the catch block of the promise
+  if (!scores || scores.length === 0)
+    return <ServiceDownMessage grave={grave} />
+  return (
+    <List>
+      {scores.map((score, index) => (
+        <ListItem key={score.id}>
+          <ListItemAvatar>
+            <Avatar>{index + 1}</Avatar>
+          </ListItemAvatar>
+          <ListItemText
+            primary={score.name}
+            secondary={`Score: ${score.points}`}
+          />
+        </ListItem>
+      ))}
+    </List>
+  );
+};
 
 export default function Ranking() {
-    return (
 
-        <Container style={{paddingTop: '2rem'}}>
-            <Paper elevation={3} style={{ padding: 16, maxWidth: 400, margin: 'auto' }}>
-            <Typography variant="h4" component="h1" align="center" gutterBottom>
-                Global Ranking
-            </Typography>
-            <List>
-                {users.map((user, index) => (
-                    <ListItem key={user.id}>
-                        <ListItemAvatar>
-                            <Avatar>{index + 1}</Avatar>
-                        </ListItemAvatar>
-                        <ListItemText primary={user.name} secondary={`Score: ${user.score}`} />
-                    </ListItem>
-                ))}
-            </List>
-            </Paper>
-        </Container>  
+  const [scores, setScores] = useState([]);
+  const [init, setInit] = useState(false); //To prevent error message from showing while fetching
+
+  // Fetch the top 10 users at first render
+  useEffect(() => {
+    const response = axios.get(`${process.env.REACT_APP_API_ENDPOINT}/ranking/10`)
+      .then((response) => {
+        setScores(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setInit(true);
+      });
+
+  }, []);
+
+  if (!init)
+    return <Loader />
+  else
+    return (
+      <Container style={{ paddingTop: "2rem" }}>
+        <Paper
+          elevation={3}
+          style={{ padding: 16, margin: "auto", maxWidth: 400 }}
+        >
+          <Typography variant="h4" component="h1" align="center" gutterBottom>
+            Global Ranking
+          </Typography>
+          <RankingList scores={scores} />
+        </Paper>
+      </Container>
     );
 }

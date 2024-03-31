@@ -12,6 +12,8 @@ services:
     networks:
       - mynetwork
 
+    restart: always
+
   postgres:
     container_name: postgres-${teamname:-wiq_es05b}
     image: postgres
@@ -24,6 +26,8 @@ services:
       - mynetwork
     environment:
       POSTGRES_PASSWORD: jordishhh
+
+    restart: always
 
   authservice:
     container_name: authservice-${teamname:-wiq_es05b}
@@ -40,6 +44,8 @@ services:
       MONGODB_URI: mongodb://mongodb:27017/userdb
       SECRET: a-very-secret-string
 
+    restart: always
+
   userservice:
     container_name: userservice-${teamname:-wiq_es05b}
     image: ghcr.io/arquisoft/wiq_es05b/userservice:latest
@@ -53,6 +59,8 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
+
+    restart: always
 
   gatewayservice:
     container_name: gatewayservice-${teamname:-wiq_es05b}
@@ -71,7 +79,8 @@ services:
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
       JORDI_ASK_SERVICE_URL: http://jordi-ask:8003
-      SECRET: a-very-secret-string
+    
+    restart: always
 
   webapp:
     container_name: webapp-${teamname:-wiq_es05b}
@@ -82,6 +91,8 @@ services:
       - gatewayservice
     ports:
       - "3000:3000" 
+
+    restart: always
 
   jordi-ask:
     container_name: jordi-ask-${teamname:-wiq_es05b}
@@ -95,6 +106,8 @@ services:
     environment:
       MONGODB_URI: mongodb://mongodb:27017/questions
 
+    restart: always
+
   jordi-think:
     container_name: jordi-think-${teamname:-wiq_es05b}
     image: ghcr.io/arquisoft/wiq_es05b/jordi-think:latest
@@ -106,6 +119,8 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/questions
+
+    restart: always
 
   ranking:
     container_name: ranking-${teamname:-wiq_es05b}

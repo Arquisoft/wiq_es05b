@@ -1,12 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const promBundle = require('express-prom-bundle');
+const axios = require('axios');
 
 const app = express();
 const port = 8000;
-
-let router = require("./routes/routes")
-let gameRouter = require("./routes/gameRoutes")
 
 app.use(cors());
 app.use(express.json());
@@ -15,8 +13,19 @@ app.use(express.json());
 const metricsMiddleware = promBundle({includeMethod: true});
 app.use(metricsMiddleware);
 
-app.use("/", router)
-app.use("/game", gameRouter)
+const dataValidatorMiddleware = require('./middleware/DataValidatorMiddleware')
+const authMiddleware = require('./middleware/AuthMiddleware')
+const errorHandler = require('./handler/errorHandler')
+
+app.use("/adduser", dataValidatorMiddleware)
+app.use("/login", dataValidatorMiddleware)
+app.use("/game", authMiddleware)
+
+require("./routes/routes")(app)
+require("./routes/jordiaRoutes")(app, axios, errorHandler)
+require("./routes/rankingRoutes")(app, axios, errorHandler)
+require("./routes/usersRoutes")(app, axios, errorHandler)
+require("./routes/authRoutes")(app, axios, errorHandler)
 
 // Start the gateway service
 const server = app.listen(port, () => {
