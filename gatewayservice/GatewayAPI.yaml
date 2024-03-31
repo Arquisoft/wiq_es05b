@@ -641,3 +641,31 @@ paths:
                   message:
                     type: string
                     example: 'Question added successfully'
+  /user/{userId}:
+    get:
+      summary: Get user details
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+      responses:
+        # TODO - Add error mapping
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    example: 'user'
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: '2021-06-01T00:00:00.000Z'

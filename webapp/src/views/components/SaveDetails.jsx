@@ -1,10 +1,11 @@
 import {Box, IconButton, Typography, Container, Button, Divider} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import textFormat from "../../scripts/textFormat";
 
 const Summary = ({category, points}) => {
   return (
     <Box sx={{display: "flex", justifyContent: "space-between"}}>
-      <Typography variant="h5" component="p">{category}</Typography>
+      <Typography variant="h5" component="p">{textFormat(category)}</Typography>
       <Typography variant="h5" component="p">Points: {points}</Typography>
     </Box>
   )

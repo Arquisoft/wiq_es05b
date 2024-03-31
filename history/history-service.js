@@ -19,7 +19,7 @@ app.listen(port, () => {
     console.log(`History listening on port ${port}`);
 });
 
-cron.schedule('0 0 * * * *', () => { // * second * minute * hour * date * month * year
+cron.schedule('0 0 0 * * *', () => { // * second * minute * hour * date * month * year
     console.log(`[${new Date().toISOString()}] Cleaning stale unfinished saves`);
     saveRepository
       .cleanStaleSaves()

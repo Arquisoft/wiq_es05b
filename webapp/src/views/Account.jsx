@@ -1,11 +1,17 @@
 import ProtectedComponent from "./components/ProtectedComponent";
 import {Button, Container, Paper, Typography} from "@mui/material";
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "./context/AuthContext";
 import MyAvatar from "./components/MyAvatar";
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useNavigate} from "react-router-dom";
 import SaveList from "./components/SaveList";
+import axios from "axios";
+import textFormat from "../scripts/textFormat";
+import Loader from "./components/Loader";
+import ServerDownMessage from "./components/ServiceDownMessage";
+
+const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
 const Field = ({description, value}) => {
   return (
@@ -37,11 +43,35 @@ const ProfileCard = () => {
 
 // TODO - Retrieve user data from the server
 const UserData = () => {
-  const data = [
-    {description: "Username", value: "admin"},
-    {description: "Email", value: "admin@localhost"},
-    {description: "Created at", value: new Date().getFullYear()},
-  ]
+  const { getUser } = useContext(AuthContext);
+  const [data, setData] = useState()
+  const [error, setError] = useState(false)
+
+  useEffect(() => {
+    axios
+      .get(`${apiEndpoint}/user/${getUser().userId}`, {headers: {Authorization: `Bearer ${getUser().token}`}})
+      .then(result => setData(Object.keys(result.data).map(x => {return {description: x, value: result.data[x]}})))
+      .catch(err => setError(true))
+    // eslint-disable-next-line
+  }, [])
+
+  const generateView = () => {
+    if(error)
+      return (<ServerDownMessage />)
+    else
+    if (!data)
+      return (<Loader />)
+    else
+      return data.map((d, i) => {
+        let value = d.value
+        const date = new Date(value);
+        if(!isNaN(date)) {
+          value = date.toISOString().split("T")[0]
+        }
+        return <Field key={`data${i}`} description={textFormat(d.description)} value={value} />
+      })
+  }
+
   // TODO - If down show ServerDownMessage
   return (
     <Paper
@@ -56,11 +86,7 @@ const UserData = () => {
       }}>
       <Typography variant="h4" element="p">User data</Typography>
       <Container>
-        {
-          data.map((d, i) =>
-            <Field key={`data${i}`} description={d.description} value={d.value}/>
-          )
-        }
+        {generateView()}
       </Container>
     </Paper>
   )

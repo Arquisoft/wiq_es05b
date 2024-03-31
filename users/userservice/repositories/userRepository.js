@@ -21,14 +21,17 @@ module.exports = {
       this.mongoose.connection && await this.mongoose.connection.close()
     }
   },
-  checkUser: async function (username) {
+  getUser: async function (filter) {
+    if("_id" in filter) {
+      filter._id = new this.mongoose.Types.ObjectId(filter._id);
+    }
     try {
       await this.mongoose.connect(this.uri);
       let result = await this
         .mongoose
         .connection
         .collection("users")
-        .findOne({username: username})
+        .findOne(filter)
       return result;
     } catch (error) {
       throw error.message;

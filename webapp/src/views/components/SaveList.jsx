@@ -3,16 +3,14 @@ import axios from "axios";
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../context/AuthContext";
 import SaveDetails from "./SaveDetails";
+import textFormat from "../../scripts/textFormat";
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000"
 const limit= 10
 
 const Save = ({save, onClick}) => {
   const date = new Date(save.createdAt)
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses en JavaScript empiezan desde 0
-  const day = String(date.getDate()).padStart(2, '0');
-  const formattedDate = `${year}-${month}-${day}`;
+  const formattedDate = date.toISOString().split("T")[0];
 
   const points = save.questions.reduce((acc, current) => acc + current.points, 0)
   return (
@@ -21,7 +19,7 @@ const Save = ({save, onClick}) => {
       onClick={() => onClick(save)}
       secondaryAction={<ListItemText primary={points} secondary="Points" />}
     >
-      <ListItemText primary={save.category} secondary={formattedDate}/>
+      <ListItemText primary={textFormat(save.category)} secondary={formattedDate}/>
     </ListItem>
   )
 }

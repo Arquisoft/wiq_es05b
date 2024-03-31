@@ -1,7 +1,7 @@
 const userServiceUrl = process.env.USER_SERVICE_URL || "http://localhost:8001";
 const authServiceUrl = process.env.AUTH_SERVICE_URL || "http://localhost:8002";
 
-module.exports = (app, axios, errorHandler) => {
+module.exports = (app, axios, errorHandler, authTokenMiddleware) => {
   app.post("/adduser", async (req, res) => {
     axios
       .post(`${userServiceUrl}/adduser`, req.body)
@@ -21,8 +21,14 @@ module.exports = (app, axios, errorHandler) => {
             res.status(200).json({ message: response.data.message, error: e })
           })
       })
-      .catch((err) =>
-        errorHandler(err, res, "An error occured while adding user")
-      );
+      .catch((err) => errorHandler(err, res, "An error occurred while adding user"));
   });
+
+  app.get("/user/:userId", authTokenMiddleware, (req, res) => {
+    const { userId } = req.params
+    axios
+      .get(`${userServiceUrl}/user/${userId}`)
+      .then(({ data }) => res.json(data))
+      .catch((error) => errorHandler(error, res, "An error occurred while fetching user data"))
+  })
 };
