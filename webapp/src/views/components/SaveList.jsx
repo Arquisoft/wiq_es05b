@@ -36,8 +36,7 @@ const SaveList = () => {
   const fetchSaves = () => {
     axios({
       method: 'get',
-      // FIXME - Use the user id instead of the token (make an endpoint to retrieve user data)
-      url: `${apiEndpoint}/history/get/${getUser().token}?page=${page}&limit=${limit}`,
+      url: `${apiEndpoint}/history/get/${getUser().userId}?page=${page}&limit=${limit}`,
       headers: {
         'Authorization': `Bearer ${getUser().token}`
       }

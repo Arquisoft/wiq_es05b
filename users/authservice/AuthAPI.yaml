@@ -95,5 +95,9 @@ paths:
                 type: object
                 properties:
                   valid:
-                    type: boolean
-                    example: true
+                      type: boolean
+                      example: true
+                      required: true
+                  data:
+                    type: object
+                    required: false

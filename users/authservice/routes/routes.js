@@ -32,7 +32,7 @@ module.exports = function (app, userRepository) {
       .then(async result => {
         if (result && await bcrypt.compare(password, result.password)) {
           const token = jwt.sign({ userId: result._id }, JWT_SECRET, { expiresIn: '1h' });
-          res.json({ token: token, username: username});
+          res.json({ token, username, userId: result._id});
         } else {
           res.status(401).json({ error: 'Invalid credentials' });
         }
@@ -42,8 +42,8 @@ module.exports = function (app, userRepository) {
 
   app.get('/validate/:token', (req, res) => {
     try {
-      jwt.verify(req.params.token, JWT_SECRET);
-      res.json({ valid: true });
+      const {iat, exp, ...result} = jwt.verify(req.params.token, JWT_SECRET);
+      res.json({ data: result, valid: true });
     } catch (error) {
       res.json({ valid: false });
     }

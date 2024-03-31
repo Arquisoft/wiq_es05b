@@ -11,14 +11,13 @@ module.exports = (app, axios, errorHandler) => {
           .then(({ data }) => {
             res.json({
               message: response.data.message,
-              token: data.token,
-              username: data.username,
+              ...data
             });
           })
           .catch((error) =>{
             let e = error.error || "Login service is having a nap right now"
             if (error.code && error.code.includes("ECONNREFUSED")) 
-              error = { error: "Service unavailable" }
+              e = { error: "Service unavailable" }
             res.status(200).json({ message: response.data.message, error: e })
           })
       })

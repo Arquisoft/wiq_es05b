@@ -1,7 +1,5 @@
-const jwt = require('jsonwebtoken');
-
-// TODO - Move to GH secret
-const JWT_SECRET = process.env.SECRET || "a-very-secret-string"
+const axios = require('axios');
+const authServiceUrl = process.env.AUTH_SERVICE_URL || "http://localhost:8002";
 
 module.exports = function (req, res, next) {
   let {token} = req.body
@@ -18,12 +16,15 @@ module.exports = function (req, res, next) {
     }
   }
 
-  // TODO - Move this functionality to auth service (modify validate endpoint)
-  try {
-    const {userId} = jwt.verify(token, JWT_SECRET);
-    req.body.userId = userId;
-    next();
-  } catch (err) {
-    return res.status(401).json({error: "Invalid token"});
-  }
+  axios
+    .get(`${authServiceUrl}/validate/${token}`)
+    .then(({data}) => {
+      if (data.valid) {
+        req.body.userId = data.data.userId;
+        next();
+      } else {
+        res.status(401).json({error: "Invalid token"});
+      }
+    })
+    .catch(() => res.status(500).json({error: "Error validating token"}))
 }
