@@ -5,20 +5,20 @@ import grave from "../media/graveRanking.svg";
 import ServiceDownMessage from "./components/ServiceDownMessage";
 
 
-const RankingList = ({ users }) => {
+const RankingList = ({ scores }) => {
   // TODO - Maybe add loader and ServiceDownMessage move to <Ranking> in the catch block of the promise
-  if (!users || users.length === 0)
+  if (!scores || scores.length === 0)
     return <ServiceDownMessage grave={grave} />
   return (
     <List>
-      {users.map((user, index) => (
-        <ListItem key={user.id}>
+      {scores.map((score, index) => (
+        <ListItem key={score.id}>
           <ListItemAvatar>
             <Avatar>{index + 1}</Avatar>
           </ListItemAvatar>
           <ListItemText
-            primary={user.name}
-            secondary={`Score: ${user.score}`}
+            primary={score.name}
+            secondary={`Score: ${score.points}`}
           />
         </ListItem>
       ))}
@@ -28,13 +28,13 @@ const RankingList = ({ users }) => {
 
 export default function Ranking() {
 
-  const [users, setUsers] = useState([]);
+  const [scores, setScores] = useState([]);
 
   // Fetch the top 10 users at first render
   useEffect(() => {
     const response = axios.get(`${process.env.REACT_APP_API_ENDPOINT}/ranking/10`)
       .then((response) => {
-        setUsers(response.data);
+        setScores(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -50,7 +50,7 @@ export default function Ranking() {
         <Typography variant="h4" component="h1" align="center" gutterBottom>
           Global Ranking
         </Typography>
-        <RankingList users={users} />
+        <RankingList scores={scores} />
       </Paper>
     </Container>
   );
