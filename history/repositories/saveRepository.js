@@ -75,5 +75,16 @@ module.exports = {
     } finally {
       this.mongoose.connection && await this.mongoose.disconnect()
     }
+  },
+  cleanStaleSaves: async function() {
+    try {
+      await this.mongoose.connect(this.uri)
+      const result = await this.Save.deleteMany({ finished: false, createdAt: { $lt: new Date(Date.now() - 1000 * 60 * 60 * 24) } })
+      return result.deletedCount
+    } catch (e) {
+      throw e.message
+    } finally {
+      this.mongoose.connection && await this.mongoose.disconnect()
+    }
   }
 }

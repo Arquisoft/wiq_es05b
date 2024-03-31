@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cron = require('node-cron');
 
 const app = express();
 const port = 8006;
@@ -16,4 +17,15 @@ require('./routes/routes')(app, saveRepository);
 
 app.listen(port, () => {
     console.log(`History listening on port ${port}`);
+});
+
+cron.schedule('0 0 * * * *', () => { // * second * minute * hour * date * month * year
+    console.log(`[${new Date().toISOString()}] Cleaning stale unfinished saves`);
+    saveRepository
+      .cleanStaleSaves()
+      .then(n => console.log(`[${new Date().toISOString()}] ${n} saves cleaned`))
+      .catch(() => {})
+}, {
+    scheduled: true,
+    timezone: "Europe/Madrid"
 });
