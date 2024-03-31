@@ -254,10 +254,10 @@ jobs:
     steps:
     - name: Set up Docker Buildx # required for building multi-platform images
       uses: docker/setup-buildx-action@v1
-        
+    
     - name: Check out the repo
       uses: actions/checkout@v4
-
+    
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@v5
       with:
@@ -274,7 +274,7 @@ jobs:
     name: Deploy over SSH
     runs-on: ubuntu-latest
     needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp,docker-push-jordi-ask,docker-push-jordi-think,docker-push-ranking]
-
+    
     steps:
     - name: Deploy over SSH
       uses: fifsky/ssh-action@master
@@ -284,8 +284,9 @@ jobs:
         key: ${{ secrets.DEPLOY_KEY }}
         
         command: |
-            
-          wget https://raw.githubusercontent.com/arquisoft/wiq_es05b/master/docker-compose.yml -O docker-compose.yml
-          wget https://raw.githubusercontent.com/arquisoft/wiq_es05b/master/.env -O .env
-          docker compose --profile prod down
-          docker compose --profile prod up -d --pull always
+            mkdir -p wiq_es05b
+            cd wiq_es05b
+            wget https://raw.githubusercontent.com/arquisoft/wiq_es05b/master/docker-compose.yml -O docker-compose.yml
+            wget https://raw.githubusercontent.com/arquisoft/wiq_es05b/master/.env -O .env
+            docker compose --profile prod down
+            docker compose --profile prod up -d --pull always
