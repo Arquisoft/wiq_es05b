@@ -223,7 +223,12 @@ export default function Game() {
 
         changeButtonColor(correctIndex, "green");
         const newPoints = pointsUpdated + (i === correctIndex ? correctPoints : wrongPoints);
-        setPointsUpdated(newPoints);
+        
+        if  (newPoints > 0)
+            setPointsUpdated(newPoints);
+        else
+            setPointsUpdated(0);
+
         (i === correctIndex ? setCorrectA(correctA+1) : setWrongA(wrongA+1) );
         setTimeout(() => {
           next();
