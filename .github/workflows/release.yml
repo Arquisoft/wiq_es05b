@@ -3,216 +3,221 @@ name: Deploy on release
 on:
   push:
     branches:
-      - develop-deploy
+      - master
 
 jobs:
 
-#   unit-tests:
+  unit-tests:
 
-#     name: Unit tests
-#     runs-on: ubuntu-latest
+    name: Unit tests
+    runs-on: ubuntu-latest
 
-#     steps:
-#     - name: Check out the repo
-#       uses: actions/checkout@v4
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v4
+    
+    # TODO: Re-enable tests and coverage
   
-#     - name: Setup Node.js 
-#       uses: actions/setup-node@v4
-#       with:
-#         node-version: 20
+    # - name: Setup Node.js 
+    #   uses: actions/setup-node@v4
+    #   with:
+    #     node-version: 20
 
-#     - run: npm --prefix users/authservice ci
-#     - run: npm --prefix users/userservice ci
-#     - run: npm --prefix gatewayservice ci
-#     - run: npm --prefix webapp ci
-#     # TODO: Re-enable tests
-#     # - run: npm --prefix users/authservice test -- --coverage
-#     # - run: npm --prefix users/userservice test -- --coverage
-#     # - run: npm --prefix gatewayservice test -- --coverage
-#     # - run: npm --prefix webapp test -- --coverage
-#     # TODO: Add tests of the new microservices
-#     #
-#     - name: Analyze with SonarCloud
-#       uses: sonarsource/sonarcloud-github-action@master
-#       env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-
-#   e2e-tests:
-
-#     name: End to end tests
-#     runs-on: ubuntu-latest
-#     needs: [unit-tests]
-
-#     steps:
-#     - name: Check out the repo
-#       uses: actions/checkout@v4
-
-#     - name: Setup Node.js 
-#       uses: actions/setup-node@v4
-#       with:
-#         node-version: 20
-
-#     - run: npm --prefix users/authservice install
-#     - run: npm --prefix users/userservice install
-#     - run: npm --prefix gatewayservice install
-#     - run: npm --prefix webapp install
-#     - run: npm --prefix webapp run build
-
-#     # TODO: Re-enable when webapp tests match the current app desgin
-#     # - run: npm --prefix webapp run test:e2e
-
-
-#   docker-push-webapp:
+    # - run: npm --prefix users/authservice ci
+    # - run: npm --prefix users/userservice ci
+    # - run: npm --prefix gatewayservice ci
+    # - run: npm --prefix webapp ci
+    # - run: npm --prefix users/authservice test -- --coverage
+    # - run: npm --prefix users/userservice test -- --coverage
+    # - run: npm --prefix gatewayservice test -- --coverage
+    # - run: npm --prefix webapp test -- --coverage
     
-#     name: Push webapp Docker Image to GitHub Packages
-#     runs-on: ubuntu-latest
-#     needs: [e2e-tests]
+    # TODO: Add tests of the new microservices
+    #
 
-#     permissions:
-#       contents: read
-#       packages: write
+    # - name: Analyze with SonarCloud
+    #   uses: sonarsource/sonarcloud-github-action@master
+    #   env:
+    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+
+  e2e-tests:
+
+    name: End to end tests
+    runs-on: ubuntu-latest
+    needs: [unit-tests]
+
+    steps:
     
-#     steps:
-#     - name: Set up Docker Buildx # required for building multi-platform images
-#       uses: docker/setup-buildx-action@v1
+    - name: Check out the repo
+      uses: actions/checkout@v4
 
-#     - name: Check out the repo
-#       uses: actions/checkout@v4
+    # TODO: Re-enable when webapp tests match the current app desgin
 
-#     - name: Publish to Registry
-#       uses: elgohr/Publish-Docker-Github-Action@v5
-#       with:
-#         name: arquisoft/wiq_es05b/webapp
-#         username: ${{ github.actor }}
-#         password: ${{ secrets.GITHUB_TOKEN }}
-#         registry: ghcr.io
-#         workdir: webapp
-#         buildargs: API_URI
-#         platforms: linux/arm64, linux/amd64
+    # - name: Setup Node.js 
+    #   uses: actions/setup-node@v4
+    #   with:
+    #     node-version: 20
 
-#     env:
-#         API_URI: http://${{ secrets.DEPLOY_HOST }}:8000
+    # - run: npm --prefix users/authservice install
+    # - run: npm --prefix users/userservice install
+    # - run: npm --prefix gatewayservice install
+    # - run: npm --prefix webapp install
+    # - run: npm --prefix webapp run build
+
+    # - run: npm --prefix webapp run test:e2e
 
 
-#   docker-push-authservice:
-
-#     name: Push auth service Docker Image to GitHub Packages
-#     runs-on: ubuntu-latest
-#     needs: [e2e-tests]
-
-#     permissions:
-#       contents: read
-#       packages: write
-
-#     steps:
-#     - name: Set up Docker Buildx # required for building multi-platform images
-#       uses: docker/setup-buildx-action@v1
-
-#     - name: Check out the repo
-#       uses: actions/checkout@v4
-
-#     - name: Publish to Registry
-#       uses: elgohr/Publish-Docker-Github-Action@v5
-#       with:
-#           name: arquisoft/wiq_es05b/authservice
-#           username: ${{ github.actor }}
-#           password: ${{ secrets.GITHUB_TOKEN }}
-#           registry: ghcr.io
-#           workdir: users/authservice
-#           platforms: linux/arm64, linux/amd64
-
-
-#   docker-push-userservice:
-
-#     name: Push user service Docker Image to GitHub Packages
-#     runs-on: ubuntu-latest
-#     needs: [e2e-tests]
-
-#     permissions:
-#       contents: read
-#       packages: write
-
-#     steps:
-#     - name: Set up Docker Buildx # required for building multi-platform images
-#       uses: docker/setup-buildx-action@v1
-
-#     - name: Check out the repo
-#       uses: actions/checkout@v4
-
-#     - name: Publish to Registry
-#       uses: elgohr/Publish-Docker-Github-Action@v5
-#       with:
-#         name: arquisoft/wiq_es05b/userservice
-#         username: ${{ github.actor }}
-#         password: ${{ secrets.GITHUB_TOKEN }}
-#         registry: ghcr.io
-#         workdir: users/userservice
-#         platforms: linux/arm64, linux/amd64
-
-
-#   docker-push-gatewayservice:
-
-#     name: Push gateway service Docker Image to GitHub Packages
-#     runs-on: ubuntu-latest
-#     needs: [e2e-tests]
-
-#     permissions:
-#       contents: read
-#       packages: write
-
-#     steps:
-#     - name: Set up Docker Buildx # required for building multi-platform images
-#       uses: docker/setup-buildx-action@v1
-
-#     - name: Check out the repo
-#       uses: actions/checkout@v4
-
-#     - name: Publish to Registry
-#       uses: elgohr/Publish-Docker-Github-Action@v5
-#       with:
-#         name: arquisoft/wiq_es05b/gatewayservice
-#         username: ${{ github.actor }}
-#         password: ${{ secrets.GITHUB_TOKEN }}
-#         registry: ghcr.io
-#         workdir: gatewayservice
-#         platforms: linux/arm64, linux/amd64
-
-
-#   docker-push-jordi-ask:
-
-#     name: Push Jordi Ask service Docker Image to GitHub Packages
-#     runs-on: ubuntu-latest
-#     needs: [e2e-tests]
-
-#     permissions:
-#       contents: read
-#       packages: write
-
-#     steps:
-#     - name: Set up Docker Buildx # required for building multi-platform images
-#       uses: docker/setup-buildx-action@v1
+  docker-push-webapp:
     
-#     - name: Check out the repo
-#       uses: actions/checkout@v4
+    name: Push webapp Docker Image to GitHub Packages
+    runs-on: ubuntu-latest
+    needs: [e2e-tests]
+
+    permissions:
+      contents: read
+      packages: write
     
-#     - name: Publish to Registry
-#       uses: elgohr/Publish-Docker-Github-Action@v5
-#       with:
-#         name: arquisoft/wiq_es05b/jordi-ask
-#         username: ${{ github.actor }}
-#         password: ${{ secrets.GITHUB_TOKEN }}
-#         registry: ghcr.io
-#         workdir: jordi/jordi-ask
-#         platforms: linux/arm64, linux/amd64
+    steps:
+    - name: Set up Docker Buildx # required for building multi-platform images
+      uses: docker/setup-buildx-action@v1
+
+    - name: Check out the repo
+      uses: actions/checkout@v4
+
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@v5
+      with:
+        name: arquisoft/wiq_es05b/webapp
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: ghcr.io
+        workdir: webapp
+        buildargs: API_URI
+        platforms: linux/arm64
+
+    env:
+        API_URI: http://${{ secrets.DEPLOY_HOST }}:8000
+
+
+  docker-push-authservice:
+
+    name: Push auth service Docker Image to GitHub Packages
+    runs-on: ubuntu-latest
+    needs: [e2e-tests]
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Set up Docker Buildx # required for building multi-platform images
+      uses: docker/setup-buildx-action@v1
+
+    - name: Check out the repo
+      uses: actions/checkout@v4
+
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@v5
+      with:
+          name: arquisoft/wiq_es05b/authservice
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          workdir: users/authservice
+          platforms: linux/arm64
+
+
+  docker-push-userservice:
+
+    name: Push user service Docker Image to GitHub Packages
+    runs-on: ubuntu-latest
+    needs: [e2e-tests]
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Set up Docker Buildx # required for building multi-platform images
+      uses: docker/setup-buildx-action@v1
+
+    - name: Check out the repo
+      uses: actions/checkout@v4
+
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@v5
+      with:
+        name: arquisoft/wiq_es05b/userservice
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: ghcr.io
+        workdir: users/userservice
+        platforms: linux/arm64
+
+
+  docker-push-gatewayservice:
+
+    name: Push gateway service Docker Image to GitHub Packages
+    runs-on: ubuntu-latest
+    needs: [e2e-tests]
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Set up Docker Buildx # required for building multi-platform images
+      uses: docker/setup-buildx-action@v1
+
+    - name: Check out the repo
+      uses: actions/checkout@v4
+
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@v5
+      with:
+        name: arquisoft/wiq_es05b/gatewayservice
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: ghcr.io
+        workdir: gatewayservice
+        platforms: linux/arm64
+
+
+  docker-push-jordi-ask:
+
+    name: Push Jordi Ask service Docker Image to GitHub Packages
+    runs-on: ubuntu-latest
+    needs: [e2e-tests]
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Set up Docker Buildx # required for building multi-platform images
+      uses: docker/setup-buildx-action@v1
+    
+    - name: Check out the repo
+      uses: actions/checkout@v4
+    
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@v5
+      with:
+        name: arquisoft/wiq_es05b/jordi-ask
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: ghcr.io
+        workdir: jordi/jordi-ask
+        platforms: linux/arm64
 
 
   docker-push-jordi-think:
     
     name: Push Jordi Think service Docker Image to GitHub Packages
     runs-on: ubuntu-latest
-    # needs: [e2e-tests]
+    needs: [e2e-tests]
     
     permissions:
       contents: read
@@ -236,39 +241,39 @@ jobs:
         platforms: linux/arm64
 
 
-#   docker-push-ranking:
+  docker-push-ranking:
 
-#     name: Push ranking service Docker Image to GitHub Packages
-#     runs-on: ubuntu-latest
-#     needs: [e2e-tests]
+    name: Push ranking service Docker Image to GitHub Packages
+    runs-on: ubuntu-latest
+    needs: [e2e-tests]
 
-#     permissions:
-#       contents: read
-#       packages: write
+    permissions:
+      contents: read
+      packages: write
 
-#     steps:
-#     - name: Set up Docker Buildx # required for building multi-platform images
-#       uses: docker/setup-buildx-action@v1
+    steps:
+    - name: Set up Docker Buildx # required for building multi-platform images
+      uses: docker/setup-buildx-action@v1
         
-#     - name: Check out the repo
-#       uses: actions/checkout@v4
+    - name: Check out the repo
+      uses: actions/checkout@v4
 
-#     - name: Publish to Registry
-#       uses: elgohr/Publish-Docker-Github-Action@v5
-#       with:
-#         name: arquisoft/wiq_es05b/ranking
-#         username: ${{ github.actor }}
-#         password: ${{ secrets.GITHUB_TOKEN }}
-#         registry: ghcr.io
-#         workdir: ranking
-#         platforms: linux/arm64, linux/amd64
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@v5
+      with:
+        name: arquisoft/wiq_es05b/ranking
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: ghcr.io
+        workdir: ranking
+        platforms: linux/arm64
+
         
   deploy:
 
     name: Deploy over SSH
     runs-on: ubuntu-latest
-    # needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp,docker-push-jordi-ask,docker-push-jordi-think,docker-push-ranking]
-    needs: docker-push-jordi-think
+    needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp,docker-push-jordi-ask,docker-push-jordi-think,docker-push-ranking]
 
     steps:
     - name: Deploy over SSH
@@ -278,13 +283,17 @@ jobs:
         user: ${{ secrets.DEPLOY_USER }}
         key: ${{ secrets.DEPLOY_KEY }}
         
-        # TODO: change to master later on
         command: |
-            rm -rf wiq_es05b
-            mkdir wiq_es05b
+
+            rm -rf wiq_es05b # Remove old deployment data
+
+            mkdir wiq_es05b # Make 
             cd wiq_es05b
-            wget https://raw.githubusercontent.com/arquisoft/wiq_es05b/develop-deploy/docker-compose.yml -O docker-compose.yml
-            wget https://raw.githubusercontent.com/arquisoft/wiq_es05b/develop-deploy/.env -O .env
-            docker compose --profile prod down
-            docker image prune -f
+            wget https://raw.githubusercontent.com/arquisoft/wiq_es05b/master/docker-compose.yml -O docker-compose.yml 
+            wget https://raw.githubusercontent.com/arquisoft/wiq_es05b/master/.env -O .env
+
+            docker compose --profile prod down # Stop old deployment
+            docker image prune -f # Remove old images
+
+            # Start new deployment
             docker compose --profile prod up -d
