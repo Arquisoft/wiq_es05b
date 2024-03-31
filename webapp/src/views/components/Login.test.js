@@ -2,7 +2,8 @@ import React from 'react';
 import { render, fireEvent, screen, waitFor, act } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import Login from 'Login.jsx';
+import Login from '../Login.jsx';
+import {MemoryRouter} from "react-router";
 
 const mockAxios = new MockAdapter(axios);
 
@@ -12,7 +13,7 @@ describe('Login component', () => {
   });
 
   it('should log in successfully', async () => {
-    render(<Login />);
+    render(<MemoryRouter><Login /></MemoryRouter>);
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
@@ -34,7 +35,7 @@ describe('Login component', () => {
   });
 
   it('should handle error when logging in', async () => {
-    render(<Login />);
+    render(<MemoryRouter><Login /></MemoryRouter>);
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);

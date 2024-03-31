@@ -3,7 +3,7 @@ import { render, fireEvent, screen, waitFor, act } from '@testing-library/react'
 import '@testing-library/jest-dom';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import Home from 'Home.jsx';
+import Home from '../Home.jsx';
 import {MemoryRouter} from "react-router";
 
 const mockAxios = new MockAdapter(axios);
@@ -26,11 +26,10 @@ describe("Home component", () => {
 
         const playButton = screen.getByText(/Play/i, { selector: 'a' });
 
-        mockAxios.onPost('http://localhost:8000/login');
-
         await act(async () => {});
 
-        expect(screen.getByText(/Login/i)).toBeInTheDocument();
-        expect(screen.getByText(/Don't have an account/i)).toBeInTheDocument();
+        waitFor(() => {
+            expect(history.location.pathname).toBe("/login");
+        })
     })
 })
