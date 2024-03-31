@@ -277,11 +277,14 @@ jobs:
         host: ${{ secrets.DEPLOY_HOST }}
         user: ${{ secrets.DEPLOY_USER }}
         key: ${{ secrets.DEPLOY_KEY }}
+        
+        # TODO: change to master later on
         command: |
             rm -rf wiq_es05b
             mkdir wiq_es05b
-            cd wiq_es05b            
-            wget https://raw.githubusercontent.com/arquisoft/wiq_es05b/master/docker-compose.yml -O docker-compose.yml
-            wget https://raw.githubusercontent.com/arquisoft/wiq_es05b/master/.env -O .env
+            cd wiq_es05b
+            wget https://raw.githubusercontent.com/arquisoft/wiq_es05b/develop-deploy/docker-compose.yml -O docker-compose.yml
+            wget https://raw.githubusercontent.com/arquisoft/wiq_es05b/develop-deploy/.env -O .env
             docker compose --profile prod down
+            docker image prune -f
             docker compose --profile prod up -d
