@@ -550,3 +550,88 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Save'
+  /history/create:
+    post:
+      summary: Creates a new save
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: '507f1f77bcf86cd799439011'
+                category:
+                  type: string
+                  example: 'Category 1'
+                token:
+                  type: string
+                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIifQ.1J4Q7'
+      responses:
+        # TODO - Add error mapping
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: '507f1f77bcf86cd799439011'
+  /history/add/{id}:
+    post:
+      summary: Adds a question to a save
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                last:
+                  type: boolean
+                  example: false
+                statement:
+                  type: string
+                  example: 'Question 1'
+                options:
+                  type: array
+                  items:
+                    type: string
+                    example: 'Category 1'
+                answer:
+                  type: integer
+                  example: 1
+                correct:
+                  type: integer
+                  example: 1
+                time:
+                  type: integer
+                  example: 10
+                points:
+                  type: integer
+                  example: 10
+                token:
+                  type: string
+                  example: 'eyJhbGciOi'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Question added successfully'
