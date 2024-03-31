@@ -1,7 +1,7 @@
 const historyService = process.env.HISTORY_SERVICE_URL || "http://localhost:8006";
 
-module.exports = (app, axios, errorHandler) => {
-  app.get("/history/get/:userId", (req, res) => {
+module.exports = (app, axios, errorHandler, authMiddleware) => {
+  app.get("/history/get/:userId", authMiddleware, (req, res) => {
     const { userId } = req.params
     const { page, limit } = req.query
 
@@ -18,7 +18,7 @@ module.exports = (app, axios, errorHandler) => {
         errorHandler(error, res, "An error occurred while fetching user history"))
   })
 
-  app.get("/history/get/:userId/:id", (req, res) => {
+  app.get("/history/get/:userId/:id", authMiddleware, (req, res) => {
     const { userId, id } = req.params
 
     axios
@@ -28,7 +28,7 @@ module.exports = (app, axios, errorHandler) => {
         errorHandler(error, res, "An error occurred while fetching user history"))
   })
 
-  app.post("/history/create", (req, res) => {
+  app.post("/history/create", authMiddleware, (req, res) => {
     const { userId, category } = req.body
 
     axios

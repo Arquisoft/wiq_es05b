@@ -16,6 +16,7 @@ app.use(metricsMiddleware);
 const dataValidatorMiddleware = require('./middleware/DataValidatorMiddleware')
 const authMiddleware = require('./middleware/AuthMiddleware')
 const errorHandler = require('./handler/errorHandler')
+const authTokenMiddleware = require("./middleware/AuthTokenMiddleware")
 
 app.use("/adduser", dataValidatorMiddleware)
 app.use("/login", dataValidatorMiddleware)
@@ -27,7 +28,7 @@ require("./routes/jordiaRoutes")(app, axios, errorHandler)
 require("./routes/rankingRoutes")(app, axios, errorHandler)
 require("./routes/usersRoutes")(app, axios, errorHandler)
 require("./routes/authRoutes")(app, axios, errorHandler)
-require("./routes/historyRoutes")(app, axios, errorHandler)
+require("./routes/historyRoutes")(app, axios, errorHandler, authTokenMiddleware)
 
 // Start the gateway service
 const server = app.listen(port, () => {

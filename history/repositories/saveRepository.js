@@ -18,7 +18,7 @@ module.exports = {
         questions: [],
       })
       await save.save()
-      return { message: "Save created successfully" }
+      return { message: "Save created successfully", id: save._id }
     } catch (error) {
       throw error.message
     } finally {

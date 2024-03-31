@@ -578,6 +578,9 @@ paths:
               schema:
                 type: object
                 properties:
+                  message:
+                    type: string
+                    example: 'Save created successfully'
                   id:
                     type: string
                     example: '507f1f77bcf86cd799439011'
@@ -624,6 +627,9 @@ paths:
                 token:
                   type: string
                   example: 'eyJhbGciOi'
+                userId:
+                  type: string
+                  example: '507f1f77bcf86cd799439011'
       responses:
         '200':
           description: OK
