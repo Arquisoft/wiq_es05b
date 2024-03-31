@@ -233,6 +233,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: ghcr.io
         workdir: jordi/jordi-think
+        buildargs: API_URI
         platforms: linux/arm64, linux/amd64
 
 
