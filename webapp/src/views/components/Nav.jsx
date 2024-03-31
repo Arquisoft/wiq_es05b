@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { ReactComponent as CustomIcon } from '../../media/logoS.svg';
 import { AuthContext } from '../context/AuthContext';
 import { ConfigContext } from '../context/ConfigContext';
+import MyAvatar from "./MyAvatar"
 
 const pages = [
     { displayed: 'Home', link: '/home', logged: false},
@@ -42,16 +43,6 @@ const JordiButton = () => {
       </Button>
   );
 };
-
-const MyAvatar = () => {
-  const { isAuthenticated, getUser } = useContext(AuthContext)
-  if (!isAuthenticated()) return <Avatar alt="Suspicious User"></Avatar>
-  return (
-    <Avatar alt={getUser()["username"]}>
-      {getUser()["username"] ? getUser()["username"].charAt(0) : ""}
-    </Avatar>
-  )
-}
 
 const NavMenu = ({handleCloseNavMenu}) => {
   const { isAuthenticated } = useContext(AuthContext)

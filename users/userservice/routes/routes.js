@@ -15,7 +15,7 @@ module.exports = function (app, userRepository) {
   app.post("/adduser", async (req, res) => {
     const { username, password } = req.body;
 
-    userRepository.checkUser(username)
+    userRepository.getUser({username})
       .then(async user => {
         if (user) {
           res.status(400).json({ error: "Username already exists" });
@@ -32,4 +32,16 @@ module.exports = function (app, userRepository) {
       })
       .catch(error => errorHandler(error, res));
   });
+
+  app.get("/user/:userId", (req, res) => {
+    const { userId } = req.params;
+
+    userRepository
+      .getUser({ _id: userId })
+      .then(user => {
+        const {_id, __v, password, ...output} = user
+        res.json(output)
+      })
+      .catch(error => errorHandler(error, res, "An error occurred while fetching user data"));
+  })
 };

@@ -1,4 +1,5 @@
-import { Box, Button, Container, LinearProgress, Paper, Typography } from "@mui/material";
+import { AuthContext } from "./context/AuthContext";
+import { Snackbar, IconButton, Box, Button, Container, LinearProgress, Paper, Typography } from "@mui/material";
 import axios from "axios";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,6 +8,7 @@ import coinImage from "../media/coin.svg";
 import grave from "../media/graveJordi.svg";
 import { AuthContext } from "../views/context/AuthContext";
 import Loader from "./components/Loader";
+import CloseIcon from '@mui/icons-material/Close';
 import ProtectedComponent from "./components/ProtectedComponent";
 import ServiceDownMessage from "./components/ServiceDownMessage";
 
@@ -39,6 +41,28 @@ const changeButtonColor = (i, color) => {
     }, 500);
   }
 };
+
+const ErrorSnackBar = ({msg}) => {
+  const [open, setOpen] = useState(true)
+
+  return (
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        message={msg}
+        action={
+          <IconButton
+            aria-label="close"
+            color="inherit"
+            sx={{ p: 0.5 }}
+            onClick={() => setOpen(false)}
+          >
+            <CloseIcon />
+          </IconButton>
+        }
+      />
+  )
+}
 
 const MiLinea = ({ progressBarPercent }) =>
   progressBarPercent > 80 ? (
@@ -133,6 +157,8 @@ export default function Game() {
     const [correctA, setCorrectA] = useState(0);
     const [wrongA, setWrongA] = useState(0);
     const [error, setError] = useState(null);
+    const [historyE, setHistoryE] = useState()
+    const [saveId, setSaveId] = useState()
 
     // Next question
     const next = useCallback(() => {
@@ -196,7 +222,16 @@ export default function Game() {
   const fetchQuestions = (url) => {
     axios
       .get(url)
-      .then((response) => setQuestions(response.data))
+      .then((response) => {
+        setQuestions(response.data)
+        return response.data
+      })
+      .then(() => {
+        axios
+          .post(`${apiEndpoint}/history/create`, {userId: getUser().userId, category: category, token: getUser().token})
+          .then(response => setSaveId(response.data.id))
+          .catch(() => setHistoryE("An error occured while saving the game history"))
+      })
       .catch((e) => {setError({code: e.response.status, error: e.response.data.error})});
   };
 
@@ -233,6 +268,21 @@ export default function Game() {
         setTimeout(() => {
           next();
         }, 200);
+        return response.data.answer
+      })
+      .then(async correct => {
+        if(historyE) return
+        const q = {
+          last: questions.length === current + 1,
+          statement: questions[current].statement,
+          options: questions[current].options,
+          answer: i,
+          correct: questions[current].options.indexOf(correct),
+          points: i === questions[current].options.indexOf(correct) ? correctPoints : wrongPoints,
+          time: initialTime - timeLeft,
+          token: getUser().token
+        }
+        await axios.post(`${apiEndpoint}/history/add/${saveId}`, q)
       })
       .catch((e) => {setError({code: e.response.status, error: e.response.data.error})});
   };
@@ -264,6 +314,7 @@ export default function Game() {
             n={questions.length}
           />
         }
+        {historyE && <ErrorSnackBar msg={historyE} />}
       </Container>
     </>
   );

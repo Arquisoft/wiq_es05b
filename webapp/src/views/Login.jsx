@@ -26,9 +26,8 @@ export default function Login() {
       axios
         .post(`${apiEndpoint}/login`, { username, password })
         .then(response => {
-          const { token, username } = response.data;
           
-          setUser({"token": token, "username": username})
+          setUser({ ...response.data})
           navigate('/menu');
         })
         .catch(error => {
