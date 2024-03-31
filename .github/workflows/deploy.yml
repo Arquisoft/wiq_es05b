@@ -272,7 +272,30 @@ jobs:
         workdir: ranking
         platforms: linux/arm64
 
-        
+  docker-push-history:
+    name: Push history service Docker Image to GitHub Packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    needs: [e2e-tests]
+    steps:
+    - name: Set up Docker Buildx # required for building multi-platform images
+      uses: docker/setup-buildx-action@v1
+
+    - name: Check out the repo
+      uses: actions/checkout@v4
+    
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@v5
+      with:
+        name: arquisoft/wiq_es05b/history
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: ghcr.io
+        workdir: history
+        platforms: linux/arm64
+       
   deploy:
 
     name: Deploy over SSH
@@ -290,6 +313,7 @@ jobs:
         command: |
             mkdir -p wiq_es05b
             cd wiq_es05b
+            rm -rf ./*
             wget https://raw.githubusercontent.com/arquisoft/wiq_es05b/master/docker-compose.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/arquisoft/wiq_es05b/master/.env -O .env
             docker compose --profile prod down
