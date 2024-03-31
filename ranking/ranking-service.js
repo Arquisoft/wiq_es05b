@@ -13,7 +13,7 @@ require("./routes/routes")(app, rankingRepository)
 
 app.listen(port, () => {
     console.log('Ranking listening on port ' + port);
-});        
+});
 
 rankingRepository.init(Client, pgUri)
     .catch(error => {

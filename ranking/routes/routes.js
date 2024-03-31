@@ -30,7 +30,7 @@ module.exports = function (app, rankingRepository) {
     });
 
     // add record
-    app.post("/adduser", async (req, res) => {
+    app.post("/addScore", async (req, res) => {
         const {name, points} = req.body;
         if (!name) {
             return res.status(400).json({error: "Missing name"});
