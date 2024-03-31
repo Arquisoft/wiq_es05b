@@ -79,7 +79,6 @@ services:
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
       JORDI_ASK_SERVICE_URL: http://jordi-ask:8003
-      SECRET: a-very-secret-string
     
     restart: always
 
