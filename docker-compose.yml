@@ -4,7 +4,6 @@ services:
   mongodb:
     container_name: mongodb-${teamname:-wiq_es05b}
     image: mongo
-    profiles: ["dev", "prod"]
     volumes:
       - mongodb_data:/data/db
     ports:
@@ -17,7 +16,6 @@ services:
   postgres:
     container_name: postgres-${teamname:-wiq_es05b}
     image: postgres
-    profiles: ["dev", "prod"]
     volumes:
       - postgres_data:/data/db
     ports:
@@ -32,7 +30,6 @@ services:
   authservice:
     container_name: authservice-${teamname:-wiq_es05b}
     image: ghcr.io/arquisoft/wiq_es05b/authservice:latest
-    profiles: ["dev", "prod"]
     build: ./users/authservice
     depends_on:
       - mongodb
@@ -49,7 +46,6 @@ services:
   userservice:
     container_name: userservice-${teamname:-wiq_es05b}
     image: ghcr.io/arquisoft/wiq_es05b/userservice:latest
-    profiles: ["dev", "prod"]
     build: ./users/userservice
     depends_on:
       - mongodb
@@ -65,7 +61,6 @@ services:
   gatewayservice:
     container_name: gatewayservice-${teamname:-wiq_es05b}
     image: ghcr.io/arquisoft/wiq_es05b/gatewayservice:latest
-    profiles: ["dev", "prod"]
     build: ./gatewayservice
     depends_on:
       - mongodb
@@ -86,7 +81,6 @@ services:
   webapp:
     container_name: webapp-${teamname:-wiq_es05b}
     image: ghcr.io/arquisoft/wiq_es05b/webapp:latest
-    profiles: ["dev", "prod"]
     build: ./webapp
     depends_on:
       - gatewayservice
@@ -98,7 +92,6 @@ services:
   jordi-ask:
     container_name: jordi-ask-${teamname:-wiq_es05b}
     image: ghcr.io/arquisoft/wiq_es05b/jordi-ask:latest
-    profiles: ["dev", "prod"]
     build: ./jordi/jordi-ask
     ports:
       - "8004:8004"
@@ -112,7 +105,6 @@ services:
   jordi-think:
     container_name: jordi-think-${teamname:-wiq_es05b}
     image: ghcr.io/arquisoft/wiq_es05b/jordi-think:latest
-    profiles: ["dev", "prod"]
     build: ./jordi/jordi-think
     ports:
       - "8003:8003"
@@ -126,7 +118,6 @@ services:
   ranking:
     container_name: ranking-${teamname:-wiq_es05b}
     image: ghcr.io/arquisoft/wiq_es05b/ranking:latest
-    profiles: ["dev", "prod"]
     build: ./ranking
     ports:
       - "8005:8005"
@@ -140,7 +131,6 @@ services:
   prometheus:
     image: prom/prometheus
     container_name: prometheus-${teamname:-wiq_es05b}
-    profiles: ["dev"]
     networks:
       - mynetwork
     volumes:
@@ -154,7 +144,6 @@ services:
   grafana:
     image: grafana/grafana
     container_name: grafana-${teamname:-wiq_es05b}
-    profiles: ["dev"]
     networks:
       - mynetwork
     volumes:
