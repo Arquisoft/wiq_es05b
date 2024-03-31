@@ -1,15 +1,16 @@
-import {Button, Container, Paper, Typography, LinearProgress, Box, Snackbar, IconButton} from "@mui/material";
-import { useState, useEffect, useRef, useContext, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import ProtectedComponent from "./components/ProtectedComponent";
-import axios from "axios";
 import { AuthContext } from "./context/AuthContext";
+import { Snackbar, IconButton, Box, Button, Container, LinearProgress, Paper, Typography } from "@mui/material";
+import axios from "axios";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import imgFondoBtn from '../media/border.png';
 import coinImage from "../media/coin.svg";
 import grave from "../media/graveJordi.svg";
-import imgFondoBtn from '../media/border.png';
-import ServiceDownMessage from "./components/ServiceDownMessage";
+import { AuthContext } from "../views/context/AuthContext";
 import Loader from "./components/Loader";
 import CloseIcon from '@mui/icons-material/Close';
+import ProtectedComponent from "./components/ProtectedComponent";
+import ServiceDownMessage from "./components/ServiceDownMessage";
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
@@ -163,6 +164,7 @@ export default function Game() {
     const next = useCallback(() => {
         if (current === questions.length - 1) {
             let endTime = performance.now();
+            storePoints();
             navigate("/endgame", { state: { points:pointsUpdated,correct:correctA,wrong:wrongA,time:endTime-startTime} });
         }
 
@@ -170,6 +172,14 @@ export default function Game() {
         setTimeLeft(initialTime);
         setProgressBarPercent(0);
     }, [current, questions.length, initialTime, navigate, pointsUpdated, correctA, wrongA]);
+
+    const storePoints = async () => {
+      const body = {
+        name : getUser()["username"],
+        points : pointsUpdated
+      }
+      await axios.post(`${apiEndpoint}/addScore`, body)
+    }
     
   // Timer
   // FIXME - The time must start when the first questions is loaded,
@@ -248,7 +258,12 @@ export default function Game() {
 
         changeButtonColor(correctIndex, "green");
         const newPoints = pointsUpdated + (i === correctIndex ? correctPoints : wrongPoints);
-        setPointsUpdated(newPoints);
+        
+        if  (newPoints > 0)
+            setPointsUpdated(newPoints);
+        else
+            setPointsUpdated(0);
+
         (i === correctIndex ? setCorrectA(correctA+1) : setWrongA(wrongA+1) );
         setTimeout(() => {
           next();

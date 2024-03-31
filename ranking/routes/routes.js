@@ -4,7 +4,7 @@ const errorHandler = (e, res, msg) => {
     switch (e) {
         case "ECONNREFUSED":
             code = 503
-            error = "Service Unavailable"    
+            error = "Service Unavailable"
             break;
         case "42P01":
             error = "Table not found"
@@ -19,10 +19,13 @@ const errorHandler = (e, res, msg) => {
 
 module.exports = function (app, rankingRepository) {
 
-    // get top n ranking
-    // TODO - Check n is a number -> error 400
+    // Get top n ranking
     app.get("/ranking/:n", async (req, res) => {
         const {n} = req.params;
+
+        if (isNaN(n)) {
+            return res.status(400).json({error: "Invalid value for n"});
+        }
 
         rankingRepository.getRanking(n)
             .then(result => res.json(result))
@@ -30,7 +33,7 @@ module.exports = function (app, rankingRepository) {
     });
 
     // add record
-    app.post("/adduser", async (req, res) => {
+    app.post("/addScore", async (req, res) => {
         const {name, points} = req.body;
         if (!name) {
             return res.status(400).json({error: "Missing name"});

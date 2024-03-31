@@ -1,11 +1,11 @@
-import { Button, Container, Paper, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Button, Container, Paper, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import ProtectedComponent from "./components/ProtectedComponent";
+import { Link } from "react-router-dom";
 import grave from "../media/graveJordi.svg";
-import ServiceDownMessage from "./components/ServiceDownMessage";
 import Loader from "./components/Loader";
+import ProtectedComponent from "./components/ProtectedComponent";
+import ServiceDownMessage from "./components/ServiceDownMessage";
 
 const buttonConfig = {
   width: "9rem",
@@ -16,9 +16,13 @@ const buttonGroup = {
   display: "flex",
   flexFlow: "row wrap",
   justifyContent: "space-evenly",
-  margin: "1rem 0",
+  margin: "2rem 0",
   gap: "1rem",
 };
+
+const categorySearch = {
+  marginTop: "1rem"
+}
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
 
@@ -29,14 +33,26 @@ const MyButton = ({ text, link }) => (
 );
 
 const Buttons = ({ categories }) => {
+  const [filter, setFilter] = useState('');
+
   if (!categories || categories.length === 0) return <Loader />
+
+  let filteredCategories = categories;
+  if (filter !== '' && filter.trim().length > 0)
+    filteredCategories = categories.filter(category =>
+      category.toLowerCase().includes(filter.toLowerCase()));
+
   return (
     <Container>
+
       <Typography variant="h5" component="p">
         Choose a category to play
       </Typography>
+
+      <TextField sx={categorySearch} label="Search categories..." variant="standard" onChange={(e) => setFilter(e.target.value)} />
+
       <Container sx={buttonGroup}>
-        {categories.map((category, i) => (
+        {filteredCategories.map((category, i) => (
           <MyButton key={i} text={category} link={"/game/" + category} />
         ))}
       </Container>
@@ -53,7 +69,7 @@ export default function GameMenu() {
       .then((response) => {
         if (response) setCategories(response.data);
       })
-      .catch((error) => setError({code: error.response.status, message: error.response.data.error}));
+      .catch((error) => setError({ code: error.response.status, message: error.response.data.error }));
   }, []);
 
   return (
@@ -76,9 +92,9 @@ export default function GameMenu() {
             Menu
           </Typography>
           {
-            error ? 
-            <ServiceDownMessage grave={grave} code={error.code} reason={error.message} /> :
-            <Buttons categories={categories} />
+            error ?
+              <ServiceDownMessage grave={grave} code={error.code} reason={error.message} /> :
+              <Buttons categories={categories} />
           }
         </Paper>
       </Container>
