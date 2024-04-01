@@ -11,7 +11,6 @@ services:
       - "27017:27017"
     networks:
       - mynetwork
-
     restart: always
 
   postgres:
@@ -26,7 +25,6 @@ services:
       - mynetwork
     environment:
       POSTGRES_PASSWORD: jordishhh
-
     restart: always
 
   authservice:
@@ -43,7 +41,6 @@ services:
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
       SECRET: a-very-secret-string
-
     restart: always
 
   userservice:
@@ -59,7 +56,6 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
-
     restart: always
 
   gatewayservice:
@@ -72,14 +68,13 @@ services:
       - userservice
       - authservice
     ports:
-      - "8000:8000"
+      - "7999:8000"
     networks:
       - mynetwork
     environment:
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
       JORDI_ASK_SERVICE_URL: http://jordi-ask:8003
-    
     restart: always
 
   webapp:
@@ -89,9 +84,10 @@ services:
     build: ./webapp
     depends_on:
       - gatewayservice
+    networks:
+      - mynetwork
     ports:
-      - "443:3000" 
-
+      - "3000:3000" 
     restart: always
 
   jordi-ask:
@@ -105,7 +101,6 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/questions
-
     restart: always
 
   jordi-think:
@@ -119,7 +114,6 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/questions
-
     restart: always
 
   ranking:
@@ -133,6 +127,7 @@ services:
       - mynetwork
     environment:
       POSTGRES_URI: postgres://postgres:5432/ranking
+    restart: always
 
   history:
     container_name: history-${teamname:-wiq_es05b}
@@ -147,6 +142,23 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/history
+    restart: always
+
+  reverse-proxy:
+    container_name: reverse-proxy-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/proxy:latest
+    profiles: ["prod"]
+    build: ./proxy
+    depends_on:
+      - gatewayservice
+      - webapp
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8000:8000"
+    networks:
+      - mynetwork
+    restart: always
 
   ## only dev
 
