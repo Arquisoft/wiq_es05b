@@ -4,3 +4,5 @@ docs/build
 .idea/
 .vscode/
 *.rest
+*.crt
+*.key
