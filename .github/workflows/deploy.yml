@@ -9,7 +9,7 @@ jobs:
   unit-tests:
 
     name: Unit tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - name: Check out the repo
@@ -44,7 +44,7 @@ jobs:
   e2e-tests:
 
     name: End to end tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [unit-tests]
 
     steps:
@@ -70,7 +70,7 @@ jobs:
   docker-push-webapp:
     
     name: Push webapp Docker Image to GitHub Packages
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [e2e-tests]
 
     permissions:
@@ -299,7 +299,7 @@ jobs:
   deploy:
 
     name: Deploy over SSH
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp,docker-push-jordi-ask,docker-push-jordi-think,docker-push-ranking,docker-push-history]
     
     steps:
