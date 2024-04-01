@@ -9,7 +9,7 @@ jobs:
   unit-tests:
 
     name: Unit tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - name: Check out the repo
@@ -44,7 +44,7 @@ jobs:
   e2e-tests:
 
     name: End to end tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [unit-tests]
 
     steps:
@@ -70,7 +70,7 @@ jobs:
   docker-push-webapp:
     
     name: Push webapp Docker Image to GitHub Packages
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [e2e-tests]
 
     permissions:
@@ -108,7 +108,7 @@ jobs:
   docker-push-authservice:
 
     name: Push auth service Docker Image to GitHub Packages
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [e2e-tests]
 
     permissions:
@@ -136,7 +136,7 @@ jobs:
   docker-push-userservice:
 
     name: Push user service Docker Image to GitHub Packages
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [e2e-tests]
 
     permissions:
@@ -164,7 +164,7 @@ jobs:
   docker-push-gatewayservice:
 
     name: Push gateway service Docker Image to GitHub Packages
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [e2e-tests]
 
     permissions:
@@ -192,7 +192,7 @@ jobs:
   docker-push-jordi-ask:
 
     name: Push Jordi Ask service Docker Image to GitHub Packages
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [e2e-tests]
 
     permissions:
@@ -220,7 +220,7 @@ jobs:
   docker-push-jordi-think:
     
     name: Push Jordi Think service Docker Image to GitHub Packages
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [e2e-tests]
     
     permissions:
@@ -248,7 +248,7 @@ jobs:
   docker-push-ranking:
 
     name: Push ranking service Docker Image to GitHub Packages
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [e2e-tests]
 
     permissions:
@@ -274,7 +274,7 @@ jobs:
 
   docker-push-history:
     name: Push history service Docker Image to GitHub Packages
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     permissions:
       contents: read
       packages: write
@@ -299,7 +299,7 @@ jobs:
   deploy:
 
     name: Deploy over SSH
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp,docker-push-jordi-ask,docker-push-jordi-think,docker-push-ranking,docker-push-history]
     
     steps:
