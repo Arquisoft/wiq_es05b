@@ -67,6 +67,10 @@ services:
       - mongodb
       - userservice
       - authservice
+      - history
+      - jordi-ask
+      - jordi-think
+      - ranking
     ports:
       - "7999:8000"
     networks:
@@ -74,7 +78,10 @@ services:
     environment:
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
-      JORDI_ASK_SERVICE_URL: http://jordi-ask:8003
+      JORDI_THINK_SERVICE_URL: http://jordi-think:8003
+      JORDI_ASK_SERVICE_URL: http://jordi-ask:8004
+      RANKING_SERVICE_URL: http://ranking:8005
+      HISTORY_SERVICE_URL: http://history:8006
     restart: always
 
   webapp:
