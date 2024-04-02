@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const sslApiEndpoint = process.env.SSL_REACT_APP_API_ENDPOINT || 'https://localhost:7999';
+const sslApiEndpoint = process.env.REACT_APP_API_ENDPOINT_SSL || 'https://localhost:7999';
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 const configureAxios = () => {

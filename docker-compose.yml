@@ -72,8 +72,8 @@ services:
       - jordi-think
       - ranking
     ports:
-    # TODO - Try to findout a way to specify the port 8000 when developing without the reverse-proxy
-      - "7998:8000"
+      - "7999:7999"
+      - "8000:8000"
     networks:
       - mynetwork
     environment:
@@ -97,8 +97,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      SSL_API_URI: https://cyt.is-cool.dev/api
-      API_URI: http://cyt.is-cool.dev/api
+      REACT_APP_API_ENDPOINT_SSL: https://cyt.is-cool.dev/api
+      REACT_APP_API_ENDPOINT: http://cyt.is-cool.dev/api
     restart: always
 
   jordi-ask:
