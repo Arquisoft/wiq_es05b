@@ -95,7 +95,10 @@ services:
     networks:
       - mynetwork
     ports:
-      - "3000:3000" 
+      - "3000:3000"
+    environment:
+      SSL_API_URI: https://cyt.is-cool.dev/api
+      API_URI: http://cyt.is-cool.dev/api
     restart: always
 
   jordi-ask:
@@ -163,8 +166,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "7999:7999"
-      - "8000:8000"
     networks:
       - mynetwork
     restart: always

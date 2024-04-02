@@ -8,7 +8,5 @@ COPY private.key /etc/nginx/ssl/private.key
 
 EXPOSE 80
 EXPOSE 443
-EXPOSE 7999
-EXPOSE 8000
 
 CMD ["nginx", "-g", "daemon off;"]
