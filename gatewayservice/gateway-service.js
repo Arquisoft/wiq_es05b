@@ -3,8 +3,22 @@ const cors = require('cors');
 const promBundle = require('express-prom-bundle');
 const axios = require('axios');
 
+const https = require('https');
+const fs = require('fs');
+
 const app = express();
-const port = 8000;
+const httpPort = 8000;
+const httpsPort = 7999;
+
+const sslServerKey = fs.readFileSync('./private.key');
+const sslServerCert = fs.readFileSync('./certificate.crt');
+const sslCaBundle = fs.readFileSync('./ca_bundle.crt');
+
+const httpsServer = https.createServer({
+  key: sslServerKey,
+  cert: sslServerCert,
+  ca: sslCaBundle
+}, app)
 
 app.use(cors());
 app.use(express.json());
@@ -32,8 +46,10 @@ require("./routes/authRoutes")(app, axios, errorHandler)
 require("./routes/historyRoutes")(app, axios, errorHandler, authTokenMiddleware)
 
 // Start the gateway service
-const server = app.listen(port, () => {
-  console.log(`Gateway Service listening at http://localhost:${port}`);
-});
+const server = app.listen(httpPort, () =>
+  console.log(`Gateway Service (HTTP) listening at port ${httpPort}`));
+
+httpsServer.listen(httpsPort, () =>
+  console.log(`Gateway Service (HTTPS) listening at port ${httpsPort}`));
 
 module.exports = server
