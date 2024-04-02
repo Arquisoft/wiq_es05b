@@ -4,7 +4,7 @@ info:
   description: Internal API that provides the questions and answers
   version: 1.0.1
 servers:
-  - url: 'http://localhost:8003'
+  - url: 'http://localhost:8004'
 components:
   schemas:
     Question:
