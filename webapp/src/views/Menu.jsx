@@ -24,8 +24,6 @@ const categorySearch = {
   marginTop: "1rem"
 }
 
-const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
-
 const MyButton = ({ text, link }) => (
   <Button variant="contained" sx={buttonConfig} component={Link} to={link}>
     {text}
@@ -65,7 +63,7 @@ export default function GameMenu() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get(`${apiEndpoint}/categories`)
+    axios.get(`/categories`)
       .then((response) => {
         if (response) setCategories(response.data);
       })

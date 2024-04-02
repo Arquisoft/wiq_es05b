@@ -5,7 +5,6 @@ import grave from "../media/graveRanking.svg";
 import Loader from "./components/Loader";
 import ServiceDownMessage from "./components/ServiceDownMessage";
 
-
 const RankingList = ({ scores }) => {
   // TODO - Maybe add loader and ServiceDownMessage move to <Ranking> in the catch block of the promise
   if (!scores || scores.length === 0)
@@ -34,7 +33,7 @@ export default function Ranking() {
 
   // Fetch the top 10 users at first render
   useEffect(() => {
-    const response = axios.get(`${process.env.REACT_APP_API_ENDPOINT}/ranking/10`)
+    axios.get(`/ranking/10`)
       .then((response) => {
         setScores(response.data);
       })
