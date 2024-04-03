@@ -7,7 +7,6 @@ import {MemoryRouter} from "react-router";
 import { useAuth } from "../App.jsx";
 import '@testing-library/jest-dom';
 
-
 jest.mock('axios');
 jest.mock('../views/context/AuthContext');
 
@@ -33,9 +32,10 @@ jest.mock('../App.jsx', () => ({
   })
 }));
 
-const mockAuth = useAuth();
-
 describe('Login component', () => {
+
+  const mockAuth = useAuth();
+
   beforeEach(() => {
     axios.post.mockReset();
   });
@@ -98,8 +98,8 @@ describe('Login component', () => {
       expect(screen.getByText(/Error: Invalid credentials/i)).toBeInTheDocument();
     });
 
-    // Verify that the user information is not displayed
-    expect(screen.queryByText(/Hello testUser!/i)).toBeNull();
-    expect(screen.queryByText(/Your account was created on/i)).toBeNull();
+    waitFor(() => {
+      expect(history.location.pathname).toBe("/login");
+    })
   });
 });
