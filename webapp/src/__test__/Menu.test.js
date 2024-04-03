@@ -11,6 +11,7 @@ const mockAxios = new MockAdapter(axios);
 describe("Home component", () => {
     beforeEach(() => {
         mockAxios.reset();
+        localStorage.setItem("user", "testUser");
     });
 
     test("renders component", async () => {
@@ -18,20 +19,25 @@ describe("Home component", () => {
 
         await act(async () => {});
 
-        expect(screen.getByText(/Play/)).toBeInTheDocument();
+        expect(screen.getByText(/Menu/i)).toBeInTheDocument();
+        expect(screen.getByText(/Choose a category to play/i)).toBeInTheDocument();
+        expect(screen.getByText(/Capitals/i)).toBeInTheDocument();
+        expect(screen.getByText(/Countries/i)).toBeInTheDocument();
+        expect(screen.getByText(/Languages/i)).toBeInTheDocument();
+        expect(screen.getByText(/Population/i)).toBeInTheDocument();
     })
 
-    test( "redirect to login", async () => {
+    test( "redirect to capitals", async () => {
         render(<MemoryRouter><Home /></MemoryRouter>);
 
-        const playButton = screen.getByText(/Play/i, { selector: 'a' });
+        const capitalsButton = screen.getByText(/Capitals/i, { selector: 'a' });
 
-        playButton.click();
+        capitalsButton.click();
 
         await act(async () => {});
 
         waitFor(() => {
-            expect(history.location.pathname).toBe("/login");
+            expect(history.location.pathname).toBe("/game/capitals");
         })
     })
 })
