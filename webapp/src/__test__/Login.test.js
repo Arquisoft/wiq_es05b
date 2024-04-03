@@ -5,6 +5,7 @@ import Login from '../views/Login.jsx';
 import { AuthContext } from "../views/context/AuthContext.jsx";
 import {MemoryRouter} from "react-router";
 import { useAuth } from "../App.jsx";
+import '@testing-library/jest-dom';
 
 
 jest.mock('axios');
@@ -81,7 +82,7 @@ describe('Login component', () => {
     axios.post.mockRejectedValue({
       response: {
         status: 401,
-        data: { error: 'Unauthorized' }
+        data: { error: 'Invalid credentials' }
       }
     });
 
@@ -94,7 +95,7 @@ describe('Login component', () => {
 
     // Wait for the error Snackbar to be open
     await waitFor(() => {
-      expect(screen.getByText(/Error: Unauthorized/i)).toBeInTheDocument();
+      expect(screen.getByText(/Error: Invalid credentials/i)).toBeInTheDocument();
     });
 
     // Verify that the user information is not displayed
