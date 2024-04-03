@@ -15,7 +15,6 @@ import Particles from "./views/components/Particles";
 import React, { useState, useEffect } from "react";
 import Endgame from "./views/Endgame";
 import axios from "axios";
-import configureAxios from "./scripts/axiosConfig";
 
 import configDefault from "./views/components/config/particles-config.json";
 import configJordi from "./views/components/config/particles-config-jordi";
@@ -23,8 +22,6 @@ import configGraph from "./views/components/config/particles-config-graph";
 
 import { ConfigContext } from "./views/context/ConfigContext";
 import { AuthContext } from "./views/context/AuthContext";
-
-configureAxios()
 
 const theme = createTheme({
   palette: {
