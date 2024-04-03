@@ -94,25 +94,11 @@ services:
 
     restart: always
 
-  jordi-ask:
-    container_name: jordi-ask-${teamname:-wiq_es05b}
-    image: ghcr.io/arquisoft/wiq_es05b/jordi-ask:latest
+  jordi:
+    container_name: jordi-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/jordi:latest
     profiles: ["dev", "prod"]
-    build: ./jordi/jordi-ask
-    ports:
-      - "8004:8004"
-    networks:
-      - mynetwork
-    environment:
-      MONGODB_URI: mongodb://mongodb:27017/questions
-
-    restart: always
-
-  jordi-think:
-    container_name: jordi-think-${teamname:-wiq_es05b}
-    image: ghcr.io/arquisoft/wiq_es05b/jordi-think:latest
-    profiles: ["dev", "prod"]
-    build: ./jordi/jordi-think
+    build: ./jordi
     ports:
       - "8003:8003"
     networks:
@@ -121,6 +107,20 @@ services:
       MONGODB_URI: mongodb://mongodb:27017/questions
 
     restart: always
+
+  history:
+    container_name: history-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/history:latest
+    profiles: ["dev", "prod"]
+    build: ./userhistory
+    depends_on:
+      - mongodb
+    ports:
+      - "8004:8004"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/history
 
   ranking:
     container_name: ranking-${teamname:-wiq_es05b}
@@ -133,20 +133,6 @@ services:
       - mynetwork
     environment:
       POSTGRES_URI: postgres://postgres:5432/ranking
-
-  history:
-    container_name: history-${teamname:-wiq_es05b}
-    image: ghcr.io/arquisoft/wiq_es05b/history:latest
-    profiles: ["dev", "prod"]
-    build: ./history
-    depends_on:
-      - mongodb
-    ports:
-      - "8006:8006"
-    networks:
-      - mynetwork
-    environment:
-      MONGODB_URI: mongodb://mongodb:27017/history
 
   ## only dev
 
