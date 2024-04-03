@@ -13,7 +13,6 @@ RUN npm install
 # Copy the app source code to the working directory
 COPY . .
 
-EXPOSE 7999
 EXPOSE 8000
 
 # Define the command to run your app

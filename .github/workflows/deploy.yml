@@ -172,13 +172,6 @@ jobs:
     - name: Check out the repo
       uses: actions/checkout@v4
 
-    - name: Create SSL certificates
-      run: |
-        echo "${{ secrets.DEPLOY_SSL_CERT }}" > gatewayservice/certificate.crt
-        echo "${{ secrets.DEPLOY_SSL_CA_BUNDLE }}" > gatewayservice/ca_bundle.crt
-        echo "${{ secrets.DEPLOY_SSL_KEY }}" > gatewayservice/private.key
-      shell: bash
-
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@v5
       with:

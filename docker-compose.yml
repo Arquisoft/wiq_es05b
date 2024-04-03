@@ -72,7 +72,6 @@ services:
       - jordi-think
       - ranking
     ports:
-      - "7999:7999"
       - "8000:8000"
     networks:
       - mynetwork
