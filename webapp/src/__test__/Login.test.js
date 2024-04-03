@@ -42,11 +42,11 @@ describe('Login component', () => {
   
   it('should log in successfully', async () => {
     
-    render(
+    await act(() => render(
       <AuthContext.Provider value={mockAuth}>
         <MemoryRouter><Login /></MemoryRouter>
       </AuthContext.Provider>
-    );
+    ));
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
@@ -68,11 +68,11 @@ describe('Login component', () => {
   });
 
   it('should handle error when logging in', async () => {
-    render(
+    await act(() => render(
       <AuthContext.Provider value={mockAuth}>
         <MemoryRouter><Login /></MemoryRouter>
       </AuthContext.Provider>
-    );
+    ));
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
