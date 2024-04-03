@@ -1,21 +1,27 @@
-# Conocer y Triunfar
+<img src="projectmedia/logo.svg">
 
-This is a fork from the repo for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html).
+CYT is a fork from the repo of the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html). The goal of this project is to provide a fun way of learning and enhancing our general knowledge through an entertaining Q&A game.
 
-[![Deploy on release](https://github.com/Arquisoft/wiq_es05b/actions/workflows/release.yml/badge.svg)](https://github.com/Arquisoft/wiq_es05b/actions/workflows/release.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_es05b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_es05b) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_es05b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_es05b) 
-
-[![Contributors](https://img.shields.io/github/contributors/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/graphs/contributors) [![Open Issues](https://img.shields.io/github/issues-raw/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/issues) [![Closed Issues](https://img.shields.io/github/issues-closed-raw/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/issues?q=is%3Aissue+is%3Aclosed)
-
-[![Repo Size](https://img.shields.io/github/repo-size/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b) [![Commit Activity](https://img.shields.io/github/commit-activity/m/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/commits/main) [![Last Commit](https://img.shields.io/github/last-commit/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/commits/main)
-
-[![Pull Requests](https://img.shields.io/github/issues-pr/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/pulls)
-
-[![License](https://img.shields.io/github/license/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/blob/main/LICENSE)
+Check out [deployed docs](https://arquisoft.github.io/wiq_es05b/) on github pages for further information, and do not forget to explore our process over the [wiki](https://github.com/Arquisoft/wiq_es05b/wiki).
 
 [![Forks](https://img.shields.io/github/forks/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/network/members)
 [![Stars](https://img.shields.io/github/stars/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/stargazers)
 
-[![Open Source](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://opensource.org/)
+[![Deploy on release](https://github.com/Arquisoft/wiq_es05b/actions/workflows/deploy.yml/badge.svg)](https://github.com/Arquisoft/wiq_es05b/actions/workflows/deploy.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_es05b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_es05b) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_es05b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_es05b)
+
+[![Open Issues](https://img.shields.io/github/issues-raw/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/issues) [![Closed Issues](https://img.shields.io/github/issues-closed-raw/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/issues?q=is%3Aissue+is%3Aclosed)
+[![Repo Size](https://img.shields.io/github/repo-size/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b)
+[![Code Size](https://img.shields.io/github/languages/code-size/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b)
+[![Languages](https://img.shields.io/github/languages/count/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b) [![Top Language](https://img.shields.io/github/languages/top/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b)
+[![Commit Activity](https://img.shields.io/github/commit-activity/m/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/commits/main)
+[![Contributors](https://img.shields.io/github/contributors/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/graphs/contributors) [![Last Commit](https://img.shields.io/github/last-commit/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/commits/main) 
+
+[![Pull Requests](https://img.shields.io/github/issues-pr/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/pulls)
+[![License](https://img.shields.io/github/license/Arquisoft/wiq_es05b)](https://github.com/Arquisoft/wiq_es05b/blob/main/LICENSE)
+
+<img src="projectmedia/footer.svg">
+
+# Summary
 
 This repo is a basic application composed of several components.
 
@@ -29,19 +35,9 @@ This repo is a basic application composed of several components.
 
 Both the user and auth service share a Mongo database that is accessed with mongoose.
 
-## Main Development Team
+# Quick start guide
 
-| 📚 UOId | 🧑‍💻 Name | 📧 Email | 😺 GitHub |
-| :---: | :---: | :---: | :---: |
-| UO289295 | Álvaro García | [UO289295@uniovi.es](mailto:UO289295@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-algarfer-brightgreen)](https://github.com/algarfer) |
-| UO288787 | Donato Martín | [UO288787@uniovi.es](mailto:UO288787@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-dononitram-brightgreen)](https://github.com/dononitram) |
-| UO288705 | David Álvarez | [UO288705@uniovi.es](mailto:UO288705@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-DavidAlvrz-brightgreen)](https://github.com/DavidAlvrz) |
-| UO276255 | Rubén Rubio | [UO276255@uniovi.es](mailto:UO276255@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-UO276255-brightgreen)](https://github.com/UO2766255) |
-| UO289321 | Luna Valdés | [UO289321@uniovi.es](mailto:UO289321@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-uo28931-brightgreen)](https://github.com/uo289321) |
-
-## Quick start guide
-
-### Using docker
+## Using docker
 
 The fastest way tp launch this sample project is using docker. Just clone the project:
 
@@ -49,30 +45,34 @@ The fastest way tp launch this sample project is using docker. Just clone the pr
 git clone https://github.com/Arquisoft/wiq_es05b.git
 ```
 
-launch it with docker compose:
+Launch it with docker compose:
 
 ```sh
 docker compose --profile dev up --build
 ```
 
-and tear it down:
+And tear it down:
 
 ```sh
 docker compose --profile dev down
 ```
 
-availabel profiles: "dev" and "prod".
+Available profiles: "dev" and "prod".
 
-### Starting Component by component
+## Starting Component by component
 
 First, start the databases. Either install and run Mongo & PostgreSQL or run them using docker:
 
 ```sh
-docker run -d -p 27017:27017 --name=my-mongo mongo:latest
+docker run -d -p 27017:27017 --name=usersmongo mongo:latest
 ```
 
 ```sh
-docker run -d --name my_postgres -e POSTGRES_PASSWORD=jordishhh -p 5432:5432 postgres:latest
+docker run -d -p 27018:27018 --name=questionsmongo mongo:latest
+```
+
+```sh
+docker run -d --name rankingpg -e POSTGRES_PASSWORD=jordishhh -p 5432:5432 postgres:latest
 ```
 
 You can also use services like Mongo Altas for running a Mongo database in the cloud. Or running a Postgres on your own with the proper schema.
@@ -85,7 +85,7 @@ After all the components are launched, the app should be available in localhost 
 
 You can also access the public API from the `port:8000`.
 
-## Deployment
+# Deployment
 
 For the deployment, we have several options. 
 
@@ -95,7 +95,7 @@ Other options include using the container services that most cloud services prov
 
 We are going to use the first approach, creating a virtual machine in a cloud service and after installing docker and docker-compose, deploy our containers there using GitHub Actions and SSH.
 
-### Machine requirements for deployment
+## Machine requirements for deployment
 
 The machine for deployment can be created in services like Microsoft Azure or Amazon AWS. These are in general the settings that it must have:
 
@@ -117,7 +117,7 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
-### Continuous delivery (GitHub Actions)
+## Continuous delivery (GitHub Actions)
 
 Once we have our machine ready, we could deploy by hand the application, taking our docker-compose file and executing it in the remote machine. 
 
@@ -152,3 +152,23 @@ This action uses three secrets that must be configured in the repository:
 - DEPLOY_KEY: key to authenticate the user in the remote machine.
 
 Note that this action logs in the remote machine and downloads the docker-compose file from the repository and launches it. Obviously, previous actions have been executed which have uploaded the docker images to the GitHub Packages repository.
+
+# Main Development Team
+
+| 📚 UOId | 🧑‍💻 Name | 📧 Email | 😺 GitHub |
+| :---: | :---: | :---: | :---: |
+| UO289295 | Álvaro García | [UO289295@uniovi.es](mailto:UO289295@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-algarfer-brightgreen)](https://github.com/algarfer) |
+| UO288787 | Donato Martín | [UO288787@uniovi.es](mailto:UO288787@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-dononitram-brightgreen)](https://github.com/dononitram) |
+| UO288705 | David Álvarez | [UO288705@uniovi.es](mailto:UO288705@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-DavidAlvrz-brightgreen)](https://github.com/DavidAlvrz) |
+| UO276255 | Rubén Rubio | [UO276255@uniovi.es](mailto:UO276255@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-UO276255-brightgreen)](https://github.com/UO2766255) |
+| UO289321 | Luna Valdés | [UO289321@uniovi.es](mailto:UO289321@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-uo28931-brightgreen)](https://github.com/uo289321) |
+
+## Special Thanks and Collaborations
+
+We would like to extend our special thanks to the following individuals for their valuable contributions and collaborations:
+
+- All of the JordiBurger Easter Event participants.
+- Thanks to Jordi for not denouncing us legally.
+- Thanks to Omitg24 for the footer I've just stolen.
+
+We are grateful for their support and dedication in making this project a success.
