@@ -1,0 +1,33 @@
+{
+    "name": "jordi",
+    "version": "1.0.0",
+    "description": "Question generation service",
+    "author": "wiq_es05b",
+    "private": true,
+    "main": "jordi-ask-service.js",
+    "scripts": {
+        "start": "node jordi-service.js",
+        "dev": "nodemon jordi-service.js",
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/arquisoft/wiq_0.git"
+    },
+    "bugs": {
+        "url": "https://github.com/arquisoft/wiq_0/issues"
+    },
+    "homepage": "https://github.com/arquisoft/wiq_0#readme",
+    "dependencies": {
+        "express": "^4.18.3",
+        "mongoose": "^8.0.4",
+        "mongodb": "^6.0.0",
+        "axios": "^1.6.7",
+        "node-cron": "^3.0.3"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0",
+        "mongodb-memory-server": "^9.1.5",
+        "supertest": "^6.3.4"
+    }
+}

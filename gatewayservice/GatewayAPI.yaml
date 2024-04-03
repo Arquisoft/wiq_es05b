@@ -1,0 +1,671 @@
+openapi: 3.0.3
+info:
+  title: Gateway API specification
+  description: API used by the client to access the services
+  version: 1.0.2
+servers:
+  - url: 'http://158.179.216.208:8000'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Question:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '5f9b3b3b7b3b7b3b7b3b7b3b'
+        category:
+          type: string
+          example: 'Category 1'
+        statement:
+          type: string
+          example: 'Question 1'
+        options:
+          type: array
+          items:
+            type: string
+            example: 'Option 1'
+    Record:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'user'
+        points:
+          type: integer
+          example: 100
+        date:
+          type: string
+          format: date-time
+          example: '2021-01-01T00:00:00Z'
+    Save:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '5f9b3b3b7b3b7b3b7b3b7b3b'
+        userId:
+          type: string
+          example: '507f1f77bcf86cd799439011'
+        category:
+          type: string
+          example: 'Category 1'
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoryQuestion'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2021-06-01T00:00:00.000Z'
+        finished:
+          type: boolean
+          example: false
+        __v:
+          type: integer
+          example: 0
+    HistoryQuestion:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '5f9b3b3b7b3b7b3b7b3b7b3b'
+        statement:
+          type: string
+          example: 'Question 1'
+        options:
+          type: array
+          items:
+            type: string
+            example: 'Category 1'
+        answer:
+          type: integer
+          example: 1
+        correct:
+          type: integer
+          example: 0
+        time:
+          type: integer
+          example: 10
+        points:
+          type: integer
+          example: 10
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'OK'
+  /login:
+    post:
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: 'user'
+                password:
+                  type: string
+                  example: 'password'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIifQ.1J4Q7'
+                  username:
+                    type: string
+                    example: 'user'
+                  userId:
+                    type: string
+                    example: '507f1f77bcf86cd799439011'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Missing required fields'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid credentials'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Internal server error'
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service unavailable'
+  /adduser:
+    post:
+      summary: Signup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: 'user'
+                password:
+                  type: string
+                  example: 'password'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'User created successfully'
+                  username:
+                    type: string
+                    example: 'user'
+                  token:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIifQ.1J4Q7'
+                  userId:
+                    type: string
+                    example: '507f1f77bcf86cd799439011'
+                  error?:
+                    type: string
+                    example: 'Login service down'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Missing required fields'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Service Unavailable'
+  /categories:
+    get:
+      summary: Get all categories
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: 'Category 1'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: 'Service Unavailable'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service Unavailable'
+  /questions/{category}/{n}:
+    get:
+      summary: Get n questions from a category
+      parameters:
+        - name: category
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'Category 1'
+        - name: n
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 5
+      responses:
+        # TODO - 404 when category not found
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Question'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: 'Service Unavailable'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service Unavailable'
+  /ranking/{n}:
+    get:
+      summary: Get the top n users
+      parameters:
+        - name: n
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 5
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Record'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service unavailable'
+  /game/answer:
+    post:
+      summary: Get the answer of a question
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: '5f9b3b3b7b3b7b3b7b3b7b3b'
+                token:
+                  type: string
+                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIifQ.1J4Q7'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  answer:
+                    type: string
+                    example: 'Option 1'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid id format'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Unauthorized'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Question not found'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: 'Service Unavailable'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service Unavailable'
+  /valid/{token}:
+    get:
+      summary: Validate a token
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIifQ.1J4Q7'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    required: false
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: 'Service Unavailable'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service Unavailable'
+  /history/get/{userId}/{id}:
+    get:
+      summary: Get a save
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+      security:
+        - BearerAuth: []
+      responses:
+        # TODO - Add error mapping
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Save'
+  /history/get/{userId}?page={page}&limit={limit}:
+    get:
+      summary: Get all saves from a user
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            example: 1
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            example: 10
+      security:
+        - BearerAuth: []
+      responses:
+        # TODO - Add error mapping
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  maxPages:
+                    type: integer
+                    example: 1
+                  saves:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Save'
+  /history/create:
+    post:
+      summary: Creates a new save
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: '507f1f77bcf86cd799439011'
+                category:
+                  type: string
+                  example: 'Category 1'
+                token:
+                  type: string
+                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIifQ.1J4Q7'
+      responses:
+        # TODO - Add error mapping
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Save created successfully'
+                  id:
+                    type: string
+                    example: '507f1f77bcf86cd799439011'
+  /history/add/{id}:
+    post:
+      summary: Adds a question to a save
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                last:
+                  type: boolean
+                  example: false
+                statement:
+                  type: string
+                  example: 'Question 1'
+                options:
+                  type: array
+                  items:
+                    type: string
+                    example: 'Category 1'
+                answer:
+                  type: integer
+                  example: 1
+                correct:
+                  type: integer
+                  example: 1
+                time:
+                  type: integer
+                  example: 10
+                points:
+                  type: integer
+                  example: 10
+                token:
+                  type: string
+                  example: 'eyJhbGciOi'
+                userId:
+                  type: string
+                  example: '507f1f77bcf86cd799439011'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Question added successfully'
+  /user/{userId}:
+    get:
+      summary: Get user details
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+      responses:
+        # TODO - Add error mapping
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    example: 'user'
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: '2021-06-01T00:00:00.000Z'

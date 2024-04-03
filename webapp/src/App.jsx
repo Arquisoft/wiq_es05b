@@ -8,27 +8,31 @@ import About from "./views/About";
 import Ranking from "./views/Ranking";
 import Menu from "./views/Menu";
 import Game from "./views/Game";
-import Logout from "./views/components/Logout"
 import Account from "./views/Account";
 import Error from "./views/Error";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Particles from "./views/components/Particles";
 import React, { useState, useEffect } from "react";
+import Endgame from "./views/Endgame";
+import axios from "axios";
 
 import configDefault from "./views/components/config/particles-config.json";
 import configJordi from "./views/components/config/particles-config-jordi";
 import configGraph from "./views/components/config/particles-config-graph";
 
 import { ConfigContext } from "./views/context/ConfigContext";
+import { AuthContext } from "./views/context/AuthContext";
+
+const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#2e3487", // Your primary color
+      main: "#2e3487",
       contrastText: "#FFF",
     },
     secondary: {
-      main: "#f2f2f2", // Your secondary color
+      main: "#f2f2f2",
       contrastText: "#2e3487",
     },
     dark: {
@@ -46,44 +50,48 @@ const theme = createTheme({
   },
 
   typography: {
-    fontFamily: "Verdana, sans-serif", // Your preferred font family
-    fontSize: 16, // Base font size
+    fontFamily: "Verdana, sans-serif",
+    fontSize: 16,
   },
-  // Other theme options (spacing, breakpoints, etc.)
 });
 
-export const AuthContext = React.createContext();
+let configs = [
+  configDefault,
+  configGraph,
+  configJordi,
+];
 
 function useAuth(i = null) {
   const init = (input) => {
-    if(!input)
-      return null;
-    if (typeof input !== "string") {
-      sUser(input);
-    } else {
-      sUser(JSON.parse(input));
-    }
+    if(!input) return null;
+
+    if (typeof input !== "string") sUser(input);
+    else sUser(JSON.parse(input));
   }
-  const [user, sUser] = useState(i ? init(i) : localStorage.getItem("user"));
+  const [user, sUser] = useState(i ? init(i) : JSON.parse(localStorage.getItem("user")));
 
   useEffect(() => {
-    if(!user)
-      localStorage.removeItem('user');
-    else
-      localStorage.setItem('user', JSON.stringify(user));
+    if(!user) return;
+    axios.get(`${apiEndpoint}/validate/${user.token}`)
+      .then(res => {
+        if(!res.data.valid) {
+          logout()
+        }
+      })
+      .catch(() => logout())
+  // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
+    if(!user) localStorage.removeItem('user');
+    else localStorage.setItem('user', JSON.stringify(user));
   }, [user])
 
-  const getUser = () => {
-      return user ? user : null;
-  }
-  const isAuthenticated = () => {
-    return user ? true : false;
-  }
-  const logout = () => {
-    sUser(null);
-  }
-
+  const getUser = () => user || null;
+  const isAuthenticated = () => !!user
+  const logout = () => sUser(null)
   const setUser = i => init(i);
+
   return {
     getUser,
     isAuthenticated,
@@ -95,13 +103,7 @@ function useAuth(i = null) {
 export default function App() {
   const [config, setConfig] = useState(configDefault);
 
-  let auth = useAuth()
-
-  let configs = [
-    configDefault,
-    configGraph,
-    configJordi,
-  ];
+  const auth = useAuth()
 
   function swapConfig() {
     const currentIndex = configs.findIndex(c => c === config);
@@ -120,11 +122,11 @@ export default function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login/>} />
-          <Route path="/logout" element={<Logout />} />
           <Route path="/about" element={<About />} />
           <Route path="/ranking" element={<Ranking />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/game/:category" element={<Game />} />
+          <Route path="/endgame/" element={<Endgame />} />
           <Route path="/account" element={<Account />} />
           <Route path="*" element={<Error />} />
         </Routes>

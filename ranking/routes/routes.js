@@ -1,32 +1,48 @@
-let express = require('express');
-let router = express.Router();
+const errorHandler = (e, res, msg) => {
+    let code = 500
+    let error = msg || 'Internal Server Error'
+    switch (e) {
+        case "ECONNREFUSED":
+            code = 503
+            error = "Service Unavailable"
+            break;
+        case "42P01":
+            error = "Table not found"
+            break
+        case "22P02":
+            code = 400
+            error = "Invalid points format, should be a number (int)"
+            break
+    }
+    res.status(code).json({error: error})
+}
 
-const pgUri = "postgres://postgres:jordishhh@localhost:5432/postgres";
+module.exports = function (app, rankingRepository) {
 
-// get top n ranking
-router.get("/ranking/:n", async (req, res) => {
-    let client = new pg.Client(pgUri);
-    await client.connect();
+    // Get top n ranking
+    app.get("/ranking/:n", async (req, res) => {
+        const {n} = req.params;
 
-    let result = await client.query('SELECT * FROM ranking ORDER BY points DESC LIMIT $1', [req.params.n]);
-    
-    res.send(result.rows);
+        if (isNaN(n)) {
+            return res.status(400).json({error: "Invalid value for n"});
+        }
 
-    client.end();
-});
+        rankingRepository.getRanking(n)
+            .then(result => res.json(result))
+            .catch(error => errorHandler(error, res, "An error occured while fetching ranking"));
+    });
 
-// add record
-router.post("/adduser", async (req, res) => {
-    
-    let client = new pg.Client(pgUri);
-    await client.connect();
-
-    let result = await client.query('INSERT INTO ranking (name, points) VALUES ($1)', [req.body.name, req.body.points]);
-
-    res.send(result.rows);
-
-    client.end(); 
-    
-});
-
-module.exports = router
+    // add record
+    app.post("/addScore", async (req, res) => {
+        const {name, points} = req.body;
+        if (!name) {
+            return res.status(400).json({error: "Missing name"});
+        }
+        if (!points) {
+            return res.status(400).json({error: "Missing points"});
+        }
+        rankingRepository.insertRecord(name, points)
+            .then(() => res.json({messge: "Record added"}))
+            .catch(error => errorHandler(error, res, "An error occured while adding record"));
+    });
+}
