@@ -89,16 +89,17 @@ services:
     container_name: webapp-${teamname:-wiq_es05b}
     image: ghcr.io/arquisoft/wiq_es05b/webapp:latest
     profiles: ["dev", "prod"]
-    build: ./webapp
+    build:
+      context: ./webapp
+      args:
+        SSL_API_URI: https://cyt.is-cool.dev/api
+        API_URI: http://cyt.is-cool.dev/api
     depends_on:
       - gatewayservice
     networks:
       - mynetwork
     ports:
       - "3000:3000"
-    environment:
-      REACT_APP_API_ENDPOINT_SSL: https://cyt.is-cool.dev/api
-      REACT_APP_API_ENDPOINT: http://cyt.is-cool.dev/api
     restart: always
 
   jordi-ask:
