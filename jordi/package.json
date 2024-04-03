@@ -1,13 +1,13 @@
 {
-    "name": "jordiaskservice",
+    "name": "jordi",
     "version": "1.0.0",
-    "description": "Question generator service, in charge of genearting wikidata-based Q&A chunks",
+    "description": "Question generation service",
     "author": "wiq_es05b",
     "private": true,
     "main": "jordi-ask-service.js",
     "scripts": {
-        "start": "node jordi-ask-service.js",
-        "dev": "nodemon jordi-ask-service.js",
+        "start": "node jordi-service.js",
+        "dev": "nodemon jordi-service.js",
         "test": "jest"
     },
     "repository": {
@@ -22,7 +22,8 @@
         "express": "^4.18.3",
         "mongoose": "^8.0.4",
         "mongodb": "^6.0.0",
-        "axios": "^1.6.7"
+        "axios": "^1.6.7",
+        "node-cron": "^3.0.3"
     },
     "devDependencies": {
         "jest": "^29.7.0",
