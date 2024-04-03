@@ -167,8 +167,11 @@ Note that this action logs in the remote machine and downloads the docker-compos
 
 We would like to extend our special thanks to the following individuals for their valuable contributions and collaborations:
 
-- All of the JordiBurger Easter Event participants.
-- Thanks to Jordi for not denouncing us legally.
+- Thanks to all of the JordiBurger Easter Event participants.
+- Thanks to Jordi Hurtado for not denouncing us legally.
 - Thanks to Omitg24 for the footer I've just stolen.
 
 We are grateful for their support and dedication in making this project a success.
+
+<p style="color: #10ff00">To be continued</p>
+<img src="projectmedia/console.svg" style="width: 5%">
