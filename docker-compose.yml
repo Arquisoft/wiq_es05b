@@ -28,7 +28,7 @@ services:
     restart: always
 
   mongodbhistory:
-    container_name: mongodbquestions-${teamname:-wiq_es05b}
+    container_name: mongodbhistory-${teamname:-wiq_es05b}
     image: mongo
     profiles: ["dev", "prod"]
     volumes:
