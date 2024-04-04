@@ -39,7 +39,6 @@ services:
       - mynetwork
     restart: always
   
-
   postgres:
     container_name: postgres-${teamname:-wiq_es05b}
     image: postgres
@@ -77,24 +76,21 @@ services:
     profiles: ["dev", "prod"]
     build: ./gatewayservice
     depends_on:
-      - mongodb
       - userservice
       - authservice
-      - history
-      - jordi-ask
-      - jordi-think
+      - jordi
       - ranking
+      - history
     ports:
       - "8000:8000"
     networks:
       - mynetwork
     environment:
-      AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
-      JORDI_THINK_SERVICE_URL: http://jordi-think:8003
-      JORDI_ASK_SERVICE_URL: http://jordi-ask:8004
+      AUTH_SERVICE_URL: http://authservice:8002
+      JORDI_SERVICE_URL: http://jordi:8003
+      HISTORY_SERVICE_URL: http://history:8004
       RANKING_SERVICE_URL: http://ranking:8005
-      HISTORY_SERVICE_URL: http://history:8006
     restart: always
 
   userservice:
@@ -103,13 +99,13 @@ services:
     profiles: ["dev", "prod"]
     build: ./users/userservice
     depends_on:
-      - mongodb
+      - mongodbusers
     ports:
       - "8001:8001"
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodb:27017/userdb
+      MONGODB_URI: mongodb://mongodbusers:27017/userdb
     restart: always
 
   authservice:
@@ -118,7 +114,7 @@ services:
     profiles: ["dev", "prod"]
     build: ./users/authservice
     depends_on:
-      - mongodb
+      - mongodbusers
     ports:
       - "8002:8002"
     networks:
@@ -133,12 +129,14 @@ services:
     image: ghcr.io/arquisoft/wiq_es05b/jordi:latest
     profiles: ["dev", "prod"]
     build: ./jordi
+    depends_on:
+      - mongodbquestions
     ports:
       - "8003:8003"
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodb:27017/questions
+      MONGODB_URI: mongodb://mongodbquestions:27018/questions
     restart: always
 
   history:
@@ -147,13 +145,13 @@ services:
     profiles: ["dev", "prod"]
     build: ./userhistory
     depends_on:
-      - mongodb
+      - mongodbhistory
     ports:
       - "8004:8004"
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodb:27017/history
+      MONGODB_URI: mongodb://mongodbhistory:27019/history
     restart: always
 
   ranking:
@@ -166,7 +164,7 @@ services:
     networks:
       - mynetwork
     environment:
-      POSTGRES_URI: postgres://postgres:5432/ranking
+      POSTGRES_URI: postgres://postgres:jordishhh@postgres:5432/postgres
     restart: always
 
   reverse-proxy:
@@ -222,10 +220,10 @@ services:
 volumes:
   users_data:
   questions_data:
+  history_data:
   postgres_data:
   prometheus_data:
   grafana_data:
-  history_data:
 
 networks:
   mynetwork:

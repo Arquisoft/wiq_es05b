@@ -4,7 +4,7 @@
     "description": "Question generation service",
     "author": "wiq_es05b",
     "private": true,
-    "main": "jordi-ask-service.js",
+    "main": "jordi-service.js",
     "scripts": {
         "start": "node jordi-service.js",
         "dev": "nodemon jordi-service.js",

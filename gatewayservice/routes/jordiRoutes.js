@@ -1,4 +1,4 @@
-const questionServiceUrl = process.env.JORDI_ASK_SERVICE_URL || "http://localhost:8003";
+const questionServiceUrl = process.env.JORDI_SERVICE_URL || "http://localhost:8003";
 
 module.exports = (app, axios, errorHandler) => {
   app.post("/game/answer", (req, res) => {
