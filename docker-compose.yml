@@ -91,8 +91,8 @@ services:
     build:
       context: ./webapp
       args:
-        SSL_API_URI: https://cyt.is-cool.dev/api
-        API_URI: http://cyt.is-cool.dev/api
+        SSL_API_URI: ${ssl_api_uri:-http://localhost:8000}
+        API_URI: ${api_uri:-http://localhost:8000}
     depends_on:
       - gatewayservice
     networks:

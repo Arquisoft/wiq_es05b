@@ -83,6 +83,13 @@ jobs:
 
     - name: Check out the repo
       uses: actions/checkout@v4
+    
+    - name: Set up endpoint URIs
+      run: |
+        touch .env
+        echo "ssl_api_uri=https://cyt.is-cool.dev/api" >> .env
+        echo "api_uri=http://cyt.is-cool.dev/api" >> .env
+      shell: bash
 
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@v5
