@@ -5,7 +5,7 @@ const cron = require('node-cron');
 const app = express();
 const port = 8006;
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/history"
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27019/history"
 
 const saveRepository = require('./repositories/saveRepository');
 

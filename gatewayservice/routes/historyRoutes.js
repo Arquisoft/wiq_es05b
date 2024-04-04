@@ -1,4 +1,4 @@
-const historyService = process.env.HISTORY_SERVICE_URL || "http://localhost:8006";
+const historyService = process.env.HISTORY_SERVICE_URL || "http://localhost:8004";
 
 module.exports = (app, axios, errorHandler, authMiddleware) => {
   app.get("/history/get/:userId", authMiddleware, (req, res) => {
