@@ -12,7 +12,7 @@ module.exports = (app, axios, errorHandler) => {
   app.get("/validate/:token", (req, res) => {
     axios
       .get(`${authServiceUrl}/validate/${req.params.token}`)
-      .then(({ data }) => res.json(data))
+      .then(({ data }) => res.json({valid: data.valid}))
       .catch((error) => errorHandler(error, res), "Unable to validate token");
   });
 };
