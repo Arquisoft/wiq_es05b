@@ -4,7 +4,7 @@ services:
   # Production services
   
   mongodbusers:
-    container_name: mongodbusers-${teamname:-wiq_es05b}
+    container_name: mongo-users-${teamname:-wiq_es05b}
     image: mongo
     profiles: ["dev", "prod"]
     volumes:
@@ -15,26 +15,38 @@ services:
       - mynetwork
     restart: always
   
-  mongodbquestions:
-    container_name: mongodbquestions-${teamname:-wiq_es05b}
-    image: mongo
-    profiles: ["dev", "prod"]
-    volumes:
-      - questions_data:/data/db
-    ports:
-      - "27018:27017"
-    networks:
-      - mynetwork
-    restart: always
-
   mongodbhistory:
-    container_name: mongodbhistory-${teamname:-wiq_es05b}
+    container_name: mongo-history-${teamname:-wiq_es05b}
     image: mongo
     profiles: ["dev", "prod"]
     volumes:
       - history_data:/data/db
     ports:
       - "27019:27017"
+    networks:
+      - mynetwork
+    restart: always
+  
+  mongodbranking:
+    container_name: mongo-ranking-${teamname:-wiq_es05b}
+    image: mongo
+    profiles: ["dev", "prod"]
+    volumes:
+      - ranking_data:/data/db
+    ports:
+      - "27020:27017"
+    networks:
+      - mynetwork
+    restart: always
+  
+  mongodbquestions:
+    container_name: mongo-questions-${teamname:-wiq_es05b}
+    image: mongo
+    profiles: ["dev", "prod"]
+    volumes:
+      - questions_data:/data/db
+    ports:
+      - "27018:27017"
     networks:
       - mynetwork
     restart: always
@@ -164,7 +176,7 @@ services:
     networks:
       - mynetwork
     environment:
-      POSTGRES_URI: postgres://postgres:jordishhh@postgres:5432/postgres
+      MONGODB_URI: mongodb://mongodbquestions:27017/questions
     restart: always
 
   reverse-proxy:
