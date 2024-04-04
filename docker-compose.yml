@@ -22,7 +22,7 @@ services:
     volumes:
       - questions_data:/data/db
     ports:
-      - "27018:27018"
+      - "27018:27017"
     networks:
       - mynetwork
     restart: always
@@ -34,7 +34,7 @@ services:
     volumes:
       - history_data:/data/db
     ports:
-      - "27019:27019"
+      - "27019:27017"
     networks:
       - mynetwork
     restart: always
@@ -120,7 +120,7 @@ services:
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodb:27017/userdb
+      MONGODB_URI: mongodb://mongodbusers:27017/userdb
       SECRET: a-very-secret-string
     restart: always
 
@@ -136,7 +136,7 @@ services:
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodbquestions:27018/questions
+      MONGODB_URI: mongodb://mongodbquestions:27017/questions
     restart: always
 
   history:
@@ -151,7 +151,7 @@ services:
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodbhistory:27019/history
+      MONGODB_URI: mongodb://mongodbhistory:27017/history
     restart: always
 
   ranking:
