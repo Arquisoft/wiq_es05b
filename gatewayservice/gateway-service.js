@@ -25,7 +25,7 @@ app.use("/history", authMiddleware)
 app.use("/user", authMiddleware)
 
 require("./routes/routes")(app)
-require("./routes/jordiaRoutes")(app, axios, errorHandler)
+require("./routes/jordiRoutes")(app, axios, errorHandler)
 require("./routes/rankingRoutes")(app, axios, errorHandler)
 require("./routes/usersRoutes")(app, axios, errorHandler, authTokenMiddleware)
 require("./routes/authRoutes")(app, axios, errorHandler)
