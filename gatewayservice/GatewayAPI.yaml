@@ -4,7 +4,7 @@ info:
   description: API used by the client to access the services
   version: 1.0.2
 servers:
-  - url: 'http://158.179.216.208:8000'
+  - url: 'https://cyt.is-cool.dev/api'
 components:
   securitySchemes:
     BearerAuth:
@@ -467,9 +467,6 @@ paths:
                   valid:
                     type: boolean
                     example: true
-                  data:
-                    type: object
-                    required: false
         '500':
           description: 'Internal Server Error'
           content:

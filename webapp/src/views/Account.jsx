@@ -11,8 +11,6 @@ import textFormat from "../scripts/textFormat";
 import Loader from "./components/Loader";
 import ServerDownMessage from "./components/ServiceDownMessage";
 
-const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
-
 const Field = ({description, value}) => {
   return (
     <div style={{display: "flex", flexFlow: "row", justifyContent: "space-between"}}>
@@ -49,9 +47,9 @@ const UserData = () => {
 
   useEffect(() => {
     axios
-      .get(`${apiEndpoint}/user/${getUser().userId}`, {headers: {Authorization: `Bearer ${getUser().token}`}})
+      .get(`/user/${getUser().userId}`, {headers: {Authorization: `Bearer ${getUser().token}`}})
       .then(result => setData(Object.keys(result.data).map(x => {return {description: x, value: result.data[x]}})))
-      .catch(err => setError(true))
+      .catch(() => setError(true))
     // eslint-disable-next-line
   }, [])
 

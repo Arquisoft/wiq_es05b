@@ -5,7 +5,6 @@ import {AuthContext} from "../context/AuthContext";
 import SaveDetails from "./SaveDetails";
 import textFormat from "../../scripts/textFormat";
 
-const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000"
 const limit= 10
 
 const Save = ({save, onClick}) => {
@@ -34,7 +33,7 @@ const SaveList = () => {
   const fetchSaves = () => {
     axios({
       method: 'get',
-      url: `${apiEndpoint}/history/get/${getUser().userId}?page=${page}&limit=${limit}`,
+      url: `/history/get/${getUser().userId}?page=${page}&limit=${limit}`,
       headers: {
         'Authorization': `Bearer ${getUser().token}`
       }

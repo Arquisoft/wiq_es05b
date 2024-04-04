@@ -11,8 +11,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import ProtectedComponent from "./components/ProtectedComponent";
 import ServiceDownMessage from "./components/ServiceDownMessage";
 
-const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || "http://localhost:8000";
-
 const buttonStyle = {
   height: "13rem",
   width: "100%",
@@ -177,7 +175,7 @@ export default function Game() {
         name : getUser()["username"],
         points : pointsUpdated
       }
-      await axios.post(`${apiEndpoint}/addScore`, body)
+      await axios.post(`/addScore`, body)
     }
     
   // Timer
@@ -213,7 +211,7 @@ export default function Game() {
 
   //Fetch questions just at the beginning
   useEffect(() => {
-    fetchQuestions(`${apiEndpoint}/questions/${category}/10`);
+    fetchQuestions(`/questions/${category}/10`);
     // eslint-disable-next-line
   }, []);
 
@@ -227,7 +225,7 @@ export default function Game() {
       })
       .then(() => {
         axios
-          .post(`${apiEndpoint}/history/create`, {userId: getUser().userId, category: category, token: getUser().token})
+          .post(`/history/create`, {userId: getUser().userId, category: category, token: getUser().token})
           .then(response => setSaveId(response.data.id))
           .catch(() => setHistoryE("An error occured while saving the game history"))
       })
@@ -245,7 +243,7 @@ export default function Game() {
 
     //Fetch correct answer
     axios
-      .post(`${apiEndpoint}/game/answer`, params)
+      .post(`/game/answer`, params)
       .then(response => {
         // Mark in red the incorrect answers and in green the correct one
         const correct = questions[current].options.filter(
@@ -281,7 +279,7 @@ export default function Game() {
           time: initialTime - timeLeft,
           token: getUser().token
         }
-        await axios.post(`${apiEndpoint}/history/add/${saveId}`, q)
+        await axios.post(`/history/add/${saveId}`, q)
       })
       .catch((e) => {setError({code: e.response.status, error: e.response.data.error})});
   };

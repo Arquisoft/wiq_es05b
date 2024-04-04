@@ -23,8 +23,6 @@ import configGraph from "./views/components/config/particles-config-graph";
 import { ConfigContext } from "./views/context/ConfigContext";
 import { AuthContext } from "./views/context/AuthContext";
 
-const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
-
 const theme = createTheme({
   palette: {
     primary: {
@@ -72,7 +70,7 @@ function useAuth(i = null) {
 
   useEffect(() => {
     if(!user) return;
-    axios.get(`${apiEndpoint}/validate/${user.token}`)
+    axios.get(`/validate/${user.token}`)
       .then(res => {
         if(!res.data.valid) {
           logout()

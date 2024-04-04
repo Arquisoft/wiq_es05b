@@ -5,8 +5,6 @@ import { Navigate } from 'react-router';
 import { AuthContext } from '../views/context/AuthContext';
 import CustomForm from './components/CustomForm';
 
-const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
-
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -24,7 +22,7 @@ export default function Login() {
     submitButtonTx: "Login",
     submit: (callback) => {
       axios
-        .post(`${apiEndpoint}/login`, { username, password })
+        .post(`/login`, { username, password })
         .then(response => {
           
           setUser({ ...response.data})
