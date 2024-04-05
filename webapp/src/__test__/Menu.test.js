@@ -79,9 +79,9 @@ describe("Menu component", () => {
       });
 
         const capitalsButton = screen.getByText(/Capitals/i, { selector: 'a' });
-
+        act(() => {
         capitalsButton.click();
-
+        });
         await act(async () => {});
 
         waitFor(() => {

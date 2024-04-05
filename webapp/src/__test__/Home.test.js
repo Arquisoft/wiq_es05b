@@ -25,9 +25,9 @@ describe("Home component", () => {
         render(<MemoryRouter><Home /></MemoryRouter>);
 
         const playButton = screen.getByText(/Play/i, { selector: 'a' });
-
+        act(() => {
         playButton.click();
-
+        });
         await act(async () => {});
 
         waitFor(() => {
