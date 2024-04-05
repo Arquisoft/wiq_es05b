@@ -45,7 +45,7 @@ describe("Menu component", () => {
                 username:"test"
         });
         axios.get.mockResolvedValue({
-          data: ['Capitals', 'Countries', 'Languages', 'Population']
+          data: ['Area', 'Capitals', 'Continent', 'Currency', 'Economy', 'Gdp', 'Geography', 'Languages', 'Politics', 'Population', 'President']
         });
     });
 
@@ -58,10 +58,17 @@ describe("Menu component", () => {
 
       expect(screen.getByText(/Menu/i)).toBeInTheDocument();
       expect(screen.getByText(/Choose a category to play/i)).toBeInTheDocument();
+      expect(screen.getByText(/Area/i)).toBeInTheDocument();
       expect(screen.getByText(/Capitals/i)).toBeInTheDocument();
-      expect(screen.getByText(/Countries/i)).toBeInTheDocument();
+      expect(screen.getByText(/Continent/i)).toBeInTheDocument();
+      expect(screen.getByText(/Currency/i)).toBeInTheDocument();
+      expect(screen.getByText(/Economy/i)).toBeInTheDocument();
+      expect(screen.getByText(/Gdp/i)).toBeInTheDocument();
+      expect(screen.getByText(/Geography/i)).toBeInTheDocument();
       expect(screen.getByText(/Languages/i)).toBeInTheDocument();
+      expect(screen.getByText(/Politics/i)).toBeInTheDocument();
       expect(screen.getByText(/Population/i)).toBeInTheDocument();
+      expect(screen.getByText(/President/i)).toBeInTheDocument();
     })
 
     test( "redirect to capitals", async () => {
@@ -79,6 +86,187 @@ describe("Menu component", () => {
 
         waitFor(() => {
             expect(history.location.pathname).toBe("/game/capitals");
+        })
+    })
+
+    test( "redirect to area", async () => {
+      await act(async () => {
+        render(<AuthContext.Provider value={mockAuth}>
+          <MemoryRouter><Menu /></MemoryRouter>
+        </AuthContext.Provider>);
+      });
+
+        const areaButton = screen.getByText(/Area/i, { selector: 'a' });
+
+        areaButton.click();
+
+        await act(async () => {});
+
+        waitFor(() => {
+            expect(history.location.pathname).toBe("/game/area");
+        })
+    })
+
+    test( "redirect to continent", async () => {
+      await act(async () => {
+        render(<AuthContext.Provider value={mockAuth}>
+          <MemoryRouter><Menu /></MemoryRouter>
+        </AuthContext.Provider>);
+      });
+
+        const continentButton = screen.getByText(/Continent/i, { selector: 'a' });
+
+        continentButton.click();
+
+        await act(async () => {});
+
+        waitFor(() => {
+            expect(history.location.pathname).toBe("/game/continent");
+        })
+    })
+
+    test( "redirect to currency", async () => {
+      await act(async () => {
+        render(<AuthContext.Provider value={mockAuth}>
+          <MemoryRouter><Menu /></MemoryRouter>
+        </AuthContext.Provider>);
+      });
+
+        const currencyButton = screen.getByText(/Currency/i, { selector: 'a' });
+
+        currencyButton.click();
+
+        await act(async () => {});
+
+        waitFor(() => {
+            expect(history.location.pathname).toBe("/game/currency");
+        })
+    })
+
+    test( "redirect to economy", async () => {
+      await act(async () => {
+        render(<AuthContext.Provider value={mockAuth}>
+          <MemoryRouter><Menu /></MemoryRouter>
+        </AuthContext.Provider>);
+      });
+
+        const economyButton = screen.getByText(/Economy/i, { selector: 'a' });
+
+        economyButton.click();
+
+        await act(async () => {});
+
+        waitFor(() => {
+            expect(history.location.pathname).toBe("/game/economy");
+        })
+    })
+
+    test( "redirect to gdp", async () => {
+      await act(async () => {
+        render(<AuthContext.Provider value={mockAuth}>
+          <MemoryRouter><Menu /></MemoryRouter>
+        </AuthContext.Provider>);
+      });
+
+        const gdpButton = screen.getByText(/gdp/i, { selector: 'a' });
+
+        gdpButton.click();
+
+        await act(async () => {});
+
+        waitFor(() => {
+            expect(history.location.pathname).toBe("/game/gdp");
+        })
+    })
+
+    test( "redirect to geography", async () => {
+      await act(async () => {
+        render(<AuthContext.Provider value={mockAuth}>
+          <MemoryRouter><Menu /></MemoryRouter>
+        </AuthContext.Provider>);
+      });
+
+        const geographyButton = screen.getByText(/Geography/i, { selector: 'a' });
+
+        geographyButton.click();
+
+        await act(async () => {});
+
+        waitFor(() => {
+            expect(history.location.pathname).toBe("/game/geography");
+        })
+    })
+
+    test( "redirect to languages", async () => {
+      await act(async () => {
+        render(<AuthContext.Provider value={mockAuth}>
+          <MemoryRouter><Menu /></MemoryRouter>
+        </AuthContext.Provider>);
+      });
+
+        const languagesButton = screen.getByText(/Languages/i, { selector: 'a' });
+
+        languagesButton.click();
+
+        await act(async () => {});
+
+        waitFor(() => {
+            expect(history.location.pathname).toBe("/game/languages");
+        })
+    })
+
+    test( "redirect to politics", async () => {
+      await act(async () => {
+        render(<AuthContext.Provider value={mockAuth}>
+          <MemoryRouter><Menu /></MemoryRouter>
+        </AuthContext.Provider>);
+      });
+
+        const politicsButton = screen.getByText(/Politics/i, { selector: 'a' });
+
+        politicsButton.click();
+
+        await act(async () => {});
+
+        waitFor(() => {
+            expect(history.location.pathname).toBe("/game/politics");
+        })
+    })
+
+    test( "redirect to population", async () => {
+      await act(async () => {
+        render(<AuthContext.Provider value={mockAuth}>
+              <MemoryRouter><Menu /></MemoryRouter>
+            </AuthContext.Provider>);
+      });
+    
+        const populationButton = screen.getByText(/Population/i, { selector: 'a' });
+    
+        populationButton.click();
+    
+        await act(async () => {});
+    
+        waitFor(() => {
+            expect(history.location.pathname).toBe("/game/population");
+        })
+    })
+    
+
+    test( "redirect to president", async () => {
+      await act(async () => {
+        render(<AuthContext.Provider value={mockAuth}>
+              <MemoryRouter><Menu /></MemoryRouter>
+            </AuthContext.Provider>);
+      });
+    
+        const presidentButton = screen.getByText(/President/i, { selector: 'a' });
+    
+        presidentButton.click();
+    
+        await act(async () => {});
+    
+        waitFor(() => {
+            expect(history.location.pathname).toBe("/game/president");
         })
     })
 })
