@@ -15,14 +15,18 @@ Therefore, we have chosen to adhere to them
 | Constraint | Explanation
 
 |*_Docker_*
-| The app will be running in a Docker Host.
+| The app will be running in a Docker Host due to
+its outstanding interoperability, robust security mechanisms, and its effectiveness in deploying applications
 
 |*_Wikidata_*
-| This project will be using wikidata as its only question related data retrieval API.
+| This project will be using wikidata to retrieve the source of the game questions
 
-|*_GitHub_*
-| Remote repository service to develop the app in sync, allows us to communicate efficiently, manage version control and
-allocate tasks appropriately among team members.
+|*_React_*
+| A JavaScript framework used for constructing visual interfaces.
+
+|*_Git/GitHub_*
+| Our development process will leverage Git for version control and GitHub as a remote repository. This combination empowers us to:
+collaborate effectively, maintain a clean codebase and assign tasks
 
 |===
 
