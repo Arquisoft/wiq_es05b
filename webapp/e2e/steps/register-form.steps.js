@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const { defineFeature, loadFeature }=require('jest-cucumber');
+const { defineFeature, loadFeature } = require('jest-cucumber');
 const setDefaultOptions = require('expect-puppeteer').setDefaultOptions
 const feature = loadFeature('./features/register-form.feature');
 
@@ -7,11 +7,11 @@ let page;
 let browser;
 
 defineFeature(feature, test => {
-  
+
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: false});
+      : await puppeteer.launch({ headless: false });
     page = await browser.newPage();
     setDefaultOptions({ timeout: 3000 })
 
@@ -19,32 +19,33 @@ defineFeature(feature, test => {
       .goto("http://localhost:3000/login", {
         waitUntil: "networkidle0",
       })
-      .catch(() => {});
+      .catch(() => { });
   });
 
-  test('The user is not registered in the site', ({given,when,then}) => {
-    
+
+  test('The user is not registered in the site', ({ given, when, then }) => {
+
     let username;
     let password;
 
     given('An unregistered user', async () => {
-      username = "pablo"
-      password = "pabloasw"
-      await expect(page).toClick("button", { text: "Don't have an account? Register here." });
+      username = "prueba"
+      password = "Prueba123$"
+      await expect(page).toClick("button", { text: "Don't have an account? Sign up" });
     });
 
     when('I fill the data in the form and press submit', async () => {
       await expect(page).toFill('input[name="username"]', username);
       await expect(page).toFill('input[name="password"]', password);
-      await expect(page).toClick('button', { text: 'Add User' })
+      await expect(page).toClick('button', { text: 'Create account' })
     });
 
-    then('A confirmation message should be shown in the screen', async () => {
-        await expect(page).toMatchElement("div", { text: "User added successfully" });
+    then('Redirect to home page', async () => {
+      await expect(page).toMatchElement("button", { text: "Play" });
     });
   })
 
-  afterAll(async ()=>{
+  afterAll(async () => {
     browser.close()
   })
 
