@@ -79,7 +79,7 @@ const MiLinea = ({ progressBarPercent }) =>
 const Coin = ({ pointsUpdated }) => {
   return (
     <Box sx={{ ml: 1, display: "flex", alignItems: "center" }}>
-      <Typography sx={{ fontWeight: 400, fontSize: "35px" }}>
+      <Typography name="points" sx={{ fontWeight: 400, fontSize: "35px" }}>
         {pointsUpdated}
       </Typography>
       <img src={coinImage} alt="Coin" style={{ marginLeft: "10px" }} />

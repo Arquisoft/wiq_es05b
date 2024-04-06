@@ -40,9 +40,14 @@ defineFeature(feature, test => {
       await expect(page).toClick('button', { text: 'Create account' })
       await expect(page).toClick('a', { text: 'Play' })
       await expect(page).toClick('a', { text: 'area' })
+      await expect(page).toMatchElement("p", { name:'points',text: "0" });
+      await expect(page).toClick('button', { id: 'button0' })
+
+
     });
 
     then('Points are updated', async () => {
+      await expect(page).toMatchElement("p", { name:'points',text: /^(?!0$).+/ });
     });
   })
 
