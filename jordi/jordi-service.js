@@ -12,7 +12,7 @@ const port = 8003;
 
 const questionsRepository = require('./repositories/questionRepository');
 
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27018/questions';
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/questions';
 const generateOnStartup = process.env.GENERATE_ON_STARTUP || true;
 const schedule = process.env.SCHEDULE || "* * * 1 * *";
 
