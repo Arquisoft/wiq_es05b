@@ -28,7 +28,7 @@ export default function Signup() {
             navigate("/login");
             return
           }
-          setUser({ token: data.token, username: data.username });
+          setUser({ ...data });
           navigate("/home");
         })
         .catch(error => {
