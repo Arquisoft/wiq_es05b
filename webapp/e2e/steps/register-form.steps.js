@@ -65,9 +65,28 @@ defineFeature(feature, test => {
     });
   })
 
+  test('The username already exists', ({ given, when, then }) => {
+
+    let username;
+    let password;
+
+    given('An unregistered user with repeated username', async () => {
+      username = "prueba123"
+      password = "Prueba1213$"
+      await expect(page).toClick("a", { text:"Sign up" });
+    });
+
+    when('Fill the data in the form', async () => {
+      await expect(page).toFill('input[name="username"]', username);
+      await expect(page).toFill('input[name="password"]', password);
+      await expect(page).toClick('button', { text: 'Create account' })
+    });
+
+    then('Alert about the username', async () => {
+      await expect(page).toMatchElement("div", { text: "Error: Username already exists" });    });
+  })
 
   afterAll(async () => {
     browser.close()
   })
-
 });

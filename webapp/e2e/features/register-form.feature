@@ -1,5 +1,10 @@
 Feature: Registering a new user
 
+  Scenario: The username already exists
+    Given An unregistered user with repeated username
+    When Fill the data in the form
+    Then Alert about the username
+
 Scenario: The password does not fulfill the security parameters
   Given An unregistered user with weak password
   When Fill the data in the form
