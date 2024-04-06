@@ -11,7 +11,7 @@ defineFeature(feature, test => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: false });
+      : await puppeteer.launch({ headless: false,slowMo:10 });
     page = await browser.newPage();
     setDefaultOptions({ timeout: 3000 })
 
@@ -29,7 +29,7 @@ defineFeature(feature, test => {
     let password;
 
     given('An unregistered user', async () => {
-      username = "prueba1"
+      username = "prueba123"
       password = "Prueba1213$"
       await expect(page).toClick("a", { text: "Sign up" });
     });
