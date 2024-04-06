@@ -79,7 +79,7 @@ const MiLinea = ({ progressBarPercent }) =>
 const Coin = ({ pointsUpdated }) => {
   return (
     <Box sx={{ ml: 1, display: "flex", alignItems: "center" }}>
-      <Typography sx={{ fontWeight: 400, fontSize: "35px" }}>
+      <Typography name="points" sx={{ fontWeight: 400, fontSize: "35px" }}>
         {pointsUpdated}
       </Typography>
       <img src={coinImage} alt="Coin" style={{ marginLeft: "10px" }} />
@@ -255,12 +255,7 @@ export default function Game() {
 
         changeButtonColor(correctIndex, "green");
         const newPoints = pointsUpdated + (i === correctIndex ? correctPoints : wrongPoints);
-        
-        if  (newPoints > 0)
-            setPointsUpdated(newPoints);
-        else
-            setPointsUpdated(0);
-
+        setPointsUpdated(newPoints);
         (i === correctIndex ? setCorrectA(correctA+1) : setWrongA(wrongA+1) );
         setTimeout(() => {
           next();

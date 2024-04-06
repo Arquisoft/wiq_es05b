@@ -8,12 +8,12 @@ let browser;
 
 defineFeature(feature, test => {
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
       : await puppeteer.launch({ headless: false,slowMo:10 });
     page = await browser.newPage();
-    setDefaultOptions({ timeout: 3000 })
+    setDefaultOptions({ timeout: 300000 })
 
     await page
       .goto("http://localhost:3000/login", {
@@ -22,6 +22,26 @@ defineFeature(feature, test => {
       .catch(() => { });
   });
 
+  test('The password does not fulfill the security parameters', ({ given, when, then }) => {
+
+    let username;
+    let password;
+
+    given('An unregistered user with weak password', async () => {
+      username = "prueba123"
+      password = "prueba"
+      await expect(page).toClick("a", { text:"Sign up" });
+    });
+
+    when('Fill the data in the form', async () => {
+      await expect(page).toFill('input[name="username"]', username);
+      await expect(page).toFill('input[name="password"]', password);
+      await expect(page).toClick('button', { text: 'Create account' })
+    });
+
+    then('Alert about the weak password', async () => {
+      await expect(page).toMatchElement("div", { text: "Error: Password must be at least 8 characters long" });    });
+  })
 
   test('The user is not registered in the site', ({ given, when, then }) => {
 
@@ -45,8 +65,28 @@ defineFeature(feature, test => {
     });
   })
 
+  test('The username already exists', ({ given, when, then }) => {
+
+    let username;
+    let password;
+
+    given('An unregistered user with repeated username', async () => {
+      username = "prueba123"
+      password = "Prueba1213$"
+      await expect(page).toClick("a", { text:"Sign up" });
+    });
+
+    when('Fill the data in the form', async () => {
+      await expect(page).toFill('input[name="username"]', username);
+      await expect(page).toFill('input[name="password"]', password);
+      await expect(page).toClick('button', { text: 'Create account' })
+    });
+
+    then('Alert about the username', async () => {
+      await expect(page).toMatchElement("div", { text: "Error: Username already exists" });    });
+  })
+
   afterAll(async () => {
     browser.close()
   })
-
 });

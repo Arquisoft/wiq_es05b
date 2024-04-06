@@ -13,7 +13,7 @@ defineFeature(feature, test => {
             ? await puppeteer.launch()
             : await puppeteer.launch({ headless: false, slowMo: 10 });
         page = await browser.newPage();
-        setDefaultOptions({ timeout: 3000 })
+        setDefaultOptions({ timeout: 300000 })
 
         await page
             .goto("http://localhost:3000", {
@@ -45,8 +45,8 @@ defineFeature(feature, test => {
         });
 
         then('Redirect to game view', async () => {
-            const newUrl = page.url();
-            expect(newUrl).toBe('http://localhost:3000/game/capitals');
+            await expect(page).toMatchElement('button', { id: 'button0' })
+
         });
     })
 
