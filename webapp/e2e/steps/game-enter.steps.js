@@ -45,8 +45,8 @@ defineFeature(feature, test => {
         });
 
         then('Redirect to game view', async () => {
-            const newUrl = page.url();
-            expect(newUrl).toBe('http://localhost:3000/game/capitals');
+            await expect(page).toMatchElement('button', { id: 'button0' })
+
         });
     })
 

@@ -43,12 +43,15 @@ defineFeature(feature, test => {
         });
 
         when('He answers the last one', async () => {
+            //Answer all questions
+
+            for (let i = 0; i < 10; i++) {
                 await expect(page).toClick('button', { id: 'button0' })
+            }
         });
 
         then('Redirect to end game view', async () => {
-            const newUrl = page.url();
-            expect(newUrl).toBe('http://localhost:3000/game/endgame');
+            await expect(page).toMatchElement("p", { text: "Game result" });
         });
     })
 
