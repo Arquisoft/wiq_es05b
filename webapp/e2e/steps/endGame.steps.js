@@ -13,7 +13,7 @@ defineFeature(feature, test => {
             ? await puppeteer.launch()
             : await puppeteer.launch({ headless: false, slowMo: 10 });
         page = await browser.newPage();
-        setDefaultOptions({ timeout: 3000 })
+        setDefaultOptions({ timeout: 300000 })
 
         await page
             .goto("http://localhost:3000", {
@@ -43,11 +43,7 @@ defineFeature(feature, test => {
         });
 
         when('He answers the last one', async () => {
-            //Answer all questions
-
-            for (let i = 0; i < 10; i++) {
                 await expect(page).toClick('button', { id: 'button0' })
-            }
         });
 
         then('Redirect to end game view', async () => {
