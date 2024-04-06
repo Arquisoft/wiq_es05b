@@ -41,6 +41,7 @@ collaborate effectively, maintain a clean codebase and assign tasks
 |*_Time_*
 | Deadline at the end of the semester,
 the time is divided among two hours per week of in-class work, multiple meetings with team members, and individual self-work.
+Additionally, we will have three deliverables throughout the course, with weekly feedback from the instructor.
 
 |*_Testing_*
 | Various scenarios will be explored to assess the application's functionality accurately. Diverse testing techniques
