@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const { defineFeature, loadFeature } = require('jest-cucumber');
 const setDefaultOptions = require('expect-puppeteer').setDefaultOptions
-const feature = loadFeature('./features/game-enter.feature');
+const feature = loadFeature('./features/endGame.feature');
 
 let page;
 let browser;
@@ -44,8 +44,9 @@ defineFeature(feature, test => {
 
         when('He answers the last one', async () => {
             //Answer all questions
+
             for (let i = 0; i < 10; i++) {
-                await expect(page).toClick('button', { id: 'button0' });
+                await expect(page).toClick('button', { id: 'button0' })
             }
         });
 
