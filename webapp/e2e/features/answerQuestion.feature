@@ -1,6 +1,6 @@
-Feature: Check the game menu
+Feature: answer a question
 
 Scenario: Register new user plays a new game
   Given An unregistered user
-  When plays a game answering a question
-  Then points are updated
+  When Plays a game answering a question
+  Then Points are updated
