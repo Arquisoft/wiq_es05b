@@ -29,9 +29,9 @@ defineFeature(feature, test => {
     let password;
 
     given('An unregistered user', async () => {
-      username = "prueba"
-      password = "Prueba123$"
-      await expect(page).toClick("button", { text: "Don't have an account? Sign up" });
+      username = "prueba1"
+      password = "Prueba1213$"
+      await expect(page).toClick("a", { text: "Sign up" });
     });
 
     when('I fill the data in the form and press submit', async () => {
@@ -41,7 +41,7 @@ defineFeature(feature, test => {
     });
 
     then('Redirect to home page', async () => {
-      await expect(page).toMatchElement("button", { text: "Play" });
+      await expect(page).toMatchElement("a", { text: "Play" });
     });
   })
 
