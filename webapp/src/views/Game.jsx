@@ -1,4 +1,5 @@
-import { Snackbar, IconButton, Box, Button, Container, LinearProgress, Paper, Typography } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
+import { Box, Button, Container, IconButton, LinearProgress, Paper, Snackbar, Typography } from "@mui/material";
 import axios from "axios";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,7 +8,6 @@ import coinImage from "../media/coin.svg";
 import grave from "../media/graveJordi.svg";
 import { AuthContext } from "../views/context/AuthContext";
 import Loader from "./components/Loader";
-import CloseIcon from '@mui/icons-material/Close';
 import ProtectedComponent from "./components/ProtectedComponent";
 import ServiceDownMessage from "./components/ServiceDownMessage";
 
@@ -175,7 +175,7 @@ export default function Game() {
         name : getUser()["username"],
         points : pointsUpdated
       }
-      await axios.post(`/addScore`, body)
+      // await axios.post(`/addScore`, body)
     }
     
   // Timer
