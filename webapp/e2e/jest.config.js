@@ -4,12 +4,12 @@ module.exports = {
     setupFilesAfterEnv: ["expect-puppeteer"]
 }
 
-//login
-//register
-//gameMenu
-//Game -> entrar
-//responder
-//endgame
+//login d
+//register r
+//gameMenu r
+//Game -> entrar d
+//responder r
+//endgame d
 
 //ranking ??
 //historial ??
