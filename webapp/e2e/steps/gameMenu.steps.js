@@ -22,8 +22,7 @@ defineFeature(feature, test => {
       .catch(() => { });
   });
 
-
-  test('Register new user and click play button', ({ given, when, then }) => {
+  test('Register new user, click play button', ({ given, when, then }) => {
 
     let username;
     let password;
@@ -55,6 +54,7 @@ defineFeature(feature, test => {
       await expect(page).toMatchElement("a", { text: "president" });
     });
   })
+
 
   afterAll(async () => {
     browser.close()
