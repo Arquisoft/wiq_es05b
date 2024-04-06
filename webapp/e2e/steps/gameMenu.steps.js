@@ -29,7 +29,7 @@ defineFeature(feature, test => {
     let password;
 
     given('An unregistered user', async () => {
-      username = "prueba12345"
+      username = "prueba1234"
       password = "Prueba1213$"
       await expect(page).toClick("a", { text: "Sign up" });
     });
@@ -44,7 +44,7 @@ defineFeature(feature, test => {
     then('Shows the game categories', async () => {
       await expect(page).toMatchElement("a", { text: "area" });
       await expect(page).toMatchElement("a", { text: "capitals" });
-      await expect(page).toMatchElement("a", { text: "continents" });
+      await expect(page).toMatchElement("a", { text: "continent" });
       await expect(page).toMatchElement("a", { text: "currency" });
       await expect(page).toMatchElement("a", { text: "economy" });
       await expect(page).toMatchElement("a", { text: "gdp" });
