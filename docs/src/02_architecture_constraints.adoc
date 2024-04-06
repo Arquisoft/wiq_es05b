@@ -60,13 +60,11 @@ in developing a real-world application.
 
 |*_Clean Code_*
 |The code composing the application must prioritize clarity and cleanliness, facilitating comprehension and ease of
-maintenance in the long term
+maintenance in the long term. We adhere to camelCase for JavaScript and PascalCase for React, ensuring clear and
+descriptive names while steering clear of confusing prefixes.
 
 |*_Arc42_*
 |The project utilizes https://arc42.org/[Arc42] for documentation purposes.
-
-|*_Accessibility_*
-|The application should be designed for easy navigation by any user, ensuring accessibility for individuals with disabilities.
 
 |*_Usability_*
 |We need to adhere to the conventions of the programming languages we're using, including https://jsdoc.app/[JavaScript]
