@@ -11,13 +11,12 @@ defineFeature(feature, test => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: false, slowMo: 100 });
+      : await puppeteer.launch({ headless: false});
     page = await browser.newPage();
-    //Way of setting up the timeout
-    setDefaultOptions({ timeout: 10000 })
+    setDefaultOptions({ timeout: 3000 })
 
     await page
-      .goto("http://localhost:3000", {
+      .goto("http://localhost:3000/login", {
         waitUntil: "networkidle0",
       })
       .catch(() => {});
