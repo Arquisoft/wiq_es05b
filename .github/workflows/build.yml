@@ -20,7 +20,7 @@ jobs:
     - run: npm --prefix webapp ci
     # TODO - Re-enable when we have tests
     - run: npm --prefix users/authservice test -- --coverage
-    #- run: npm --prefix users/userservice test -- --coverage
+    - run: npm --prefix users/userservice test -- --coverage
     #- run: npm --prefix gatewayservice test -- --coverage
     - run: npm --prefix webapp test -- --coverage
     - name: Analyze with SonarCloud
