@@ -16,7 +16,7 @@ defineFeature(feature, test => {
     setDefaultOptions({ timeout: 300000 })
 
     await page
-      .goto("http://localhost:3000/login", {
+      .goto("http://localhost:3000", {
         waitUntil: "networkidle0",
       })
       .catch(() => { });
@@ -27,17 +27,16 @@ defineFeature(feature, test => {
     let username;
     let password;
 
-    given('An unregistered user', async () => {
-      username = "prueba1234"
+    given('A registered user', async () => {
+      username = "prueba"
       password = "Prueba1213$"
-      await expect(page).toClick("a", { text: "Sign up" });
-    });
-
-    when('clicks the play button', async () => {
+      await expect(page).toClick("a", { text: "Play" });
       await expect(page).toFill('input[name="username"]', username);
       await expect(page).toFill('input[name="password"]', password);
-      await expect(page).toClick('button', { text: 'Create account' })
-      await expect(page).toClick('a', { text: 'Play' })
+    });
+
+    when('he logs in', async () => {
+      await expect(page).toClick('button', { text: 'Login' });
     });
 
     then('Shows the game categories', async () => {

@@ -1,6 +1,6 @@
 Feature: answer a question
 
-Scenario: Register new user plays a new game
-  Given An unregistered user
+Scenario:Registered user plays a new game
+  Given A registered user
   When Plays a game answering a question
-  Then Points are updated
+  Then Points and question text are updated
