@@ -38,5 +38,8 @@ module.exports = {
     } finally {
       this.mongoose.connection && await this.mongoose.connection.close();
     }
+  },
+  checkValidId: function (id) {
+    return !(!id || !this.mongoose.isValidObjectId(id));
   }
 };

@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: User API specification
   description: Internal API used to handle user creation
-  version: 1.0.1
+  version: 1.0.2
 servers:
   - url: 'http://localhost:8001'
 paths:
@@ -91,3 +91,43 @@ paths:
                     type: string
                     format: date-time
                     example: '2021-06-01T00:00:00.000Z'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid id format'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'User not found'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Service Unavailable'
