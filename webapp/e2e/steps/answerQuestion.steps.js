@@ -27,6 +27,7 @@ defineFeature(feature, test => {
 
     let username;
     let password;
+    let text;
 
     given('An unregistered user', async () => {
       username = "prueba12345"
@@ -41,11 +42,16 @@ defineFeature(feature, test => {
       await expect(page).toClick('a', { text: 'Play' })
       await expect(page).toClick('a', { text: 'area' })
       await expect(page).toMatchElement("p", { name:'points',text: "0" });
+      let text =  await page.evaluate(() => {
+         text = document.getElementById('questionTxt');
+      });
+
       await expect(page).toClick('button', { id: 'button0' })
     });
 
     then('Points are updated', async () => {
       await expect(page).toMatchElement("p", { name:'points',text: /^(?!0$).+/ });
+      await expect(page).toMatchElement("h4", { id:'questionTxt',text: new RegExp(`^(?!${text}$).+`)});
     });
   })
 

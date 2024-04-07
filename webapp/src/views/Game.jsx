@@ -90,7 +90,7 @@ const Coin = ({ pointsUpdated }) => {
 const Question = ({ current }) => {
   return (
     <Paper elevation={3} sx={{ padding: "1rem" }}>
-      <Typography variant="h4">{current.statement}</Typography>
+      <Typography variant="h4" id="questionTxt" >{current.statement}</Typography>
     </Paper>
   );
 };
