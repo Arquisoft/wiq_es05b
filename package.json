@@ -12,7 +12,13 @@
     },
     "dependencies": {
         "axios": "^1.6.8",
-        "es6": "^0.0.7"
+        "bcrypt": "^5.1.1",
+        "es6": "^0.0.7",
+        "express": "^4.19.2",
+        "mongodb-memory-server": "^9.1.8",
+        "mongoose": "^8.3.0",
+        "node-cron": "^3.0.3",
+        "supertest": "^6.3.4"
     },
     "devDependencies": {
         "jest": "^29.7.0",
