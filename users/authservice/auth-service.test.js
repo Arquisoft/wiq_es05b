@@ -1,7 +1,7 @@
 const request = require('supertest');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const bcrypt = require('bcrypt');
-const User = require('../auth-model');
+const User = require('./auth-model');
 const mongoose = require('mongoose');
 
 let mongoServer;
@@ -27,7 +27,7 @@ async function addUser(user){
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   process.env.MONGODB_URI = mongoServer.getUri();
-  app = require('../auth-service');
+  app = require('./auth-service');
   //Load database with initial conditions
   await addUser(user);
 });
