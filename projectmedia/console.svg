@@ -1,0 +1,13 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 200px; height: 200px;"><style>
+    .line-terminal1 {animation: line-terminal1-blink 1s infinite;}
+    @keyframes line-terminal1-blink{
+        0%{visibility: visible;}
+        50%{visibility: hidden;}
+        100%{visibility: hidden;}
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .line-terminal1 {
+            animation: none;
+        }
+    }
+   </style><path class="stroke1" d="M22 31L39.5688 48.5688C40.3499 49.3499 40.3499 50.6162 39.5688 51.3973L22 68.9661" stroke="rgba(16,255,0,1)" stroke-width="2px" style="animation-duration: 1s;"></path><line class="line-terminal1 stroke2" x1="40.9833" y1="67.9661" x2="78.9494" y2="67.9661" stroke="rgba(16,255,0,1)" stroke-width="2px" style="animation-duration: 1s;"></line></svg>
