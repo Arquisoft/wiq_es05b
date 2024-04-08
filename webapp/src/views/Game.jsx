@@ -5,14 +5,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import imgFondoBtn from '../media/border.png';
 import coinImage from "../media/coin.svg";
 import grave from "../media/graveJordi.svg";
-import { AuthContext } from "../views/context/AuthContext";
+import { AuthContext } from "./context/AuthContext";
 import Loader from "./components/Loader";
 import CloseIcon from '@mui/icons-material/Close';
 import ProtectedComponent from "./components/ProtectedComponent";
 import ServiceDownMessage from "./components/ServiceDownMessage";
 
 const buttonStyle = {
-  height: "13rem",
+  height: {xs: "10rem", md: "13rem"},
   width: "100%",
   fontSize: "1.5rem",
   background: `url(${imgFondoBtn})`,
@@ -113,7 +113,7 @@ const Line = ({ timeLeft, progressBarPercent }) => {
 const Buttons = ({ answer, questions }) => {
   return (
     <Paper elevation={3} sx={{padding: "1rem 0" }}>
-      <Container sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}>
+      <Container sx={{ display: "grid", gridTemplateColumns: {xs: "repeat(1, 1fr)", md: "repeat(2, 1fr)"} }}>
         {questions.options.map((option, i) => (
             <Button key={i} id={`button${i}`} sx={buttonStyle} onClick={() => answer(i)}>
               {option}
@@ -293,7 +293,7 @@ export default function Game() {
         sx={{
           marginTop: 4,
           display: "flex",
-          flexDirection: { xs: "row", md: "column" },
+          flexDirection: "column",
           gap: "1rem"
         }}
       >
