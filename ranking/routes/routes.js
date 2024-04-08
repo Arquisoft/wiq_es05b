@@ -20,7 +20,7 @@ const errorHandler = (e, res, msg) => {
 module.exports = function (app, rankingRepository) {
 
     // Get top n ranking
-    app.get("/ranking/:n", async (req, res) => {
+    app.get("/get/:n", async (req, res) => {
         const {n} = req.params;
 
         if (isNaN(n)) {

@@ -71,8 +71,7 @@ export default function GameMenu() {
   }, []);
 
   return (
-    <>
-      <ProtectedComponent />
+    <ProtectedComponent>
       <Container
         component="main"
         maxWidth="md"
@@ -96,6 +95,6 @@ export default function GameMenu() {
           }
         </Paper>
       </Container>
-    </>
+    </ProtectedComponent>
   );
 }

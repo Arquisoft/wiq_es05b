@@ -1,4 +1,4 @@
-import { Snackbar, IconButton, Box, Button, Container, LinearProgress, Paper, Typography } from "@mui/material";
+import { Box, Button, Container, LinearProgress, Paper, Typography } from "@mui/material";
 import axios from "axios";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,9 +7,9 @@ import coinImage from "../media/coin.svg";
 import grave from "../media/graveJordi.svg";
 import { AuthContext } from "./context/AuthContext";
 import Loader from "./components/Loader";
-import CloseIcon from '@mui/icons-material/Close';
 import ProtectedComponent from "./components/ProtectedComponent";
 import ServiceDownMessage from "./components/ServiceDownMessage";
+import ErrorSnackBar from "./components/ErrorSnackBar";
 
 const buttonStyle = {
   height: {xs: "10rem", md: "13rem"},
@@ -38,28 +38,6 @@ const changeButtonColor = (i, color) => {
     }, 500);
   }
 };
-
-const ErrorSnackBar = ({msg}) => {
-  const [open, setOpen] = useState(true)
-
-  return (
-      <Snackbar
-        open={open}
-        autoHideDuration={3000}
-        message={msg}
-        action={
-          <IconButton
-            aria-label="close"
-            color="inherit"
-            sx={{ p: 0.5 }}
-            onClick={() => setOpen(false)}
-          >
-            <CloseIcon />
-          </IconButton>
-        }
-      />
-  )
-}
 
 const MiLinea = ({ progressBarPercent }) =>
   progressBarPercent > 80 ? (
@@ -175,7 +153,7 @@ export default function Game() {
         name : getUser()["username"],
         points : pointsUpdated
       }
-      await axios.post(`/addScore`, body)
+      await axios.post(`/ranking/addScore`, body)
     }
     
   // Timer
@@ -285,8 +263,7 @@ export default function Game() {
   };
 
   return (
-    <>
-      <ProtectedComponent />
+    <ProtectedComponent>
       <Container
         component="main"
         maxWidth="md"
@@ -311,8 +288,8 @@ export default function Game() {
             n={questions.length}
           />
         }
-        {historyE && <ErrorSnackBar msg={historyE} />}
+        {historyE && <ErrorSnackBar msg={historyE} setMsg={setHistoryE} />}
       </Container>
-    </>
+    </ProtectedComponent>
   );
 }

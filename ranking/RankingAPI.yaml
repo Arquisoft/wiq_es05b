@@ -21,7 +21,7 @@ components:
           format: date-time
           example: '2021-01-01T00:00:00Z'
 paths:
-  /ranking/{n}:
+  /get/{n}:
     get:
       summary: Get the top n users
       parameters:
