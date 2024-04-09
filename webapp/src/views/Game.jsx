@@ -162,6 +162,9 @@ const Game = () => {
 
   const handleNextQuestion = () => {
     clearInterval(interval.current)
+    interval.current = setInterval(() => {
+      setTime((prevTimer) => prevTimer - 1);
+    }, 1000);
     axios
       .post("/game/answer", {
         token: getUser().token,
