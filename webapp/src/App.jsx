@@ -124,7 +124,6 @@ export default function App() {
           <Route path="/ranking" element={<Ranking />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/game/:category" element={<GameV2 />} />
-          <Route path="/endgame/" element={<Endgame />} />
           <Route path="/account" element={<Account />} />
           <Route path="*" element={<Error />} />
         </Routes>

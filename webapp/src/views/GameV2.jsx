@@ -3,11 +3,12 @@ import {Box, Button, Container, LinearProgress, Paper, Typography} from "@mui/ma
 import coinImage from "../media/coin.svg";
 import imgFondoBtn from "../media/border.png";
 import axios from "axios";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import Loader from "./components/Loader";
 import {AuthContext} from "./context/AuthContext";
 import ServiceDownMessage from "./components/ServiceDownMessage";
 import grave from "../media/graveJordi.svg"
+import {useParams} from "react-router-dom";
 
 const initialTime = 10
 
@@ -30,18 +31,6 @@ const changeButtonColor = (i, color) => {
     }, 500);
   }
 };
-
-const handleNextQuestion = (current, setCurrent, setTime) => {
-  // Si se contesta -> Enviar respuesta marcada
-  // Si no se acaba el tiempo -> Enviar null
-
-  // Recuperar puntos de la pregunta
-  // Recuperar respuesta correcta
-  // Reiniciar botones y contador
-  setTime(initialTime)
-  // Cargar siguiente pregunta
-  setCurrent(current + 1);
-}
 
 const Points = ({points}) => {
   return (
@@ -78,19 +67,17 @@ const Line = ({progressBarPercent}) => {
   );
 }
 
-const Timer = ({time, setTime}) => {
-  const [interval, setInterval] = useState();
+const Timer = ({time, setTime, interval}) => {
 
   useEffect(() => {
     if(time === 0) {
-      clearInterval(interval)
+      clearInterval(interval.current)
       return;
     }
-    const aux = window.setInterval(() => setTime(time - 1), 1000)
-    setInterval(aux)
+    interval.current = window.setInterval(() => setTime(time - 1), 1000)
     return () => {
       setInterval(null)
-      clearInterval(interval)
+      clearInterval(interval.current)
     }
   }, [time]);
 
@@ -108,7 +95,7 @@ const Timer = ({time, setTime}) => {
   );
 }
 
-const Buttons = ({question}) => {
+const Buttons = ({question, setAnswer}) => {
   const buttonStyle = {
     height: {xs: "10rem", md: "13rem"},
     width: "100%",
@@ -125,7 +112,7 @@ const Buttons = ({question}) => {
     <Paper elevation={3} sx={{padding: "1rem 0" }}>
       <Container sx={{ display: "grid", gridTemplateColumns: {xs: "repeat(1, 1fr)", md: "repeat(2, 1fr)"} }}>
         {question.options.map((option, i) => (
-          <Button key={i} id={`button${i}`} sx={buttonStyle} onClick={() => {}}>
+          <Button key={i} id={`button${i}`} sx={buttonStyle} onClick={() => setAnswer(option)}>
             {option}
           </Button>
         ))}
@@ -137,33 +124,69 @@ const Buttons = ({question}) => {
 const Game = () => {
   const { getUser } = useContext(AuthContext)
   const [questions, setQuestions] = useState([]);
-  const [answer, setAnswer] = useState(-1);
+  const [answer, setAnswer] = useState(null);
   const [current, setCurrent] = useState(0);
   const [points, setPoints] = useState(0);
   const [time, setTime] = useState(initialTime);
-  // const [answered, setAnswered] = useState(false);
   const [error, setError] = useState();
   const [historialError, setHistorialError] = useState();
+  let saveId = useRef()
+  let interval = useRef()
+  const { category} = useParams()
 
+  const handleNextQuestion = () => {
+    clearInterval(interval.current)
+
+    // FIXME - Button pressed
+    axios
+      .post("/game/answer", {
+        token: getUser().token,
+        saveId: saveId.current,
+        questionId: questions[current]._id,
+        last: current === questions.length - 1,
+        answer,
+        time,
+        statement: questions[current].statement,
+        options: questions[current].options
+      })
+      .then(response => {
+        setPoints(points + response.data.points)
+        const correctAnswer = response.data.answer
+
+        const iAnswered = questions[current].options.indexOf(answer)
+        const iCorrect = questions[current].options.indexOf(correctAnswer)
+
+        console.log(correctAnswer, questions[current].options)
+        if(iAnswered !== iCorrect) changeButtonColor(iAnswered, "red")
+        changeButtonColor(iCorrect, "green")
+
+        setTimeout(() => {
+          setTime(initialTime)
+          setCurrent(current + 1);
+          setAnswer(null)
+        }, 500)
+      })
+      .catch(e => setHistorialError({ error: e.response.data.error }))
+  }
 
   useEffect( () => {
-    fetchQuestions("capitals", getUser().token)
+    fetchQuestions(category, getUser().token)
       .then(data => setQuestions(data))
       .catch(err => setError({error: err.response.data.error, status: err.response.status}));
+    axios
+      .post("/history/create", {
+        token: getUser().token,
+        category: category,
+        userId: getUser().userId
+      })
+      .then(response => saveId.current = response.data.id)
+      .catch(err => setHistorialError({error: err.response.data.error, status: err.response.status}))
     //eslint-disable-next-line
   }, []);
 
-  // useEffect(() => {
-  //   if(!answered) return;
-  //   fetchAnswer(questions[current]._id, getUser().token)
-  //     .then(response => {
-  //       console.log(response.answer === questions[current].options[answer])
-  //     })
-  //     .catch(err => console.log(err));
-  // }, [answered]);
-
   useEffect(() => {
-    if(time === 0) handleNextQuestion(current, setCurrent, setTime);
+    if(time === 0) handleNextQuestion();
+    if(answer !== null) handleNextQuestion()
   }, [time, answer]);
 
   return (
@@ -189,8 +212,8 @@ const Game = () => {
               <>
                 <Points points={points} />
                 <Title question={questions[current]} />
-                <Timer time={time} setTime={setTime} />
-                <Buttons question={questions[current]} />
+                <Timer time={time} setTime={setTime} interval={interval} />
+                <Buttons question={questions[current]} setAnswer={setAnswer} />
               </>
         }
       </Container>
