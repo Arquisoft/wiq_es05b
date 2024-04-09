@@ -61,23 +61,10 @@ Available profiles: "dev" and "prod".
 
 ## Starting Component by component
 
-First, start the mongo databases. Either install and run on Mongo or run them using docker:
+First, start the mongo databases. Either install the mongo server or run them using the latest docker container available:
 
 ```sh
-# Users database
-docker run -d -p 27017:27017 --name=mongo-users-cyt mongo:latest
-
-# User history database
-docker run -d -p 27018:27017 --name=mongo-history-cyt mongo:latest
-
-# Ranking database
-docker run -d -p 27019:27017 --name=mongo-ranking-cyt mongo:latest
-
-# Question serving database
-docker run -d -p 27020:27017 --name=mongo-siwofi-cyt mongo:latest
-
-# Question generation database
-docker run -d -p 27021:27017 --name=mongo-turnuri-cyt mongo:latest
+docker run -d -p 27017:27017 --name=mongo-cyt mongo:latest
 ```
 
 You can also use services like Mongo Altas for running a Mongo database in the cloud. Or running a Postgres on your own with the proper schema.
