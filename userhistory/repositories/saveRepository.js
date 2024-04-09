@@ -86,15 +86,39 @@ module.exports = {
 			this.mongoose.connection && await this.mongoose.disconnect()
 		}
 	},
-	getRanking: async function (n) {
+	getRanking: async function (n, order="totalPoints") {
 		try {
 			await this.mongoose.connect(this.uri)
 			const result = await this.Save.aggregate([
 				{ $match: { finished: true } },
-				{ $group: { _id: "$userId", count: { $sum: 1 } } },
-				{ $sort: { count: -1 } },
-				{ $limit: n }
-			])
+				{ $unwind: "$questions" },
+				{ $addFields: {
+					isCorrect: { $cond: [ { $eq: [ "$questions.answer", "$questions.correct" ] }, 1, 0 ] }
+				  }
+				},
+				{ $group: {
+					_id: "$_id",
+					userId: { $first: "$userId" },
+					totalPoints: { $sum: "$questions.points" },
+					totalTime: { $sum: "$questions.time" },
+					totalQuestions: { $sum: 1 },
+					totalCorrect: { $sum: "$isCorrect" },
+					date: { $first: "$createdAt" },
+					category: { $first: "$category"},
+				  }
+				},
+				{ $project: {
+					userId: 1,
+					totalPoints: 1,
+					totalTime: 1,
+					date: 1,
+					category: 1,
+					correct: { $divide: [ "$totalCorrect", "$totalQuestions" ] }
+				  }
+				},
+				{ $sort: { [order || "totalPoints"]: -1 } },
+				{ $limit: Number(n) }
+			  ])
 			return result
 		} catch (e) {
 			throw e.message
