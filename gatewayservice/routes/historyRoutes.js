@@ -37,15 +37,4 @@ module.exports = (app, axios, errorHandler, authMiddleware) => {
       .catch(error =>
         errorHandler(error, res, "An error occurred while creating the save"))
   })
-
-  app.post("/history/add/:id", (req, res) => {
-    const { id } = req.params
-    const { last, statement, options, answer, correct, time, points } = req.body
-
-    axios
-      .post(`${historyService}/add/${id}`, { last, statement, options, answer, correct, time, points })
-      .then(response => res.status(response.status).json(response.data))
-      .catch(error =>
-        errorHandler(error, res, "An error occurred while creating the save"))
-  })
 }

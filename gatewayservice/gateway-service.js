@@ -23,6 +23,7 @@ app.use("/login", dataValidatorMiddleware)
 app.use("/game", authMiddleware)
 app.use("/history", authMiddleware)
 app.use("/user", authMiddleware)
+app.use("/game", authMiddleware)
 
 require("./routes/routes")(app)
 require("./routes/jordiRoutes")(app, axios, errorHandler)

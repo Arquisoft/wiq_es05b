@@ -11,8 +11,8 @@ import grave from "../media/graveJordi.svg"
 
 const initialTime = 10
 
-const fetchQuestions = async (category, n = 10) => {
-  const response =  await axios.get(`/questions/${category}/${n}`)
+const fetchQuestions = async (category, token, n = 10) => {
+  const response =  await axios.get(`/game/questions/${category}/${n}`, {headers: {Authorization: `Bearer ${token}`}})
   return response.data;
 }
 
@@ -147,7 +147,7 @@ const Game = () => {
 
 
   useEffect( () => {
-    fetchQuestions("capitals")
+    fetchQuestions("capitals", getUser().token)
       .then(data => setQuestions(data))
       .catch(err => setError({error: err.response.data.error, status: err.response.status}));
     //eslint-disable-next-line
