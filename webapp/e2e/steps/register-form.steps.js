@@ -91,7 +91,7 @@ defineFeature(feature, test => {
     let username;
     let password;
 
-    given('An unregistered user with non uperCasse passwor', async () => {
+    given('An unregistered user with non upperCase password', async () => {
       username = "prueba"
       password = "prueba1213$"
       await expect(page).toClick("a", { text:"Sign up" });
@@ -112,7 +112,7 @@ defineFeature(feature, test => {
     let username;
     let password;
 
-    given('An unregistered user with non uperCasse passwor', async () => {
+    given('An unregistered user with non special character password', async () => {
       username = "prueba"
       password = "prueba1213j"
       await expect(page).toClick("a", { text:"Sign up" });
@@ -128,6 +128,26 @@ defineFeature(feature, test => {
       await expect(page).toMatchElement("div", { text: "Error: Password must contain at least one special character" });    });
   })
 
+  test('The password does not fulfill the security parameters (number)', ({ given, when, then }) => {
+
+    let username;
+    let password;
+
+    given('An unregistered user with non number password', async () => {
+      username = "prueba"
+      password = "prueba1213j"
+      await expect(page).toClick("a", { text:"Sign up" });
+    });
+
+    when('Fill the data in the form', async () => {
+      await expect(page).toFill('input[name="username"]', username);
+      await expect(page).toFill('input[name="password"]', password);
+      await expect(page).toClick('button', { text: 'Create account' })
+    });
+
+    then('Alert about the weak password', async () => {
+      await expect(page).toMatchElement("div", { text: "Error: Password must contain at least one special character" });    });
+  })
 
   afterAll(async () => {
     browser.close()

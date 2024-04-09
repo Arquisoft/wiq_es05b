@@ -11,7 +11,7 @@ Scenario: The password does not fulfill the security parameters (length)
   Then Alert about the weak password
 
   Scenario: The password does not fulfill the security parameters (upperCase)
-    Given An unregistered user with non uperCasse password
+    Given An unregistered user with non upperCase password
     When Fill the data in the form
     Then Alert about the weak password
 
