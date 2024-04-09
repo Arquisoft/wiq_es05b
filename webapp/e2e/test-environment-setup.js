@@ -1,4 +1,6 @@
 const { MongoMemoryServer } = require('mongodb-memory-server');
+const testUtils = require('./testUtils.js');
+const axios = require('axios');
 
 
 let mongoserver;
@@ -19,6 +21,8 @@ async function startServer() {
     ranking = await require("../../ranking/ranking-service");
     jordi = await require("../../jordi/jordi-service");
     userhistory = await require("../../userhistory/history-service");
+
+    await testUtils.insertSampleUser(axios);
 
 }
   startServer();

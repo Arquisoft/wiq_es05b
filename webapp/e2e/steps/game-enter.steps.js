@@ -11,7 +11,7 @@ defineFeature(feature, test => {
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
             ? await puppeteer.launch()
-            : await puppeteer.launch({ headless: false, slowMo: 10 });
+            : await puppeteer.launch({ headless: true, slowMo: 10 });
         page = await browser.newPage();
         setDefaultOptions({ timeout: 300000 })
 
@@ -46,7 +46,6 @@ defineFeature(feature, test => {
 
         then('Redirect to game view', async () => {
             await expect(page).toMatchElement('button', { id: 'button0' })
-
         });
     })
 
