@@ -273,7 +273,6 @@ jobs:
         platforms: linux/arm64
        
   deploy:
-
     name: Deploy over SSH
     runs-on: self-hosted
     needs: 
