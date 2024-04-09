@@ -2,14 +2,12 @@ const request = require('supertest');
 const {MongoMemoryServer} = require('mongodb-memory-server');
 const bcrypt = require('bcrypt');
 const Save = require('./history-model');
-const User = require('../users/authservice/auth-model');
 const mongoose = require('mongoose');
 const {ObjectId} = mongoose.Types;
 
 let mongoServer;
 let app;
 
-let saveId;
 let save = {
     userId: '123456789012345678901234',
     category: 'Capitals',
@@ -26,30 +24,12 @@ async function addSave(save) {
     await mongoose.connection.close()
 }
 
-let userId;
-const user = {
-    username: 'testuser',
-    password: 'testpassword',
-};
-
-async function addUser(user){
-    const hashedPassword = await bcrypt.hash(user.password, 10);
-    await mongoose.connect(process.env.MONGODB_URI);
-    const newUser = new User({
-        username: user.username,
-        password: hashedPassword,
-    });
-    await newUser.save();
-    await mongoose.connection.close()
-}
-
 beforeAll(async () => {
     mongoServer = await MongoMemoryServer.create();
     process.env.MONGODB_URI = mongoServer.getUri();
     app = require('./history-service');
     //Load database with initial conditions
     await addSave(save);
-    // await addUser(user);
 });
 
 afterAll(async () => {
@@ -200,25 +180,27 @@ describe('[History Service] - /add/:id', () => {
     });
 
 });
-/**
+
 describe('[History Service] - /get/:userId/', () => {
 
     beforeEach(async () => {
-        User.findOne({ username: "testuser" })
-            .then(user => {
-                if (user) {
-                    userId = user._id;
-                } else {
-                    console.log('No se encontró ningún usuario con el nombre de usuario testuser');
-                }
-            })
-            .catch(error => {
-                console.error('Error al buscar el usuario:', error);
-            });
+        save = {
+            userId: '123456789012345678901234',
+            category: 'Capitals',
+            last: false,
+            statement: "Question 1",
+            options: [
+                "Category 1"
+            ],
+            answer: 1,
+            correct: 0,
+            time: 10,
+            points: 10
+        };
     });
 
     it('Should return 200 when obtained', async () => {
-        const response = await request(app).get(`/get/${userId}`);
+        const response = await request(app).get(`/get/${save.userId}`);
 
         console.log(response.body.error);
 
@@ -226,4 +208,4 @@ describe('[History Service] - /get/:userId/', () => {
     });
 
 });
- */
+
