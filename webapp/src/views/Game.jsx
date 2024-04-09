@@ -118,7 +118,7 @@ const GameView = ({pointsUpdated, current, timeLeft, progressBarPercent, answer,
     </>
   )
 }
-
+/* ------------------------------------------------------------------------------------------------------------------------------ */
 export default function Game() {
     const { category } = useParams();
     const { getUser } = useContext(AuthContext)
