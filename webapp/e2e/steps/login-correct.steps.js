@@ -8,7 +8,7 @@ let browser;
 
 defineFeature(feature, test => {
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         browser = process.env.GITHUB_ACTIONS
             ? await puppeteer.launch()
             : await puppeteer.launch({ headless: true, slowMo: 10 });
@@ -42,6 +42,33 @@ defineFeature(feature, test => {
 
         then('Redirect to game menu page', async () => {
             await expect(page).toMatchElement("p", { text: "Choose a category to play" });
+        });
+    })
+
+    afterAll(async () => {
+        browser.close()
+    })
+
+    //Invalid login
+    test('The user tries to log with invalid credentials', ({ given, when, then }) => {
+
+        let username;
+        let password;
+
+        given('An user', async () => {
+            username = "prueba"
+            password = "asdfg"
+            await expect(page).toClick("a", { text: "Play" });
+        });
+
+        when('I fill the data in the form with invalid credentials and press submit', async () => {
+            await expect(page).toFill('input[name="username"]', username);
+            await expect(page).toFill('input[name="password"]', password);
+            await expect(page).toClick('button', { text: 'Login' });
+        });
+
+        then('I see error toaster', async () => {
+            await expect(page).toMatchElement("div", { text: "Error: Invalid credentials" });
         });
     })
 

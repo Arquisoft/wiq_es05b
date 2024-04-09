@@ -11,7 +11,7 @@ defineFeature(feature, test => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: true,slowMo:10 });
+      : await puppeteer.launch({ headless: true, slowMo: 10 });
     page = await browser.newPage();
     setDefaultOptions({ timeout: 120000 })
 
@@ -40,16 +40,16 @@ defineFeature(feature, test => {
 
     when('Plays a game answering a question', async () => {
       await expect(page).toClick('a', { text: 'capitals' });
-      await expect(page).toMatchElement("p", { name:'points',text: "0" });
-      let text =  await page.evaluate(() => {
-         text = document.getElementById('questionTxt');
+      await expect(page).toMatchElement("p", { name: 'points', text: "0" });
+      let text = await page.evaluate(() => {
+        text = document.getElementById('questionTxt');
       });
       await expect(page).toClick('button', { id: 'button0' })
     });
 
     then('Points and question text are updated', async () => {
-      await expect(page).toMatchElement("p", { name:'points',text: /^(?!0$).+/ });
-      await expect(page).toMatchElement("h4", { id:'questionTxt',text: new RegExp(`^(?!${text}$).+`)});
+      await expect(page).toMatchElement("p", { name: 'points', text: /^(?!0$).+/ });
+      await expect(page).toMatchElement("h4", { id: 'questionTxt', text: new RegExp(`^(?!${text}$).+`) });
     });
   })
 
