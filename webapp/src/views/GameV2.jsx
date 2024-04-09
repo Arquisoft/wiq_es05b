@@ -9,6 +9,8 @@ import {AuthContext} from "./context/AuthContext";
 import ServiceDownMessage from "./components/ServiceDownMessage";
 import grave from "../media/graveJordi.svg"
 
+const initialTime = 10
+
 const fetchQuestions = async (category, n = 10) => {
   const response =  await axios.get(`/questions/${category}/${n}`)
   return response.data;
@@ -29,8 +31,16 @@ const changeButtonColor = (i, color) => {
   }
 };
 
-const handleNextQuestion = () => {
+const handleNextQuestion = (current, setCurrent, setTime) => {
+  // Si se contesta -> Enviar respuesta marcada
+  // Si no se acaba el tiempo -> Enviar null
 
+  // Recuperar puntos de la pregunta
+  // Recuperar respuesta correcta
+  // Reiniciar botones y contador
+  setTime(initialTime)
+  // Cargar siguiente pregunta
+  setCurrent(current + 1);
 }
 
 const Points = ({points}) => {
@@ -68,12 +78,14 @@ const Line = ({progressBarPercent}) => {
   );
 }
 
-const Timer = ({initialTime}) => {
-  const [time, setTime] = useState(initialTime)
+const Timer = ({time, setTime}) => {
   const [interval, setInterval] = useState();
 
   useEffect(() => {
-    if(time === 0) return;
+    if(time === 0) {
+      clearInterval(interval)
+      return;
+    }
     const aux = window.setInterval(() => setTime(time - 1), 1000)
     setInterval(aux)
     return () => {
@@ -128,7 +140,8 @@ const Game = () => {
   const [answer, setAnswer] = useState(-1);
   const [current, setCurrent] = useState(0);
   const [points, setPoints] = useState(0);
-  const [answered, setAnswered] = useState(false);
+  const [time, setTime] = useState(initialTime);
+  // const [answered, setAnswered] = useState(false);
   const [error, setError] = useState();
   const [historialError, setHistorialError] = useState();
 
@@ -140,14 +153,18 @@ const Game = () => {
     //eslint-disable-next-line
   }, []);
 
+  // useEffect(() => {
+  //   if(!answered) return;
+  //   fetchAnswer(questions[current]._id, getUser().token)
+  //     .then(response => {
+  //       console.log(response.answer === questions[current].options[answer])
+  //     })
+  //     .catch(err => console.log(err));
+  // }, [answered]);
+
   useEffect(() => {
-    if(!answered) return;
-    fetchAnswer(questions[current]._id, getUser().token)
-      .then(response => {
-        console.log(response.answer === questions[current].options[answer])
-      })
-      .catch(err => console.log(err));
-  }, [answered]);
+    if(time === 0) handleNextQuestion(current, setCurrent, setTime);
+  }, [time, answer]);
 
   return (
     <ProtectedComponent>
@@ -161,13 +178,18 @@ const Game = () => {
           gap: "1rem"
         }}
       >
+        {/* TODO - Move to component */}
+        {/* TODO - When last = questions.length show Endgame and remove from router */}
         {
-          error ? <Paper elevation={3} sx={{padding: "1rem 0" }}><ServiceDownMessage code={error.status} reason={error.error} grave={grave} /></Paper> :
+          error ?
+            <Paper elevation={3} sx={{padding: "1rem 0" }}>
+              <ServiceDownMessage code={error.status} reason={error.error} grave={grave} />
+            </Paper> :
             questions.length === 0 ? <Paper elevation={3} sx={{padding: "1rem 0" }}><Loader /></Paper> :
               <>
                 <Points points={points} />
                 <Title question={questions[current]} />
-                <Timer initialTime={10} />
+                <Timer time={time} setTime={setTime} />
                 <Buttons question={questions[current]} />
               </>
         }
