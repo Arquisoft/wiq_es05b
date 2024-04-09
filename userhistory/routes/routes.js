@@ -136,4 +136,19 @@ module.exports = (app, saveRepository) => {
       })
       .catch(e => res.status(500).json(e))
   })
+
+  // Get top n ranking
+  app.get("/ranking/:n", async (req, res) => {
+    const {n} = req.params;
+
+    if (isNaN(n)) {
+        return res.status(400).json({error: "Invalid value for n"});
+    }
+
+    saveRepository.getRanking(n)
+        .then(result => res.status(200).json(result))
+        .catch(error => res.status(500).json(error));
+});
+
+
 }
