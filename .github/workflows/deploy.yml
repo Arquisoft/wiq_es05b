@@ -217,33 +217,6 @@ jobs:
         workdir: jordi/
         platforms: linux/arm64
 
-  docker-push-ranking:
-
-    name: Push ranking service Docker Image to GitHub Packages
-    runs-on: ubuntu-latest
-    needs: [e2e-tests]
-
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-    - name: Set up Docker Buildx # required for building multi-platform images
-      uses: docker/setup-buildx-action@v1
-    
-    - name: Check out the repo
-      uses: actions/checkout@v4
-    
-    - name: Publish to Registry
-      uses: elgohr/Publish-Docker-Github-Action@v5
-      with:
-        name: arquisoft/wiq_es05b/ranking
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        registry: ghcr.io
-        workdir: ranking
-        platforms: linux/arm64
-
   docker-push-history:
     name: Push history service Docker Image to GitHub Packages
     runs-on: ubuntu-latest
@@ -309,7 +282,6 @@ jobs:
       - docker-push-gatewayservice
       - docker-push-webapp
       - docker-push-jordi
-      - docker-push-ranking
       - docker-push-history
       - docker-push-proxy
     steps:

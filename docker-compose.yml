@@ -41,7 +41,6 @@ services:
       - userservice
       - authservice
       - jordi
-      - ranking
       - history
     ports:
       - "8000:8000"
@@ -52,7 +51,6 @@ services:
       AUTH_SERVICE_URL: http://authservice:8002
       JORDI_SERVICE_URL: http://jordi:8003
       HISTORY_SERVICE_URL: http://history:8004
-      RANKING_SERVICE_URL: http://ranking:8005
     restart: always
 
   userservice:
