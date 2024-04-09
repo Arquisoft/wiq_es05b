@@ -1,34 +1,24 @@
-import CloseIcon from '@mui/icons-material/Close';
-import { Box, Button, Container, IconButton, LinearProgress, Paper, Snackbar, Typography } from "@mui/material";
-import axios from "axios";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import imgFondoBtn from '../media/border.png';
-import coinImage from "../media/coin.svg";
-import grave from "../media/graveJordi.svg";
-import { AuthContext } from "../views/context/AuthContext";
-import Loader from "./components/Loader";
 import ProtectedComponent from "./components/ProtectedComponent";
+import {Box, Button, Container, LinearProgress, Paper, Typography} from "@mui/material";
+import coinImage from "../media/coin.svg";
+import imgFondoBtn from "../media/border.png";
+import axios from "axios";
+import {useContext, useEffect, useRef, useState} from "react";
+import Loader from "./components/Loader";
+import {AuthContext} from "./context/AuthContext";
 import ServiceDownMessage from "./components/ServiceDownMessage";
+import grave from "../media/graveJordi.svg"
+import {useParams} from "react-router-dom";
+import ErrorSnackBar from "./components/ErrorSnackBar";
+import Endgame from "./Endgame";
 
-const buttonStyle = {
-  height: "13rem",
-  width: "100%",
-  fontSize: "1.5rem",
-  background: `url(${imgFondoBtn})`,
-  backgroundSize: '100% 100%',
-  backgroundPosition: 'center',
-  margin: '5px',
-  color:'black'
+const initialTime = 10
+
+const fetchQuestions = async (category, token, n = 10) => {
+  const response =  await axios.get(`/game/questions/${category}/${n}`, {headers: {Authorization: `Bearer ${token}`}})
+  return response.data;
 }
 
-// Linear time bar
-const initialTime = 10; // seconds
-const correctPoints = 100;
-const wrongPoints = -20;
-const startTime = performance.now();
-
-// Change button color
 const changeButtonColor = (i, color) => {
   const button = document.getElementById(`button${i}`);
   if (button != null) {
@@ -39,30 +29,27 @@ const changeButtonColor = (i, color) => {
   }
 };
 
-const ErrorSnackBar = ({msg}) => {
-  const [open, setOpen] = useState(true)
-
+const Points = ({points}) => {
   return (
-      <Snackbar
-        open={open}
-        autoHideDuration={3000}
-        message={msg}
-        action={
-          <IconButton
-            aria-label="close"
-            color="inherit"
-            sx={{ p: 0.5 }}
-            onClick={() => setOpen(false)}
-          >
-            <CloseIcon />
-          </IconButton>
-        }
-      />
-  )
+    <Box sx={{ ml: 1, display: "flex", alignItems: "center" }}>
+      <Typography sx={{ fontWeight: 400, fontSize: "35px" }}>
+        {points}
+      </Typography>
+      <img src={coinImage} alt="Coin" style={{ marginLeft: "10px" }} />
+    </Box>
+  );
 }
 
-const MiLinea = ({ progressBarPercent }) =>
-  progressBarPercent > 80 ? (
+const Title = ({question}) => {
+  return (
+    <Paper elevation={3} sx={{ padding: "1rem" }}>
+      <Typography variant="h4">{question.statement}</Typography>
+    </Paper>
+  );
+}
+
+const Line = ({progressBarPercent}) => {
+  return progressBarPercent > 70 ? (
     <LinearProgress
       color="red"
       variant={"determinate"}
@@ -75,239 +62,192 @@ const MiLinea = ({ progressBarPercent }) =>
       value={progressBarPercent}
     />
   );
+}
 
-const Coin = ({ pointsUpdated }) => {
-  return (
-    <Box sx={{ ml: 1, display: "flex", alignItems: "center" }}>
-      <Typography name="points" sx={{ fontWeight: 400, fontSize: "35px" }}>
-        {pointsUpdated}
-      </Typography>
-      <img src={coinImage} alt="Coin" style={{ marginLeft: "10px" }} />
-    </Box>
-  );
-};
+const Timer = ({time, setTime, interval}) => {
 
-const Question = ({ current }) => {
-  return (
-    <Paper elevation={3} sx={{ padding: "1rem" }}>
-      <Typography variant="h4" id="questionTxt" >{current.statement}</Typography>
-    </Paper>
-  );
-};
+  useEffect(() => {
+    if(time === 0) {
+      clearInterval(interval.current)
+      return;
+    }
+    interval.current = window.setInterval(() => setTime(time - 1), 1000)
+    return () => {
+      setInterval(null)
+      clearInterval(interval.current)
+    }
+  }, [time]);
 
-const Line = ({ timeLeft, progressBarPercent }) => {
   return (
     <Paper elevation={3} sx={{ padding: "1rem"}}>
       <Box sx={{ ml: 1, display: "flex", margin: "5px" }}>
         <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
-          Time left: {timeLeft}
+          Time left: {time}
         </Typography>
       </Box>
       <Box sx={{ margin: "10px" }}>
-        <MiLinea progressBarPercent={progressBarPercent} />
+        <Line progressBarPercent={10 * (10 - time)} />
       </Box>
     </Paper>
   );
-};
+}
 
-const Buttons = ({ answer, questions }) => {
+const Buttons = ({question, setAnswer}) => {
+  const buttonStyle = {
+    height: {xs: "10rem", md: "13rem"},
+    width: "100%",
+    fontSize: "1.5rem",
+    background: `url(${imgFondoBtn})`,
+    backgroundSize: '100% 100%',
+    backgroundPosition: 'center',
+    margin: '5px',
+    color:'black',
+    padding: "3rem"
+  }
+
   return (
     <Paper elevation={3} sx={{padding: "1rem 0" }}>
-      <Container sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}>
-        {questions.options.map((option, i) => (
-            <Button key={i} id={`button${i}`} sx={buttonStyle} onClick={() => answer(i)}>
-              {option}
-            </Button>
+      <Container sx={{ display: "grid", gridTemplateColumns: {xs: "repeat(1, 1fr)", md: "repeat(2, 1fr)"} }}>
+        {question.options.map((option, i) => (
+          <Button key={i} id={`button${i}`} sx={buttonStyle} onClick={() => setAnswer(option)}>
+            {option}
+          </Button>
         ))}
       </Container>
     </Paper>
   );
-};
+}
 
-const GameView = ({pointsUpdated, current, timeLeft, progressBarPercent, answer, n}) => {
-  if (n === 0)
+const MainView = ({error, historialError, setHistorialError, questions, current, setAnswer, interval, time, setTime, points, correct, wrong, totalTime}) => {
+  if (error)
     return (
-      <Paper elevation={3} sx={{padding: "1rem 0" }}>
-        <Loader />
+      <Paper elevation={3} sx={{padding: "1rem 0"}}>
+        <ServiceDownMessage code={error.status} reason={error.error} grave={grave} />
       </Paper>
+    )
+  if (questions.length === 0)
+    return (
+      <Paper elevation={3} sx={{padding: "1rem 0"}}><Loader /></Paper>
+    )
+  if(questions.length === current)
+    return (
+      <Endgame points={points} correct={correct} wrong={wrong} time={totalTime} />
     )
   return (
     <>
-      <Coin pointsUpdated={pointsUpdated} />
-      <Question current={current} />
-      <Line timeLeft={timeLeft} progressBarPercent={progressBarPercent} />
-      <Buttons answer={answer} questions={current} />
+      <Points points={points} />
+      <Title question={questions[current]} />
+      <Timer time={time} setTime={setTime} interval={interval} />
+      <Buttons question={questions[current]} setAnswer={setAnswer} />
+      {historialError && <ErrorSnackBar msg={historialError} setMsg={setHistorialError} />}
     </>
   )
 }
 
-export default function Game() {
-    const { category } = useParams();
-    const { getUser } = useContext(AuthContext)
-    const timerId = useRef();
-    const navigate = useNavigate();
-    const [questions, setQuestions] = useState([]);
-    const [current, setCurrent] = useState(0);
-    const [timeLeft, setTimeLeft] = useState(initialTime);
-    const [progressBarPercent, setProgressBarPercent] = useState(0);
-    const [pointsUpdated, setPointsUpdated] = useState(0);
-    const [correctA, setCorrectA] = useState(0);
-    const [wrongA, setWrongA] = useState(0);
-    const [error, setError] = useState(null);
-    const [historyE, setHistoryE] = useState()
-    const [saveId, setSaveId] = useState()
+const Game = () => {
+  const { getUser } = useContext(AuthContext)
+  const [questions, setQuestions] = useState([]);
+  const [answer, setAnswer] = useState(null);
+  const [current, setCurrent] = useState(0);
+  const [points, setPoints] = useState(0);
+  const [time, setTime] = useState(initialTime);
+  const [error, setError] = useState();
+  const [historialError, setHistorialError] = useState();
+  const saveId = useRef()
+  const interval = useRef()
+  const [correct, setCorrect] = useState(0)
+  const [wrong, setWrong] = useState(0)
+  const [totalTime, setTotalTime] = useState(0)
+  const { category} = useParams()
 
-    // Next question
-    const next = useCallback(() => {
-        if (current === questions.length - 1) {
-            let endTime = performance.now();
-            storePoints();
-            navigate("/endgame", { state: { points:pointsUpdated,correct:correctA,wrong:wrongA,time:endTime-startTime} });
-        }
-
-        setCurrent(current + 1);
-        setTimeLeft(initialTime);
-        setProgressBarPercent(0);
-    }, [current, questions.length, initialTime, navigate, pointsUpdated, correctA, wrongA]);
-
-    const storePoints = async () => {
-      const body = {
-        name : getUser()["username"],
-        points : pointsUpdated
-      }
-      // await axios.post(`/addScore`, body)
-    }
-    
-  // Timer
-  // FIXME - The time must start when the first questions is loaded,
-  // if there is a delay in the server the time will be wrong
-  useEffect(() => {
-    if (initialTime) {
-      timerId.current = window.setInterval(() => {
-        setTimeLeft((prevProgress) => prevProgress - 1);
-      }, 1000);
-
-      return () => {
-        clearInterval(timerId.current);
-      };
-    }
-  }, []);
-
-  // Update progress bar
-  useEffect(() => {
-    if (initialTime) {
-      if (progressBarPercent < 100) {
-        let updateProgressPercent = Math.round(
-          ((initialTime - (timeLeft - 1)) / initialTime) * 100
-        );
-        setProgressBarPercent(updateProgressPercent);
-      }
-
-      if (timeLeft === 0 && timerId.current) {
-        next();
-      }
-    }
-  }, [timeLeft, progressBarPercent, current, next]);
-
-  //Fetch questions just at the beginning
-  useEffect(() => {
-    fetchQuestions(`/questions/${category}/10`);
-    // eslint-disable-next-line
-  }, []);
-
-  // Function to fetch questions
-  const fetchQuestions = (url) => {
+  const handleNextQuestion = () => {
+    clearInterval(interval.current)
     axios
-      .get(url)
-      .then((response) => {
-        setQuestions(response.data)
-        return response.data
+      .post("/game/answer", {
+        token: getUser().token,
+        saveId: saveId.current,
+        questionId: questions[current]._id,
+        last: current === questions.length - 1,
+        answer,
+        time: initialTime - time,
+        statement: questions[current].statement,
+        options: questions[current].options
       })
-      .then(() => {
-        axios
-          .post(`/history/create`, {userId: getUser().userId, category: category, token: getUser().token})
-          .then(response => setSaveId(response.data.id))
-          .catch(() => setHistoryE("An error occured while saving the game history"))
-      })
-      .catch((e) => {setError({code: e.response.status, error: e.response.data.error})});
-  };
-
-  // Function to answer a question
-  const answer = (i) => {
-    //Server-side validation
-    const params = {
-      token: getUser()["token"],
-      id: questions[current]._id,
-      answer: questions[current].options[i],
-    };
-
-    //Fetch correct answer
-    axios
-      .post(`/game/answer`, params)
       .then(response => {
-        // Mark in red the incorrect answers and in green the correct one
-        const correct = questions[current].options.filter(
-          (o) => o === response.data.answer
-        );
-        const correctIndex = questions[current].options.indexOf(correct[0]);
+        setPoints(points + response.data.points)
+        const correctAnswer = response.data.answer
 
-        if (i !== correct) changeButtonColor(i, "red");
+        const iAnswered = questions[current].options.indexOf(answer)
+        const iCorrect = questions[current].options.indexOf(correctAnswer)
 
-        changeButtonColor(correctIndex, "green");
-        const newPoints = pointsUpdated + (i === correctIndex ? correctPoints : wrongPoints);
-        setPointsUpdated(newPoints);
-        (i === correctIndex ? setCorrectA(correctA+1) : setWrongA(wrongA+1) );
-        setTimeout(() => {
-          next();
-        }, 200);
-        return response.data.answer
-      })
-      .then(async correct => {
-        if(historyE) return
-        const q = {
-          last: questions.length === current + 1,
-          statement: questions[current].statement,
-          options: questions[current].options,
-          answer: i,
-          correct: questions[current].options.indexOf(correct),
-          points: i === questions[current].options.indexOf(correct) ? correctPoints : wrongPoints,
-          time: initialTime - timeLeft,
-          token: getUser().token
+        if(iAnswered !== iCorrect) {
+          changeButtonColor(iAnswered, "red")
+          if(iAnswered !== -1) setWrong(wrong + 1)
+        } else {
+          setCorrect(correct + 1)
         }
-        await axios.post(`/history/add/${saveId}`, q)
+        setTotalTime((initialTime - time) + totalTime)
+        changeButtonColor(iCorrect, "green")
+
+        setTimeout(() => {
+          setTime(initialTime)
+          setCurrent(current + 1);
+          setAnswer(null)
+        }, 500)
       })
-      .catch((e) => {setError({code: e.response.status, error: e.response.data.error})});
-  };
+      .catch(e => setHistorialError({ error: e.response.data.error }))
+  }
+
+  useEffect( () => {
+    fetchQuestions(category, getUser().token)
+      .then(data => setQuestions(data))
+      .catch(err => setError({error: err.response.data.error, status: err.response.status}));
+    axios
+      .post("/history/create", {
+        token: getUser().token,
+        category: category,
+        userId: getUser().userId
+      })
+      .then(response => saveId.current = response.data.id)
+      .catch(err => setHistorialError({error: err.response.data.error, status: err.response.status}))
+    //eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if(time === 0) handleNextQuestion();
+    if(answer !== null) handleNextQuestion()
+  }, [time, answer]);
 
   return (
-    <>
-      <ProtectedComponent />
+    <ProtectedComponent>
       <Container
         component="main"
         maxWidth="md"
         sx={{
           marginTop: 4,
           display: "flex",
-          flexDirection: { xs: "row", md: "column" },
+          flexDirection: "column",
           gap: "1rem"
         }}
       >
-        {error ? 
-          <Paper elevation={3} sx={{padding: "1rem 0" }}>
-            <ServiceDownMessage grave={grave} code={error.code} reason={error.error} />
-          </Paper>
-          : 
-          <GameView
-            pointsUpdated={pointsUpdated}
-            current={questions[current]}
-            timeLeft={timeLeft}
-            progressBarPercent={progressBarPercent}
-            answer={answer}
-            n={questions.length}
-          />
-        }
-        {historyE && <ErrorSnackBar msg={historyE} />}
+        <MainView
+          error={error}
+          historialError={historialError}
+          setHistorialError={setHistorialError}
+          questions={questions}
+          setAnswer={setAnswer}
+          interval={interval}
+          time={time}
+          setTime={setTime}
+          points={points}
+          current={current}
+          correct={correct}
+          wrong={wrong}
+          totalTime={totalTime}
+        />
       </Container>
-    </>
-  );
+    </ProtectedComponent>
+  )
 }
+
+export default Game;

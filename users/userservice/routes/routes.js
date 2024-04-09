@@ -36,9 +36,18 @@ module.exports = function (app, userRepository) {
   app.get("/user/:userId", (req, res) => {
     const { userId } = req.params;
 
+    if(!userRepository.checkValidId(userId)) {
+      res.status(400).json({ error: "Invalid id format" });
+      return;
+    }
+
     userRepository
       .getUser({ _id: userId })
       .then(user => {
+        if(!user) {
+          res.status(404).json({ error: "User not found" });
+          return
+        }
         const {_id, __v, password, ...output} = user
         res.json(output)
       })

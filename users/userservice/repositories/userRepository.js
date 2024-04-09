@@ -46,24 +46,7 @@ module.exports = {
       this.mongoose.connection && await this.mongoose.connection.close();
     }
   },
-
-  insertSampleData: async function () {
-    try {
-      await this.mongoose.connect(this.uri);
-      await this.mongoose.connection.collection("users").insertMany([
-        {
-          username: "prueba1",
-          password: "Prueba1213$",
-        },
-        {
-          username: "prueba2",
-          password: "Prueba1213$",
-        },
-      ]);
-    } catch (error) {
-      throw error.message;
-    } finally {
-      this.mongoose.connection && await this.mongoose.connection.close();
-    }
+  checkValidId: function (id) {
+    return !(!id || !this.mongoose.isValidObjectId(id));
   }
 };
