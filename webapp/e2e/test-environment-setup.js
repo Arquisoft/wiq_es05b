@@ -1,6 +1,7 @@
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const testUtils = require('./testUtils.js');
 const axios = require('axios');
+const exec = require('child_process').exec;
 
 
 let mongoserver;
@@ -15,6 +16,16 @@ async function startServer() {
     mongoserver = await MongoMemoryServer.create();
     const mongoUri = mongoserver.getUri();
     process.env.MONGODB_URI = mongoUri;
+
+    //Start webapp
+    console.log('Starting react app.');
+    exec('npm start', (err, stdout, stderr) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        console.log(stdout);
+    });
 
     userservice = await require("../../users/userservice/user-service");
     authservice = await require("../../users/authservice/auth-service");
