@@ -16,7 +16,6 @@ async function startServer() {
     const mongoUri = mongoserver.getUri();
     process.env.MONGODB_URI = mongoUri;
 
-    
     userservice = await require("../../users/userservice/user-service");
     authservice = await require("../../users/authservice/auth-service");
     gatewayservice = await require("../../gatewayservice/gateway-service");
@@ -27,4 +26,4 @@ async function startServer() {
     await testUtils.insertSampleUser(axios);
 
 }
-  startServer();
+startServer();

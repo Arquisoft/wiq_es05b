@@ -44,7 +44,8 @@ defineFeature(feature, test => {
       let text = await page.evaluate(() => {
         text = document.getElementById('questionTxt');
       });
-      await expect(page).toClick('button', { id: 'button0' })
+      await page.waitForSelector('#button0');
+      await page.click('#button0');
     });
 
     then('Points and question text are updated', async () => {
