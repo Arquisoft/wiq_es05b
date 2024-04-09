@@ -27,7 +27,6 @@ app.use("/game", authMiddleware)
 
 require("./routes/routes")(app)
 require("./routes/jordiRoutes")(app, axios, errorHandler)
-require("./routes/rankingRoutes")(app, axios, errorHandler)
 require("./routes/usersRoutes")(app, axios, errorHandler, authTokenMiddleware)
 require("./routes/authRoutes")(app, axios, errorHandler)
 require("./routes/historyRoutes")(app, axios, errorHandler, authTokenMiddleware)
