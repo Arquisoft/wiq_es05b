@@ -1652,9 +1652,19 @@ in a transparent way to the user and avoiding having to shut down the service fo
 <td class="tableblock halign-left valign-top"><p class="tableblock">Ignorance of emerging technologies relevant to the project might result in missed opportunities for innovation and efficiency. Regular training sessions or workshops should be considered to keep the team updated on the latest industry trends.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Incomplete infrastructure planning</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use of ARM64 machine</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The use of an ARM64 machine for development and deployment may introduce compatibility issues with certain software libraries and tools that are primarily designed for x86 architecture. This could result in additional effort and time required to ensure compatibility and may limit the availability of certain features or optimizations. Thorough testing and evaluation of software dependencies on ARM64 architecture is necessary to mitigate potential risks.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Incomplete infrastructure planning</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A lack of comprehensive planning for the project&#8217;s infrastructure can result in delayed implementation and increased costs. Ensuring a detailed infrastructure plan is in place, including hardware and software requirements, is vital for a smooth project start.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unequal distribution of efforts across the team</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If team members are not assigned tasks and responsibilities properly, it can lead to an uneven distribution of efforts. This can result in delays, bottlenecks, and decreased productivity. Regular monitoring and effective communication are essential to ensure a balanced workload and maximize team efficiency.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1676,14 +1686,27 @@ in a transparent way to the user and avoiding having to shut down the service fo
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Lack of documentation and coding standards</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Absence of clear standards at the beginning of the project can result in inconsistent and insufficient documentation. Establishing and enforcing documentation standards early on is crucial for knowledge transfer and future maintainability.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lack of actual scalability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">While the project&#8217;s microservices architecture is designed to be scalable, the current implementation may not be able to handle a significant increase in traffic. This could result in performance issues, downtime, and a poor user experience. Regular load testing and performance monitoring are essential to identify scalability issues and address them before they become critical.</p>
+<p class="tableblock">This is mainly because load balancing and auto-scaling are not implemented yet.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Use of new tools</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Each developer should adapt to the use of new tools and paradigms which will decrease the production time and quality of the project. Quick adaptation capabilities of the team members should be key to put a fix on this debt.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not-so-robust error handling</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The project&#8217;s error handling mechanisms may not be robust enough to handle unexpected errors and exceptions. This could result in crashes, data loss, and security vulnerabilities. Implementing comprehensive error handling and logging mechanisms is essential to ensure the project&#8217;s stability and reliability.</p>
+<p class="tableblock">To mitigate this effect, we have implemented an automatic restart on every microservice, but it is not enough.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Code quality issues</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The project&#8217;s codebase may contain quality issues such as code smells, duplication, and poor documentation. This can make the codebase difficult to maintain, extend, and debug. Regular code reviews, refactoring, and documentation updates are essential to ensure the project&#8217;s code quality and maintainability.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Inadequate security measures</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The project&#8217;s security measures may not be sufficient to protect against common threats such as, cross-site scripting, and DDoS attacks. Regular security audits and penetration testing are essential to identify vulnerabilities and ensure that the project&#8217;s security measures are up to date.</p>
+<p class="tableblock">This would heavily impact the project&#8217;s reputation and user trust, aswell as its availability.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1756,7 +1779,7 @@ in a transparent way to the user and avoiding having to shut down the service fo
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-04-09 18:35:58 UTC
+Last updated 2024-04-09 21:29:37 UTC
 </div>
 </div>
 </body>
