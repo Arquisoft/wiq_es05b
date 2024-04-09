@@ -20,7 +20,7 @@
   "homepage": "https://github.com/Arquisoft/wiq_es05b#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "sequelize": "^6.37.1",
-    "pg": "^8.7.1"
+    "mongoose": "^8.3.0",
+    "sequelize": "^6.37.1"
   }
 }
