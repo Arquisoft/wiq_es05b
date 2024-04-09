@@ -16,7 +16,7 @@ defineFeature(feature, test => {
     setDefaultOptions({ timeout: 120000 })
 
     await page
-      .goto("http://localhost:3000", {
+      .goto("http://localhost:3000/login", {
         waitUntil: "networkidle0",
       })
       .catch(() => { });
@@ -30,7 +30,6 @@ defineFeature(feature, test => {
     given('A registered user', async () => {
       username = "prueba"
       password = "Prueba1213$"
-      await expect(page).toClick("a", { text: "Play" });
       await expect(page).toFill('input[name="username"]', username);
       await expect(page).toFill('input[name="password"]', password);
     });

@@ -17,7 +17,7 @@ defineFeature(feature, test => {
         setDefaultOptions({ timeout: 120000 })
 
         await page
-            .goto("http://localhost:3000", {
+            .goto("http://localhost:3000/login", {
                 waitUntil: "networkidle0",
             })
             .catch(() => { });
@@ -34,7 +34,6 @@ defineFeature(feature, test => {
             //Login
             username = "prueba"
             password = "Prueba1213$"
-            await expect(page).toClick("a", { text: "Play" });
             await expect(page).toFill('input[name="username"]', username);
             await expect(page).toFill('input[name="password"]', password);
             await expect(page).toClick('button', { text: 'Login' });
@@ -44,11 +43,13 @@ defineFeature(feature, test => {
         });
 
         when('He answers the last one', async () => {
+            await page.waitForSelector('#button0');
             //Answer all questions
             for (let i = 0; i < 10; i++) {
-                await page.waitForSelector('#button0');
+                await new Promise(resolve => setTimeout(resolve, 750));
                 await page.click('#button0');
             }
+
 
         });
 

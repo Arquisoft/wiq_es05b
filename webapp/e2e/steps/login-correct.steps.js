@@ -16,7 +16,7 @@ defineFeature(feature, test => {
         setDefaultOptions({ timeout: 120000 })
 
         await page
-            .goto("http://localhost:3000", {
+            .goto("http://localhost:3000/login", {
                 waitUntil: "networkidle0",
             })
             .catch(() => { });
@@ -31,7 +31,6 @@ defineFeature(feature, test => {
         given('An existent user', async () => {
             username = "prueba"
             password = "Prueba1213$"
-            await expect(page).toClick("a", { text: "Play" });
         });
 
         when('I fill the data in the form and press submit', async () => {
@@ -58,7 +57,6 @@ defineFeature(feature, test => {
         given('An user', async () => {
             username = "asdasd"
             password = "Prueba1213$"
-            await expect(page).toClick("a", { text: "Play" });
         });
 
         when('I fill the data in the form with invalid username and press submit', async () => {
@@ -81,7 +79,6 @@ defineFeature(feature, test => {
         given('An user', async () => {
             username = "prueba"
             password = "asdasasdas"
-            await expect(page).toClick("a", { text: "Play" });
         });
 
         when('I fill the data in the form with invalid password and press submit', async () => {
