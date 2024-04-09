@@ -5,6 +5,13 @@ module.exports = {
   init: function (mongoose, uri) {
     this.mongoose = mongoose;
     this.uri = uri;
+
+    //Insert sample data
+    if(process.env.DEV === "true") {
+      console.log("Inserting sample data");
+      this.insertSampleData();
+    }
+
   },
   insertUser: async function (username, password) {
     try {
@@ -22,7 +29,7 @@ module.exports = {
     }
   },
   getUser: async function (filter) {
-    if("_id" in filter) {
+    if ("_id" in filter) {
       filter._id = new this.mongoose.Types.ObjectId(filter._id);
     }
     try {
