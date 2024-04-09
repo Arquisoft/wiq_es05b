@@ -76,7 +76,7 @@ const Timer = ({time, setTime, interval}) => {
       setInterval(null)
       clearInterval(interval.current)
     }
-  }, [time]);
+  }, [interval, setTime, time]);
 
   return (
     <Paper elevation={3} sx={{ padding: "1rem"}}>

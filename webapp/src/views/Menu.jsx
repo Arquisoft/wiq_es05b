@@ -60,16 +60,18 @@ const Buttons = ({ categories }) => {
 };
 
 export default function GameMenu() {
-  const { getUser } = useContext(AuthContext)
+  const { getUser, isAuthenticated } = useContext(AuthContext)
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if(!isAuthenticated()) return;
     axios.get(`/game/categories`, { headers: { Authorization: `Bearer ${getUser().token}` } })
       .then((response) => {
         if (response) setCategories(response.data);
       })
       .catch((error) => setError({ code: error.response.status, message: error.response.data.error }));
+      //eslint-disable-next-line
   }, []);
 
   return (
