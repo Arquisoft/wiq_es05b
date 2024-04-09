@@ -11,7 +11,7 @@ defineFeature(feature, test => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: true,slowMo:10 });
+      : await puppeteer.launch({ headless: false,slowMo:10 });
     page = await browser.newPage();
     setDefaultOptions({ timeout: 120000 })
 
@@ -40,6 +40,7 @@ defineFeature(feature, test => {
     });
 
     then('Shows the game categories', async () => {
+      await new Promise(resolve => setTimeout(resolve, 5000));
       await expect(page).toMatchElement("a", { text: "area" });
       await expect(page).toMatchElement("a", { text: "capitals" });
       await expect(page).toMatchElement("a", { text: "continent" });
