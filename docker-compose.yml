@@ -3,54 +3,16 @@ services:
 
   # Production services
   
-  mongodbusers:
-    container_name: mongodbusers-${teamname:-wiq_es05b}
-    image: mongo
+  mongo:
+    container_name: mongo-${teamname:-wiq_es05b}
+    image: mongo:latest
     profiles: ["dev", "prod"]
     volumes:
-      - users_data:/data/db
+      - mongo_data:/data/db
     ports:
       - "27017:27017"
     networks:
       - mynetwork
-    restart: always
-  
-  mongodbquestions:
-    container_name: mongodbquestions-${teamname:-wiq_es05b}
-    image: mongo
-    profiles: ["dev", "prod"]
-    volumes:
-      - questions_data:/data/db
-    ports:
-      - "27018:27017"
-    networks:
-      - mynetwork
-    restart: always
-
-  mongodbhistory:
-    container_name: mongodbhistory-${teamname:-wiq_es05b}
-    image: mongo
-    profiles: ["dev", "prod"]
-    volumes:
-      - history_data:/data/db
-    ports:
-      - "27019:27017"
-    networks:
-      - mynetwork
-    restart: always
-  
-  postgres:
-    container_name: postgres-${teamname:-wiq_es05b}
-    image: postgres
-    profiles: ["dev", "prod"]
-    volumes:
-      - postgres_data:/data/db
-    ports:
-      - "5432:5432"
-    networks:
-      - mynetwork
-    environment:
-      POSTGRES_PASSWORD: jordishhh
     restart: always
 
   webapp:
@@ -99,13 +61,13 @@ services:
     profiles: ["dev", "prod"]
     build: ./users/userservice
     depends_on:
-      - mongodbusers
+      - mongo
     ports:
       - "8001:8001"
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodbusers:27017/userdb
+      MONGODB_URI: mongodb://mongo:27017/userdb
     restart: always
 
   authservice:
@@ -114,13 +76,13 @@ services:
     profiles: ["dev", "prod"]
     build: ./users/authservice
     depends_on:
-      - mongodbusers
+      - mongo
     ports:
       - "8002:8002"
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodbusers:27017/userdb
+      MONGODB_URI: mongodb://mongo:27017/userdb
       SECRET: a-very-secret-string
     restart: always
 
@@ -130,13 +92,13 @@ services:
     profiles: ["dev", "prod"]
     build: ./jordi
     depends_on:
-      - mongodbquestions
+      - mongo
     ports:
       - "8003:8003"
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodbquestions:27017/questions
+      MONGODB_URI: mongodb://mongo:27017/questions
     restart: always
 
   history:
@@ -145,26 +107,13 @@ services:
     profiles: ["dev", "prod"]
     build: ./userhistory
     depends_on:
-      - mongodbhistory
+      - mongo
     ports:
       - "8004:8004"
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodbhistory:27017/history
-    restart: always
-
-  ranking:
-    container_name: ranking-${teamname:-wiq_es05b}
-    image: ghcr.io/arquisoft/wiq_es05b/ranking:latest
-    profiles: ["dev", "prod"]
-    build: ./ranking
-    ports:
-      - "8005:8005"
-    networks:
-      - mynetwork
-    environment:
-      POSTGRES_URI: postgres://postgres:jordishhh@postgres:5432/postgres
+      MONGODB_URI: mongodb://mongo:27017/history
     restart: always
 
   reverse-proxy:
@@ -218,10 +167,7 @@ services:
       - prometheus
 
 volumes:
-  users_data:
-  questions_data:
-  history_data:
-  postgres_data:
+  mongo_data:
   prometheus_data:
   grafana_data:
 
