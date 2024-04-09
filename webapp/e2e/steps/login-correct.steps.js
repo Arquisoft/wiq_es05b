@@ -49,19 +49,42 @@ defineFeature(feature, test => {
         browser.close()
     })
 
-    //Invalid login
-    test('The user tries to log with invalid credentials', ({ given, when, then }) => {
+    //Invalid username
+    test('The user tries to log with invalid username', ({ given, when, then }) => {
+
+        let username;
+        let password;
+
+        given('An user', async () => {
+            username = "asdasd"
+            password = "Prueba1213$"
+            await expect(page).toClick("a", { text: "Play" });
+        });
+
+        when('I fill the data in the form with invalid username and press submit', async () => {
+            await expect(page).toFill('input[name="username"]', username);
+            await expect(page).toFill('input[name="password"]', password);
+            await expect(page).toClick('button', { text: 'Login' });
+        });
+
+        then('I see error toaster', async () => {
+            await expect(page).toMatchElement("div", { text: "Error: Invalid credentials" });
+        });
+    })
+
+    //Invalid password
+    test('The user tries to log with invalid password', ({ given, when, then }) => {
 
         let username;
         let password;
 
         given('An user', async () => {
             username = "prueba"
-            password = "asdfg"
+            password = "asdasasdas"
             await expect(page).toClick("a", { text: "Play" });
         });
 
-        when('I fill the data in the form with invalid credentials and press submit', async () => {
+        when('I fill the data in the form with invalid password and press submit', async () => {
             await expect(page).toFill('input[name="username"]', username);
             await expect(page).toFill('input[name="password"]', password);
             await expect(page).toClick('button', { text: 'Login' });
