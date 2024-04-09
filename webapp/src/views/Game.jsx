@@ -216,6 +216,7 @@ const Game = () => {
   useEffect(() => {
     if(time === 0) handleNextQuestion();
     if(answer !== null) handleNextQuestion()
+    //eslint-disable-next-line
   }, [time, answer]);
 
   return (
