@@ -22,12 +22,12 @@ defineFeature(feature, test => {
       .catch(() => { });
   });
 
-  test('The password does not fulfill the security parameters', ({ given, when, then }) => {
+  test('The password does not fulfill the security parameters (length)', ({ given, when, then }) => {
 
     let username;
     let password;
 
-    given('An unregistered user with weak password', async () => {
+    given('An unregistered user with short password', async () => {
       username = "prueba123"
       password = "prueba"
       await expect(page).toClick("a", { text:"Sign up" });
@@ -44,7 +44,6 @@ defineFeature(feature, test => {
   })
 
   test('The user is not registered in the site', ({ given, when, then }) => {
-
     let username;
     let password;
 
@@ -84,6 +83,69 @@ defineFeature(feature, test => {
 
     then('Alert about the username', async () => {
       await expect(page).toMatchElement("div", { text: "Error: Username already exists" });    });
+  })
+
+  test('The password does not fulfill the security parameters (upperCase)', ({ given, when, then }) => {
+
+    let username;
+    let password;
+
+    given('An unregistered user with non upperCase password', async () => {
+      username = "prueba123"
+      password = "prueba1213$"
+      await expect(page).toClick("a", { text:"Sign up" });
+    });
+
+    when('Fill the data in the form', async () => {
+      await expect(page).toFill('input[name="username"]', username);
+      await expect(page).toFill('input[name="password"]', password);
+      await expect(page).toClick('button', { text: 'Create account' })
+    });
+
+    then('Alert about the weak password', async () => {
+      await expect(page).toMatchElement("div", { text: "Error: Password must contain at least one uppercase letter" });    });
+  })
+
+  test('The password does not fulfill the security parameters (special character)', ({ given, when, then }) => {
+
+    let username;
+    let password;
+
+    given('An unregistered user with non special character password', async () => {
+      username = "prueba123"
+      password = "Prueba1213j"
+      await expect(page).toClick("a", { text:"Sign up" });
+    });
+
+    when('Fill the data in the form', async () => {
+      await expect(page).toFill('input[name="username"]', username);
+      await expect(page).toFill('input[name="password"]', password);
+      await expect(page).toClick('button', { text: 'Create account' })
+    });
+
+    then('Alert about the weak password', async () => {
+      await expect(page).toMatchElement("div", { text: "Error: Password must contain at least one special character" });    });
+  })
+
+  test('The password does not fulfill the security parameters (number)', ({ given, when, then }) => {
+
+    let username;
+    let password;
+
+    given('An unregistered user with non number password', async () => {
+      username = "prueba123"
+      password = "Pruebaaaaa$"
+      await expect(page).toClick("a", { text:"Sign up" });
+    });
+
+    when('Fill the data in the form', async () => {
+      await expect(page).toFill('input[name="username"]', username);
+      await expect(page).toFill('input[name="password"]', password);
+      await expect(page).toClick('button', { text: 'Create account' })
+    });
+
+    then('Alert about the weak password', async () => {
+      await expect(page).toMatchElement("div", { text: "Error: Password must contain at least one number" });    });
   })
 
   afterAll(async () => {

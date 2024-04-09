@@ -22,7 +22,7 @@ defineFeature(feature, test => {
       .catch(() => { });
   });
 
-  test('Register new user, click play button', ({ given, when, then }) => {
+  test('Registered user, click play button', ({ given, when, then }) => {
 
     let username;
     let password;
