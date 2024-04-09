@@ -24,7 +24,7 @@ async function addSave(save){
     await newSave.save();
     await mongoose.connection.close()
 }
-  
+
 beforeAll(async () => {
     mongoServer = await MongoMemoryServer.create();
     process.env.MONGODB_URI = mongoServer.getUri();
@@ -91,19 +91,21 @@ describe('[History Service] - /create', () => {
 describe('[History Service] - /add/:id', () => {
 
     beforeEach(async () => {
-        const response = await request(app).post('/create').send(save);
-        saveId = response.body.id;
         save = {
-            "last": false,
-            "statement": "Question 1",
-            "options": [
+            userId: '123456789012345678901234',
+            category: 'Capitals',
+            last: false,
+            statement: "Question 1",
+            options: [
                 "Category 1"
             ],
-            "answer": 1,
-            "correct": 0,
-            "time": 10,
-            "points": 10
+            answer: 1,
+            correct: 0,
+            time: 10,
+            points: 10
         };
+        const response = await request(app).post('/create').send(save);
+        saveId = response.body.id;
     });
 
     it('Should return 200 when added', async () => {
@@ -196,7 +198,45 @@ describe('[History Service] - /add/:id', () => {
         expect(response.body.error).toBe("Invalid id format");
     });
 
-
-
-
 });
+
+/**
+    describe('[History Service] - /add/:id', () => {
+
+        beforeEach(async () => {
+            const response = await request(app).post('/create').send(save);
+            saveId = response.body.id;
+            save = {
+                "last": false,
+                "statement": "Question 1",
+                "options": [
+                    "Category 1"
+                ],
+                "answer": 1,
+                "correct": 0,
+                "time": 10,
+                "points": 10
+            };
+        });
+
+        it('Should return 200 when added', async () => {
+            const response = await request(app).post(`/add/${saveId}`).send(save);
+
+            console.log(response.body.error);
+
+            expect(response.status).toBe(200);
+            expect(response.body.message).toBe("Question added successfully");
+        });
+
+
+        it('Should return 400 when missing last', async () => {
+            delete save.last
+            const response = await request(app).post(`/add/${saveId}`).send(save);
+
+            console.log(response.body.error);
+
+            expect(response.status).toBe(400);
+            expect(response.body.error).toBe("Missing last");
+        });
+    });
+ */
