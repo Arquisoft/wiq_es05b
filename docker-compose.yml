@@ -21,9 +21,6 @@ services:
     profiles: ["dev", "prod"]
     build:
       context: ./webapp
-      args:
-        SSL_API_URI: ${ssl_api_uri:-http://localhost:8000}
-        API_URI: ${api_uri:-http://localhost:8000}
     depends_on:
       - gatewayservice
     networks:
