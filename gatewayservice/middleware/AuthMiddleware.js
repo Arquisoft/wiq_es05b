@@ -20,7 +20,7 @@ module.exports = function (req, res, next) {
     .get(`${authServiceUrl}/validate/${token}`)
     .then(({data}) => {
       if (data.valid) {
-        req.body.userIdToken = data.data.userId;
+        req.userIdToken = data.data.userId;
         next();
       } else {
         res.status(401).json({error: "Invalid token"});
