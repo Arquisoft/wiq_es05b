@@ -84,13 +84,6 @@ jobs:
     - name: Check out the repo
       uses: actions/checkout@v4
     
-    - name: Set up endpoint URIs
-      run: |
-        touch .env
-        echo "ssl_api_uri=https://cyt.is-cool.dev/api" >> .env
-        echo "api_uri=http://cyt.is-cool.dev/api" >> .env
-      shell: bash
-
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@v5
       with:
@@ -99,11 +92,11 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: ghcr.io
         workdir: webapp
-        buildargs: API_URI
+        buildargs: API_URI, SSL_API_URI
         platforms: linux/arm64
-
     env:
-        API_URI: http://${{ secrets.DEPLOY_HOST }}:8000
+        API_URI: https://cyt.is-cool.dev/api
+        SSL_API_URI: http://cyt.is-cool.dev/api
 
 
   docker-push-authservice:
