@@ -9,16 +9,13 @@ import {AuthContext} from "./context/AuthContext";
 import ServiceDownMessage from "./components/ServiceDownMessage";
 import grave from "../media/graveJordi.svg"
 import {useParams} from "react-router-dom";
+import ErrorSnackBar from "./components/ErrorSnackBar";
+import Endgame from "./Endgame";
 
 const initialTime = 10
 
 const fetchQuestions = async (category, token, n = 10) => {
   const response =  await axios.get(`/game/questions/${category}/${n}`, {headers: {Authorization: `Bearer ${token}`}})
-  return response.data;
-}
-
-const fetchAnswer = async (id, token) => {
-  const response = await axios.post("/game/answer", {id, token});
   return response.data;
 }
 
@@ -121,6 +118,32 @@ const Buttons = ({question, setAnswer}) => {
   );
 }
 
+const MainView = ({error, historialError, setHistorialError, questions, current, setAnswer, interval, time, setTime, points, correct, wrong, totalTime}) => {
+  if (error)
+    return (
+      <Paper elevation={3} sx={{padding: "1rem 0"}}>
+        <ServiceDownMessage code={error.status} reason={error.error} grave={grave} />
+      </Paper>
+    )
+  if (questions.length === 0)
+    return (
+      <Paper elevation={3} sx={{padding: "1rem 0"}}><Loader /></Paper>
+    )
+  if(questions.length === current)
+    return (
+      <Endgame points={points} correct={correct} wrong={wrong} time={totalTime} />
+    )
+  return (
+    <>
+      <Points points={points} />
+      <Title question={questions[current]} />
+      <Timer time={time} setTime={setTime} interval={interval} />
+      <Buttons question={questions[current]} setAnswer={setAnswer} />
+      {historialError && <ErrorSnackBar msg={historialError} setMsg={setHistorialError} />}
+    </>
+  )
+}
+
 const Game = () => {
   const { getUser } = useContext(AuthContext)
   const [questions, setQuestions] = useState([]);
@@ -130,14 +153,15 @@ const Game = () => {
   const [time, setTime] = useState(initialTime);
   const [error, setError] = useState();
   const [historialError, setHistorialError] = useState();
-  let saveId = useRef()
-  let interval = useRef()
+  const saveId = useRef()
+  const interval = useRef()
+  const [correct, setCorrect] = useState(0)
+  const [wrong, setWrong] = useState(0)
+  const [totalTime, setTotalTime] = useState(0)
   const { category} = useParams()
 
   const handleNextQuestion = () => {
     clearInterval(interval.current)
-
-    // FIXME - Button pressed
     axios
       .post("/game/answer", {
         token: getUser().token,
@@ -145,7 +169,7 @@ const Game = () => {
         questionId: questions[current]._id,
         last: current === questions.length - 1,
         answer,
-        time,
+        time: initialTime - time,
         statement: questions[current].statement,
         options: questions[current].options
       })
@@ -156,8 +180,13 @@ const Game = () => {
         const iAnswered = questions[current].options.indexOf(answer)
         const iCorrect = questions[current].options.indexOf(correctAnswer)
 
-        console.log(correctAnswer, questions[current].options)
-        if(iAnswered !== iCorrect) changeButtonColor(iAnswered, "red")
+        if(iAnswered !== iCorrect) {
+          changeButtonColor(iAnswered, "red")
+          if(iAnswered !== -1) setWrong(wrong + 1)
+        } else {
+          setCorrect(correct + 1)
+        }
+        setTotalTime((initialTime - time) + totalTime)
         changeButtonColor(iCorrect, "green")
 
         setTimeout(() => {
@@ -201,21 +230,21 @@ const Game = () => {
           gap: "1rem"
         }}
       >
-        {/* TODO - Move to component */}
-        {/* TODO - When last = questions.length show Endgame and remove from router */}
-        {
-          error ?
-            <Paper elevation={3} sx={{padding: "1rem 0" }}>
-              <ServiceDownMessage code={error.status} reason={error.error} grave={grave} />
-            </Paper> :
-            questions.length === 0 ? <Paper elevation={3} sx={{padding: "1rem 0" }}><Loader /></Paper> :
-              <>
-                <Points points={points} />
-                <Title question={questions[current]} />
-                <Timer time={time} setTime={setTime} interval={interval} />
-                <Buttons question={questions[current]} setAnswer={setAnswer} />
-              </>
-        }
+        <MainView
+          error={error}
+          historialError={historialError}
+          setHistorialError={setHistorialError}
+          questions={questions}
+          setAnswer={setAnswer}
+          interval={interval}
+          time={time}
+          setTime={setTime}
+          points={points}
+          current={current}
+          correct={correct}
+          wrong={wrong}
+          totalTime={totalTime}
+        />
       </Container>
     </ProtectedComponent>
   )
