@@ -11,7 +11,7 @@ defineFeature(feature, test => {
   beforeEach(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: true,slowMo:10 });
+      : await puppeteer.launch({ headless: false,slowMo:10 });
     page = await browser.newPage();
     setDefaultOptions({ timeout: 300000 })
 
@@ -44,7 +44,6 @@ defineFeature(feature, test => {
   })
 
   test('The user is not registered in the site', ({ given, when, then }) => {
-
     let username;
     let password;
 
@@ -71,7 +70,7 @@ defineFeature(feature, test => {
     let password;
 
     given('An unregistered user with repeated username', async () => {
-      username = "prueba"
+      username = "prueba123"
       password = "Prueba1213$"
       await expect(page).toClick("a", { text:"Sign up" });
     });
@@ -92,7 +91,7 @@ defineFeature(feature, test => {
     let password;
 
     given('An unregistered user with non upperCase password', async () => {
-      username = "prueba"
+      username = "prueba123"
       password = "prueba1213$"
       await expect(page).toClick("a", { text:"Sign up" });
     });
@@ -113,8 +112,8 @@ defineFeature(feature, test => {
     let password;
 
     given('An unregistered user with non special character password', async () => {
-      username = "prueba"
-      password = "prueba1213j"
+      username = "prueba123"
+      password = "Prueba1213j"
       await expect(page).toClick("a", { text:"Sign up" });
     });
 
@@ -134,8 +133,8 @@ defineFeature(feature, test => {
     let password;
 
     given('An unregistered user with non number password', async () => {
-      username = "prueba"
-      password = "prueba1213j"
+      username = "prueba123"
+      password = "Pruebaaaaa$"
       await expect(page).toClick("a", { text:"Sign up" });
     });
 
@@ -146,7 +145,7 @@ defineFeature(feature, test => {
     });
 
     then('Alert about the weak password', async () => {
-      await expect(page).toMatchElement("div", { text: "Error: Password must contain at least one special character" });    });
+      await expect(page).toMatchElement("div", { text: "Error: Password must contain at least one number" });    });
   })
 
   afterAll(async () => {
