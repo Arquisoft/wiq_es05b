@@ -13,7 +13,7 @@ defineFeature(feature, test => {
       ? await puppeteer.launch()
       : await puppeteer.launch({ headless: true,slowMo:10 });
     page = await browser.newPage();
-    setDefaultOptions({ timeout: 300000 })
+    setDefaultOptions({ timeout: 120000 })
 
     await page
       .goto("http://localhost:3000/login", {
