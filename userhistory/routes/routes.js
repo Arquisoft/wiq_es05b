@@ -23,7 +23,7 @@ module.exports = (app, saveRepository) => {
 
     saveRepository
       .createSave(userId, category)
-      .then(result => res.json(result))
+      .then(result => res.status(201).json(result))
       .catch(error => res.status(500).json(error))
   })
 
@@ -136,4 +136,4 @@ module.exports = (app, saveRepository) => {
       })
       .catch(e => res.status(500).json(e))
   })
-}
+};

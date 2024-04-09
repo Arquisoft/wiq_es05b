@@ -8,9 +8,8 @@ const { ObjectId } = mongoose.Types;
 let mongoServer;
 let app;
 
-//test user
-const save = {
-    userId: '12345',
+let save = {
+    userId: '012345678901234567890123',
     category: 'Capitals',
 };
 
@@ -31,19 +30,59 @@ beforeAll(async () => {
     //Load database with initial conditions
     await addSave(save);
 });
-  
+
 afterAll(async () => {
     app.close();
     await mongoServer.stop();
+});
+
+beforeEach(async () => {
+    save = {
+        userId: '012345678901234567890123',
+        category: 'Capitals',
+    };
 });
 
 describe('[History Service] - /create', () => {
 
     it('Should return 201 when created', async () => {
       const response = await request(app).post('/create').send(save);
-  
+
       expect(response.status).toBe(201);
       expect(response.body).toHaveProperty('id');
     });
 
+    it('Should return 400 when missing userId', async () => {
+        save.userId = null
+        const response = await request(app).post('/create').send(save);
+
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe("Missing userId")
+    });
+
+    it('Should return 400 when missing category', async () => {
+        save.category = null
+        const response = await request(app).post('/create').send(save);
+
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe("Missing category")
+    });
+
+    it('Should return 400 when category is empty', async () => {
+        save.category = " "
+        const response = await request(app).post('/create').send(save);
+
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe("Category cannot be empty")
+    });
+
+    /** TODO: fix after asking about isValidObjectId
+    it('Should return 400 when userId is invalid', async () => {
+        save.userId = 1234
+        const response = await request(app).post('/create').send(save);
+
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe("Invalid userId format")
+    });
+    */
 });

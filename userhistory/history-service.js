@@ -15,7 +15,7 @@ app.use(express.json())
 
 require('./routes/routes')(app, saveRepository);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`History listening on port ${port}`);
 });
 
@@ -29,3 +29,5 @@ cron.schedule('0 0 0 * * *', () => { // * second * minute * hour * date * month 
     scheduled: true,
     timezone: "Europe/Madrid"
 });
+
+module.exports = server
