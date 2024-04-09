@@ -7,6 +7,6 @@
         "auth": "cd users/authservice && npm start",
         "user": "cd users/userservice && npm start",
         "think": "cd jordi/jordi-think && npm start",
-        "ask": "cd jordi/jordi-ask && npm start",
+        "ask": "cd jordi/jordi-ask && npm start"
     }
 }
