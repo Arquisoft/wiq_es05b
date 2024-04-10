@@ -19,12 +19,12 @@ jobs:
     - run: npm --prefix userhistory ci
     - run: npm --prefix gatewayservice ci
     - run: npm --prefix webapp ci
-    # TODO - Re-enable when we have tests
     - run: npm --prefix users/authservice test -- --coverage
     - run: npm --prefix users/userservice test -- --coverage
     - run: npm --prefix userhistory test -- --coverage
-    #- run: npm --prefix gatewayservice test -- --coverage
+    - run: npm --prefix gatewayservice test -- --coverage
     - run: npm --prefix webapp test -- --coverage
+
     - name: Analyze with SonarCloud
       uses: sonarsource/sonarcloud-github-action@master
       env:
