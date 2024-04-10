@@ -13,7 +13,7 @@ jest.mock('axios');
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   process.env.MONGODB_URI = mongoServer.getUri();
-  app = require('./jordi-service');
+  
 });
 
 afterAll(async () => {
@@ -69,6 +69,7 @@ const getQuestions = () => {
 	return questions;
 }
 
+
 describe("[Jordi Service] - /categories", () => {
   it("Should return 200 and an array of categories", async () => {
 
@@ -76,7 +77,10 @@ describe("[Jordi Service] - /categories", () => {
 
 	const mock = new MockAdapter(axios);
 
-	mock.onGet("https://query.wikidata.org/sparql?query=%0A%20%20%20%20%20%20%20%20SELECT%20DISTINCT%20%3Fquestion%20%3Fanswer%0A%20%20%20%20%20%20%20%20WHERE%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%3Fentity%20wdt%3AP31%20wd%3AQ6256%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20wdt%3AP36%20%3Furl%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20rdfs%3Alabel%20%3Fquestion.%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Furl%20rdfs%3Alabel%20%3Fanswer.%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20FILTER(LANG(%3Fquestion)%20%3D%20'en')%20FILTER(LANG(%3Fanswer)%20%3D%20'en')%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20&format=json").reply(500, { error: "Internal Server Error" });
+  axios.get.mockImplementation(() => Promise.resolve({ data: "pepe"}));
+
+
+  app = require('./jordi-service');
 
     const response = await request(app).get('/categories')
     expect(response.status).toBe(200)
