@@ -55,7 +55,6 @@ class WikidataGenerator {
 
         try {
             const response = await axios.get(url);
-            console.log(response);
             const data = response.data;
             if (data.results.bindings.length > 0) {
                 
