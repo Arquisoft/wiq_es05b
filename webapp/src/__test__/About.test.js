@@ -8,7 +8,7 @@ import {MemoryRouter} from "react-router";
 
 const mockAxios = new MockAdapter(axios);
 
-describe("Home component", () => {
+describe("About component", () => {
     beforeEach(() => {
         mockAxios.reset();
     });
