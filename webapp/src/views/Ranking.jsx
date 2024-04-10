@@ -1,9 +1,16 @@
-import { Avatar, Container, Paper, Typography, Table, TableContainer, TableHead, TableBody, TableRow, TableCell } from "@mui/material";
+import { TextField, Autocomplete, Avatar, Container, Paper, Typography, Table, TableContainer, TableHead, TableBody, TableRow, TableCell } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import grave from "../media/graveRanking.svg";
 import Loader from "./components/Loader";
 import ServiceDownMessage from "./components/ServiceDownMessage";
+
+const baseFilters = [
+  { filter: "totalPoints", displayed: "Points" },
+  { filter: "totalTime", displayed: "Time" },
+  { filter: "category", displayed: "Category" },
+  { filter: "correct", displayed: "Correct ratio" },
+]
 
 const rowGenerator = (score, i) => {
   return (
@@ -50,19 +57,31 @@ const RankingList = ({ scores, error }) => {
   );
 };
 
+const fetchRanking = async (order) => {
+  console.log(`/ranking/10?order=${order}`)
+  try {
+    const response = await axios.get(`/ranking/10?order=${order}`)
+    return response.data;
+  } catch (error) {
+    return error.response;
+  }
+}
+
 export default function Ranking() {
   const [scores, setScores] = useState();
   const [init, setInit] = useState(false); //To prevent error message from showing while fetching
   const [error, setError] = useState();
+  const [filter, setFilter] = useState(baseFilters[0].filter);
 
   // Fetch the top 10 users at first render
-  useEffect(() => {
-    axios.get(`/ranking/10`)
-      .then((response) => setScores(response.data))
-      .catch((error) => setError({message: error.response.data.message, status: error.response.status}))
-      .finally(() => setInit(true));
 
-  }, []);
+  useEffect(() => {
+    setInit(false);
+    fetchRanking(filter)
+      .then((response) => setScores(response))
+      .catch((error) => setError({message: error.data.message, status: error.status}))
+      .finally(() => setInit(true));
+  }, [filter]);
   
   return (
     <Container style={{ paddingTop: "2rem" }}>
@@ -73,7 +92,21 @@ export default function Ranking() {
         <Typography variant="h4" component="h1" align="center" gutterBottom>
           Global Ranking
         </Typography>
-        { !init ? <Loader /> : <RankingList scores={scores} error={error} /> }
+        { !init ? <Loader /> : (
+          <Container sx={{display: "flex", flexFlow: "column", gap: "1rem"}}>
+            <Autocomplete
+              disablePortal
+              options={baseFilters}
+              getOptionLabel={(option) => option.displayed}
+              sx={{ width: 200, alignSelf: "flex-end"}}
+              onChange={(_, selected) => {
+                setFilter(selected ? selected.filter : '');
+              }}
+              renderInput={(params) => <TextField {...params} label="Filter" />}
+            />
+            <RankingList scores={scores} error={error} />
+          </ Container>
+        ) }
       </Paper>
     </Container>
   );

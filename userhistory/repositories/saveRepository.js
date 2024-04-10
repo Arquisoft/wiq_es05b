@@ -130,9 +130,11 @@ module.exports = {
             correct: { $divide: ["$totalCorrect", "$totalQuestions"] },
           },
         },
+        // FIXME: Always sort by totalPoints
         { $sort: { [order || "totalPoints"]: -1 } },
         { $limit: Number(n) },
       ]);
+
       return result;
     } catch (e) {
       throw e.message;
