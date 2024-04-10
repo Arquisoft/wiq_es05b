@@ -51,7 +51,7 @@ class WikidataGenerator {
 
     async generate() {
 
-        const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(this.sparqlquery)}&format=json#UwU Txoka Was Here`;
+        const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(this.sparqlquery)}&format=json`; // UwU Txoka Was Here
 
         try {
             const response = await axios.get(url);
