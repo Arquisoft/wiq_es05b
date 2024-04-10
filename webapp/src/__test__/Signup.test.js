@@ -154,20 +154,92 @@ describe('Signup component', () => {
     axios.post.mockRejectedValue({
       response: {
         status: 401,
-        data: { error: 'Password must contain at least one special character' }
+        data: { error: 'Password must contain at least one number' }
       }
     });
 
     // Simulate user input
     fireEvent.change(usernameInput, { target: { value: 'testUser' } });
-    fireEvent.change(passwordInput, { target: { value: 'testPassword123' } });
+    fireEvent.change(passwordInput, { target: { value: 'testPassword%' } });
 
     // Trigger the login button click
     fireEvent.click(signUpButton);
 
     // Wait for the error Snackbar to be open
     await waitFor(() => {
-      expect(screen.getByText(/Error: Password must contain at least one special character/i)).toBeInTheDocument();
+      expect(screen.getByText(/Error: Password must contain at least one number/i)).toBeInTheDocument();
+    });
+
+    waitFor(() => {
+      expect(history.location.pathname).toBe("/signup");
+    })
+  });
+
+  it('should handle error when sign in (length)', async () => {
+    await act(() => render(
+        <AuthContext.Provider value={mockAuth}>
+          <MemoryRouter><Signup /></MemoryRouter>
+        </AuthContext.Provider>
+    ));
+
+    const usernameInput = screen.getByLabelText(/Username/i);
+    const passwordInput = screen.getByLabelText(/Password/i);
+    const signUpButton = screen.getByRole('button');
+
+    // Mock the axios.post request to simulate an error response
+    axios.post.mockRejectedValue({
+      response: {
+        status: 401,
+        data: { error: 'Password must be at least 8 characters long' }
+      }
+    });
+
+    // Simulate user input
+    fireEvent.change(usernameInput, { target: { value: 'testUser' } });
+    fireEvent.change(passwordInput, { target: { value: 'tes' } });
+
+    // Trigger the login button click
+    fireEvent.click(signUpButton);
+
+    // Wait for the error Snackbar to be open
+    await waitFor(() => {
+      expect(screen.getByText(/Error: Password must be at least 8 characters long/i)).toBeInTheDocument();
+    });
+
+    waitFor(() => {
+      expect(history.location.pathname).toBe("/signup");
+    })
+  });
+
+  it('should handle error when sign in (repeated user)', async () => {
+    await act(() => render(
+        <AuthContext.Provider value={mockAuth}>
+          <MemoryRouter><Signup /></MemoryRouter>
+        </AuthContext.Provider>
+    ));
+
+    const usernameInput = screen.getByLabelText(/Username/i);
+    const passwordInput = screen.getByLabelText(/Password/i);
+    const signUpButton = screen.getByRole('button');
+
+    // Mock the axios.post request to simulate an error response
+    axios.post.mockRejectedValue({
+      response: {
+        status: 401,
+        data: { error: 'Username already exists' }
+      }
+    });
+
+    // Simulate user input
+    fireEvent.change(usernameInput, { target: { value: 'testUser' } });
+    fireEvent.change(passwordInput, { target: { value: 'testPassword123$' } });
+
+    // Trigger the login button click
+    fireEvent.click(signUpButton);
+
+    // Wait for the error Snackbar to be open
+    await waitFor(() => {
+      expect(screen.getByText(/Error: Username already exists/i)).toBeInTheDocument();
     });
 
     waitFor(() => {
