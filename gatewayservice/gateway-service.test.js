@@ -205,13 +205,32 @@ describe('[Gateway Service] - /game/answer', () => {
             // Get user from users service
             axios.get.mockResolvedValueOnce({data: {username: "Berengario"}});
 
-            const res = await request(app) .get('/user/mockedUserId');
+            const res = await request(app).get('/user/mockedUserId');
 
             console.log(res.body);
 
             expect(res.status).toBe(200);
             expect(res.body).toHaveProperty("username", 'Berengario');
         });
-    });
+    })
+
+    /* History service tests */
+
+    describe('[Gateway Service] - /history/get/:userId', () => {
+        it('should return 200 and the history for the user', async () => {
+
+            //Auth middleware request
+            axios.get.mockResolvedValueOnce({data: {valid: true, data: {userId: "mockedUserId"}}})
+            // Get user from users service
+            axios.get.mockResolvedValueOnce({status: 200, data: {history: 'mockHistory'}});
+
+            const res = await request(app).get('/history/get/mockedUserId');
+
+            console.log(res.body);
+
+            expect(res.status).toBe(200);
+            expect(res.body).toHaveProperty("history", 'mockHistory');
+        });
+    })
 
 });
