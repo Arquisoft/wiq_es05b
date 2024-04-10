@@ -53,35 +53,30 @@ class WikidataGenerator {
 
         const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(this.sparqlquery)}&format=json`;
 
-        try {
-            const response = await axios.get(url);
-            console.log(response);
-            const data = response.data;
-            if (data.results.bindings.length > 0) {
-                
-                const questions = [];
+        const response = await axios.get(url);
+        const data = response.data;
+        if (data.results.bindings.length > 0) {
+            
+            const questions = [];
 
-                data.results.bindings.forEach(q => {
-    
-                    const questionParam = q.question.value;
-                    const answer = q.answer.value;
+            data.results.bindings.forEach(q => {
 
-                    questions.push(new Question({
-                        groupId: this.groupId,
-                        categories: this.categories,
-                        statements: this.fillStatements(questionParam),
-                        answer: answer
-                    }));
+                const questionParam = q.question.value;
+                const answer = q.answer.value;
 
-                });
+                questions.push(new Question({
+                    groupId: this.groupId,
+                    categories: this.categories,
+                    statements: this.fillStatements(questionParam),
+                    answer: answer
+                }));
 
-                return questions;
+            });
 
-            } else {
-                throw new Error("No Data found")
-            }
-        } catch (error) {
-            throw error;
+            return questions;
+
+        } else {
+            throw new Error("No Data found")
         }
 
     }
