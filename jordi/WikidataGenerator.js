@@ -51,18 +51,19 @@ class WikidataGenerator {
 
     async generate() {
 
-        const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(this.sparqlquery)}&format=json`;
+        const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(this.sparqlquery)}&format=json#UwU Txoka Was Here`;
 
-        const response = await axios.get(url);
-        const data = response.data;
-        if (data.results.bindings.length > 0) {
+        try {
+            const response = await axios.get(url);
+            const data = response.data;
+            if (0 < data.results.bindings.length) {
+                
+                const questions = [];
 
-            const questions = [];
-
-            data.results.bindings.forEach(q => {
-
-                const questionParam = q.question.value;
-                const answer = q.answer.value;
+                data.results.bindings.forEach(q => {
+    
+                    const questionParam = q.question.value;
+                    const answer = q.answer.value;
 
                 questions.push(new Question({
                     groupId: this.groupId,
