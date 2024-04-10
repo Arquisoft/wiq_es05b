@@ -5,17 +5,15 @@ module.exports = {
   init: function (mongoose, uri) {
     this.mongoose = mongoose;
     this.uri = uri;
-
-    //Insert sample data
-    if(process.env.DEV === "true") {
-      console.log("Inserting sample data");
-      this.insertSampleData();
+  },
+  checkUp: async function () {
+    if (this.mongoose.connection.readyState != 1) {
+      await this.mongoose.connect(this.uri);
     }
-
   },
   insertUser: async function (username, password) {
     try {
-      await this.mongoose.connect(this.uri);
+      this.checkUp()
       const user = new this.User({
         username: username,
         password: password,
@@ -24,8 +22,6 @@ module.exports = {
       return { message: "User created successfully" };
     } catch (error) {
       throw error.message;
-    } finally {
-      this.mongoose.connection && await this.mongoose.connection.close()
     }
   },
   getUser: async function (filter) {
@@ -33,17 +29,11 @@ module.exports = {
       filter._id = new this.mongoose.Types.ObjectId(filter._id);
     }
     try {
-      await this.mongoose.connect(this.uri);
-      let result = await this
-        .mongoose
-        .connection
-        .collection("users")
-        .findOne(filter)
+      this.checkUp()
+      let result = await this.mongoose.connection.collection("users").findOne(filter)
       return result;
     } catch (error) {
       throw error.message;
-    } finally {
-      this.mongoose.connection && await this.mongoose.connection.close();
     }
   },
   checkValidId: function (id) {

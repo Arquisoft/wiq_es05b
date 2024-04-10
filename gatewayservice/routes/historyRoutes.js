@@ -66,7 +66,6 @@ module.exports = (app, axios, errorHandler, authMiddleware) => {
             return record
           } catch (error) { throw(error) }
         }))
-        console.log(response.data)
         res.status(response.status).json(response.data)
       })
       .catch(error => errorHandler(error, res, "An error occured while fetching the ranking"))
