@@ -1,12 +1,27 @@
 {
     "scripts": {
-        "mongo":  "docker run -d -p 27017:27017 --name=my-mongo mongo:latest",
+        "mongo": "docker run -d -p 27017:27017 --name=my-mongo mongo:latest",
         "postgres": "docker run -d --name my_postgres -e POSTGRES_PASSWORD=jordishhh -p 5432:5432 postgres:latest",
         "webapp": "cd webapp && npm start",
         "gateway": "cd gatewayservice && npm start",
         "auth": "cd users/authservice && npm start",
         "user": "cd users/userservice && npm start",
         "think": "cd jordi/jordi-think && npm start",
-        "ask": "cd jordi/jordi-ask && npm start"
+        "ask": "cd jordi/jordi-ask && npm start",
+        "ranking": "cd ranking && npm start"
+    },
+    "dependencies": {
+        "axios": "^1.6.8",
+        "bcrypt": "^5.1.1",
+        "es6": "^0.0.7",
+        "express": "^4.19.2",
+        "mongodb-memory-server": "^9.1.8",
+        "mongoose": "^8.3.0",
+        "node-cron": "^3.0.3",
+        "supertest": "^6.3.4"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0",
+        "typescript": "^5.4.3"
     }
 }

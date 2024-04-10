@@ -22,9 +22,9 @@ module.exports = (app, saveRepository) => {
 
     saveRepository
       .createSave(userId, category)
-      .then((result) => res.json(result))
-      .catch((error) => res.status(500).json(error));
-  });
+      .then(result => res.status(201).json(result))
+      .catch(error => res.status(500).json(error))
+  })
 
   // TODO - Add error mapping
   // TODO - Gateway should check if the user is owner of the save
@@ -93,7 +93,7 @@ module.exports = (app, saveRepository) => {
   });
 
   // TODO - Add error mapping
-  app.get("/get/:userId/", (req, res) => {
+  app.get("/get/:userId", (req, res) => {
     const { userId } = req.params;
     if (!saveRepository.isValidObjectId(userId)) {
       res.status(400).json({ error: "Invalid userId format" });

@@ -31,4 +31,10 @@ cron.schedule('0 0 0 * * *', () => { // * second * minute * hour * date * month 
     timezone: "Europe/Madrid"
 });
 
-server.on('close', () => mongoose.connection.close());
+server.on('close', () => {
+    mongoose.connection.close()
+    cron.getTasks().forEach(task => task.stop())
+});
+
+
+module.exports = server

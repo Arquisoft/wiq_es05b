@@ -41,9 +41,9 @@ const ContactCard = ({mails}) => {
             <Typography variant="body1" paragraph>
                 You can reach us via the following channels:
             </Typography>
-            {mails.map(mail => {
+            {mails.map((mail, i) => {
                 return (
-                    <Typography variant="body1" paragraph>
+                    <Typography key={`mail${i}`} variant="body1" paragraph>
                         Mailing Info: <Link href={`mailto:${mail}`}>{mail}</Link>
                     </Typography>
                 )
