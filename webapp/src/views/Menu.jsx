@@ -1,11 +1,12 @@
 import { Button, Container, Paper, TextField, Typography } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import grave from "../media/graveJordi.svg";
 import Loader from "./components/Loader";
 import ProtectedComponent from "./components/ProtectedComponent";
 import ServiceDownMessage from "./components/ServiceDownMessage";
+import {AuthContext} from "./context/AuthContext";
 
 const buttonConfig = {
   width: "9rem",
@@ -59,20 +60,22 @@ const Buttons = ({ categories }) => {
 };
 
 export default function GameMenu() {
+  const { getUser, isAuthenticated } = useContext(AuthContext)
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get(`/categories`)
+    if(!isAuthenticated()) return;
+    axios.get(`/game/categories`, { headers: { Authorization: `Bearer ${getUser().token}` } })
       .then((response) => {
         if (response) setCategories(response.data);
       })
       .catch((error) => setError({ code: error.response.status, message: error.response.data.error }));
+      //eslint-disable-next-line
   }, []);
 
   return (
-    <>
-      <ProtectedComponent />
+    <ProtectedComponent>
       <Container
         component="main"
         maxWidth="md"
@@ -96,6 +99,6 @@ export default function GameMenu() {
           }
         </Paper>
       </Container>
-    </>
+    </ProtectedComponent>
   );
 }

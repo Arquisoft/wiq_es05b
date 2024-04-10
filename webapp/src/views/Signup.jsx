@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Navigate } from "react-router-dom";
-import { AuthContext } from '../views/context/AuthContext';
+import { AuthContext } from './context/AuthContext';
 import CustomForm from "./components/CustomForm"
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
@@ -28,7 +28,7 @@ export default function Signup() {
             navigate("/login");
             return
           }
-          setUser({ token: data.token, username: data.username });
+          setUser({ ...data });
           navigate("/home");
         })
         .catch(error => {

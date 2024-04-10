@@ -31,7 +31,7 @@ module.exports = function (app, userRepository) {
     userRepository.findUserByUsername(username)
       .then(async result => {
         if (result && await bcrypt.compare(password, result.password)) {
-          const token = jwt.sign({ userId: result._id }, JWT_SECRET, { expiresIn: '1h' });
+          const token = jwt.sign({ userId: result._id }, JWT_SECRET, { expiresIn: '4h' });
           res.json({ token, username, userId: result._id});
         } else {
           res.status(401).json({ error: 'Invalid credentials' });

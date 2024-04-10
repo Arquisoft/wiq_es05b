@@ -138,8 +138,7 @@ const HistoryPanel = () => {
 
 export default function Account() {
   return (
-    <>
-      <ProtectedComponent />
+    <ProtectedComponent>
       <Container
         component="main"
         sx={{
@@ -151,6 +150,6 @@ export default function Account() {
         <AccountPanel />
         <HistoryPanel />
       </Container>
-    </>
+    </ProtectedComponent>
   )
 }

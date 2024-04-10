@@ -29,6 +29,9 @@ components:
           items:
             type: string
             example: 'Option 1'
+        answer:
+          type: string
+          example: 'Option 1'
 paths:
   /categories:
     get:
@@ -109,68 +112,21 @@ paths:
                   error:
                     type: string
                     example: 'Service Unavailable'
-  # TODO - /answer should be GET rather than POST
-  /answer:
-    post:
-      summary: Get the answer of a question
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-                  example: '5f9b3b3b7b3b7b3b7b3b7b3b'
+  /question/{id}:
+    get:
+      summary: Get a question by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '5f9b3b3b7b3b7b3b7b3b7b3b'
       responses:
+#        TODO - Add error mapping
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  answer:
-                    type: string
-                    example: 'Option 1'
-        '400':
-          description: 'Bad Request'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: 'No id provided'
-        '404':
-          description: 'Not found'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: 'Question not found'
-        '500':
-          description: 'Internal Server Error'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: 'An error occurred'
-        '503':
-          description: 'Service Unavailable'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: 'Service Unavailable'
+                $ref: '#/components/schemas/Question'

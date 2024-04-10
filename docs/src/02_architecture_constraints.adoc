@@ -15,14 +15,18 @@ Therefore, we have chosen to adhere to them
 | Constraint | Explanation
 
 |*_Docker_*
-| The app will be running in a Docker Host.
+| The app will be running in a Docker Host due to
+its outstanding interoperability, robust security mechanisms, and its effectiveness in deploying applications
 
 |*_Wikidata_*
-| This project will be using wikidata API to retrieve the source of the game questions.
+| This project will be using wikidata to retrieve the source of the game questions
 
-|*_GitHub_*
-| Remote repository service to develop the app in sync, allows us to communicate efficiently, manage version control and
-allocate tasks appropriately among team members.
+|*_React_*
+| A JavaScript framework used for constructing visual interfaces.
+
+|*_Git/GitHub_*
+| Our development process will leverage Git for version control and GitHub as a remote repository. This combination empowers us to:
+collaborate effectively, maintain a clean codebase and assign tasks
 
 |===
 
@@ -37,6 +41,7 @@ allocate tasks appropriately among team members.
 |*_Time_*
 | Deadline at the end of the semester,
 the time is divided among two hours per week of in-class work, multiple meetings with team members, and individual self-work.
+Additionally, we will have three deliverables throughout the course, with weekly feedback from the instructor.
 
 |*_Testing_*
 | Various scenarios will be explored to assess the application's functionality accurately. Diverse testing techniques
@@ -55,13 +60,11 @@ in developing a real-world application.
 
 |*_Clean Code_*
 |The code composing the application must prioritize clarity and cleanliness, facilitating comprehension and ease of
-maintenance in the long term
+maintenance in the long term. We adhere to camelCase for JavaScript and PascalCase for React, ensuring clear and
+descriptive names while steering clear of confusing prefixes.
 
 |*_Arc42_*
 |The project utilizes https://arc42.org/[Arc42] for documentation purposes.
-
-|*_Accessibility_*
-|The application should be designed for easy navigation by any user, ensuring accessibility for individuals with disabilities.
 
 |*_Usability_*
 |We need to adhere to the conventions of the programming languages we're using, including https://jsdoc.app/[JavaScript]

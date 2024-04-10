@@ -1,4 +1,3 @@
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cron = require('node-cron');
@@ -12,9 +11,11 @@ const port = 8003;
 
 const questionsRepository = require('./repositories/questionRepository');
 
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27018/questions';
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/questions';
 const generateOnStartup = process.env.GENERATE_ON_STARTUP || true;
 const schedule = process.env.SCHEDULE || "* * * 1 * *";
+
+mongoose.connect(mongoUri);
 
 questionsRepository.init(mongoose, mongoUri);
 
@@ -24,65 +25,63 @@ app.use(express.json());
 require("./routes/routes")(app, questionsRepository);
 
 // Run the server
-app.listen(port, function () {
-    console.log('Jordi listening on port ' + port);
-    console.log('Press [Ctrl+C] to quit.');
+const server = app.listen(port, function () {
+  console.log('Jordi listening on port ' + port);
+  console.log('Press [Ctrl+C] to quit.');
 });
 
 async function script() {
-    
-    try {
 
-        await mongoose.connect(mongoUri);
+  try {
+    console.log("\nMongoDB: Generating Questions...")
+    for (let count = 0; count < generators.length; count++) {
+      const generator = generators[count];
+      const questions = await generateQuestions(count);
 
-        console.log("\nMongoDB: Generating Questions...")
+      if (questions.length === 0)
+        throw new Error("Wikidata API error: No questions generated.");
 
-        for (let count = 0; count < generators.length; count++) {
-            
-            const generator = generators[count];
-            const questions = await generateQuestions(count);
+      await mongoose.connection.collection("questions").deleteMany({groupId: generator.groupId});
 
-            if (questions.length == 0)
-                throw new Error("Wikidata API error: No questions generated.");
-            
-            await mongoose.connection.collection("questions").deleteMany({ groupId: generator.groupId });
+      await mongoose.connection.collection("questions").insertMany(questions);
 
-            await mongoose.connection.collection("questions").insertMany(questions);
-            
-            // Output
-            
-            // for (const question of questions) {
-            //     console.log(question.statement);
-            // }
-            // console.log("Questions generated " + questions.length);
+      // Output
 
-            console.log(`MongoDB: Questions updated for group -> ${generator.groupId}`);
+      // for (const question of questions) {
+      //     console.log(question.statement);
+      // }
+      // console.log("Questions generated " + questions.length);
 
-        }
-    } catch (error) {
-        console.error("Error:", error);
-    } finally {
-        await mongoose.disconnect();
+      console.log(`MongoDB: Questions updated for group -> ${generator.groupId}`);
+
     }
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
 
 async function generateQuestions(count) {
-    const result = [];
-    result.push( ... await generators[count].generate());
-    return result;
+  const result = [];
+  result.push(...await generators[count].generate());
+  return result;
 }
 
 if (generateOnStartup)
-    script();
+  script();
 
 // * second * minute * hour * date * month * year
 cron.schedule(schedule, () => {
-    console.log("Running script at : " + new Date());
-    script();
+  console.log("Running script at : " + new Date());
+  script();
 
 }, {
-    scheduled: true,
-    timezone: "Europe/Madrid"
+  scheduled: true,
+  timezone: "Europe/Madrid"
 });
 
 
+server.on('close', () => {
+  cron.getTasks().forEach(task => task.stop());
+  mongoose.connection.close()
+});
+module.exports = server

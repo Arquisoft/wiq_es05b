@@ -13,7 +13,6 @@ import Error from "./views/Error";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Particles from "./views/components/Particles";
 import React, { useState, useEffect } from "react";
-import Endgame from "./views/Endgame";
 import axios from "axios";
 
 import configDefault from "./views/components/config/particles-config.json";
@@ -124,7 +123,6 @@ export default function App() {
           <Route path="/ranking" element={<Ranking />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/game/:category" element={<Game />} />
-          <Route path="/endgame/" element={<Endgame />} />
           <Route path="/account" element={<Account />} />
           <Route path="*" element={<Error />} />
         </Routes>
