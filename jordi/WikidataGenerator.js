@@ -65,22 +65,19 @@ class WikidataGenerator {
                     const questionParam = q.question.value;
                     const answer = q.answer.value;
 
-                    questions.push(new Question({
-                        groupId: this.groupId,
-                        categories: this.categories,
-                        statements: this.fillStatements(questionParam),
-                        answer: answer
-                    }));
+                questions.push(new Question({
+                    groupId: this.groupId,
+                    categories: this.categories,
+                    statements: this.fillStatements(questionParam),
+                    answer: answer
+                }));
 
-                });
+            });
 
-                return questions;
+            return questions;
 
-            } else {
-                throw new Error("No Data found")
-            }
-        } catch (error) {
-            throw new Error(error);
+        } else {
+            throw new Error("No Data found")
         }
 
     }

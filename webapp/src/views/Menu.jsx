@@ -26,7 +26,7 @@ const categorySearch = {
 }
 
 const MyButton = ({ text, link }) => (
-  <Button variant="contained" sx={buttonConfig} component={Link} to={link}>
+  <Button variant="contained" sx={buttonConfig} component={Link} to={link} role="button">
     {text}
   </Button>
 );

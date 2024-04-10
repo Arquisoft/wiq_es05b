@@ -36,7 +36,14 @@ async function script() {
     console.log("\nMongoDB: Generating Questions...")
     for (let count = 0; count < generators.length; count++) {
       const generator = generators[count];
-      const questions = await generateQuestions(count);
+
+      let questions = null;
+      try {
+        questions = await generateQuestions(count);
+      } catch (error) {
+        continue;
+      }
+
 
       if (questions.length === 0)
         throw new Error("Wikidata API error: No questions generated.");

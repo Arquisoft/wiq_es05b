@@ -58,7 +58,6 @@ const RankingList = ({ scores, error }) => {
 };
 
 const fetchRanking = async (order) => {
-  console.log(`/ranking/10?order=${order}`)
   try {
     const response = await axios.get(`/ranking/10?order=${order}`)
     return response.data;
