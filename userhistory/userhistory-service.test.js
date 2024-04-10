@@ -73,7 +73,7 @@ describe('[History Service] - /create', () => {
         const response = await request(app).post('/create').send(save);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing userId")
+        expect(response.body).toHaveProperty("error", "Missing userId")
     });
 
     it('Should return 400 when missing category', async () => {
@@ -81,7 +81,7 @@ describe('[History Service] - /create', () => {
         const response = await request(app).post('/create').send(save);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing category")
+        expect(response.body).toHaveProperty("error", "Missing category")
     });
 
     it('Should return 400 when category is empty', async () => {
@@ -89,7 +89,7 @@ describe('[History Service] - /create', () => {
         const response = await request(app).post('/create').send(save);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Category cannot be empty")
+        expect(response.body).toHaveProperty("error", "Category cannot be empty")
     });
 
     it('Should return 400 when userId is invalid', async () => {
@@ -97,7 +97,7 @@ describe('[History Service] - /create', () => {
         const response = await request(app).post('/create').send(save);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Invalid userId format")
+        expect(response.body).toHaveProperty("error", "Invalid userId format")
     });
 
 });
@@ -124,7 +124,7 @@ describe('[History Service] - /add/:id', () => {
         const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(200);
-        expect(response.body.message).toBe("Question added successfully");
+        expect(response.body).toHaveProperty("message", "Question added successfully");
     });
 
 
@@ -133,7 +133,7 @@ describe('[History Service] - /add/:id', () => {
         const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing last");
+        expect(response.body).toHaveProperty("error", "Missing last");
     });
 
     it('Should return 400 when missing statement', async () => {
@@ -141,7 +141,7 @@ describe('[History Service] - /add/:id', () => {
         const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing statement");
+        expect(response.body).toHaveProperty("error", "Missing statement");
     });
 
     it('Should return 400 when missing options', async () => {
@@ -149,7 +149,7 @@ describe('[History Service] - /add/:id', () => {
         const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing options");
+        expect(response.body).toHaveProperty("error", "Missing options");
     });
 
     it('Should return 400 when missing answer', async () => {
@@ -157,7 +157,7 @@ describe('[History Service] - /add/:id', () => {
         const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing answer");
+        expect(response.body).toHaveProperty("error", "Missing answer");
     });
 
     it('Should return 400 when missing correct', async () => {
@@ -165,7 +165,7 @@ describe('[History Service] - /add/:id', () => {
         const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing correct");
+        expect(response.body).toHaveProperty("error", "Missing correct");
     });
 
     it('Should return 400 when missing time', async () => {
@@ -173,7 +173,7 @@ describe('[History Service] - /add/:id', () => {
         const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing time");
+        expect(response.body).toHaveProperty("error", "Missing time");
     });
 
     it('Should return 400 when missing points', async () => {
@@ -181,14 +181,14 @@ describe('[History Service] - /add/:id', () => {
         const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing points");
+        expect(response.body).toHaveProperty("error", "Missing points");
     });
 
     it('Should return 400 when id is invalid', async () => {
         const response = await request(app).post(`/add/1234`).send(question);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Invalid id format");
+        expect(response.body).toHaveProperty("error", "Invalid id format");
     });
 
 });
@@ -219,7 +219,7 @@ describe('[History Service] - /get/:userId/', () => {
         console.log(response.body.error);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Invalid userId format");
+        expect(response.body).toHaveProperty("error", "Invalid userId format");
     });
 
 });
@@ -252,7 +252,7 @@ describe('[History Service] - /get/:userId/:id', () => {
         console.log(response.body.error);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Invalid id format");
+        expect(response.body).toBe("error", "Invalid id format");
     });
 
     it('Should return 404 when save not found', async () => {
@@ -262,7 +262,7 @@ describe('[History Service] - /get/:userId/:id', () => {
         console.log(response.body.error);
 
         expect(response.status).toBe(404);
-        expect(response.body.error).toBe("Save not found");
+        expect(response.body).toHaveProperty("error", "Save not found");
     });
 
     it('Should return 400 when invalid userId', async () => {
@@ -272,7 +272,7 @@ describe('[History Service] - /get/:userId/:id', () => {
         console.log(response.body.error);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Invalid userId format");
+        expect(response.body).toHaveProperty("error", "Invalid userId format");
     });
 
 });
@@ -283,6 +283,7 @@ describe('[History Service] - /ranking/:n', () => {
     it('Should return 200 when obtained', async () => {
         const response = await request(app).get(`/ranking/2`);
 
+        console.log(response.status);
         console.log(response.body);
 
         expect(response.status).toBe(200);
@@ -294,10 +295,8 @@ describe('[History Service] - /ranking/:n', () => {
     it('Should return 400 when invalid value for n', async () => {
         const response = await request(app).get(`/ranking/a`);
 
-        console.log(response.body);
-
         expect(response.status).toBe(400);
-        expect(response.body.message).toBe('Invalid value for n');
+        expect(response.body).toHaveProperty("error", 'Invalid value for n');
     });
 });
 */
