@@ -88,4 +88,7 @@ cron.schedule(schedule, () => {
 });
 
 
-server.on('close', () => mongoose.connection.close());
+server.on('close', () => {
+    cron.getTasks().forEach(task => task.stop());
+    mongoose.connection.close()
+});
