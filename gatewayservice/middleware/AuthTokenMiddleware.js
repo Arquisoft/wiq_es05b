@@ -1,5 +1,5 @@
 module.exports = (req, res, next) => {
-  const { userIdToken } = req.body
+  const { userIdToken } = req
   let userId
 
   if("userId" in req.params) {

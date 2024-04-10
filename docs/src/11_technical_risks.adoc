@@ -17,9 +17,17 @@ ifndef::imagesdir[:imagesdir: ../images]
 | 7
 | Ignorance of emerging technologies relevant to the project might result in missed opportunities for innovation and efficiency. Regular training sessions or workshops should be considered to keep the team updated on the latest industry trends.
 
-| Incomplete infrastructure planning
+| Use of ARM64 machine
 | 6
+| The use of an ARM64 machine for development and deployment may introduce compatibility issues with certain software libraries and tools that are primarily designed for x86 architecture. This could result in additional effort and time required to ensure compatibility and may limit the availability of certain features or optimizations. Thorough testing and evaluation of software dependencies on ARM64 architecture is necessary to mitigate potential risks.
+
+| Incomplete infrastructure planning
+| 5
 | A lack of comprehensive planning for the project's infrastructure can result in delayed implementation and increased costs. Ensuring a detailed infrastructure plan is in place, including hardware and software requirements, is vital for a smooth project start.
+
+| Unequal distribution of efforts across the team
+| 4
+| If team members are not assigned tasks and responsibilities properly, it can lead to an uneven distribution of efforts. This can result in delays, bottlenecks, and decreased productivity. Regular monitoring and effective communication are essential to ensure a balanced workload and maximize team efficiency.
 
 |===
 
@@ -30,12 +38,26 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 | Description | Priority | Considerations
 
-| Lack of documentation and coding standards
-| 5
-| Absence of clear standards at the beginning of the project can result in inconsistent and insufficient documentation. Establishing and enforcing documentation standards early on is crucial for knowledge transfer and future maintainability.
+| Lack of actual scalability
+| 8
+| While the project's microservices architecture is designed to be scalable, the current implementation may not be able to handle a significant increase in traffic. This could result in performance issues, downtime, and a poor user experience. Regular load testing and performance monitoring are essential to identify scalability issues and address them before they become critical.
 
-| Use of new tools
-| 3
-| Each developer should adapt to the use of new tools and paradigms which will decrease the production time and quality of the project. Quick adaptation capabilities of the team members should be key to put a fix on this debt.
+This is mainly because load balancing and auto-scaling are not implemented yet.
+
+| Not-so-robust error handling
+| 6
+| The project's error handling mechanisms may not be robust enough to handle unexpected errors and exceptions. This could result in crashes, data loss, and security vulnerabilities. Implementing comprehensive error handling and logging mechanisms is essential to ensure the project's stability and reliability.
+
+To mitigate this effect, we have implemented an automatic restart on every microservice, but it is not enough.
+
+| Code quality issues
+| 5
+| The project's codebase may contain quality issues such as code smells, duplication, and poor documentation. This can make the codebase difficult to maintain, extend, and debug. Regular code reviews, refactoring, and documentation updates are essential to ensure the project's code quality and maintainability.
+
+| Inadequate security measures
+| 4
+| The project's security measures may not be sufficient to protect against common threats such as, cross-site scripting, and DDoS attacks. Regular security audits and penetration testing are essential to identify vulnerabilities and ensure that the project's security measures are up to date.
+
+This would heavily impact the project's reputation and user trust, aswell as its availability.
 
 |===

@@ -5,11 +5,12 @@ const cron = require('node-cron');
 const app = express();
 const port = 8004;
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27019/history"
+const mongoUri = process.env.MONGODB_URI || "mongodb://localhost:27017/history"
 
 const saveRepository = require('./repositories/saveRepository');
+mongoose.connect(mongoUri);
 
-saveRepository.init(mongoose, MONGODB_URI);
+saveRepository.init(mongoose, mongoUri);
 
 app.use(express.json())
 
@@ -22,12 +23,15 @@ const server = app.listen(port, () => {
 cron.schedule('0 0 0 * * *', () => { // * second * minute * hour * date * month * year
     console.log(`[${new Date().toISOString()}] Cleaning stale unfinished saves`);
     saveRepository
-      .cleanStaleSaves()
-      .then(n => console.log(`[${new Date().toISOString()}] ${n} saves cleaned`))
-      .catch(() => {})
+    .cleanStaleSaves()
+    .then(n => console.log(`[${new Date().toISOString()}] ${n} saves cleaned`))
+    .catch(() => {})
 }, {
     scheduled: true,
     timezone: "Europe/Madrid"
 });
+
+server.on('close', () => mongoose.connection.close());
+
 
 module.exports = server

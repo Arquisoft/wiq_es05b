@@ -193,3 +193,29 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Save'
+  /ranking/{n}:
+    get:
+      summary: 'Gets the ranking of the top n users'
+      parameters:
+        - name: n
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 10
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    userId:
+                      type: string
+                      example: '507f1f77bcf86cd799439011'
+                    points:
+                      type: integer
+                      example: 10

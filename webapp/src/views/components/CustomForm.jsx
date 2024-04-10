@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Container, Typography, TextField, Button, Snackbar, Paper } from "@mui/material";
-
+import { Container, Typography, TextField, Button, Paper } from "@mui/material";
 import { Link } from "react-router-dom";
+import ErrorSnackBar from "./ErrorSnackBar";
 
 const introHandler = (event, submit) => {
   if (event.key === "Enter") submit();
@@ -45,12 +45,7 @@ const Form = ({ formData }) => {
         {formData.submitButtonTx || "Submit"}
       </Button>
       {error && (
-        <Snackbar
-          open={!!error}
-          autoHideDuration={6000}
-          onClose={() => setError("")}
-          message={`Error: ${error}`}
-        />
+        <ErrorSnackBar msg={error} setMsg={setError}/>
       )}
     </>
   );

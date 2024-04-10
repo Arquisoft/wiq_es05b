@@ -5,13 +5,17 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 The required quality goals are:
 
-- Privacy: Sensitive user information must be kept private at all times to prevent any third party from accessing it without consent.
-- Usability: The application must be intuitive to use, with a clear design and without distractions.
-This will facilitate the use of the application by any user without any effort.
 - Perfomance: Performance is critical in the application, especially in the game itself.
 This is intended to save the user long waiting times between questions, providing a fast and fluid experience.
 - Maintainability and Escalability:  The application must be well structured so that functionalities
 can be added or modified at any time in a simple and intuitive way, which will facilitate the work of the developers.
+- Scalability: The application should be able to handle a large number of concurrent users and scale horizontally as the user base grows.
+- Availability: The application should be highly available, with minimal downtime and the ability to recover quickly from failures.
+- Reliability: The application should be reliable, with minimal errors or failures, and provide consistent and accurate results to users.
+- Testability: The application should be designed in a way that allows for easy testing, both unit tests and integration tests, to ensure the correctness of the system.
+- Monitoring and Logging: The application should have proper monitoring and logging mechanisms in place to track performance, detect issues, and facilitate troubleshooting.
+- Resilience: The application should be able to recover from failures and continue to operate in a degraded state, without impacting the overall user experience.
+- Internationalization: The application should support multiple languages and cultural preferences to cater to a global user base.
 
 [role="arc42help"]
 ****

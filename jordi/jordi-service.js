@@ -12,9 +12,11 @@ const port = 8003;
 
 const questionsRepository = require('./repositories/questionRepository');
 
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27018/questions';
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/questions';
 const generateOnStartup = process.env.GENERATE_ON_STARTUP || true;
 const schedule = process.env.SCHEDULE || "* * * 1 * *";
+
+mongoose.connect(mongoUri);
 
 questionsRepository.init(mongoose, mongoUri);
 
@@ -24,7 +26,7 @@ app.use(express.json());
 require("./routes/routes")(app, questionsRepository);
 
 // Run the server
-app.listen(port, function () {
+const server = app.listen(port, function () {
     console.log('Jordi listening on port ' + port);
     console.log('Press [Ctrl+C] to quit.');
 });
@@ -86,3 +88,4 @@ cron.schedule(schedule, () => {
 });
 
 
+server.on('close', () => mongoose.connection.close());
