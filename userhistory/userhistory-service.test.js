@@ -7,13 +7,15 @@ const {ObjectId} = mongoose.Types;
 
 let mongoServer;
 let app;
+let saveId;
 
 let save = {
     userId: '123456789012345678901234',
     category: 'Capitals',
+    questions: []
 };
 
-let save2 = {
+let question = {
     userId: '123456789012345678901234',
     category: 'Capitals',
     last: false,
@@ -40,7 +42,7 @@ beforeAll(async () => {
     process.env.MONGODB_URI = mongoServer.getUri();
     app = require('./history-service');
     //Load database with initial conditions
-    await addSave(save);
+    saveId = await addSave(save);
 
 });
 
@@ -55,6 +57,7 @@ describe('[History Service] - /create', () => {
         save = {
             userId: '123456789012345678901234',
             category: 'Capitals',
+            questions: []
         };
     });
 
@@ -100,10 +103,9 @@ describe('[History Service] - /create', () => {
 });
 
 describe('[History Service] - /add/:id', () => {
-    let saveId
+
     beforeEach(async () => {
-        saveId = await addSave(save2);
-        save2 = {
+        question = {
             userId: '123456789012345678901234',
             category: 'Capitals',
             last: false,
@@ -119,7 +121,7 @@ describe('[History Service] - /add/:id', () => {
     });
 
     it('Should return 200 when added', async () => {
-        const response = await request(app).post(`/add/${saveId}`).send(save2);
+        const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("Question added successfully");
@@ -127,56 +129,56 @@ describe('[History Service] - /add/:id', () => {
 
 
     it('Should return 400 when missing last', async () => {
-        delete save2.last
-        const response = await request(app).post(`/add/${saveId}`).send(save2);
+        delete question.last
+        const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
         expect(response.body.error).toBe("Missing last");
     });
 
     it('Should return 400 when missing statement', async () => {
-        delete save2.statement
-        const response = await request(app).post(`/add/${saveId}`).send(save2);
+        delete question.statement
+        const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
         expect(response.body.error).toBe("Missing statement");
     });
 
     it('Should return 400 when missing options', async () => {
-        delete save2.options
-        const response = await request(app).post(`/add/${saveId}`).send(save2);
+        delete question.options
+        const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
         expect(response.body.error).toBe("Missing options");
     });
 
     it('Should return 400 when missing answer', async () => {
-        delete save2.answer
-        const response = await request(app).post(`/add/${saveId}`).send(save2);
+        delete question.answer
+        const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
         expect(response.body.error).toBe("Missing answer");
     });
 
     it('Should return 400 when missing correct', async () => {
-        delete save2.correct
-        const response = await request(app).post(`/add/${saveId}`).send(save2);
+        delete question.correct
+        const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
         expect(response.body.error).toBe("Missing correct");
     });
 
     it('Should return 400 when missing time', async () => {
-        delete save2.time
-        const response = await request(app).post(`/add/${saveId}`).send(save2);
+        delete question.time
+        const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
         expect(response.body.error).toBe("Missing time");
     });
 
     it('Should return 400 when missing points', async () => {
-        delete save2.points
-        const response = await request(app).post(`/add/${saveId}`).send(save2);
+        delete question.points
+        const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
         expect(response.body.error).toBe("Missing points");
@@ -184,7 +186,7 @@ describe('[History Service] - /add/:id', () => {
 
     it('Should return 400 when id is invalid', async () => {
         saveId = '1234'
-        const response = await request(app).post(`/add/${saveId}`).send(save2);
+        const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
         expect(response.body.error).toBe("Invalid id format");
@@ -198,25 +200,106 @@ describe('[History Service] - /get/:userId/', () => {
         save = {
             userId: '123456789012345678901234',
             category: 'Capitals',
-            last: false,
-            statement: "Question 1",
-            options: [
-                "Category 1"
-            ],
-            answer: 1,
-            correct: 0,
-            time: 10,
-            points: 10
+            questions: []
         };
     });
 
     it('Should return 200 when obtained', async () => {
         const response = await request(app).get(`/get/${save.userId}`);
 
-        console.log(response.body.error);
+        console.log(response.body);
 
         expect(response.status).toBe(200);
+        expect(response.body).toHaveProperty('saves');
+    });
+
+    it('Should return 400 when invalid userId', async () => {
+        save.userId = '1234'
+        const response = await request(app).get(`/get/${save.userId}`);
+
+        console.log(response.body.error);
+
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe("Invalid userId format");
     });
 
 });
+
+describe('[History Service] - /get/:userId/:id', () => {
+
+    beforeEach(async () => {
+        save = {
+            userId: '123456789012345678901234',
+            category: 'Capitals',
+            questions: []
+        };
+    });
+
+    it('Should return 200 when obtained', async () => {
+        const response = await request(app).get(`/get/${save.userId}/${saveId}`);
+
+        console.log(response.body);
+
+        expect(response.status).toBe(200);
+        expect(response.body).toHaveProperty('_id');
+        expect(response.body).toHaveProperty('userId', '123456789012345678901234');
+        expect(response.body).toHaveProperty('category', 'Capitals');
+    });
+
+
+    it('Should return 400 when invalid id', async () => {
+        const response = await request(app).get(`/get/${save.userId}/1234`);
+
+        console.log(response.body.error);
+
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe("Invalid id format");
+    });
+
+    it('Should return 404 when save not found', async () => {
+        save.userId = '234567890123456789012345'
+        const response = await request(app).get(`/get/${save.userId}/${saveId}`);
+
+        console.log(response.body.error);
+
+        expect(response.status).toBe(404);
+        expect(response.body.error).toBe("Save not found");
+    });
+
+    it('Should return 400 when invalid userId', async () => {
+        save.userId = '1234'
+        const response = await request(app).get(`/get/${save.userId}/${saveId}`);
+
+        console.log(response.body.error);
+
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe("Invalid userId format");
+    });
+
+});
+
+/**
+describe('[History Service] - /ranking/:n', () => {
+
+    it('Should return 200 when obtained', async () => {
+        const response = await request(app).get(`/ranking/2`);
+
+        console.log(response.body);
+
+        expect(response.status).toBe(200);
+        expect(response.body).toHaveProperty('userId');
+        expect(response.body).toHaveProperty('totalPoints');
+        expect(response.body).toHaveProperty('totalTime');
+    });
+
+    it('Should return 400 when invalid value for n', async () => {
+        const response = await request(app).get(`/ranking/a`);
+
+        console.log(response.body);
+
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe('Invalid value for n');
+    });
+});
+*/
 
