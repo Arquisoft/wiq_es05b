@@ -93,7 +93,7 @@ module.exports = (app, saveRepository) => {
   });
 
   // TODO - Add error mapping
-  app.get("/get/:userId/", (req, res) => {
+  app.get("/get/:userId", (req, res) => {
     const { userId } = req.params;
     if (!saveRepository.isValidObjectId(userId)) {
       res.status(400).json({ error: "Invalid userId format" });

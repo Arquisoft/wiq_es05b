@@ -134,7 +134,6 @@ module.exports = {
         { $sort: { [order || "totalPoints"]: -1 } },
         { $limit: Number(n) },
       ]);
-
       return result;
     } catch (e) {
       throw e.message;
