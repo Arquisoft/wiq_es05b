@@ -7,13 +7,13 @@ module.exports = {
     this.uri = uri;
   },
   checkUp: async function () {
-    if (this.mongoose.connection.readyState != 1) {
+    if (this.mongoose.connection.readyState !== 1) {
       await this.mongoose.connect(this.uri);
     }
   },
   insertUser: async function (username, password) {
     try {
-      this.checkUp()
+      await this.checkUp()
       const user = new this.User({
         username: username,
         password: password,
@@ -25,13 +25,10 @@ module.exports = {
     }
   },
   getUser: async function (filter) {
-    if ("_id" in filter) {
-      filter._id = new this.mongoose.Types.ObjectId(filter._id);
-    }
+    if ("_id" in filter) filter._id = new this.mongoose.Types.ObjectId(filter._id);
     try {
-      this.checkUp()
-      let result = await this.mongoose.connection.collection("users").findOne(filter)
-      return result;
+      await this.checkUp()
+      return await this.mongoose.connection.collection("users").findOne(filter)
     } catch (error) {
       throw error.message;
     }

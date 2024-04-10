@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 const dataMiddleware = require('./middleware/DataMiddleware')
 app.use("/adduser", dataMiddleware)
 
-userRepository.init(mongoose);
+userRepository.init(mongoose, mongoUri);
 require('./routes/routes')(app, userRepository)
 
 const server = app.listen(port, () => {
