@@ -55,6 +55,7 @@ class WikidataGenerator {
 
         try {
             const response = await axios.get(url);
+            console.log(response);
             const data = response.data;
             if (data.results.bindings.length > 0) {
                 
@@ -80,7 +81,7 @@ class WikidataGenerator {
                 throw new Error("No Data found")
             }
         } catch (error) {
-            throw new Error(error);
+            throw error;
         }
 
     }
