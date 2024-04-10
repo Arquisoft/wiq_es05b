@@ -185,8 +185,7 @@ describe('[History Service] - /add/:id', () => {
     });
 
     it('Should return 400 when id is invalid', async () => {
-        saveId = '1234'
-        const response = await request(app).post(`/add/${saveId}`).send(question);
+        const response = await request(app).post(`/add/1234`).send(question);
 
         expect(response.status).toBe(400);
         expect(response.body.error).toBe("Invalid id format");
