@@ -25,70 +25,72 @@ app.use(express.json());
 require("./routes/routes")(app, questionsRepository);
 
 // Run the server
+
 const server = app.listen(port, function () {
-  console.log('Jordi listening on port ' + port);
-  console.log('Press [Ctrl+C] to quit.');
+	console.log('Jordi listening on port ' + port);
+	console.log('Press [Ctrl+C] to quit.');
 });
+
+server.on('close', () => {
+	cron.getTasks().forEach(task => task.stop());
+	mongoose.connection.close()
+});
+module.exports = server;
+
+// Script to generate questions
 
 async function script() {
 
-  try {
-    console.log("\nMongoDB: Generating Questions...")
-    for (let count = 0; count < generators.length; count++) {
-      const generator = generators[count];
+	try {
 
-      let questions = null;
-      try {
-        questions = await generateQuestions(count);
-      } catch (error) {
-        continue;
-      }
+		for (let count = 0; count < generators.length; count++) {
+			const generator = generators[count];
+
+			let questions = null;
+			try {
+				questions = await generateQuestions(count);
+			} catch (error) {
+				continue;
+			}
 
 
-      if (questions.length === 0)
-        throw new Error("Wikidata API error: No questions generated.");
+			if (questions.length === 0)
+				throw new Error("Wikidata API error: No questions generated.");
 
-      await mongoose.connection.collection("questions").deleteMany({groupId: generator.groupId});
+			await mongoose.connection.collection("questions").deleteMany({ groupId: generator.groupId });
 
-      await mongoose.connection.collection("questions").insertMany(questions);
+			await mongoose.connection.collection("questions").insertMany(questions);
 
-      // Output
+			// Output
 
-      // for (const question of questions) {
-      //     console.log(question.statement);
-      // }
-      // console.log("Questions generated " + questions.length);
+			// for (const question of questions) {
+			//     console.log(question.statement);
+			// }
+			// console.log("Questions generated " + questions.length);
 
-      console.log(`MongoDB: Questions updated for group -> ${generator.groupId}`);
+			console.log(`MongoDB [${new Date().toLocaleString('en-GB') }]: Questions updated for group -> ${generator.groupId}`);
 
-    }
-  } catch (error) {
-    console.error("Error:", error);
-  }
+		}
+	} catch (error) {
+		console.error("Error:", error);
+	}
 }
 
 async function generateQuestions(count) {
-  const result = [];
-  result.push(...await generators[count].generate());
-  return result;
+	const result = [];
+	result.push(...await generators[count].generate());
+	return result;
 }
 
 if (generateOnStartup)
-  script();
+	script();
 
 // * second * minute * hour * date * month * year
 cron.schedule(schedule, () => {
-  console.log("Running script at : " + new Date());
-  script();
+	console.log("Running script at : " + new Date());
+	script();
 
 }, {
-  scheduled: true,
-  timezone: "Europe/Madrid"
+	scheduled: true,
+	timezone: "Europe/Madrid"
 });
-
-
-server.on('close', () => {
-  cron.getTasks().forEach(task => task.stop());
-  mongoose.connection.close()
-});
-module.exports = server
