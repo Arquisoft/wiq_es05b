@@ -76,8 +76,8 @@ describe('[Gateway Service] - /validate', () => {
 
 /* Jordi service tests */
 
-describe('[Gateway Service] - /categories', () => {
-    test('should return categories with valid token', async () => {
+describe('[Gateway Service] - /game/categories', () => {
+    it('should return categories with valid token', async () => {
 
         //Auth middleware request
         axios.get.mockResolvedValueOnce({data: {valid: true, data: {userId: "mockedUserId"}}})
@@ -89,5 +89,107 @@ describe('[Gateway Service] - /categories', () => {
 
         expect(res.status).toBe(200);
         expect(res.body).toEqual({categories: ['category1', 'category2']});
+    });
+});
+
+describe('[Gateway Service] - /game/questions/:category/:n', () => {
+    it('should return questions from jordi service', async () => {
+
+        //Auth middleware request
+        axios.get.mockResolvedValueOnce({data: {valid: true, data: {userId: "mockedUserId"}}})
+        axios.get.mockResolvedValueOnce({
+            status: 200,
+            data: [{question: 'question1', answer: 'a'}, {question: 'question2', answer: 'b'}]
+        });
+
+        const res = await request(app)
+            .get('/game/questions/categoryMock/2')
+            .send({token: 'validToken'});
+
+        expect(res.status).toBe(200);
+        expect(res.body).toEqual([{"question": "question1"}, {"question": "question2"}]);
+    });
+});
+
+describe('[Gateway Service] - /game/answer', () => {
+    it('should return 200 status with 100 points for a correct answer', async () => {
+
+        //Auth middleware request
+        axios.get.mockResolvedValueOnce({data: {valid: true, data: {userId: "mockedUserId"}}})
+        // Get question request
+        axios.get.mockResolvedValueOnce({data: {answer:'a'}});
+        // Save question in historic
+        axios.post.mockResolvedValueOnce({answer: 'a', points: '100'});
+
+        const reqBody = {
+            questionId: 'questionId',
+            last: 'last',
+            answer: 'a',
+            time: 'time',
+            saveId: 'saveId',
+            statement: 'statement',
+            options: ['a', 'b']
+        }
+
+        const res = await request(app)
+            .post('/game/answer')
+            .send(reqBody);
+
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("answer", 'a');
+        expect(res.body).toHaveProperty("points", 100);
+
+    });
+10
+    it('should return 200 status with -100 points for a wrong answer', async () => {
+
+        //Auth middleware request
+        axios.get.mockResolvedValueOnce({data: {valid: true, data: {userId: "mockedUserId"}}})
+        // Get question request
+        axios.get.mockResolvedValueOnce({data: {answer:'a'}});
+        // Save question in historic
+        axios.post.mockResolvedValueOnce({answer: 'a', points: '100'});
+
+        const reqBody = {
+            questionId: 'questionId',
+            last: 'last',
+            answer: 'b',
+            time: 'time',
+            saveId: 'saveId',
+            statement: 'statement',
+            options: ['a', 'b']
+        }
+
+        const res = await request(app)
+            .post('/game/answer')
+            .send(reqBody);
+
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("answer", 'a');
+        expect(res.body).toHaveProperty("points", -10);
+
+    });
+
+    it('should return 400 status since there are missing fields', async () => {
+
+        //Auth middleware request
+        axios.get.mockResolvedValueOnce({data: {valid: true, data: {userId: "mockedUserId"}}})
+        // Get question request
+        axios.get.mockResolvedValueOnce({data: {answer:'a'}});
+        // Save question in historic
+        axios.post.mockResolvedValueOnce({answer: 'a', points: '100'});
+
+        const reqBody = {
+            questionId: 'questionId',
+            last: 'last',
+            answer: 'b',
+            time: 'time'
+        }
+
+        const res = await request(app)
+            .post('/game/answer')
+            .send(reqBody);
+
+        expect(res.status).toBe(400);
     });
 });
