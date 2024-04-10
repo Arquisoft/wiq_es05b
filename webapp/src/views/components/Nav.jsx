@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { AppBar, Box, Container, IconButton, Toolbar, Tooltip, Avatar, Button, Typography, Menu, MenuItem, Divider } from '@mui/material';
+import { AppBar, Box, Container, IconButton, Toolbar, Tooltip, Button, Typography, Menu, MenuItem, Divider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
 import { ReactComponent as CustomIcon } from '../../media/logoS.svg';
