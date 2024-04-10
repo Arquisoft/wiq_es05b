@@ -1,6 +1,30 @@
 const Question = require("./jordi-model");
 
 const axios = require('axios');
+const MockAdapter = require('axios-mock-adapter');
+
+const mock = new MockAdapter(axios);
+
+
+
+const getQuestions = () => {
+    let questions = []
+    for (let i = 0; i < 5; i++) {
+        questions.push({
+            "question": {
+                "xml:lang": "en",
+                "type": "literal",
+                "value": `Question ${i}`
+            },
+            "answer": {
+                "xml:lang": "en",
+                "type": "literal",
+                "value": `Statemnet ${i}`,
+            }
+        })
+    }
+    return questions;
+}
 
 class WikidataGenerator {
 
@@ -53,8 +77,16 @@ class WikidataGenerator {
 
         const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(this.sparqlquery)}&format=json`;
 
+		mock.onGet(url).reply(200, {  
+			head: { vars: "asdfgsdafasg" }, 
+			results: { bindings: getQuestions() } 
+		});
+
         try {
+           
             const response = await axios.get(url);
+            console.log(response);
+           
             const data = response.data;
             if (data.results.bindings.length > 0) {
                 
@@ -80,7 +112,7 @@ class WikidataGenerator {
                 throw new Error("No Data found")
             }
         } catch (error) {
-            throw new Error(error);
+            throw error;
         }
 
     }
