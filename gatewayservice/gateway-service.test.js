@@ -1,11 +1,12 @@
 const request = require('supertest');
 const axios = require('axios');
-const app = require('./gateway-service');
+let app = require('./gateway-service');
 const e = require('express');
 
 afterAll(async () => {
     app.close();
 });
+
 
 jest.mock('axios');
 
@@ -117,7 +118,7 @@ describe('[Gateway Service] - /game/answer', () => {
         //Auth middleware request
         axios.get.mockResolvedValueOnce({data: {valid: true, data: {userId: "mockedUserId"}}})
         // Get question request
-        axios.get.mockResolvedValueOnce({data: {answer:'a'}});
+        axios.get.mockResolvedValueOnce({data: {answer: 'a'}});
         // Save question in historic
         axios.post.mockResolvedValueOnce({answer: 'a', points: '100'});
 
@@ -140,13 +141,13 @@ describe('[Gateway Service] - /game/answer', () => {
         expect(res.body).toHaveProperty("points", 100);
 
     });
-10
+
     it('should return 200 status with -100 points for a wrong answer', async () => {
 
         //Auth middleware request
         axios.get.mockResolvedValueOnce({data: {valid: true, data: {userId: "mockedUserId"}}})
         // Get question request
-        axios.get.mockResolvedValueOnce({data: {answer:'a'}});
+        axios.get.mockResolvedValueOnce({data: {answer: 'a'}});
         // Save question in historic
         axios.post.mockResolvedValueOnce({answer: 'a', points: '100'});
 
@@ -175,7 +176,7 @@ describe('[Gateway Service] - /game/answer', () => {
         //Auth middleware request
         axios.get.mockResolvedValueOnce({data: {valid: true, data: {userId: "mockedUserId"}}})
         // Get question request
-        axios.get.mockResolvedValueOnce({data: {answer:'a'}});
+        axios.get.mockResolvedValueOnce({data: {answer: 'a'}});
         // Save question in historic
         axios.post.mockResolvedValueOnce({answer: 'a', points: '100'});
 
@@ -192,4 +193,25 @@ describe('[Gateway Service] - /game/answer', () => {
 
         expect(res.status).toBe(400);
     });
+
+    /* User service tests */
+
+    describe('[Gateway Service] - /user/:userId', () => {
+
+        it('should return 200 status and the user', async () => {
+
+            //Auth middleware request
+            axios.get.mockResolvedValueOnce({data: {valid: true, data: {userId: "mockedUserId"}}})
+            // Get user from users service
+            axios.get.mockResolvedValueOnce({data: {username: "Berengario"}});
+
+            const res = await request(app) .get('/user/mockedUserId');
+
+            console.log(res.body);
+
+            expect(res.status).toBe(200);
+            expect(res.body).toHaveProperty("username", 'Berengario');
+        });
+    });
+
 });
