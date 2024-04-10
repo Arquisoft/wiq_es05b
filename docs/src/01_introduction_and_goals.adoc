@@ -43,10 +43,10 @@ The following table describes the project's quality goals in a descending order.
 | The application must be not only easy to learn and use but also fun because if a game has no joy in it, then it shall never be called for that name.
 
 | *_Maintainability_*
-| Projects should always have enough quality to be able to be modified without making more changes than necessary. Not following this principle would make an information system fail in the long run.
+| Projects should always have enough quality to be able to be modified without making more changes than necessary. Not following this principle would make an information system fail in late stages of his lifecycle.
 
 | *_Security_*
-| Security is always key and therefore effort will be put into defending against unauthorised access of information, including the users' personal or sensitive data that the information system may contain.
+| Security is always key and therefore effort will be put into fighting against unauthorised access of information, including the users' personal or sensitive data that the information system may contain.
 
 | *_Scalability_*
 | The application may or may not increase its demand given enough time so not pursuing this goal might lead to an unavoidable failure.

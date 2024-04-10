@@ -18,7 +18,7 @@ Therefore, we have chosen to adhere to them
 | The app will be running in a Docker Host.
 
 |*_Wikidata_*
-| This project will be using wikidata as its only question related data retrieval API.
+| This project will be using wikidata API to retrieve the source of the game questions.
 
 |*_GitHub_*
 | Remote repository service to develop the app in sync, allows us to communicate efficiently, manage version control and

@@ -5,6 +5,8 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === Technical risks
 
+==== Internal
+
 [options="header",cols="1,3,3"] 
 |===
 | Description | Priority |  Considerations
@@ -20,6 +22,18 @@ ifndef::imagesdir[:imagesdir: ../images]
 | Incomplete infrastructure planning
 | 6
 | A lack of comprehensive planning for the project's infrastructure can result in delayed implementation and increased costs. Ensuring a detailed infrastructure plan is in place, including hardware and software requirements, is vital for a smooth project start.
+
+|===
+
+==== External
+
+[options="header",cols="1,3,3"]
+|===
+| Description | Priority |  Considerations
+
+| API failure
+| 3
+| Even though an API failure is possible, it's a low impact event because we have the questions stored in the database and the game would still work.
 
 |===
 

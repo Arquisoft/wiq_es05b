@@ -23,6 +23,8 @@ for different purpouses. For instance, we currently have the following microserv
 * *_Question Generation service_*. Service that generates random questions and gets the answers from WikiData.
 * *_Gateway service_*: Service exposed to the public and used as a proxy to the two previous ones.
 * *_Webapp service_*. Web application that uses the _gateway service_ to allow basic login and user features.
+* *_Jordi service_*. Sevice to generate and return questions from the Wikidata API.
+* *_Userhistory service_*. Service to generate the user's history and global ranking.
 
 === Decisions taken to achieve quality goals
 
