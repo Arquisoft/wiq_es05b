@@ -37,12 +37,12 @@ image::03_business_context.drawio.png["Diagram of business context", align="cent
 | Response to the answers of the user 
 
 | *_Users_*
-| Questions and answers from the app 
+| Answers to questions from the app, provides autentification data
 | Interaction with the app interface to login and play
 
 | *_Wikidata_*
-| Request for questions and answers
-| Questions and answers 
+| Request an specific category's questions and their possible answers
+| Game sources
 
 |===
 
@@ -55,28 +55,32 @@ image::03_technical_context.drawio.png["Technical Context diagram", align="cente
 |===  
 | Communication partners | Inputs | Outputs
 
-| *_WIQ_*
-| Questions and user outputs
-| Response to the answers of the user and requests for data
+| *_Jordi_*
+| Question data-index
+| Questions and answers
+
+| *_User service_*
+| Login info
+| User info (account page)
+
+| *_History service_*
+| Session user info
+| User's history
 
 | *_Users_*
 | Questions and posible answers  
-| Interaction to login and play
+| Interaction to login and answer to questions
 
 | *_Wikidata_*
-| Request for data
-| Data 
+| Request for question data with category
+| Question sources
 
 | *_Database_*
-| User and question data and requests for it
-| User and question data
+| RAW data for questions and answers
+| Structured data of questions and answers
 
-| *_Azure cloud_*
-| Request for deployment
-| The application deployed
-
-| *_Web App_*
+| *_Webapp_*
 | User inputs
-| WIQ outputs
+| Browser outputs
 
 |===
