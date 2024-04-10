@@ -1,16 +1,12 @@
 const request = require('supertest');
 const axios = require('axios');
 let app = require('./gateway-service');
-const MockAdapter = require('axios-mock-adapter');
 
 afterAll(async () => {
     app.close();
 });
 
 jest.mock('axios');
-const mockAxios = new MockAdapter(axios);
-
-beforeEach(() => mockAxios.reset())
 
 /*Auth service tests*/
 
