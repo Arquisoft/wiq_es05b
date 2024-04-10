@@ -23,9 +23,9 @@ Quality and/or Performance Features::
 
 - Portability: The app can be deployed in any environment that supports docker containers, which allows the system to be easily migrated to other cloud providers should it be necessary.
 
-- Maintainability: The system can be updated by replacing the docker containers with new versions of the application, which allows the system to be maintained without remarkable issues.
+- Maintainability: The system can be updated (each container can be maintained/updated individually) by replacing the docker containers with new versions of the application, which allows the system to be maintained without remarkable issues.
 
-- Security: The system is hosted in a secure environment provided by the Azure cloud platform, which ensures its security and availability.
+- Security: The system is hosted in a secure environment (each container is a isolated enviroment, so in the case of a security breach, it only affects one of them) provided by the Azure cloud platform, which ensures its security and availability.
 
 Mapping of Building Blocks to Infrastructure::
 

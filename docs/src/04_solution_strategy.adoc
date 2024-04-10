@@ -6,12 +6,14 @@ ifndef::imagesdir[:imagesdir: ../images]
 === Technology Decisions
 
 In order to develop an application that meets the expected quality criteria,
-we have decided to use the following technologies:
+we have decided to use the following technologies, as they were the one given to us in the base project:
 
 * *_JavaScript_*: Main programming language. It is used in both back and front end.
 * *_React_*: JavaScript library used in the design of graphical user interfaces.
 * *_ExpressJS_*: Framework built on the top of _Node.js_ and used in the backend.
 * *_Github_*: Used for versioning the proyect and as a mean of communication for the dev team.
+* *_Docker_*: Used for local deployment.
+* *_Github actions_*: Used for testing purposes
 
 === Top-level Decomposition
 
@@ -23,6 +25,8 @@ for different purpouses. For instance, we currently have the following microserv
 * *_Question Generation service_*. Service that generates random questions and gets the answers from WikiData.
 * *_Gateway service_*: Service exposed to the public and used as a proxy to the two previous ones.
 * *_Webapp service_*. Web application that uses the _gateway service_ to allow basic login and user features.
+* *_Jordi service_*. Sevice to generate and return questions from the Wikidata API.
+* *_Userhistory service_*. Service to generate the user's history and global ranking.
 
 === Decisions taken to achieve quality goals
 
