@@ -1,65 +1,32 @@
 version: '3'
 services:
+
+  # Production services
   
-  mongodb:
-    container_name: mongodb-${teamname:-wiq_es05b}
-    image: mongo
+  mongo:
+    container_name: mongo-${teamname:-wiq_es05b}
+    image: mongo:latest
     profiles: ["dev", "prod"]
     volumes:
-      - mongodb_data:/data/db
+      - mongo_data:/data/db
     ports:
       - "27017:27017"
     networks:
       - mynetwork
-
     restart: always
 
-  postgres:
-    container_name: postgres-${teamname:-wiq_es05b}
-    image: postgres
+  webapp:
+    container_name: webapp-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/webapp:latest
     profiles: ["dev", "prod"]
-    volumes:
-      - postgres_data:/data/db
-    ports:
-      - "5432:5432"
-    networks:
-      - mynetwork
-    environment:
-      POSTGRES_PASSWORD: jordishhh
-
-    restart: always
-
-  authservice:
-    container_name: authservice-${teamname:-wiq_es05b}
-    image: ghcr.io/arquisoft/wiq_es05b/authservice:latest
-    profiles: ["dev", "prod"]
-    build: ./users/authservice
+    build:
+      context: ./webapp
     depends_on:
-      - mongodb
-    ports:
-      - "8002:8002"
+      - gatewayservice
     networks:
       - mynetwork
-    environment:
-      MONGODB_URI: mongodb://mongodb:27017/userdb
-      SECRET: a-very-secret-string
-
-    restart: always
-
-  userservice:
-    container_name: userservice-${teamname:-wiq_es05b}
-    image: ghcr.io/arquisoft/wiq_es05b/userservice:latest
-    profiles: ["dev", "prod"]
-    build: ./users/userservice
-    depends_on:
-      - mongodb
     ports:
-      - "8001:8001"
-    networks:
-      - mynetwork
-    environment:
-      MONGODB_URI: mongodb://mongodb:27017/userdb
-
+      - "3000:3000"
     restart: always
 
   gatewayservice:
@@ -68,87 +35,98 @@ services:
     profiles: ["dev", "prod"]
     build: ./gatewayservice
     depends_on:
-      - mongodb
       - userservice
       - authservice
+      - jordi
+      - history
     ports:
       - "8000:8000"
     networks:
       - mynetwork
     environment:
-      AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
-      JORDI_ASK_SERVICE_URL: http://jordi-ask:8003
-    
+      AUTH_SERVICE_URL: http://authservice:8002
+      JORDI_SERVICE_URL: http://jordi:8003
+      HISTORY_SERVICE_URL: http://history:8004
     restart: always
 
-  webapp:
-    container_name: webapp-${teamname:-wiq_es05b}
-    image: ghcr.io/arquisoft/wiq_es05b/webapp:latest
+  userservice:
+    container_name: userservice-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/userservice:latest
     profiles: ["dev", "prod"]
-    build: ./webapp
+    build: ./users/userservice
     depends_on:
-      - gatewayservice
+      - mongo
     ports:
-      - "443:3000" 
-
-    restart: always
-
-  jordi-ask:
-    container_name: jordi-ask-${teamname:-wiq_es05b}
-    image: ghcr.io/arquisoft/wiq_es05b/jordi-ask:latest
-    profiles: ["dev", "prod"]
-    build: ./jordi/jordi-ask
-    ports:
-      - "8004:8004"
+      - "8001:8001"
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodb:27017/questions
-
+      MONGODB_URI: mongodb://mongo:27017/userdb
     restart: always
 
-  jordi-think:
-    container_name: jordi-think-${teamname:-wiq_es05b}
-    image: ghcr.io/arquisoft/wiq_es05b/jordi-think:latest
+  authservice:
+    container_name: authservice-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/authservice:latest
     profiles: ["dev", "prod"]
-    build: ./jordi/jordi-think
+    build: ./users/authservice
+    depends_on:
+      - mongo
+    ports:
+      - "8002:8002"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/userdb
+      SECRET: a-very-secret-string
+    restart: always
+
+  jordi:
+    container_name: jordi-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/jordi:latest
+    profiles: ["dev", "prod"]
+    build: ./jordi
+    depends_on:
+      - mongo
     ports:
       - "8003:8003"
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodb:27017/questions
-
+      MONGODB_URI: mongodb://mongo:27017/questions
     restart: always
-
-  ranking:
-    container_name: ranking-${teamname:-wiq_es05b}
-    image: ghcr.io/arquisoft/wiq_es05b/ranking:latest
-    profiles: ["dev", "prod"]
-    build: ./ranking
-    ports:
-      - "8005:8005"
-    networks:
-      - mynetwork
-    environment:
-      POSTGRES_URI: postgres://postgres:5432/ranking
 
   history:
     container_name: history-${teamname:-wiq_es05b}
     image: ghcr.io/arquisoft/wiq_es05b/history:latest
     profiles: ["dev", "prod"]
-    build: ./history
+    build: ./userhistory
     depends_on:
-      - mongodb
+      - mongo
     ports:
-      - "8006:8006"
+      - "8004:8004"
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodb:27017/history
+      MONGODB_URI: mongodb://mongo:27017/history
+    restart: always
 
-  ## only dev
+  reverse-proxy:
+    container_name: reverse-proxy-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/proxy:latest
+    profiles: ["prod"]
+    build: ./proxy
+    depends_on:
+      - gatewayservice
+      - webapp
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - mynetwork
+    restart: always
+
+  # Development services
 
   prometheus:
     image: prom/prometheus
@@ -184,10 +162,9 @@ services:
       - prometheus
 
 volumes:
-  mongodb_data:
-  postgres_data:
-  prometheus_data: 
-  grafana_data: 
+  mongo_data:
+  prometheus_data:
+  grafana_data:
 
 networks:
   mynetwork:

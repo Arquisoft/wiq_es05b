@@ -4,7 +4,7 @@ info:
   description: API used by the client to access the services
   version: 1.0.2
 servers:
-  - url: 'http://158.179.216.208:8000'
+  - url: 'https://cyt.is-cool.dev/api'
 components:
   securitySchemes:
     BearerAuth:
@@ -251,9 +251,11 @@ paths:
                   message:
                     type: string
                     example: 'Service Unavailable'
-  /categories:
+  /game/categories:
     get:
       summary: Get all categories
+      security:
+        - BearerAuth: [ ]
       responses:
         '200':
           description: OK
@@ -284,7 +286,7 @@ paths:
                   error:
                     type: string
                     example: 'Service Unavailable'
-  /questions/{category}/{n}:
+  /game/questions/{category}/{n}:
     get:
       summary: Get n questions from a category
       parameters:
@@ -300,6 +302,8 @@ paths:
           schema:
             type: integer
             example: 5
+      security:
+        - BearerAuth: [ ]
       responses:
         # TODO - 404 when category not found
         '200':
@@ -379,12 +383,34 @@ paths:
             schema:
               type: object
               properties:
-                id:
+                questionId:
+                  type: string
+                  example: '5f9b3b3b7b3b7b3b7b3b7b3b'
+                saveId:
                   type: string
                   example: '5f9b3b3b7b3b7b3b7b3b7b3b'
                 token:
                   type: string
                   example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIifQ.1J4Q7'
+                last:
+                  type: boolean
+                  example: false
+                answer:
+                  type: string
+                  example: "Answer 1"
+                time:
+                  type: integer
+                  example: 10
+                statement:
+                  type: string
+                  example: "Question 1"
+                options:
+                  type: array
+                  items:
+                    type: string
+                    example: "Option 1"
+      security:
+        - BearerAuth: [ ]
       responses:
         '200':
           description: OK
@@ -396,6 +422,9 @@ paths:
                   answer:
                     type: string
                     example: 'Option 1'
+                  points:
+                    type: integer
+                    example: 10
         '400':
           description: Bad Request
           content:
@@ -467,9 +496,6 @@ paths:
                   valid:
                     type: boolean
                     example: true
-                  data:
-                    type: object
-                    required: false
         '500':
           description: 'Internal Server Error'
           content:
@@ -584,63 +610,6 @@ paths:
                   id:
                     type: string
                     example: '507f1f77bcf86cd799439011'
-  /history/add/{id}:
-    post:
-      summary: Adds a question to a save
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-            example: '507f1f77bcf86cd799439011'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                last:
-                  type: boolean
-                  example: false
-                statement:
-                  type: string
-                  example: 'Question 1'
-                options:
-                  type: array
-                  items:
-                    type: string
-                    example: 'Category 1'
-                answer:
-                  type: integer
-                  example: 1
-                correct:
-                  type: integer
-                  example: 1
-                time:
-                  type: integer
-                  example: 10
-                points:
-                  type: integer
-                  example: 10
-                token:
-                  type: string
-                  example: 'eyJhbGciOi'
-                userId:
-                  type: string
-                  example: '507f1f77bcf86cd799439011'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: 'Question added successfully'
   /user/{userId}:
     get:
       summary: Get user details

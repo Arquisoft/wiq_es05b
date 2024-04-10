@@ -13,7 +13,6 @@ import Error from "./views/Error";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Particles from "./views/components/Particles";
 import React, { useState, useEffect } from "react";
-import Endgame from "./views/Endgame";
 import axios from "axios";
 
 import configDefault from "./views/components/config/particles-config.json";
@@ -22,8 +21,6 @@ import configGraph from "./views/components/config/particles-config-graph";
 
 import { ConfigContext } from "./views/context/ConfigContext";
 import { AuthContext } from "./views/context/AuthContext";
-
-const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 const theme = createTheme({
   palette: {
@@ -72,7 +69,7 @@ function useAuth(i = null) {
 
   useEffect(() => {
     if(!user) return;
-    axios.get(`${apiEndpoint}/validate/${user.token}`)
+    axios.get(`/validate/${user.token}`)
       .then(res => {
         if(!res.data.valid) {
           logout()
@@ -126,7 +123,6 @@ export default function App() {
           <Route path="/ranking" element={<Ranking />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/game/:category" element={<Game />} />
-          <Route path="/endgame/" element={<Endgame />} />
           <Route path="/account" element={<Account />} />
           <Route path="*" element={<Error />} />
         </Routes>

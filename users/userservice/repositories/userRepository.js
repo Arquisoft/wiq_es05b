@@ -6,9 +6,14 @@ module.exports = {
     this.mongoose = mongoose;
     this.uri = uri;
   },
+  checkUp: async function () {
+    if (this.mongoose.connection.readyState !== 1) {
+      await this.mongoose.connect(this.uri);
+    }
+  },
   insertUser: async function (username, password) {
     try {
-      await this.mongoose.connect(this.uri);
+      await this.checkUp()
       const user = new this.User({
         username: username,
         password: password,
@@ -17,26 +22,18 @@ module.exports = {
       return { message: "User created successfully" };
     } catch (error) {
       throw error.message;
-    } finally {
-      this.mongoose.connection && await this.mongoose.connection.close()
     }
   },
   getUser: async function (filter) {
-    if("_id" in filter) {
-      filter._id = new this.mongoose.Types.ObjectId(filter._id);
-    }
+    if ("_id" in filter) filter._id = new this.mongoose.Types.ObjectId(filter._id);
     try {
-      await this.mongoose.connect(this.uri);
-      let result = await this
-        .mongoose
-        .connection
-        .collection("users")
-        .findOne(filter)
-      return result;
+      await this.checkUp()
+      return await this.mongoose.connection.collection("users").findOne(filter)
     } catch (error) {
       throw error.message;
-    } finally {
-      this.mongoose.connection && await this.mongoose.connection.close();
     }
+  },
+  checkValidId: function (id) {
+    return !(!id || !this.mongoose.isValidObjectId(id));
   }
 };

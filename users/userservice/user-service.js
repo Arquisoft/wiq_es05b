@@ -9,6 +9,7 @@ const port = 8001;
 
 // Connect to MongoDB
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
+mongoose.connect(mongoUri);
 
 // Middleware to parse JSON in request body
 app.use(bodyParser.json());
@@ -22,5 +23,7 @@ require('./routes/routes')(app, userRepository)
 const server = app.listen(port, () => {
   console.log(`User Service listening at http://localhost:${port}`);
 });
+
+server.on('close', () => mongoose.connection.close());
 
 module.exports = server

@@ -1,11 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { Navigate } from "react-router-dom";
-import { AuthContext } from '../views/context/AuthContext';
+import { AuthContext } from './context/AuthContext';
 import CustomForm from "./components/CustomForm"
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
-
-const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 export default function Signup() {
   const [username, setUsername] = useState("");
@@ -24,13 +22,13 @@ export default function Signup() {
     submitButtonTx: "Create account",
     submit: (callback) => {
       axios
-        .post(`${apiEndpoint}/adduser`, { username, password })
+        .post(`/adduser`, { username, password })
         .then(({ data }) => {
           if(data.error) {
             navigate("/login");
             return
           }
-          setUser({ token: data.token, username: data.username });
+          setUser({ ...data });
           navigate("/home");
         })
         .catch(error => {
