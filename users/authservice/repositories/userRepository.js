@@ -1,5 +1,3 @@
-const { checkUp } = require("../../../userhistory/repositories/saveRepository");
-
 module.exports = {
   mongoose: null,
   uri: null,

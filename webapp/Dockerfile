@@ -7,7 +7,7 @@ WORKDIR /app
 RUN npm install
 
 ARG API_URI="http://localhost:8000"
-ARG SSL_API_URI="http://localhost:7999"
+ARG SSL_API_URI="http://localhost:8000"
 ENV REACT_APP_API_ENDPOINT=$API_URI
 ENV REACT_APP_API_ENDPOINT_SSL=$SSL_API_URI
 
