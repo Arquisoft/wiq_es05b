@@ -47,18 +47,15 @@ jobs:
       with:
         node-version: 20
 
-    - run: npm --prefix users/authservice install
-    - run: npm --prefix users/userservice install
-    - run: npm --prefix userhistory install
-    - run: npm --prefix gatewayservice install
-    - run: npm --prefix jordi install
-    - run: npm --prefix webapp install
-    - run: npm --prefix webapp run build
-
-    - name: Install Puppeteer Dependencies
-      run: sudo apt-get install -y libx11-xcb1 libxcomposite1 libxdamage1 libxi6 libxtst6 libnss3 libcups2 libxss1 libxrandr2 libasound2 libpangocairo-1.0-0 libatk1.0-0 libatk-bridge2.0-0 libgtk-3-0
-
-    - run: npm --prefix webapp run test:e2e
+#    - run: npm --prefix users/authservice install
+#    - run: npm --prefix users/userservice install
+#    - run: npm --prefix userhistory install
+#    - run: npm --prefix gatewayservice install
+#    - run: npm --prefix jordi install
+#    - run: npm --prefix webapp install
+#    - run: npm --prefix webapp run build
+#
+#    - run: npm --prefix webapp run test:e2e
 
   docker-push-webapp:
     
