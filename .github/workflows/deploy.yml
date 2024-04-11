@@ -85,8 +85,8 @@ jobs:
         buildargs: API_URI, SSL_API_URI
         platforms: linux/arm64
     env:
-        API_URI: https://cyt.is-cool.dev/api
-        SSL_API_URI: http://cyt.is-cool.dev/api
+        API_URI: http://cyt.is-cool.dev/api
+        SSL_API_URI: https://cyt.is-cool.dev/api
 
 
   docker-push-authservice:
