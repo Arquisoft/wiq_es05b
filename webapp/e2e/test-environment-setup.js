@@ -7,7 +7,6 @@ let mongoserver;
 let userservice;
 let authservice;
 let gatewayservice;
-let ranking;
 let jordi;
 let userhistory;
 async function startServer() {
