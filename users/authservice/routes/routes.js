@@ -1,43 +1,33 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const errorHandler = (e, res, msg) => {
-  let code = 500
-  let error = msg || 'Internal Server Error'
-  if(e.includes('ECONNREFUSED')) {
-    code = 503
-    error = 'Service Unavailable'
-  }
-
-  res.status(code).json({ error: error })
-}
-
 // TODO - Move to GH secret
 const JWT_SECRET = process.env.SECRET || "a-very-secret-string"
 
+const checkFieldsOn = (fields, obj) => {
+  for (let field of fields)
+    if (!obj[field]) return field;
+  return null;
+}
+
 module.exports = function (app, userRepository) {
 
-  app.post('/login', async (req, res) => {
+  app.post('/login', async (req, res, next) => {
+    const value = checkFieldsOn(['username', 'password'], req.body)
+    if(value) return next({status: 400, error: `Missing ${value}`})
+
     const { username, password } = req.body;
-    
-    if(!username) {
-      res.status(400).json({ error: 'Missing username' });
-      return;
-    }
-    if(!password) {
-      res.status(400).json({ error: 'Missing password' });
-      return;
-    }
+
     userRepository.findUserByUsername(username)
       .then(async result => {
         if (result && await bcrypt.compare(password, result.password)) {
           const token = jwt.sign({ userId: result._id }, JWT_SECRET, { expiresIn: '4h' });
           res.json({ token, username, userId: result._id});
         } else {
-          res.status(401).json({ error: 'Invalid credentials' });
+          next({ status: 401, error: 'Invalid credentials' });
         }
       })
-      .catch(err => errorHandler(err, res));
+      .catch(err => next(err));
   });
 
   app.get('/validate/:token', (req, res) => {
