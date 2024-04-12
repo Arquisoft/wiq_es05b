@@ -126,6 +126,51 @@ services:
       - mynetwork
     restart: always
 
+  elasticsearch:
+    container_name: elasticsearch-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/elasticsearch:latest
+    profiles: ["prod"]
+    build: logging/elastic
+    depends_on:
+      - logstash
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - mynetwork
+    restart: always
+
+  logstash:
+    container_name: logstash-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/logstash:latest
+    profiles: ["prod"]
+    build: logging/logstash
+    depends_on:
+      - authservice
+      - gatewayservice
+      - history
+      - jordi
+      - reverse-proxy
+      - userservice
+    ports:
+      - "5044:5044"
+    networks:
+      - mynetwork
+    restart: always
+
+  kibana:
+    container_name: kibana-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/kibana:latest
+    profiles: ["prod"]
+    build: logging/kibana
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+    networks:
+      - mynetwork
+    restart: always
+
   # Development services
 
   prometheus:
