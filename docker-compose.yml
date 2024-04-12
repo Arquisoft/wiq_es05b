@@ -138,6 +138,11 @@ services:
       - "9300:9300"
     networks:
       - mynetwork
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      discovery.type: single-node
+    volumes:
+      - elastic_data:/elasticsearch
     restart: always
 
   logstash:
@@ -156,6 +161,8 @@ services:
       - "5044:5044"
     networks:
       - mynetwork
+    volumes:
+      - logstash_data:/logstash
     restart: always
 
   kibana:
@@ -169,6 +176,10 @@ services:
       - "5601:5601"
     networks:
       - mynetwork
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    volumes:
+      - kibana_data:/kibana
     restart: always
 
   # Development services
@@ -208,6 +219,9 @@ services:
 
 volumes:
   mongo_data:
+  elastic_data:
+  kibana_data:
+  logstash_data:
   prometheus_data:
   grafana_data:
 
