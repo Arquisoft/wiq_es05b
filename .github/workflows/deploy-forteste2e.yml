@@ -1,0 +1,29 @@
+name: Deploy e2e
+
+on:
+  push:
+    branches:
+      - 139-fix-e2e-tests
+jobs:
+  e2e-tests:
+    name: End to end tests
+    runs-on: self-hosted
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm --prefix users/authservice install
+      - run: npm --prefix users/userservice install
+      - run: npm --prefix userhistory install
+      - run: npm --prefix gatewayservice install
+      - run: npm --prefix jordi install
+      - run: npm --prefix webapp install
+      - run: npm --prefix webapp run build
+
+      - run: npm --prefix webapp run test:e2e
