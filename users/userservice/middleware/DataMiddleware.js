@@ -1,15 +1,11 @@
+const checkFieldsOn = (fields, obj) => {
+    for (const field of fields)
+        if (!obj[field]) return field;
+}
+
 module.exports = function (req, res, next) {
-    const { username, password } = req.body;
-
-    if (!username) {
-        res.status(400).json({ error: "Missing username" });
-        return;
-    }
-
-    if (!password) {
-        res.status(400).json({ error: "Missing password" });
-        return;
-    }
+    const result = checkFieldsOn(["username", "password"], req.body);
+    if(result) return next({ status: 400, error: `Missing field ${result}` });
 
     next()
 }
