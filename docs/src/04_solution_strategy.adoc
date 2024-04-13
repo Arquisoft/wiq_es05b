@@ -11,9 +11,10 @@ we have decided to use the following technologies, as they were the one given to
 * *_JavaScript_*: Main programming language. It is used in both back and front end.
 * *_React_*: JavaScript library used in the design of graphical user interfaces.
 * *_ExpressJS_*: Framework built on the top of _Node.js_ and used in the backend.
+* *_MongoDB_*: Used as the database for the app.
 * *_Github_*: Used for versioning the proyect and as a mean of communication for the dev team.
-* *_Docker_*: Used for local deployment.
-* *_Github actions_*: Used for testing purposes
+* *_Docker_*: Used for the app deployment.
+* *_Github actions_*: Used for testing purposes, app deployment and as a CI/CD tool.
 
 === Top-level Decomposition
 
