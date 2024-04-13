@@ -6,7 +6,7 @@ const JWT_SECRET = process.env.SECRET || "a-very-secret-string"
 
 const checkFieldsOn = (fields, obj) => {
   for (let field of fields)
-    if (!obj[field]) return field;
+    if (!(field in obj)) return field;
   return null;
 }
 

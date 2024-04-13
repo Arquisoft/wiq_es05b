@@ -1,6 +1,6 @@
 const checkFieldsOn = (fields, obj) => {
   for (let field of fields)
-    if (!obj[field]) return field;
+    if (!(field in obj)) return field;
   return null;
 }
 
@@ -24,13 +24,13 @@ module.exports = (app, saveRepository) => {
   // TODO - Add error mapping
   // TODO - Gateway should check if the user is owner of the save
   app.post("/add/:id", (req, res, next) => {
+    const { id } = req.params;
+    if (!saveRepository.isValidObjectId(id)) return next({ status: 400, error: "Invalid id format"})
+
     const result = checkFieldsOn(["last", "statement", "options", "answer", "correct", "time", "points"], req.body)
     if(result) return next({status: 400, error: `Missing ${result}`})
 
-    const { id } = req.params;
     const { last, statement, options, answer, correct, time, points } = req.body;
-
-    if (!saveRepository.isValidObjectId(id)) return next({ status: 400, error: "Invalid id format"})
 
     const question = { statement, options, answer, correct, time, points };
 
