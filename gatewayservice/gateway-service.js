@@ -23,8 +23,8 @@ const port = 8000;
 app.use(cors());
 app.use(express.json());
 
-app.use(require("./middleware/ReqLoggerMiddleware"), logger.info.bind(logger));
-app.use(require("./middleware/ResLoggerMiddleware"), logger.info.bind(logger));
+app.use(require("./middleware/ReqLoggerMiddleware")(logger.info.bind(logger)))
+app.use(require("./middleware/ResLoggerMiddleware")(logger.info.bind(logger)))
 
 //Prometheus configuration
 const metricsMiddleware = promBundle({includeMethod: true});

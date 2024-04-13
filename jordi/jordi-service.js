@@ -38,8 +38,8 @@ questionsRepository.init(mongoose, mongoUri);
 app.use(express.json());
 
 // Middleware to log requests and responses
-app.use(require("./middleware/ReqLoggerMiddleware"), logger.info.bind(logger));
-app.use(require("./middleware/ResLoggerMiddleware"), logger.info.bind(logger));
+app.use(require("./middleware/ReqLoggerMiddleware")(logger.info.bind(logger)))
+app.use(require("./middleware/ResLoggerMiddleware")(logger.info.bind(logger)))
 
 // Routes
 require("./routes/routes")(app, questionsRepository);
