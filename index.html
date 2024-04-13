@@ -600,26 +600,30 @@ See <a href="https://arc42.org" class="bare">https://arc42.org</a>.</p>
 <div class="sect2">
 <h3 id="_requirements_overview">1.1. Requirements Overview</h3>
 <div class="paragraph">
-<p>Users will be able to interact with our system in a lot of different ways.</p>
+<p>The main goal of this project is to develop a web application that will allow users to play a Q&amp;A game with multiple categories.
+The application must have the following functionalities:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>A fun Q&amp;A game</p>
+<p>A front-end web that allows users to register and play the game.</p>
 </li>
 <li>
-<p>A user registration system</p>
+<p>A user registration system with a history of their games.</p>
 </li>
 <li>
-<p>An API to obtain user information respecting the privacy terms accorded</p>
+<p>All of the questions data must be obtained from the WikiData knowledge database.</p>
 </li>
 <li>
-<p>An API to obtain generated questions using real time updated and truthful information from the WikiData Programming Interface.</p>
+<p>The application must have an API to obtain users information.</p>
+</li>
+<li>
+<p>The application must have an API to obtain generated questions.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>More information can be obtained following this <a href="https://docs.google.com/document/d/1pahOfYFY&#8212;&#8203;Wi7_9bbxiKOGevB_9tOSyRm78blncgBKg">link</a>, where the course project is fully described and detailed.</p>
+<p>Further information can be found <a href="https://docs.google.com/document/d/1pahOfYFY&#8212;&#8203;Wi7_9bbxiKOGevB_9tOSyRm78blncgBKg/">here</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -799,17 +803,21 @@ collaborate effectively, maintain a clean codebase and assign tasks</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Time</em></strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Deadline at the end of the semester,
 the time is divided among two hours per week of in-class work, multiple meetings with team members, and individual self-work.
-Additionally, we will have three deliverables throughout the course, with weekly feedback from the instructor.</p></td>
+We&#8217;ll also have four deliverables spaced two weeks apart, where we&#8217;ll receive feedback from the instructor.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Testing</em></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Various scenarios will be explored to assess the application&#8217;s functionality accurately. Diverse testing techniques
-will be employed to achieve comprehensive coverage, aiming for the highest possible quality assurance.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Various scenarios will be explored to accurately assess the application&#8217;s functionality.
+Diverse testing techniques will be employed to achieve comprehensive coverage, aiming for
+the highest possible quality assurance. We also work with different levels of testing,
+including unit, integration, load, and system testing. Additionally, a shift-left testing
+approach will be used, where testing is performed as early as possible in the development
+process, enabling the early detection of bugs and errors.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Tech proficiency</em></strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">All team members are beginners in the majority of the technologies we&#8217;re using, and this is our first endeavor
-in developing a real-world application.</p></td>
+in developing a real-world application. As a result, all of us should contribute to the project as fullstack developers.</p></td>
 </tr>
 </tbody>
 </table>
@@ -832,7 +840,9 @@ in developing a real-world application.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Clean Code</em></strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The code composing the application must prioritize clarity and cleanliness, facilitating comprehension and ease of
 maintenance in the long term. We adhere to camelCase for JavaScript and PascalCase for React, ensuring clear and
-descriptive names while steering clear of confusing prefixes.</p></td>
+descriptive names while steering clear of confusing prefixes. We need to adhere to the conventions of the
+programming languages we&#8217;re using, including <a href="https://jsdoc.app/">JavaScript</a> , <a href="https://html.spec.whatwg.org/">HTML</a>
+and <a href="https://www.w3.org/Style/CSS/">CSS</a>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Arc42</em></strong></p></td>
@@ -840,8 +850,8 @@ descriptive names while steering clear of confusing prefixes.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Usability</em></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">We need to adhere to the conventions of the programming languages we&#8217;re using, including <a href="https://jsdoc.app/">JavaScript</a>
-, <a href="https://html.spec.whatwg.org/">HTML</a> and <a href="https://www.w3.org/Style/CSS/">CSS</a>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must be user-friendly, with a clean and intuitive interface that is easy to navigate.
+The user experience should be seamless and engaging, with a focus on accessibility and adaptability.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1001,13 +1011,16 @@ we have decided to use the following technologies, as they were the one given to
 <p><strong><em>ExpressJS</em></strong>: Framework built on the top of <em>Node.js</em> and used in the backend.</p>
 </li>
 <li>
+<p><strong><em>MongoDB</em></strong>: Used as the database for the app.</p>
+</li>
+<li>
 <p><strong><em>Github</em></strong>: Used for versioning the proyect and as a mean of communication for the dev team.</p>
 </li>
 <li>
-<p><strong><em>Docker</em></strong>: Used for local deployment.</p>
+<p><strong><em>Docker</em></strong>: Used for the app deployment.</p>
 </li>
 <li>
-<p><strong><em>Github actions</em></strong>: Used for testing purposes</p>
+<p><strong><em>Github actions</em></strong>: Used for testing purposes, app deployment and as a CI/CD tool.</p>
 </li>
 </ul>
 </div>
@@ -1243,7 +1256,7 @@ any critical decisions that need to be made about the project.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Component that interacts with the database and retrieves the data to be processed by the service.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NoSQL Database</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Component independent for each service that contains the data related to it.</p></td>
 </tr>
 </tbody>
@@ -1823,7 +1836,7 @@ in a transparent way to the user and avoiding having to shut down the service fo
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-04-10 22:45:03 UTC
+Last updated 2024-04-13 17:27:28 UTC
 </div>
 </div>
 </body>
