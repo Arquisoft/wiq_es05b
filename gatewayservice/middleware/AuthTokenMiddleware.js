@@ -10,14 +10,8 @@ module.exports = (req, res, next) => {
     userId = req.query.userId
   }
 
-  if(!userId) {
-    res.status(400).json({error: "No userId provided"})
-    return
-  }
-  if (userIdToken && userIdToken !== userId) {
-    res.status(401).json({ error: "You don't own this save" })
-    return
-  }
+  if(!userId) return next({status: 400, error: "No userId provided"})
+  if (userIdToken && userIdToken !== userId) return next({ status: 401, error: "You don't own this save" })
 
   next()
 }

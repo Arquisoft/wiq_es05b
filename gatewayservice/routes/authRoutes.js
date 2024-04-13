@@ -1,7 +1,7 @@
 const authServiceUrl = process.env.AUTH_SERVICE_URL || "http://localhost:8002";
 
 module.exports = (app, axios) => {
-  app.post("/login", async (req, res) => {
+  app.post("/login", async (req, res, next) => {
     axios.post(`${authServiceUrl}/login`, req.body)
       .then(response => res.json(response.data))
       .catch(() => next({error: "Unable to login"}));

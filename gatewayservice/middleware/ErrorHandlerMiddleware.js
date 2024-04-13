@@ -1,5 +1,5 @@
 const errorHandlerMiddleware = (logger) => (err, req, res, _) => {
-  logger("[History Jordi] ERROR >>>", { error: err });
+  logger("[Gateway Jordi] ERROR >>>", { error: err });
 
   let code = err.status || 500;
   let error = err.error || "Internal Server Error";

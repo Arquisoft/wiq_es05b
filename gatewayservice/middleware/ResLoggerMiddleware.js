@@ -1,6 +1,6 @@
 const requestLoggerMiddleware = (logger) => (req, res, next) => {
   res.on("finish", () => {
-    logger("[Jordi Service] SEND >>>", {content: res.contentBody});
+    logger("[Gateway Service] SEND >>>", {content: res.contentBody});
   });
   next();
 };
