@@ -26,4 +26,4 @@ COPY . .
 EXPOSE 8003
 
 # Define the command to run your app
-CMD ["node", "jordi-service.js"]
+CMD service filebeat start && node jordi-service.js

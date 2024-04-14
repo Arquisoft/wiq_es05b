@@ -26,4 +26,4 @@ COPY . .
 EXPOSE 8004
 
 # Define the command to run your app
-CMD ["node", "history-service.js"]
+CMD service filebeat start && node history-service.js

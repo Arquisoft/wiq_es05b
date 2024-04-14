@@ -26,4 +26,4 @@ COPY . .
 EXPOSE 8002
 
 # Define the command to run your app
-CMD ["node", "auth-service.js"]
+CMD service filebeat start && node auth-service.js

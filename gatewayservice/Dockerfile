@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install filebeat
 
 COPY filebeat.yml /etc/filebeat/filebeat.yml
 
-RUN filebeat -e &
+# RUN systemctl enable filebeat
 
 # Set the working directory in the container
 WORKDIR /usr/src/gatewayservice
@@ -25,4 +25,4 @@ COPY . .
 EXPOSE 8000
 
 # Define the command to run your app
-CMD ["node", "gateway-service.js"]
+CMD service filebeat start && node gateway-service.js
