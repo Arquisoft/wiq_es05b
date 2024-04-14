@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 
-# Inicia Elasticsearch en segundo plano
-./bin/elasticsearch &
-
-# Guarda el ID del proceso de Elasticsearch
-ELASTIC_PID=$!
-
 set -eu
 set -o pipefail
 
@@ -123,5 +117,3 @@ for user in "${!users_passwords[@]}"; do
 		create_user "$user" "${users_passwords[$user]}" "${users_roles[$user]}"
 	fi
 done
-
-wait $ELASTIC_PID

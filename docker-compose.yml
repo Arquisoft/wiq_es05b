@@ -140,11 +140,24 @@ services:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
       discovery.type: single-node
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-changeme}
-      LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-changeme}
-      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-changeme}
     volumes:
       - elastic_data:/elasticsearch
     restart: always
+
+  setupelk:
+    container_name: setupelk-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/setupelk:latest
+    stop_signal: SIGINT
+    profiles: ["prod"]
+    build: logging/setup
+    depends_on:
+      - elasticsearch
+    environment:
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-changeme}
+      LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-changeme}
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-changeme}
+    networks:
+      - mynetwork
 
   logstash:
     container_name: logstash-${teamname:-wiq_es05b}
