@@ -8,8 +8,6 @@ RUN apt-get update && apt-get install filebeat
 
 COPY filebeat.yml /etc/filebeat/filebeat.yml
 
-RUN filebeat -e &
-
 # Set the working directory in the container
 WORKDIR /usr/src/authservice
 
