@@ -131,8 +131,6 @@ services:
     image: ghcr.io/arquisoft/wiq_es05b/elasticsearch:latest
     profiles: ["prod"]
     build: logging/elastic
-    depends_on:
-      - logstash
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -141,6 +139,9 @@ services:
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
       discovery.type: single-node
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-changeme}
+      LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-changeme}
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-changeme}
     volumes:
       - elastic_data:/elasticsearch
     restart: always
@@ -151,14 +152,12 @@ services:
     profiles: ["prod"]
     build: logging/logstash
     depends_on:
-      - authservice
-      - gatewayservice
-      - history
-      - jordi
-      - reverse-proxy
-      - userservice
+      - elasticsearch
     ports:
       - "5044:5044"
+    environment:
+      LS_JAVA_OPTS: -Xms256m -Xmx256m
+      LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-changeme}
     networks:
       - mynetwork
     volumes:
@@ -177,7 +176,7 @@ services:
     networks:
       - mynetwork
     environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-changeme}
     volumes:
       - kibana_data:/kibana
     restart: always
