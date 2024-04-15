@@ -4,44 +4,9 @@ ifndef::imagesdir[:imagesdir: ../images]
 == Cross-cutting Concepts
 
 === Domain Model
-----
-object User{
-    Id: Long
-    name: String
-    lastName: String
-    email: String
-    password: String
-}
 
-object Question{
-    Id: Long
-    question: String
-    answer: String
-    option1: String
-    option2: String
-    option3: String
-}
+image::08_domain_model.drawio.png["Domain Model", align="center"]
 
-object Rank{
-    Id: Long
-    games: Number
-    answered: Number
-    corect: Number
-    wrong: Number
-    totalTime: Time
-    totalPoints: Number
-    User: User
-}
-
-object Game{
-    Id: Long
-    correct: Number
-    wrong: Numer
-    time: Time
-    User: User
-    points: Number
-}
-----
 === User Experience
 While we haven't settled on the final appearance of the app, its core functionality revolves around a quiz game.
 It features multiple questions across different categories, offering various possible answers with only one being correct
