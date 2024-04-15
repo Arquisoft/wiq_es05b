@@ -6,8 +6,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === 1. Technical Constraints
 
-These constraints are set by the project, and we believe that altering them would be counterproductive.
-Therefore, we have chosen to adhere to them
+These constraints are set by the project, and we believe that altering them would be counterproductive, therefore, we have chosen to adhere to them.
 
 === 1. Technical Constraints
 

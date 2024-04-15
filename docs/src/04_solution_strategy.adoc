@@ -23,7 +23,6 @@ for different purpouses. For instance, we currently have the following microserv
 
 * *_User service_*: Service used to add new users.
 * *_Auth service_*: Service used for the authentication of users.
-* *_Question Generation service_*. Service that generates random questions and gets the answers from WikiData.
 * *_Gateway service_*: Service exposed to the public and used as a proxy to the two previous ones.
 * *_Webapp service_*. Web application that uses the _gateway service_ to allow basic login and user features.
 * *_Jordi service_*. Sevice to generate and return questions from the Wikidata API.
@@ -54,11 +53,10 @@ code excessively. For it,we will use design patterns and coding conventions to o
 
 We have taken the following organizational decisions:
 
-* *_Tasks_*: We have decided to distribute the tasks equally per person so that
-everyone has more or less the same workload. We think it is a good idea that once
-a task is done, it should be reviewed by at least 50% of the group to be taken as valid.
-* *_Github Issues_*: We will use _Github Issues_ to create the tasks mentioned
-above and assign them to different team members. We will also use them to discuss
-any critical decisions that need to be made about the project.
-* *_Github Projects_*: We will use _Github Projects_ to organize the workflow and to track the progress of the project.
-* *_Language_*: We have agreed that we will develop the project in _English_ so the code and documentation will use it as the main language.
+* *_Tasks_*: We have decided to distribute the tasks equally per person so that everyone has approximately the same workload. We think it is a good idea that once a task is done, it should be reviewed by at least 50% of the group to be taken as valid.
+* *_Github Issues_*: We make use of _Github Issues_ to create the tasks mentioned above and assign them to different team members. We will also use them to discuss any critical decisions that need to be made about the project.
+* *_Github Projects_*: We also take into account _Github Projects_ to organize the workflow and to track the progress of the project.
+* *_Language_*: We have agreed that we will develop the project in _English_ so the code and documentation will use it as the main language. This way we will guarantee that the project is accessible to everyone.
+* *_External Meetings_*: We have decided to have meetings on a regular basis to discuss the progress of the project and to make decisions about the next steps to be taken.
+* *_Internal Communication_*: We have decided to use Discord as the main communication channel for the project. We will use it to discuss any issues that arise during the development of the project. The support of Github Webhooks will be used to notify the team of any changes in the repository.
+* *_Documentation_*: We have decided to use _Asciidoc_ as the main documentation tool. This is mainly because the deployment of the documentation is easier and more intuitive given the tools that Wiq0 provides.
