@@ -156,6 +156,8 @@ services:
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-changeme}
       LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-changeme}
       KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-changeme}
+      CUSTOM_USER: ${CUSTOM_USER:-user}
+      CUSTOM_USER_PASSWORD: ${CUSTOM_USER_PASSWORD:-changeme}
     networks:
       - mynetwork
 
