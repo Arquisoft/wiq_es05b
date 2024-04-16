@@ -126,6 +126,76 @@ services:
       - mynetwork
     restart: always
 
+  elasticsearch:
+    container_name: elasticsearch-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/elasticsearch:latest
+    profiles: ["prod"]
+    build: logging/elastic
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - mynetwork
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      discovery.type: single-node
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-changeme}
+    volumes:
+      - elastic_data:/elasticsearch
+    restart: always
+
+  setupelk:
+    container_name: setupelk-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/setupelk:latest
+    stop_signal: SIGINT
+    profiles: ["prod"]
+    build: logging/setup
+    depends_on:
+      - elasticsearch
+    environment:
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-changeme}
+      LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-changeme}
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-changeme}
+      CUSTOM_USER: ${CUSTOM_USER:-user}
+      CUSTOM_USER_PASSWORD: ${CUSTOM_USER_PASSWORD:-changeme}
+    networks:
+      - mynetwork
+
+  logstash:
+    container_name: logstash-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/logstash:latest
+    profiles: ["prod"]
+    build: logging/logstash
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5044:5044"
+    environment:
+      LS_JAVA_OPTS: -Xms256m -Xmx256m
+      LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-changeme}
+    networks:
+      - mynetwork
+    volumes:
+      - logstash_data:/logstash
+    restart: always
+
+  kibana:
+    container_name: kibana-${teamname:-wiq_es05b}
+    image: ghcr.io/arquisoft/wiq_es05b/kibana:latest
+    profiles: ["prod"]
+    build: logging/kibana
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+    networks:
+      - mynetwork
+    environment:
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-changeme}
+    volumes:
+      - kibana_data:/kibana
+    restart: always
+
   # Development services
 
   prometheus:
@@ -163,6 +233,9 @@ services:
 
 volumes:
   mongo_data:
+  elastic_data:
+  kibana_data:
+  logstash_data:
   prometheus_data:
   grafana_data:
 
