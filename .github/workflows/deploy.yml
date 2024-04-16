@@ -244,7 +244,7 @@ jobs:
         echo "${{ secrets.DEPLOY_SSL_CA_BUNDLE }}" > proxy/ca_bundle.crt
         echo "${{ secrets.DEPLOY_SSL_KEY }}" > proxy/private.key
       shell: bash
-    
+
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@v5
       with:
@@ -254,6 +254,114 @@ jobs:
         registry: ghcr.io
         workdir: proxy
         platforms: linux/arm64
+
+  docker-push-setupelk:
+    name: Push initializer container for elasticsearch service Docker Image to GitHub Packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    needs: [ e2e-tests ]
+    steps:
+      - name: Set up Docker Buildx # required for building multi-platform images
+        uses: docker/setup-buildx-action@v1
+
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: arquisoft/wiq_es05b/setupelk
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          workdir: logging/setup
+          platforms: linux/arm64
+    env:
+      ELASTIC_PASSWORD: ${{ secrets.ELASTIC_PASSWORD }}
+      LOGSTASH_INTERNAL_PASSWORD: ${{ secrets.LOGSTASH_INTERNAL_PASSWORD }}
+      KIBANA_SYSTEM_PASSWORD: ${{ secrets.KIBANA_SYSTEM_PASSWORD }}
+      CUSTOM_USER: ${{ secrets.CUSTOM_USER }}
+      CUSTOM_USER_PASSWORD: ${{ secrets.CUSTOM_USER_PASSWORD }}
+
+  docker-push-elasticsearch:
+    name: Push elasticsearch service Docker Image to GitHub Packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    needs: [ e2e-tests ]
+    steps:
+      - name: Set up Docker Buildx # required for building multi-platform images
+        uses: docker/setup-buildx-action@v1
+
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: arquisoft/wiq_es05b/elasticsearch
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          workdir: logging/elastic
+          platforms: linux/arm64
+    env:
+      ELASTIC_PASSWORD: ${{ secrets.ELASTIC_PASSWORD }}
+
+  docker-push-kibana:
+    name: Push kibana service Docker Image to GitHub Packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    needs: [ e2e-tests ]
+    steps:
+      - name: Set up Docker Buildx # required for building multi-platform images
+        uses: docker/setup-buildx-action@v1
+
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: arquisoft/wiq_es05b/kibana
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          workdir: logging/kibana
+          platforms: linux/arm64
+    env:
+      KIBANA_SYSTEM_PASSWORD: ${{ secrets.KIBANA_SYSTEM_PASSWORD }}
+
+  docker-push-logstash:
+    name: Push logstash service Docker Image to GitHub Packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    needs: [ e2e-tests ]
+    steps:
+      - name: Set up Docker Buildx # required for building multi-platform images
+        uses: docker/setup-buildx-action@v1
+
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: arquisoft/wiq_es05b/logstash
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          workdir: logging/logstash
+          platforms: linux/arm64
+    env:
+      LOGSTASH_INTERNAL_PASSWORD: ${{ secrets.LOGSTASH_INTERNAL_PASSWORD }}
        
   deploy:
     name: Deploy over SSH
@@ -266,6 +374,10 @@ jobs:
       - docker-push-jordi
       - docker-push-history
       - docker-push-proxy
+      - docker-push-setupelk
+      - docker-push-elasticsearch
+      - docker-push-kibana
+      - docker-push-logstash
     steps:
     - name: Deploy over SSH
       uses: fifsky/ssh-action@master
