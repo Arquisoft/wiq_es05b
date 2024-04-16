@@ -1,0 +1,44 @@
+name: deploy-utils.yml
+on:
+  push:
+    branches: [ master, develop ]
+    paths:
+      - 'cyt-utils/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Publish package (minor)
+        if: github.ref == 'refs/heads/develop'
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: "@arquisoft"
+      - run: npm ci
+      - run: npm version minor
+      - run: npm publish
+        working-directory: cyt-utils
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish package (major)
+        if: github.ref == 'refs/heads/master'
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: "@arquisoft"
+      - run: npm ci
+      - run: npm version major
+      - run: npm publish
+        working-directory: cyt-utils
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
