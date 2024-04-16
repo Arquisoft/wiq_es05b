@@ -24,7 +24,7 @@ users_passwords=(
 declare -A users_roles
 users_roles=(
 	[logstash_internal]='logstash_writer'
-	["${CUSTOM_USER:-user}"]="kibana_admin"
+	["${CUSTOM_USER:-user}"]="custom_user"
 #	[metricbeat_internal]='metricbeat_writer'
 #	[filebeat_internal]='filebeat_writer'
 #	[heartbeat_internal]='heartbeat_writer'
@@ -37,7 +37,7 @@ users_roles=(
 declare -A roles_files
 roles_files=(
 	[logstash_writer]='logstash_writer.json'
-	[viewdata]="custom_user.json"
+	[custom_user]="custom_user.json"
 #	[metricbeat_writer]='metricbeat_writer.json'
 #	[filebeat_writer]='filebeat_writer.json'
 #	[heartbeat_writer]='heartbeat_writer.json'

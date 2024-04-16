@@ -1,0 +1,45 @@
+{
+  "cluster": [
+    "all"
+  ],
+  "indices" : [
+    {
+      "names" : [
+        ".kibana*",
+        ".reporting*",
+        ".apm-agent-configuration",
+        ".apm-custom-link",
+        ".elastic-connectors",
+        ".elastic-connectors-v1",
+        "apm-*",
+        "tasks",
+        "spaces",
+        "ml",
+        "rollup",
+        "ilm",
+        "watcher",
+        "myindex-*"
+      ],
+      "privileges" : [
+        "all",
+        "read"
+      ]
+    }
+  ],
+  "applications": [
+    {
+      "application": "kibana-.kibana",
+      "privileges": [
+        "all"
+      ],
+      "resources": [
+        "*"
+      ]
+    }
+  ],
+  "run_as": [],
+  "metadata": {},
+  "transient_metadata": {
+    "enabled": true
+  }
+}
