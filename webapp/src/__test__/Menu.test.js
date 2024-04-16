@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, screen, waitFor, act } from '@testing-library/react';
 import axios from 'axios';
 import Menu from '../views/Menu.jsx';
-import { AuthContext } from "../views/context/AuthContext.jsx";
+import { AuthContext } from "../views/context/AuthContext";
 import {MemoryRouter} from "react-router";
 import { useAuth } from "../App.jsx";
 import '@testing-library/jest-dom';
