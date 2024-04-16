@@ -1,6 +1,6 @@
 {
   "name": "@arquisoft/cyt-utils",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "A variety of utilities for the project",
   "main": "index.js",
   "scripts": {

@@ -1,7 +1,7 @@
 name: deploy-utils.yml
 on:
   push:
-    branches: [ master, develop ]
+    branches: [ master, develop, develop-package ]
     paths:
       - 'cyt-utils/**'
 
@@ -14,6 +14,30 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Get commit author and email
+        run: |
+          echo "COMMIT_AUTHOR_NAME=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
+          echo "COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae')" >> $GITHUB_ENV
+
+      - name: Setup author info
+        run: |
+          git config --global user.name "${{ env.COMMIT_AUTHOR_NAME }}"
+          git config --global user.email "${{ env.COMMIT_AUTHOR_EMAIL }}"
+
+      - name: Publish package (patch)
+        if: github.ref == 'refs/heads/develop-package'
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: "@arquisoft"
+      - run: npm ci
+      - run: npm version patch
+      - run: npm publish
+        working-directory: cyt-utils
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish package (minor)
         if: github.ref == 'refs/heads/develop'
@@ -42,3 +66,11 @@ jobs:
         working-directory: cyt-utils
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "${{ env.COMMIT_AUTHOR_NAME }}"
+          git config --global user.email "${{ env.COMMIT_AUTHOR_EMAIL }}"
+          git add cyt-utils/package.json
+          git commit -m "Update package version"
+          git push origin HEAD:${{ github.ref }}
