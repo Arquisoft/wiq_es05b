@@ -1,26 +1,27 @@
-import { Route, Routes } from "react-router";
-import Home from "./views/Home";
-import Nav from "./views/components/Nav";
-import Footer from "./views/components/Footer";
-import Login from "./views/Login";
-import Signup from "./views/Signup";
-import About from "./views/About";
-import Ranking from "./views/Ranking";
-import Menu from "./views/Menu";
-import Game from "./views/Game";
-import Account from "./views/Account";
-import Error from "./views/Error";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import Particles from "./views/components/Particles";
-import React, { useState, useEffect } from "react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Route, Routes } from "react-router";
+import About from "./views/About";
+import Account from "./views/Account";
+import Footer from "./views/components/Footer";
+import Nav from "./views/components/Nav";
+import Particles from "./views/components/Particles";
+import Error from "./views/Error";
+import Game from "./views/Game";
+import Home from "./views/Home";
+import Login from "./views/Login";
+import Menu from "./views/Menu";
+import Ranking from "./views/Ranking";
+import Signup from "./views/Signup";
+import Social from "./views/Social";
 
-import configDefault from "./views/components/config/particles-config.json";
-import configJordi from "./views/components/config/particles-config-jordi";
 import configGraph from "./views/components/config/particles-config-graph";
+import configJordi from "./views/components/config/particles-config-jordi";
+import configDefault from "./views/components/config/particles-config.json";
 
-import { ConfigContext } from "./views/context/ConfigContext";
 import { AuthContext } from "./views/context/AuthContext";
+import { ConfigContext } from "./views/context/ConfigContext";
 
 const theme = createTheme({
   palette: {
@@ -124,6 +125,7 @@ export default function App() {
           <Route path="/menu" element={<Menu />} />
           <Route path="/game/:category" element={<Game />} />
           <Route path="/account" element={<Account />} />
+          <Route path="/social" element={<Social />} />
           <Route path="*" element={<Error />} />
         </Routes>
         <Footer />

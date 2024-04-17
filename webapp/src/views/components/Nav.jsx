@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { AppBar, Box, Container, IconButton, Toolbar, Tooltip, Button, Typography, Menu, MenuItem, Divider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Box, Button, Container, Divider, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ReactComponent as CustomIcon } from '../../media/logoS.svg';
 import { AuthContext } from '../context/AuthContext';
 import { ConfigContext } from '../context/ConfigContext';
-import MyAvatar from "./MyAvatar"
+import MyAvatar from "./MyAvatar";
 
 const pages = [
     { displayed: 'Home', link: '/home', logged: false},
@@ -15,6 +15,7 @@ const pages = [
 ];
 
 const settings = [
+    { displayed: 'Social', link: '/social', logged: true },
     { displayed: 'Account', link: '/account', logged: true },
     { displayed: 'Login', link: '/login', logged: false },
     { displayed: 'Sign Up', link: '/signup', logged: false },
