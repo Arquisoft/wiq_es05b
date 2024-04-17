@@ -29,7 +29,7 @@ module.exports = (app, axios) => {
           .post(`${historyService}/add/${saveId}`,
             {last, statement, options, answer: iAnswer, correct: iCorrect, time, points})
           .then(() => res.json({answer: question.answer, points}))
-          .catch(() => next({ error: "An error occured while fetching the categories"}));
+          .catch(() => res.json({answer: question.answer, points, error: "An error occured while saving the answer"}));
       })
       .catch(() => next({error: "An error occured while fetching the answer"}));
   });
