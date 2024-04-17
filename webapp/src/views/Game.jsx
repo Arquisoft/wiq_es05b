@@ -41,10 +41,7 @@ const Points = ({points}) => {
 }
 
 const Title = ({ question, special }) => {
-    console.log("especial?: " + special);
-    const color = special ? "black" : "red";
-    console.log("color: " + color);
-
+    const color = special ? "red" : "black";
     return (
         <Paper elevation={3} sx={{ padding: "1rem" }}>
             <Typography variant="h4" style={{ color }}>
@@ -187,12 +184,12 @@ const Game = () => {
         options: questions[current].options
       })
       .then(response => {
-        setPoints(points + response.data.points)
-        const correctAnswer = response.data.answer
-        setCount(count+1);
-        setSpecial(count === specialQuestionNumber)
-        const iAnswered = questions[current].options.indexOf(answer)
-        const iCorrect = questions[current].options.indexOf(correctAnswer)
+          setCount(count+1);
+          setSpecial(count === specialQuestionNumber)
+          setPoints(special ?  (points + (2*response.data.points)):(points + response.data.points))
+          const correctAnswer = response.data.answer
+          const iAnswered = questions[current].options.indexOf(answer)
+          const iCorrect = questions[current].options.indexOf(correctAnswer)
 
         if(iAnswered !== iCorrect) {
           changeButtonColor(iAnswered, "red")
