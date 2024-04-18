@@ -1,6 +1,6 @@
 {
-  "name": "@arquisoft/cyt-utils",
-  "version": "1.0.3",
+  "name": "cyt-utils",
+  "version": "1.0.0",
   "description": "A variety of utilities for the project",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/Arquisoft/wiq_es05b#readme",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "registry": "https://registry.npmjs.org"
   },
   "dependencies": {
     "@elastic/ecs-winston-format": "^1.5.3",

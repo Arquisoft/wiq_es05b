@@ -30,42 +30,39 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '20'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: "@arquisoft"
+          registry-url: 'https://registry.npmjs.org'
       - run: npm ci
       - run: npm version patch
       - run: npm publish
         working-directory: cyt-utils
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish package (minor)
         if: github.ref == 'refs/heads/develop'
         uses: actions/setup-node@v2
         with:
           node-version: '20'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: "@arquisoft"
+          registry-url: 'https://registry.npmjs.org'
       - run: npm ci
       - run: npm version minor
       - run: npm publish
         working-directory: cyt-utils
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish package (major)
         if: github.ref == 'refs/heads/master'
         uses: actions/setup-node@v2
         with:
           node-version: '20'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: "@arquisoft"
+          registry-url: 'https://registry.npmjs.org'
       - run: npm ci
       - run: npm version major
       - run: npm publish
         working-directory: cyt-utils
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Commit changes
         run: |
