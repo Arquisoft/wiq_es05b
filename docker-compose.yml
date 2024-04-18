@@ -156,8 +156,6 @@ services:
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-changeme}
       LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-changeme}
       KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-changeme}
-      CUSTOM_USER: ${CUSTOM_USER:-user}
-      CUSTOM_USER_PASSWORD: ${CUSTOM_USER_PASSWORD:-changeme}
     networks:
       - mynetwork
 
@@ -201,7 +199,7 @@ services:
   prometheus:
     image: prom/prometheus
     container_name: prometheus-${teamname:-wiq_es05b}
-    profiles: ["dev"]
+    profiles: ["dev", "prod"]
     networks:
       - mynetwork
     volumes:
@@ -215,17 +213,21 @@ services:
   grafana:
     image: grafana/grafana
     container_name: grafana-${teamname:-wiq_es05b}
-    profiles: ["dev"]
+    profiles: ["dev", "prod"]
     networks:
       - mynetwork
     volumes:
       - grafana_data:/var/lib/grafana
       - ./gatewayservice/monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./gatewayservice/monitoring/grafana/grafana.ini:/etc/grafana/grafana.ini
     environment:
       - GF_SERVER_HTTP_PORT=9091
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+#      - GF_AUTH_DISABLE_LOGIN_FORM=true
+#      - GF_AUTH_ANONYMOUS_ENABLED=true
+#      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD:-changeme}
+      - GF_SERVER_SERVE_FROM_SUB_PATH=${GF_SERVER_SERVE_FROM_SUB_PATH:-false}
     ports:
       - "9091:9091"
     depends_on: 

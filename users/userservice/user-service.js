@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const winston = require('winston');
 const ecsFormat = require('@elastic/ecs-winston-format');
+const promBundle = require('express-prom-bundle');
 
 // Create a logger
 const logger = winston.createLogger({
@@ -29,6 +30,10 @@ mongoose.connect(mongoUri);
 // Middleware to log requests and responses
 app.use(require("./middleware/ReqLoggerMiddleware")(logger.info.bind(logger)))
 app.use(require("./middleware/ResLoggerMiddleware")(logger.info.bind(logger)))
+
+//Prometheus configuration
+const metricsMiddleware = promBundle({includeMethod: true});
+app.use(metricsMiddleware);
 
 // Middleware to parse JSON in request body
 app.use(bodyParser.json());

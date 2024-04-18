@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cron = require('node-cron');
 const winston = require('winston');
 const ecsFormat = require('@elastic/ecs-winston-format');
+const promBundle = require('express-prom-bundle');
 
 // Create a logger
 const logger = winston.createLogger({
@@ -32,6 +33,10 @@ app.use(express.json())
 
 app.use(require("./middleware/ReqLoggerMiddleware")(logger.info.bind(logger)))
 app.use(require("./middleware/ResLoggerMiddleware")(logger.info.bind(logger)))
+
+//Prometheus configuration
+const metricsMiddleware = promBundle({includeMethod: true});
+app.use(metricsMiddleware);
 
 // Routes
 require('./routes/routes')(app, saveRepository);
