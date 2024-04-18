@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cron = require('node-cron');
 const winston = require('winston');
 const ecsFormat = require('@elastic/ecs-winston-format');
+const promBundle = require('express-prom-bundle');
 
 const WikidataQAManager = require('./WikidataGenerator');
 const groups = require('./groups.json');
@@ -40,6 +41,10 @@ app.use(express.json());
 // Middleware to log requests and responses
 app.use(require("./middleware/ReqLoggerMiddleware")(logger.info.bind(logger)))
 app.use(require("./middleware/ResLoggerMiddleware")(logger.info.bind(logger)))
+
+//Prometheus configuration
+const metricsMiddleware = promBundle({includeMethod: true});
+app.use(metricsMiddleware);
 
 // Routes
 require("./routes/routes")(app, questionsRepository);

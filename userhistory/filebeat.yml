@@ -175,7 +175,7 @@ output.logstash:
     mem:
       events: 4096
       flush.min_events: 2048
-      flush.timeout: 60s
+      flush.timeout: 15s
 
 # ================================= Processors =================================
 processors:
