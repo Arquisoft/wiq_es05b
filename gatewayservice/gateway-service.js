@@ -4,6 +4,9 @@ const promBundle = require('express-prom-bundle');
 const axios = require('axios');
 const winston = require('winston');
 const ecsFormat = require('@elastic/ecs-winston-format');
+const swaggerUi = require('swagger-ui-express');
+const fs = require('fs');
+const YAML = require('yaml');
 
 const logger = winston.createLogger({
   level: 'debug',
@@ -47,6 +50,19 @@ require("./routes/jordiRoutes")(app, axios)
 require("./routes/usersRoutes")(app, axios, authTokenMiddleware)
 require("./routes/authRoutes")(app, axios)
 require("./routes/historyRoutes")(app, axios, authTokenMiddleware)
+
+// Open API
+openapiPath='./GatewayAPI.yaml'
+if (fs.existsSync(openapiPath)) {
+  const file = fs.readFileSync(openapiPath, 'utf8');
+
+  // Parse the YAML content into a JavaScript object representing the Swagger document
+  const swaggerDocument = YAML.parse(file);
+
+  app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+} else {
+  console.log("Not configuring OpenAPI. Configuration file not present.")
+}
 
 // Error handler middleware
 app.use(require("./middleware/ErrorHandlerMiddleware")(logger.error.bind(logger)))
