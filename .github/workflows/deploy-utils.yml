@@ -28,40 +28,25 @@ jobs:
           git config --global user.name "${{ env.COMMIT_AUTHOR_NAME }}"
           git config --global user.email "${{ env.COMMIT_AUTHOR_EMAIL }}"
 
-      - name: Publish package (patch)
+      - name: Publish package
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm ci
+
+      - name: Increase version (patch)
+        run: npm version patch
         if: github.ref == 'refs/heads/develop-package'
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
-      - run: npm version patch
-      - run: npm publish
-        working-directory: cyt-utils
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish package (minor)
+      - name: Increase version (minor)
+        run: npm version minor
         if: github.ref == 'refs/heads/develop'
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
-      - run: npm version minor
-      - run: npm publish
-        working-directory: cyt-utils
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish package (major)
+      - name: Increase version (major)
         if: github.ref == 'refs/heads/master'
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
-      - run: npm version major
+        run: npm version major
+
       - run: npm publish
         working-directory: cyt-utils
         env:
@@ -71,6 +56,6 @@ jobs:
         run: |
           git config --global user.name "${{ env.COMMIT_AUTHOR_NAME }}"
           git config --global user.email "${{ env.COMMIT_AUTHOR_EMAIL }}"
-          git add cyt-utils/package.json
+          git add package.json
           git commit -m "Update package version"
           git push origin HEAD:${{ github.ref }}
