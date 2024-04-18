@@ -7,6 +7,7 @@ on:
 
 jobs:
   build:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -17,16 +18,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Get commit author and email
-        run: |
-          echo "COMMIT_AUTHOR_NAME=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
-          echo "COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae')" >> $GITHUB_ENV
-
-      - name: Setup author info
-        run: |
-          git config --global user.name "${{ env.COMMIT_AUTHOR_NAME }}"
-          git config --global user.email "${{ env.COMMIT_AUTHOR_EMAIL }}"
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Publish package
         uses: actions/setup-node@v2
@@ -53,11 +46,12 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Commit changes
-        run: |
-          git config --global user.name "${{ env.COMMIT_AUTHOR_NAME }}"
-          git config --global user.email "${{ env.COMMIT_AUTHOR_EMAIL }}"
-          git add package.json
-          git commit -m "Update package version"
-          git push origin HEAD:${{ github.ref }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'package.json'
+          cwd: 'cyt-utils'
+          message: '[skip ci] Bump version'
+          author_name: 'github-actions[bot]'
+          author_email: 'github-actions[bot]@users.noreply.github.com'
+          committer_name: 'algarfer'
+          committer_email: 'uo289295@uniovi.es'
