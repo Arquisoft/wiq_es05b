@@ -67,7 +67,7 @@ const Line = ({progressBarPercent}) => {
 const Timer = ({time, setTime, interval}) => {
 
   useEffect(() => {
-    if(time === 0) {
+    if(time <= 0) {
       clearInterval(interval.current)
       return;
     }
