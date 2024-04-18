@@ -70,8 +70,9 @@ const Timer = ({time, setTime, interval}) => {
     if(time <= 0) {
       clearInterval(interval.current)
       return;
+    } else {
+      interval.current = window.setInterval(() => setTime(time - 1), 1000)
     }
-    interval.current = window.setInterval(() => setTime(time - 1), 1000)
     return () => {
       setInterval(null)
       clearInterval(interval.current)
