@@ -14,9 +14,9 @@ module.exports = (app, axios, authTokenMiddleware) => {
               ...data
             });
           })
-          .catch((error) =>{
+          .catch((error) => {
             let e = error.error || "Login service is having a nap right now"
-            if (error.code && error.code.includes("ECONNREFUSED")) 
+            if (error.code && error.code.includes("ECONNREFUSED"))
               e = { error: "Service unavailable" }
             res.status(200).json({ message: response.data.message, error: e })
           })
@@ -29,6 +29,21 @@ module.exports = (app, axios, authTokenMiddleware) => {
     axios
       .get(`${userServiceUrl}/user/${userId}`)
       .then(({ data }) => res.json(data))
-      .catch(() => next({error: "An error occurred while fetching user data"}))
-  })
+      .catch(() => next({ error: "An error occurred while fetching user data" }))
+  });
+
+  app.get("/users/:filter", authTokenMiddleware, async (req, res, next) => {
+    console.log("asjlfbajsbsaujbsabosafbfsai")
+    let filter = req.params.filter;
+
+    axios
+      .get(`${userServiceUrl}/users/${filter}`)
+      .then(({ data }) => {
+        console.log(data);
+        if (data.length === 0) return next({ status: 404, error: "No users found" });
+        res.json(data);
+      })
+      .catch(() => next({ error: "An error occurred while fetching user data" }));
+  });
+
 };

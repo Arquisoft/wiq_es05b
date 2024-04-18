@@ -4,13 +4,13 @@ module.exports = function (app, userRepository) {
   app.post("/adduser", async (req, res, next) => {
     const { username, password } = req.body;
 
-    userRepository.getUser({username})
+    userRepository.getUser({ username })
       .then(async user => {
         if (user) return next({ status: 400, error: "Username already exists" });
-    
+
         // Encrypt the password before saving it
         const hashedPassword = await bcrypt.hash(password, 10);
-    
+
         userRepository
           .insertUser(username, hashedPassword)
           .then((result) => res.json(result))
@@ -22,15 +22,35 @@ module.exports = function (app, userRepository) {
   app.get("/user/:userId", (req, res, next) => {
     const { userId } = req.params;
 
-    if(!userRepository.checkValidId(userId)) return next({ status: 400, error: "Invalid id format" })
+    if (!userRepository.checkValidId(userId)) return next({ status: 400, error: "Invalid id format" })
 
     userRepository
       .getUser({ _id: userId })
       .then(user => {
-        if(!user) return next({ status: 404, error: "User not found" })
-        const {_id, __v, password, ...output} = user
+        if (!user) return next({ status: 404, error: "User not found" })
+        const { _id, __v, password, ...output } = user
         res.json(output)
       })
       .catch(() => next({ error: "An error occurred while fetching user data" }));
+  })
+
+  app.get("/users/:filter", async (req, res, next) => {
+
+    let filter;
+    if (!req.params.filter && filter === 'all')
+      filter = {};
+    else
+      filter = { username: { $regex: req.params.filter, $options: "i" } }
+
+    try {
+      const users = await userRepository.getUsers(filter);
+      console.log(users)
+      if (users.length === 0)
+        return next({ status: 404, error: "No users found" });
+      else
+        res.json(users);
+    } catch (error) {
+      next({ error: "An error occurred while fetching user data" })
+    };
   })
 };

@@ -1,9 +1,12 @@
 import { Container, Paper, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import ProtectedComponent from "./components/ProtectedComponent";
+import { AuthContext } from "./context/AuthContext";
+
 
 const Menu = (props) => {
-    const {setSelectedTab} = props;
+    const { setSelectedTab } = props;
 
     return (
         <Container sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -27,6 +30,26 @@ const tabStyle = {
 }
 
 const AddFriendTab = () => {
+    const {getUser} = useContext(AuthContext);
+    const [users, setUsers] = useState([]);
+
+    const fetchUsers = async (filter) => {
+        if (!filter) filter = 'all';
+
+        const response = await axios({
+            method: 'get',
+            url: `/users/´${filter}`,
+            headers: {
+                'Authorization': `Bearer ${getUser().token}`
+            }});
+
+        setUsers(response.data);
+    }
+
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
     return (
         <Container sx={tabStyle} >
             <Typography variant="h4" element="p">Add Friends</Typography>
@@ -53,7 +76,7 @@ export default function Social() {
             >
 
                 <Menu setSelectedTab={setSelectedTab} />
-                <Paper  elevation={3} sx={{
+                <Paper elevation={3} sx={{
                     height: "100%",
                 }} >
                     {selectedTab === "friendsTab" && <Typography variant="h6" element="p">Friends</Typography>}

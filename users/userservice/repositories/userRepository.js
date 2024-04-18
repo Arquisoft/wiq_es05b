@@ -33,6 +33,14 @@ module.exports = {
       throw error.message;
     }
   },
+  getUsers: async function (filter) {
+    try {
+      await this.checkUp()
+      return await this.mongoose.connection.collection("users").find(filter).toArray()
+    } catch (error) {
+      throw error.message;
+    }
+  },
   checkValidId: function (id) {
     return !(!id || !this.mongoose.isValidObjectId(id));
   }
