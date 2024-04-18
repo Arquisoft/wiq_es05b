@@ -1,4 +1,4 @@
-name: deploy-utils.yml
+name: Deploy npm utils package
 on:
   push:
     branches: [ master, develop, develop-package ]
@@ -59,3 +59,5 @@ jobs:
           git add package.json
           git commit -m "Update package version"
           git push origin HEAD:${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
