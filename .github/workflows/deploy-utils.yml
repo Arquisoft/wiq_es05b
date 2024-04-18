@@ -11,6 +11,9 @@ jobs:
     permissions:
       contents: read
       packages: write
+    defaults:
+      run:
+        working-directory: cyt-utils
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
