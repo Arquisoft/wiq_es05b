@@ -12,4 +12,4 @@ const logger = (file="logs/info.log", level="debug") => winston.createLogger({
   ]
 })
 
-module.exports = logger;
+module.exports = logger
