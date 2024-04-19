@@ -1,8 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cron = require('node-cron');
-const winston = require('winston');
-const ecsFormat = require('@elastic/ecs-winston-format');
+const { loggerFactory, errorHandlerMiddleware, responseLoggerMiddleware, requestLoggerMiddleware } = require("cyt-utils")
 
 const WikidataQAManager = require('./WikidataGenerator');
 const groups = require('./groups.json');
@@ -12,16 +11,7 @@ const generators = groups.map(group => new WikidataQAManager(group));
 const app = express();
 const port = 8003;
 
-const logger = winston.createLogger({
-	level: 'debug',
-	format: ecsFormat({ convertReqRes: true }),
-	transports: [
-		new winston.transports.File({
-			filename: 'logs/info.log',
-			level: 'debug'
-		})
-	]
-})
+const logger = loggerFactory()
 
 // Connect to the database
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/questions';
@@ -38,13 +28,13 @@ questionsRepository.init(mongoose, mongoUri);
 app.use(express.json());
 
 // Middleware to log requests and responses
-app.use(require("./middleware/ReqLoggerMiddleware")(logger.info.bind(logger)))
-app.use(require("./middleware/ResLoggerMiddleware")(logger.info.bind(logger)))
+app.use(requestLoggerMiddleware(logger.info.bind(logger), "Jordi Service"))
+app.use(responseLoggerMiddleware(logger.info.bind(logger), "Jordi Service"))
 
 // Routes
 require("./routes/routes")(app, questionsRepository);
 
-app.use(require("./middleware/ErrorHandlerMiddleware")(logger.error.bind(logger)))
+app.use(errorHandlerMiddleware(logger.error.bind(logger), "Jordi Service"))
 
 // Run the server
 const server = app.listen(port, function () {

@@ -2,19 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const promBundle = require('express-prom-bundle');
 const axios = require('axios');
-const winston = require('winston');
-const ecsFormat = require('@elastic/ecs-winston-format');
+const { loggerFactory,  requestLoggerMiddleware,  responseLoggerMiddleware,  errorHandlerMiddleware } = require("cyt-utils")
 
-const logger = winston.createLogger({
-  level: 'debug',
-  format: ecsFormat({ convertReqRes: true }),
-  transports: [
-    new winston.transports.File({
-      filename: 'logs/info.log',
-      level: 'debug'
-    })
-  ]
-})
+const logger = loggerFactory()
 
 // Create the server
 const app = express();
@@ -23,8 +13,8 @@ const port = 8000;
 app.use(cors());
 app.use(express.json());
 
-app.use(require("./middleware/ReqLoggerMiddleware")(logger.info.bind(logger)))
-app.use(require("./middleware/ResLoggerMiddleware")(logger.info.bind(logger)))
+app.use(requestLoggerMiddleware(logger.info.bind(logger), "Gateway Service"))
+app.use(responseLoggerMiddleware(logger.info.bind(logger), "Gateway Service"))
 
 //Prometheus configuration
 const metricsMiddleware = promBundle({includeMethod: true});
@@ -50,7 +40,7 @@ require("./routes/authRoutes")(app, axios)
 require("./routes/historyRoutes")(app, axios, authTokenMiddleware)
 
 // Error handler middleware
-app.use(require("./middleware/ErrorHandlerMiddleware")(logger.error.bind(logger)))
+app.use(errorHandlerMiddleware(logger.error.bind(logger), "Gateway Service"))
 
 // Start the gateway service
 const server = app.listen(port, () =>
