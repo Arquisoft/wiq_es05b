@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 const promBundle = require('express-prom-bundle');
 const axios = require('axios');
 const { loggerFactory,  requestLoggerMiddleware,  responseLoggerMiddleware,  errorHandlerMiddleware } = require("cyt-utils")
@@ -42,7 +41,7 @@ require("./routes/authRoutes")(app, axios)
 require("./routes/historyRoutes")(app, axios, authTokenMiddleware)
 
 // Open API
-openapiPath='./GatewayAPI.yaml'
+const openapiPath='./GatewayAPI.yaml'
 if (fs.existsSync(openapiPath)) {
   const file = fs.readFileSync(openapiPath, 'utf8');
 

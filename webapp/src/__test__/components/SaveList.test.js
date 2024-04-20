@@ -8,18 +8,7 @@ import { MemoryRouter } from "react-router";
 
 jest.mock('axios');
 jest.mock('../../views/context/AuthContext');
-
-const localStorageMock = (() => {
-    let store = {};
-    return {
-        getItem: key => store[key],
-        setItem: (key, value) => { store[key] = value },
-        removeItem: key => { delete store[key] },
-        clear: () => { store = {} }
-    };
-})();
-
-Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+require("../utils/localStorageMock")()
 
 describe('SaveList component', () => {
     const mockSaves = [

@@ -208,15 +208,18 @@ const Game = () => {
       .catch(e => setHistorialError(e.response.data.error))
   }
 
-  const createSave = () => {
-    axios
-    .post("/history/create", {
-      token: getUser().token,
-      category: category,
-      userId: getUser().userId
-    })
-    .then(response => saveId.current = response.data.id)
-    .catch(err => setHistorialError(err.response.data.error))
+  const createSave = async () => {
+    try {
+      const response = await axios
+        .post("/history/create", {
+          token: getUser().token,
+          category: category,
+          userId: getUser().userId
+        })
+      saveId.current = response.data.id
+    } catch (err) {
+      setHistorialError(err.response.data.error)
+    }
   }
 
   useEffect( () => {
