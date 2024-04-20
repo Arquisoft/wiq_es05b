@@ -10,7 +10,7 @@ jest.mock('axios');
 jest.mock('../views/context/AuthContext');
 require("./utils/localStorageMock")()
 
-const render = customRender(useAuth());
+const render = customRender((() => useAuth())())
 
 // Configura una implementación simulada de axios
 jest.mock('../App.jsx', () => ({

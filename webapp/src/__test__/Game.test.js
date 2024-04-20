@@ -8,6 +8,7 @@ import '@testing-library/jest-dom';
 
 jest.mock('axios');
 jest.mock('../views/context/AuthContext');
+const render = customRender((() => useAuth())())
 
 require("./utils/localStorageMock")()
 
@@ -24,7 +25,6 @@ jest.mock('../App.jsx', () => ({
   })
 }));
 
-const render = customRender(useAuth())
 describe('Game Component', () => {
 
   beforeEach(() => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { customRender } from "../utils/customRenderer";
+import { customRender} from "../utils/customRenderer";
 import { screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { useAuth } from "../../App.jsx";
@@ -10,7 +10,7 @@ jest.mock('axios');
 jest.mock('../../views/context/AuthContext');
 require("../utils/localStorageMock")()
 
-const render = customRender(useAuth())
+const render = customRender((() => useAuth())())
 
 jest.mock('../../App.jsx', () => ({
     useAuth: () => ({

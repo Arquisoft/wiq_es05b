@@ -9,7 +9,7 @@ jest.mock('axios');
 jest.mock('../views/context/AuthContext');
 require("./utils/localStorageMock")()
 
-const render = customRender(useAuth())
+const render = customRender((() => useAuth())())
 
 jest.mock('../App.jsx', () => ({
     useAuth: jest.fn().mockReturnValue({
