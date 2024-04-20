@@ -38,7 +38,7 @@ const AddFriendTab = () => {
 
         const response = await axios({
             method: 'get',
-            url: `/users/´${filter}`,
+            url: `/users/search/${filter}`,
             headers: {
                 'Authorization': `Bearer ${getUser().token}`
             }});
@@ -52,7 +52,7 @@ const AddFriendTab = () => {
 
     return (
         <Container sx={tabStyle} >
-            <Typography variant="h4" element="p">Add Friends</Typography>
+            <Typography variant="h4" element="p">Add Frieeends</Typography>
             <TextField label="Search users..." variant="standard" />
 
         </Container>

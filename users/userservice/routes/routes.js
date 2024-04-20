@@ -34,23 +34,21 @@ module.exports = function (app, userRepository) {
       .catch(() => next({ error: "An error occurred while fetching user data" }));
   })
 
-  app.get("/users/:filter", async (req, res, next) => {
+  app.get("/users/search/:filter", async (req, res, next) => {
 
     let filter;
-    if (!req.params.filter && filter === 'all')
+    if (req.params.filter && req.params.filter  === 'all')
       filter = {};
     else
       filter = { username: { $regex: req.params.filter, $options: "i" } }
+      console.log('filter: ' + req.params.filter)
 
     try {
       const users = await userRepository.getUsers(filter);
-      console.log(users)
-      if (users.length === 0)
-        return next({ status: 404, error: "No users found" });
-      else
+      console.log(users);
         res.json(users);
     } catch (error) {
-      next({ error: "An error occurred while fetching user data" })
+      next({ error: "us: An error occurred while fetching user data: " + error	})
     };
   })
 };

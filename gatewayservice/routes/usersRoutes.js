@@ -32,18 +32,18 @@ module.exports = (app, axios, authTokenMiddleware) => {
       .catch(() => next({ error: "An error occurred while fetching user data" }))
   });
 
-  app.get("/users/:filter", authTokenMiddleware, async (req, res, next) => {
-    console.log("asjlfbajsbsaujbsabosafbfsai")
+  app.get("/users/search/:filter", async (req, res, next) => {
+    console.log("gw")
     let filter = req.params.filter;
+    console.log(filter)
 
     axios
-      .get(`${userServiceUrl}/users/${filter}`)
+      .get(`${userServiceUrl}/users/search/${filter}`)
       .then(({ data }) => {
         console.log(data);
-        if (data.length === 0) return next({ status: 404, error: "No users found" });
         res.json(data);
       })
-      .catch(() => next({ error: "An error occurred while fetching user data" }));
+      .catch((error) => next({ error: "gw: An error occurred while fetching user data: " + error}));
   });
 
 };
