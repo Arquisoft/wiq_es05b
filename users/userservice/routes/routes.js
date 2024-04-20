@@ -38,10 +38,9 @@ module.exports = function (app, userRepository) {
 
     let filter;
     if (req.params.filter && req.params.filter  === 'all')
-      filter = {};
+      filter = null;
     else
       filter = { username: { $regex: req.params.filter, $options: "i" } }
-      console.log('filter: ' + req.params.filter)
 
     try {
       const users = await userRepository.getUsers(filter);
