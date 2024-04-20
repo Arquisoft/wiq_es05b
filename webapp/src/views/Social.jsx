@@ -1,9 +1,9 @@
-import { Container, Paper, TextField, Typography } from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
+import { Button, Container, Paper, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import ProtectedComponent from "./components/ProtectedComponent";
 import { AuthContext } from "./context/AuthContext";
-
 
 const Menu = (props) => {
     const { setSelectedTab } = props;
@@ -26,12 +26,13 @@ const tabStyle = {
     gap: "1rem",
     padding: "2rem",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
 }
 
 const AddFriendTab = () => {
-    const {getUser} = useContext(AuthContext);
+    const { getUser } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
+    const [filter, setFilter] = useState('');
 
     const fetchUsers = async (filter) => {
         if (!filter) filter = 'all';
@@ -41,7 +42,8 @@ const AddFriendTab = () => {
             url: `/users/search/${filter}`,
             headers: {
                 'Authorization': `Bearer ${getUser().token}`
-            }});
+            }
+        });
 
         setUsers(response.data);
     }
@@ -52,8 +54,23 @@ const AddFriendTab = () => {
 
     return (
         <Container sx={tabStyle} >
-            <Typography variant="h4" element="p">Add Frieeends</Typography>
-            <TextField label="Search users..." variant="standard" />
+            <Typography variant="h4" element="p">Add Friends</Typography>
+            <Container sx={{ display: "flex", gap: "1rem", justifyContent: 'center'}}>
+            <TextField label="Search users..." variant="standard" value={filter}
+                onChange={(event) => setFilter(event.target.value)} />
+            <Button variant="contained" onClick={() => fetchUsers(filter)}><SearchIcon /></Button>
+            </Container>
+
+            <Container sx={{ padding: '2em', display: "flex", flexDirection: "column", gap: "1rem", overflowY: "scroll", height: "400px", width: "100%", alignItems: "center" }}>
+                {users.map((user, index) => {
+                    return (
+                        <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
+                            <Typography variant="body1" element="p">{user.username}</Typography>
+                            <Button variant="contained">Add Friend</Button>
+                        </Paper>
+                    )
+                })}
+            </Container>
 
         </Container>
     )
