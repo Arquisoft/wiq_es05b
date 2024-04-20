@@ -41,7 +41,7 @@ require("./routes/authRoutes")(app, axios)
 require("./routes/historyRoutes")(app, axios, authTokenMiddleware)
 
 // Open API
-openapiPath='./GatewayAPI.yaml'
+const openapiPath='./GatewayAPI.yaml'
 if (fs.existsSync(openapiPath)) {
   const file = fs.readFileSync(openapiPath, 'utf8');
 
