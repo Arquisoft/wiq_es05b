@@ -9,14 +9,14 @@ describe("Footer component", () => {
 
         const currentYear = new Date().getFullYear();
         expect(screen.getByText(`© ${currentYear} ASW - WIQ05b`)).toBeInTheDocument();
-        expect(screen.getByRole("navigation")).toBeInTheDocument();
-        const appBar = screen.getByRole("navigation");
+        expect(screen.getByTestId("footer")).toBeInTheDocument();
+        const appBar = screen.getByTestId("footer");
         expect(appBar).toHaveStyle({ backgroundColor: "primary" });
     });
 
     test("has fixed position at the bottom of the page", () => {
         render(<Footer />);
-        const appBar = screen.getByRole("navigation");
+        const appBar = screen.getByTestId("footer");
         expect(appBar).toHaveStyle({ top: "auto", bottom: 0, position: "fixed" });
     });
 

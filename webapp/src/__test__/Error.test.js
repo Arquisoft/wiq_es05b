@@ -1,27 +1,14 @@
 import React from 'react';
-import { render, fireEvent, screen, waitFor, act } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import axios from 'axios';
 import Error from '../views/Error.jsx';
 import { useAuth } from "../App.jsx";
 import { AuthContext } from "../views/context/AuthContext.jsx";
 import {MemoryRouter} from "react-router";
-import Menu from "../views/Menu";
 
 jest.mock('axios');
 jest.mock('../views/context/AuthContext');
-
-const localStorageMock = (() => {
-    let store = {};
-    return {
-        getItem: key => store[key],
-        setItem: (key, value) => { store[key] = value },
-        removeItem: key => { delete store[key] },
-        clear: () => { store = {} }
-    };
-})();
-
-Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+require("./utils/localStorageMock")()
 
 jest.mock('../App.jsx', () => ({
     useAuth: jest.fn().mockReturnValue({

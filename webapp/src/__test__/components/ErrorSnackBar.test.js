@@ -1,7 +1,6 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import ErrorSnackBar from "../../views/components/ErrorSnackBar";
-import { Snackbar } from "@mui/material";
 import '@testing-library/jest-dom';
 
 describe("ErrorSnackBar component", () => {

@@ -1,28 +1,15 @@
-/*
 import React from "react";
 import {render, screen, fireEvent, act} from "@testing-library/react";
 import Nav from "../../views/components/Nav";
 import {AuthContext} from "../../views/context/AuthContext";
 import {MemoryRouter} from "react-router";
-import Menu from "../../views/Menu";
 import { useAuth } from "../../App.jsx";
-import axios from "axios";
-import { ConfigContext } from '../../views/context/ConfigContext';
 
 jest.mock('axios');
 jest.mock('../../views/context/AuthContext');
 
-const localStorageMock = (() => {
-    let store = {};
-    return {
-        getItem: key => store[key],
-        setItem: (key, value) => { store[key] = value },
-        removeItem: key => { delete store[key] },
-        clear: () => { store = {} }
-    };
-})();
+require("../utils/localStorageMock");
 
-Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 jest.mock('../../App.jsx', () => ({
     useAuth: jest.fn().mockReturnValue({
         getUser: jest.fn().mockReturnValue({
@@ -70,4 +57,3 @@ describe("Nav component", () => {
         expect(logoutMenuItem).toBeInTheDocument();
     });
 });
-*/
