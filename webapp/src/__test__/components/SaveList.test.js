@@ -1,14 +1,29 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { customRender } from "../utils/customRenderer";
+import { screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { useAuth } from "../../App.jsx";
 import axios from 'axios';
 import SaveList from '../../views/components/SaveList';
-import { AuthContext } from "../../views/context/AuthContext";
-import { MemoryRouter } from "react-router";
 
 jest.mock('axios');
 jest.mock('../../views/context/AuthContext');
 require("../utils/localStorageMock")()
+
+const render = customRender(useAuth())
+
+jest.mock('../../App.jsx', () => ({
+    useAuth: () => ({
+        getUser: () => ({
+            token: 'mockToken',
+            userId: '1',
+            username: 'testUser'
+        }),
+        isAuthenticated: () => true,
+        logout: jest.fn(),
+        setUser: jest.fn()
+    })
+}));
 
 describe('SaveList component', () => {
     const mockSaves = [
@@ -34,13 +49,7 @@ describe('SaveList component', () => {
 
     beforeEach(() => {
         axios.mockResolvedValueOnce({ data: { saves: mockSaves, maxPages: 2 } });
-        render(
-            <AuthContext.Provider value={{ getUser: jest.fn().mockReturnValue({ userId: 1, token: 'mockToken' }) }}>
-                <MemoryRouter>
-                    <SaveList />
-                </MemoryRouter>
-            </AuthContext.Provider>
-        );
+        render(<SaveList />);
     });
 
     it('renders a list of saves and handles pagination', async () => {

@@ -1,7 +1,10 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { customRender } from "../utils/customRenderer";
+import { screen } from "@testing-library/react";
 import Footer from "../../views/components/Footer";
 import '@testing-library/jest-dom';
+
+const render = customRender();
 
 describe("Footer component", () => {
     test("renders current year and text", () => {

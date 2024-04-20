@@ -49,19 +49,13 @@ const Title = ({question}) => {
 }
 
 const Line = ({progressBarPercent}) => {
-  return progressBarPercent > 70 ? (
+  return  (
     <LinearProgress
-      color="red"
-      variant={"determinate"}
+      color={progressBarPercent > 70 ? "red" : "light"}
+      variant="determinate"
       value={progressBarPercent}
     />
-  ) : (
-    <LinearProgress
-      color="light"
-      variant={"determinate"}
-      value={progressBarPercent}
-    />
-  );
+  )
 }
 
 const Timer = ({time, setTime, interval}) => {

@@ -1,10 +1,12 @@
 import React from 'react';
-import { render, waitFor, screen } from '@testing-library/react';
+import { customRender } from "./utils/customRenderer";
+import { waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import axios from 'axios';
 import Ranking from '../views/Ranking';
 
 jest.mock('axios');
+const render = customRender();
 
 describe('Ranking', () => {
     test('renders global ranking components', async () => {

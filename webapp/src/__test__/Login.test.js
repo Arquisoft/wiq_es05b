@@ -1,15 +1,16 @@
 import React from 'react';
-import { render, fireEvent, screen, waitFor, act } from '@testing-library/react';
+import {customRender} from "./utils/customRenderer";
+import { fireEvent, screen, waitFor, act } from '@testing-library/react';
 import axios from 'axios';
 import Login from '../views/Login.jsx';
-import { AuthContext } from "../views/context/AuthContext.jsx";
-import {MemoryRouter} from "react-router";
 import { useAuth } from "../App.jsx";
 import '@testing-library/jest-dom';
 
 jest.mock('axios');
 jest.mock('../views/context/AuthContext');
 require("./utils/localStorageMock")()
+
+const render = customRender(useAuth())
 
 // Configura una implementación simulada de axios
 jest.mock('../App.jsx', () => ({
@@ -23,19 +24,13 @@ jest.mock('../App.jsx', () => ({
 
 describe('Login component', () => {
 
-  const mockAuth = useAuth();
-
   beforeEach(() => {
     axios.post.mockReset();
   });
   
   it('should log in successfully', async () => {
     
-    await act(() => render(
-      <AuthContext.Provider value={mockAuth}>
-        <MemoryRouter><Login /></MemoryRouter>
-      </AuthContext.Provider>
-    ));
+    await act(() => render(<Login />));
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
@@ -57,11 +52,7 @@ describe('Login component', () => {
   });
 
   it('should handle error when logging in', async () => {
-    await act(() => render(
-      <AuthContext.Provider value={mockAuth}>
-        <MemoryRouter><Login /></MemoryRouter>
-      </AuthContext.Provider>
-    ));
+    await act(() => render(<Login />));
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);

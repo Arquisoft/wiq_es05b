@@ -1,14 +1,15 @@
 import React from "react";
-import {render, screen, fireEvent, act} from "@testing-library/react";
+import { customRender } from "../utils/customRenderer";
+import { screen, fireEvent, act } from "@testing-library/react";
 import Nav from "../../views/components/Nav";
-import {AuthContext} from "../../views/context/AuthContext";
-import {MemoryRouter} from "react-router";
 import { useAuth } from "../../App.jsx";
 
 jest.mock('axios');
 jest.mock('../../views/context/AuthContext');
 
 require("../utils/localStorageMock");
+
+const render = customRender(useAuth())
 
 jest.mock('../../App.jsx', () => ({
     useAuth: jest.fn().mockReturnValue({
@@ -24,13 +25,8 @@ jest.mock('../../App.jsx', () => ({
 }));
 
 describe("Nav component", () => {
-    const mockAuth = useAuth();
     test("renders navigation links", async () => {
-        await act(() => render(
-            <AuthContext.Provider value={mockAuth}>
-                <MemoryRouter><Nav/></MemoryRouter>
-            </AuthContext.Provider>
-        ));
+        await act(() => render(<Nav/>));
         const homeLink = screen.getByText("Home");
         const menuLink = screen.getByText("Menu");
         const aboutLink = screen.getByText("About");
@@ -43,11 +39,7 @@ describe("Nav component", () => {
     });
 
     test("opens user menu on click", async() => {
-        await act(() => render(
-            <AuthContext.Provider value={mockAuth}>
-                    <MemoryRouter><Nav/></MemoryRouter>
-            </AuthContext.Provider>
-        ));
+        await act(() => render(<Nav/>));
         const avatarButton = screen.getByLabelText("Open settings");
         fireEvent.click(avatarButton);
         const accountMenuItem = screen.getByText("Account");
