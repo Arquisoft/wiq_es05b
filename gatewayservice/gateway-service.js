@@ -3,6 +3,9 @@ const cors = require('cors');
 const promBundle = require('express-prom-bundle');
 const axios = require('axios');
 const { loggerFactory,  requestLoggerMiddleware,  responseLoggerMiddleware,  errorHandlerMiddleware } = require("cyt-utils")
+const swaggerUi = require('swagger-ui-express');
+const fs = require('fs');
+const YAML = require('yaml');
 
 const logger = loggerFactory()
 
@@ -10,7 +13,6 @@ const logger = loggerFactory()
 const app = express();
 const port = 8000;
 
-app.use(cors());
 app.use(express.json());
 
 app.use(requestLoggerMiddleware(logger.info.bind(logger), "Gateway Service"))
@@ -38,6 +40,19 @@ require("./routes/jordiRoutes")(app, axios)
 require("./routes/usersRoutes")(app, axios, authTokenMiddleware)
 require("./routes/authRoutes")(app, axios)
 require("./routes/historyRoutes")(app, axios, authTokenMiddleware)
+
+// Open API
+openapiPath='./GatewayAPI.yaml'
+if (fs.existsSync(openapiPath)) {
+  const file = fs.readFileSync(openapiPath, 'utf8');
+
+  // Parse the YAML content into a JavaScript object representing the Swagger document
+  const swaggerDocument = YAML.parse(file);
+
+  app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+} else {
+  console.log("Not configuring OpenAPI. Configuration file not present.")
+}
 
 // Error handler middleware
 app.use(errorHandlerMiddleware(logger.error.bind(logger), "Gateway Service"))

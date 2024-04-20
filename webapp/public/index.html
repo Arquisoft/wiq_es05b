@@ -4,11 +4,26 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/logo192.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="A small questions game"
-    />
+    <meta name="description" content="A small questions game" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@cyt">
+    <meta name="twitter:creator" content="@wiq_es05b">
+    <meta name="twitter:title" content="Conocer y Triunfar">
+    <meta name="twitter:description" content="A small questions game">
+    <meta name="twitter:image" content="%PUBLIC_URL%/twcard.png">
+    <meta name="twitter:image:alt" content="Conocer y Triunfar logo">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Conocer y Triunfar" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cyt.is-cool.dev/" />
+    <meta property="og:image" content="%PUBLIC_URL%/twcard.png" />
+    <meta property="og:description" content="A small questions game" /> 
+    <meta property="og:site_name" content="Conocer y Triunfar" />
+
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -31,6 +46,54 @@
         height: 100vh;
       }
     </style>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@id": "https://cyt.is-cool.dev/",
+        "@type": "WebSite",
+        "url": "https://cyt.is-cool.dev/",
+        "name": "Conocer y Triunfar",
+        "image": "%PUBLIC_URL%/twcard.png",
+        "description": "A small questions game",
+        "alternateName": "CyT",
+        "additionalType": "Game",
+        "potentialAction":{
+          "@type": "PlayAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://cyt.is-cool.dev/",
+            "actionPlatform": [
+              "http://schema.org/DesktopWebPlatform",
+              "http://schema.org/IOSPlatform",
+              "http://schema.org/AndroidPlatform"
+            ]
+          }
+        },
+        "audience": {
+          "@type": "Audience",
+          "audienceType": "all audiences"
+        },
+        "creator": {
+          "@type": "Organization",
+          "name": "wiq_es05b"
+        },
+        "copyrightYear": "2024",
+        "countryOfOrigin": {
+          "@type": "Country",
+          "name": "Spain"
+        },
+        "inLanguage": "en-US",
+        "isAccessibleForFree": "True",
+        "isBasedOn": "https://www.rtve.es/play/videos/saber-y-ganar/",
+        "isFamilyFriendly": "True",
+        "maintainer": {
+          "@type": "Organization",
+          "name": "wiq_es05b"
+        },
+        "thumbnailUrl": "%PUBLIC_URL%/logo192.png"
+      }
+    </script>
 
   </head>
   <body>

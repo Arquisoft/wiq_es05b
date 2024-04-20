@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const {loggerFactory, errorHandlerMiddleware, responseLoggerMiddleware, requestLoggerMiddleware} = require("cyt-utils")
+const promBundle = require('express-prom-bundle');
 
 // Create a logger
 const logger = loggerFactory()
@@ -19,6 +20,10 @@ mongoose.connect(mongoUri);
 // Middleware to log requests and responses
 app.use(requestLoggerMiddleware(logger.info.bind(logger), "User Service"))
 app.use(responseLoggerMiddleware(logger.info.bind(logger), "User Service"))
+
+//Prometheus configuration
+const metricsMiddleware = promBundle({includeMethod: true});
+app.use(metricsMiddleware);
 
 // Middleware to parse JSON in request body
 app.use(bodyParser.json());

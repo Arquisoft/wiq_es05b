@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cron = require('node-cron');
 const { loggerFactory, errorHandlerMiddleware, responseLoggerMiddleware, requestLoggerMiddleware} = require("cyt-utils")
+const promBundle = require('express-prom-bundle');
 
 // Create a logger
 const logger = loggerFactory()
@@ -22,6 +23,10 @@ app.use(express.json())
 
 app.use(requestLoggerMiddleware(logger.info.bind(logger), "History Service"))
 app.use(responseLoggerMiddleware(logger.info.bind(logger), "History Service"))
+
+//Prometheus configuration
+const metricsMiddleware = promBundle({includeMethod: true});
+app.use(metricsMiddleware);
 
 // Routes
 require('./routes/routes')(app, saveRepository);

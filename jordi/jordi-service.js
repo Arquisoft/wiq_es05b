@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cron = require('node-cron');
 const { loggerFactory, errorHandlerMiddleware, responseLoggerMiddleware, requestLoggerMiddleware } = require("cyt-utils")
+const promBundle = require('express-prom-bundle');
 
 const WikidataQAManager = require('./WikidataGenerator');
 const groups = require('./groups.json');
@@ -30,6 +31,10 @@ app.use(express.json());
 // Middleware to log requests and responses
 app.use(requestLoggerMiddleware(logger.info.bind(logger), "Jordi Service"))
 app.use(responseLoggerMiddleware(logger.info.bind(logger), "Jordi Service"))
+
+//Prometheus configuration
+const metricsMiddleware = promBundle({includeMethod: true});
+app.use(metricsMiddleware);
 
 // Routes
 require("./routes/routes")(app, questionsRepository);
