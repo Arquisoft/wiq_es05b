@@ -1,21 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cron = require('node-cron');
-const winston = require('winston');
-const ecsFormat = require('@elastic/ecs-winston-format');
+const { loggerFactory, errorHandlerMiddleware, responseLoggerMiddleware, requestLoggerMiddleware} = require("cyt-utils")
 const promBundle = require('express-prom-bundle');
 
 // Create a logger
-const logger = winston.createLogger({
-    level: 'debug',
-    format: ecsFormat({ convertReqRes: true }),
-    transports: [
-        new winston.transports.File({
-            filename: 'logs/info.log',
-            level: 'debug'
-        })
-    ]
-})
+const logger = loggerFactory()
 
 // Creates the app
 const app = express();
@@ -31,8 +21,8 @@ saveRepository.init(mongoose, mongoUri);
 
 app.use(express.json())
 
-app.use(require("./middleware/ReqLoggerMiddleware")(logger.info.bind(logger)))
-app.use(require("./middleware/ResLoggerMiddleware")(logger.info.bind(logger)))
+app.use(requestLoggerMiddleware(logger.info.bind(logger), "History Service"))
+app.use(responseLoggerMiddleware(logger.info.bind(logger), "History Service"))
 
 //Prometheus configuration
 const metricsMiddleware = promBundle({includeMethod: true});
@@ -41,7 +31,7 @@ app.use(metricsMiddleware);
 // Routes
 require('./routes/routes')(app, saveRepository);
 
-app.use(require("./middleware/ErrorHandlerMiddleware")(logger.error.bind(logger)))
+app.use(errorHandlerMiddleware(logger.error.bind(logger), "History Service"))
 
 const server = app.listen(port, () => console.log(`History listening on port ${port}`));
 

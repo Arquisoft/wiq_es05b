@@ -4,8 +4,8 @@ const resDotSendInterceptor = (res, send) => (content) => {
   res.send(content);
 };
 
-const requestLoggerMiddleware = (logger) => (req, res, next) => {
-  logger("[Jordi Service] RECV <<<", {method: req.method, url: req.url, host: req.hostname, body: req.body});
+const requestLoggerMiddleware = (logger, serviceName) => (req, res, next) => {
+  logger(`[${serviceName}] RECV <<<`, {method: req.method, url: req.url, host: req.hostname, body: req.body});
   res.send = resDotSendInterceptor(res, res.send);
   next();
 };

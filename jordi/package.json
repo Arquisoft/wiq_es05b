@@ -19,15 +19,14 @@
     },
     "homepage": "https://github.com/arquisoft/wiq_0#readme",
     "dependencies": {
-        "@elastic/ecs-winston-format": "^1.5.3",
         "axios": "^1.6.7",
         "axios-mock-adapter": "^1.22.0",
+        "cyt-utils": "*2.0.9",
         "express": "^4.18.3",
         "express-prom-bundle": "^7.0.0",
         "mongodb": "^6.0.0",
         "mongoose": "^8.0.4",
-        "node-cron": "^3.0.3",
-        "winston": "^3.13.0"
+        "node-cron": "^3.0.3"
     },
     "devDependencies": {
         "jest": "^29.7.0",

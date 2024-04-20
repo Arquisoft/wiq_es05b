@@ -2,29 +2,19 @@ const express = require('express');
 const app = express();
 const port = 8002;
 const mongoose = require('mongoose');
-const winston = require('winston');
-const ecsFormat = require('@elastic/ecs-winston-format');
+const { loggerFactory, errorHandlerMiddleware, responseLoggerMiddleware, requestLoggerMiddleware } = require("cyt-utils")
 const promBundle = require('express-prom-bundle');
 
 // Create a logger
-const logger = winston.createLogger({
-  level: 'debug',
-  format: ecsFormat({ convertReqRes: true }),
-  transports: [
-    new winston.transports.File({
-      filename: 'logs/info.log',
-      level: 'debug'
-    })
-  ]
-})
+const logger = loggerFactory()
 
 // Connect to MongoDB
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
 mongoose.connect(mongoUri);
 
 // Middleware to log requests and responses
-app.use(require("./middleware/ReqLoggerMiddleware")(logger.info.bind(logger)))
-app.use(require("./middleware/ResLoggerMiddleware")(logger.info.bind(logger)))
+app.use(requestLoggerMiddleware(logger.info.bind(logger), "Auth Service"))
+app.use(responseLoggerMiddleware(logger.info.bind(logger), "Auth Service"))
 
 //Prometheus configuration
 const metricsMiddleware = promBundle({includeMethod: true});
@@ -41,7 +31,7 @@ app.use(express.json());
 require('./routes/routes')(app, userRepository);
 
 // Error handling middleware
-app.use(require("./middleware/ErrorHandlerMiddleware")(logger.error.bind(logger)))
+app.use(errorHandlerMiddleware(logger.error.bind(logger), "Auth Service"))
 
 // Start the server
 const server = app.listen(port, () => {

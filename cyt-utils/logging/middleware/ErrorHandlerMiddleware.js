@@ -1,5 +1,5 @@
-const errorHandlerMiddleware = (logger) => (err, req, res, _) => {
-  logger("[Auth Service] ERROR >>>", { error: err });
+const errorHandlerMiddleware = (logger, serviceName) => (err, req, res, _) => {
+  logger(`[${serviceName}] ERROR >>>`, { error: err });
 
   let code = err.status || 500;
   let error = err.error || "Internal Server Error";
