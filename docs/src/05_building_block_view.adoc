@@ -89,7 +89,7 @@ This third level provides a deeper insight into the questions microservice. As t
 |Model
 |Component that interacts with the database and retrieves the data to be processed by the service.
 
-|DB
+|NoSQL Database
 |Component independent for each service that contains the data related to it.
 
 |===

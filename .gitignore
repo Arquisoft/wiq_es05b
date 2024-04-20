@@ -6,3 +6,4 @@ docs/build
 *.rest
 *.crt
 *.key
+logs/

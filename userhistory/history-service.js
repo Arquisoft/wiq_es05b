@@ -1,25 +1,41 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cron = require('node-cron');
+const { loggerFactory, errorHandlerMiddleware, responseLoggerMiddleware, requestLoggerMiddleware} = require("cyt-utils")
+const promBundle = require('express-prom-bundle');
 
+// Create a logger
+const logger = loggerFactory()
+
+// Creates the app
 const app = express();
 const port = 8004;
 
+// Connects to the database
 const mongoUri = process.env.MONGODB_URI || "mongodb://localhost:27017/history"
-
-const saveRepository = require('./repositories/saveRepository');
 mongoose.connect(mongoUri);
 
+// Initializes the repository
+const saveRepository = require('./repositories/saveRepository');
 saveRepository.init(mongoose, mongoUri);
 
 app.use(express.json())
 
+app.use(requestLoggerMiddleware(logger.info.bind(logger), "History Service"))
+app.use(responseLoggerMiddleware(logger.info.bind(logger), "History Service"))
+
+//Prometheus configuration
+const metricsMiddleware = promBundle({includeMethod: true});
+app.use(metricsMiddleware);
+
+// Routes
 require('./routes/routes')(app, saveRepository);
 
-const server = app.listen(port, () => {
-    console.log(`History listening on port ${port}`);
-});
+app.use(errorHandlerMiddleware(logger.error.bind(logger), "History Service"))
 
+const server = app.listen(port, () => console.log(`History listening on port ${port}`));
+
+// Periodically cleans saves that have been in progress for more than 24 hours
 cron.schedule('0 0 0 * * *', () => { // * second * minute * hour * date * month * year
     console.log(`[${new Date().toISOString()}] Cleaning stale unfinished saves`);
     saveRepository

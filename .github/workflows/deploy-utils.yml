@@ -1,0 +1,57 @@
+name: Deploy npm utils package
+on:
+  push:
+    branches: [ master, develop, develop-package ]
+    paths:
+      - 'cyt-utils/**'
+
+jobs:
+  build:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    defaults:
+      run:
+        working-directory: cyt-utils
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Publish package
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm ci
+
+      - name: Increase version (patch)
+        run: npm version patch
+        if: github.ref == 'refs/heads/develop-package'
+
+      - name: Increase version (minor)
+        run: npm version minor
+        if: github.ref == 'refs/heads/develop'
+
+      - name: Increase version (major)
+        if: github.ref == 'refs/heads/master'
+        run: npm version major
+
+      - run: npm publish
+        working-directory: cyt-utils
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'package.json'
+          cwd: 'cyt-utils'
+          message: '[skip ci] Bump version'
+          author_name: 'github-actions[bot]'
+          author_email: 'github-actions[bot]@users.noreply.github.com'
+          committer_name: 'algarfer'
+          committer_email: 'uo289295@uniovi.es'

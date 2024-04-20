@@ -1,20 +1,15 @@
+const checkFields = require("../utils/FieldChecker")
 const questionServiceUrl = process.env.JORDI_SERVICE_URL || "http://localhost:8003";
 const historyService = process.env.HISTORY_SERVICE_URL || "http://localhost:8004";
 
-const checkFields = (fields, part) => {
-  for (let field of fields) {
-    if (!(field in part)) return field
-  }
-}
-
-module.exports = (app, axios, errorHandler) => {
-  app.post("/game/answer", (req, res) => {
+module.exports = (app, axios) => {
+  app.post("/game/answer", (req, res, next) => {
 
     // TODO - Check save ownership
     // const { userIdToken: userId } = req
 
     const result = checkFields(["questionId", "last", "answer", "time", "saveId", "statement", "options"], req.body)
-    if(result) return res.status(400).send({ error: `Field ${result} is required` });
+    if(result) return next({status: 400, error: `Field ${result} is required`})
 
     const { questionId, last, answer, time, saveId, statement, options } = req.body
 
@@ -33,24 +28,23 @@ module.exports = (app, axios, errorHandler) => {
         axios
           .post(`${historyService}/add/${saveId}`,
             {last, statement, options, answer: iAnswer, correct: iCorrect, time, points})
-          .then(() => res.status(200).json({answer: question.answer, points}))
-          .catch((error) => errorHandler(error, res, "An error occured while fetching the categories"));
+          .then(() => res.json({answer: question.answer, points}))
+          .catch(() => res.json({answer: question.answer, points, error: "An error occured while saving the answer"}));
       })
-      .catch((error) => errorHandler(error, res, "An error occured while fetching the answer"));
+      .catch(() => next({error: "An error occured while fetching the answer"}));
   });
 
-  app.get("/game/categories", (_, res) => {
+  app.get("/game/categories", (_req, res, next) => {
     axios
       .get(`${questionServiceUrl}/categories`)
       .then((response) => res.status(response.status).send(response.data))
-      .catch((error) =>
-        errorHandler(error, res, "An error occured while fetching the categories")
+      .catch(() => next({error: "An error occured while fetching the categories"})
       );
   });
 
   // TODO - Check n is a number -> error 400
   // TODO - If no category is found -> error 404
-  app.get("/game/questions/:category/:n", async (req, res) => {
+  app.get("/game/questions/:category/:n", async (req, res, next) => {
       axios
         .get(`${questionServiceUrl}/questions/${req.params.category}/${req.params.n}`)
         .then((response) => {
@@ -60,9 +54,6 @@ module.exports = (app, axios, errorHandler) => {
           })
           res.status(response.status).send(questions)
         })
-        .catch((error) =>
-          errorHandler(error, res, "An error occured while fetching the questions")
-        );
-      
+        .catch(() => next({ error: "An error occured while fetching the questions"}));
   });
 };
