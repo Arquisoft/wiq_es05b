@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 const promBundle = require('express-prom-bundle');
 const axios = require('axios');
 const { loggerFactory,  requestLoggerMiddleware,  responseLoggerMiddleware,  errorHandlerMiddleware } = require("cyt-utils")
