@@ -1,6 +1,13 @@
+const aux = () => {
+  Object.defineProperty(window, 'localStorage', {value: localStorageMock()});
+}
+
 const localStorageMock = (() => {
-  let store = {};
-  Object.defineProperty(window, 'localStorage', {value: localStorageMock});
+  let store = {user: JSON.stringify({
+      token: "testToken",
+      userId: "testId",
+      username: "testUser"
+    })};
   return {
     getItem: key => store[key],
     setItem: (key, value) => {
@@ -15,4 +22,4 @@ const localStorageMock = (() => {
   };
 });
 
-module.exports = localStorageMock;
+module.exports = aux;

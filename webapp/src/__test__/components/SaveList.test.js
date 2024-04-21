@@ -1,6 +1,6 @@
 import React from 'react';
 import { customRender} from "../utils/customRenderer";
-import {screen, fireEvent, waitFor, act} from '@testing-library/react';
+import { screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { useAuth } from "../../App.jsx";
 import axios from 'axios';
@@ -47,11 +47,10 @@ describe('SaveList component', () => {
         }
     ];
 
-    beforeEach(() => {
-        axios.mockResolvedValueOnce({ data: { saves: mockSaves, maxPages: 2 } });
-        act(() => {
-            render(<SaveList />);
-        });
+    beforeEach(async () => {
+        axios.get.mockReset();
+        axios.get.mockResolvedValue({ data: { saves: mockSaves, maxPages: 2 } });
+        await act(() => render(<SaveList />))
     });
 
     it('renders a list of saves and handles pagination', async () => {
