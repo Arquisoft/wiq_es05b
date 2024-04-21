@@ -1,26 +1,16 @@
 import React from 'react';
-import { render, fireEvent, screen, waitFor, act } from '@testing-library/react';
+import { customRender } from "./utils/customRenderer";
+import { fireEvent, screen, waitFor, act } from '@testing-library/react';
 import axios from 'axios';
 import Signup from '../views/Signup.jsx';
-import { AuthContext } from "../views/context/AuthContext.jsx";
-import {MemoryRouter} from "react-router";
 import { useAuth } from "../App.jsx";
 import '@testing-library/jest-dom';
 
 jest.mock('axios');
 jest.mock('../views/context/AuthContext');
+require("./utils/localStorageMock")()
 
-const localStorageMock = (() => {
-  let store = {};
-  return {
-    getItem: key => store[key],
-    setItem: (key, value) => { store[key] = value },
-    removeItem: key => { delete store[key] },
-    clear: () => { store = {} }
-  };
-})();
-
-Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+const render = customRender((() => useAuth())())
 
 // Configura una implementación simulada de axios
 jest.mock('../App.jsx', () => ({
@@ -34,19 +24,13 @@ jest.mock('../App.jsx', () => ({
 
 describe('Signup component', () => {
 
-  const mockAuth = useAuth();
-
   beforeEach(() => {
     axios.post.mockReset();
   });
   
   it('should sign up successfully', async () => {
     
-    await act(() => render(
-      <AuthContext.Provider value={mockAuth}>
-        <MemoryRouter><Signup /></MemoryRouter>
-      </AuthContext.Provider>
-    ));
+    await act(() => render(<Signup />));
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
@@ -68,11 +52,7 @@ describe('Signup component', () => {
   });
 
   it('should handle error when sign in (no special character)', async () => {
-    await act(() => render(
-      <AuthContext.Provider value={mockAuth}>
-        <MemoryRouter><Signup /></MemoryRouter>
-      </AuthContext.Provider>
-    ));
+    await act(() => render(<Signup />));
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
@@ -104,11 +84,7 @@ describe('Signup component', () => {
   });
 
   it('should handle error when sign in (no upper case)', async () => {
-    await act(() => render(
-        <AuthContext.Provider value={mockAuth}>
-          <MemoryRouter><Signup /></MemoryRouter>
-        </AuthContext.Provider>
-    ));
+    await act(() => render(<Signup />));
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
@@ -140,11 +116,7 @@ describe('Signup component', () => {
   });
 
   it('should handle error when sign in (no number)', async () => {
-    await act(() => render(
-        <AuthContext.Provider value={mockAuth}>
-          <MemoryRouter><Signup /></MemoryRouter>
-        </AuthContext.Provider>
-    ));
+    await act(() => render(<Signup />));
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
@@ -176,11 +148,7 @@ describe('Signup component', () => {
   });
 
   it('should handle error when sign in (length)', async () => {
-    await act(() => render(
-        <AuthContext.Provider value={mockAuth}>
-          <MemoryRouter><Signup /></MemoryRouter>
-        </AuthContext.Provider>
-    ));
+    await act(() => render(<Signup />));
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
@@ -212,11 +180,7 @@ describe('Signup component', () => {
   });
 
   it('should handle error when sign in (repeated user)', async () => {
-    await act(() => render(
-        <AuthContext.Provider value={mockAuth}>
-          <MemoryRouter><Signup /></MemoryRouter>
-        </AuthContext.Provider>
-    ));
+    await act(() => render(<Signup />));
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);

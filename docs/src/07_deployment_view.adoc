@@ -15,17 +15,16 @@ The infrastructure of our system consists mainly of a single server, which is ho
 image::07_overview.drawio.png["Login Diagram", align="center"]
 
 
-Motivation::
-The main reason for this infrastructure choice lies in the simplicity and flexibility of a dockerized microservice architecture solution, which allows a fast and straightforward deployment of the system in any environment.
+Motivation:: The main reason for this infrastructure choice lies in the simplicity, flexibility, and platform agnosticism of a dockerized microservice architecture solution. This allows for a fast and straightforward deployment of the system in any environment, regardless of the underlying platform. This would allow an easy migration of the system to another cloud provider if necessary, as well as the ability to scale the system horizontally by adding more instances of the same service with ease thanks to the container orchestrator.
 
 Quality and/or Performance Features::
 - Scalability: The system can be easily scaled horizontally by adding more instances of the same service with ease thanks to the container orchestrator.
 
 - Portability: The app can be deployed in any environment that supports docker containers, which allows the system to be easily migrated to other cloud providers should it be necessary.
 
-- Maintainability: The system can be updated by replacing the docker containers with new versions of the application, which allows the system to be maintained without remarkable issues.
+- Maintainability: The system can be updated (each container can be maintained/updated individually) by replacing the docker containers with new versions of the application, which allows the system to be maintained without remarkable issues.
 
-- Security: The system is hosted in a secure environment provided by the Azure cloud platform, which ensures its security and availability.
+- Security: The system is hosted in a secure environment (each container is a isolated enviroment, so in the case of a security breach, it only affects one of them) provided by the Azure cloud platform, which ensures its security and availability.
 
 Mapping of Building Blocks to Infrastructure::
 
@@ -46,14 +45,6 @@ Mapping of Building Blocks to Infrastructure::
 | External service used to retrieve dynamic content for the system.
 
 |===
-
-
-
-=== Infrastructure Level 2
-
-==== Docker component
-
-The system is deployed in a dockerized enviroment in which each microservice is contained in a separate container. Docker compose is the selected orchestrator as it is a simple solution that meets the few deployment requirements necessary for a small system like ours. It allows the app to be easily deployed with different profiles by using a docker-compose file.
 
 
 

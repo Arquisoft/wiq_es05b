@@ -1,27 +1,15 @@
 import React from 'react';
-import { render, fireEvent, screen, waitFor, act } from '@testing-library/react';
+import { customRender } from "./utils/customRenderer"
+import { screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import axios from 'axios';
 import Error from '../views/Error.jsx';
 import { useAuth } from "../App.jsx";
-import { AuthContext } from "../views/context/AuthContext.jsx";
-import {MemoryRouter} from "react-router";
-import Menu from "../views/Menu";
 
 jest.mock('axios');
 jest.mock('../views/context/AuthContext');
+require("./utils/localStorageMock")()
 
-const localStorageMock = (() => {
-    let store = {};
-    return {
-        getItem: key => store[key],
-        setItem: (key, value) => { store[key] = value },
-        removeItem: key => { delete store[key] },
-        clear: () => { store = {} }
-    };
-})();
-
-Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+const render = customRender((() => useAuth())())
 
 jest.mock('../App.jsx', () => ({
     useAuth: jest.fn().mockReturnValue({
@@ -32,13 +20,8 @@ jest.mock('../App.jsx', () => ({
     })
 }));
 describe('Error component', () => {
-    const mockAuth = useAuth();
     it('renders error message and button',  async () => {
-        await act(async () => {
-            render(<AuthContext.Provider value={mockAuth}>
-                <MemoryRouter><Error/></MemoryRouter>
-            </AuthContext.Provider>);
-        });
+        await act(async () => render(<Error/>));
         const errorImage = screen.getByAltText('Oh no');
         expect(errorImage).toBeInTheDocument();
         expect(errorImage).toHaveAttribute('src', '/jordi-error.jpg');

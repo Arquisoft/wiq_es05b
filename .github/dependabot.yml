@@ -1,0 +1,92 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: "github-actions" # See documentation for possible values
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "monthly"
+
+  # Maintain the npm dependencies of the frontend
+  - package-ecosystem: "docker" # See documentation for possible values
+    directory: "/webapp" # Location of package manifests
+    schedule:
+      interval: "weekly"
+    ignore: # Ignore the non-LTS node versions (17/01/2024 >=20)
+      - dependency-name: "node"
+        versions: ["21.x","22.x","23.x","24.x","20.x"]
+  - package-ecosystem: "npm" # See documentation for possible values
+    directory: "/webapp" # Location of package manifests
+    schedule:
+      interval: "weekly"
+    ignore: # Avoid puppeteer+jest version updates to avoid incompatibilities/problems in CI-CD
+      - dependency-name: "puppeteer*"
+      - dependency-name: "jest*"
+
+  # Maintain the npm dependencies of the GatewayService
+  - package-ecosystem: "docker" # See documentation for possible values
+    directory: "/gatewayservice" # Location of package manifests
+    schedule:
+      interval: "weekly"
+    ignore: # Ignore the non-LTS node versions (17/01/2024 >=20)
+      - dependency-name: "node"
+        versions: ["21.x","22.x","23.x","24.x","20.x"]
+  - package-ecosystem: "npm" # See documentation for possible values
+    directory: "/gatewayservice" # Location of package manifests
+    schedule:
+      interval: "weekly"
+
+  # Maintain the npm dependencies of the authservice
+  - package-ecosystem: "docker" # See documentation for possible values
+    directory: "/users/authservice" # Location of package manifests
+    schedule:
+      interval: "weekly"
+    ignore: # Ignore the non-LTS node versions (17/01/2024 >=20)
+      - dependency-name: "node"
+        versions: ["21.x","22.x","23.x","24.x","20.x"]
+  - package-ecosystem: "npm" # See documentation for possible values
+    directory: "/users/authservice" # Location of package manifests
+    schedule:
+      interval: "weekly"
+      
+  # Maintain the npm dependencies of the userservice
+  - package-ecosystem: "docker" # See documentation for possible values
+    directory: "/users/userservice" # Location of package manifests
+    schedule:
+      interval: "weekly"
+    ignore: # Ignore the non-LTS node versions (17/01/2024 >=20)
+      - dependency-name: "node"
+        versions: ["21.x","22.x","23.x","24.x","20.x"]
+  - package-ecosystem: "npm" # See documentation for possible values
+    directory: "/users/userservice" # Location of package manifests
+    schedule:
+      interval: "weekly"
+
+  # Maintain the npm dependencies of the jordi service
+  - package-ecosystem: "docker" # See documentation for possible values
+    directory: "/jordi" # Location of package manifests
+    schedule:
+      interval: "weekly"
+    ignore: # Ignore the non-LTS node versions (17/01/2024 >=20)
+      - dependency-name: "node"
+        versions: ["21.x","22.x","23.x","24.x","20.x"]
+  - package-ecosystem: "npm" # See documentation for possible values
+    directory: "/jordi" # Location of package manifests
+    schedule:
+      interval: "weekly"
+
+  # Maintain the npm dependencies of the jordi service
+  - package-ecosystem: "docker" # See documentation for possible values
+    directory: "/userhistory" # Location of package manifests
+    schedule:
+      interval: "weekly"
+    ignore: # Ignore the non-LTS node versions (17/01/2024 >=20)
+      - dependency-name: "node"
+        versions: ["21.x","22.x","23.x","24.x","20.x"]
+  - package-ecosystem: "npm" # See documentation for possible values
+    directory: "/userhistory" # Location of package manifests
+    schedule:
+      interval: "weekly"

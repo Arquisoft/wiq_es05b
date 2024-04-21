@@ -1,7 +1,10 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { customRender } from "../utils/customRenderer";
+import { screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ServiceDownMessage from '../../views/components/ServiceDownMessage';
+
+const render = customRender();
 
 describe('ServiceDownMessage component', () => {
     it('renders service down message with reason', () => {

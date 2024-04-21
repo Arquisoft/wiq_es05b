@@ -1,8 +1,10 @@
 import React from 'react';
-import {fireEvent, render, screen, waitFor} from '@testing-library/react';
+import { customRender } from "./utils/customRenderer";
+import {fireEvent, screen, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { MemoryRouter } from 'react-router-dom';
 import Endgame from '../views/Endgame';
+
+const render = customRender()
 
 describe('Endgame', () => {
     test('renders endgame components with correct props', () => {
@@ -11,11 +13,7 @@ describe('Endgame', () => {
         const wrong = 2;
         const time = 120;
 
-        render(
-            <MemoryRouter>
-                <Endgame points={points} correct={correct} wrong={wrong} time={time} />
-            </MemoryRouter>
-        );
+        render(<Endgame points={points} correct={correct} wrong={wrong} time={time} />);
 
         expect(screen.getByAltText('Ou yea')).toBeInTheDocument();
         expect(screen.getByText('Game result')).toBeInTheDocument();

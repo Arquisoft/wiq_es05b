@@ -49,29 +49,24 @@ const Title = ({question}) => {
 }
 
 const Line = ({progressBarPercent}) => {
-  return progressBarPercent > 70 ? (
+  return  (
     <LinearProgress
-      color="red"
-      variant={"determinate"}
+      color={progressBarPercent > 70 ? "red" : "light"}
+      variant="determinate"
       value={progressBarPercent}
     />
-  ) : (
-    <LinearProgress
-      color="light"
-      variant={"determinate"}
-      value={progressBarPercent}
-    />
-  );
+  )
 }
 
 const Timer = ({time, setTime, interval}) => {
 
   useEffect(() => {
-    if(time === 0) {
+    if(time <= 0) {
       clearInterval(interval.current)
       return;
+    } else {
+      interval.current = window.setInterval(() => setTime(time - 1), 1000)
     }
-    interval.current = window.setInterval(() => setTime(time - 1), 1000)
     return () => {
       setInterval(null)
       clearInterval(interval.current)
@@ -160,11 +155,14 @@ const Game = () => {
   const [totalTime, setTotalTime] = useState(0)
   const { category} = useParams()
 
-  const handleNextQuestion = () => {
+  const handleNextQuestion = async () => {
     clearInterval(interval.current)
     interval.current = setInterval(() => {
       setTime((prevTimer) => prevTimer - 1);
     }, 1000);
+
+    if(!saveId.current) await createSave()
+    if(!saveId.current) return
     axios
       .post("/game/answer", {
         token: getUser().token,
@@ -177,6 +175,9 @@ const Game = () => {
         options: questions[current].options
       })
       .then(response => {
+        const { error } = response.data
+        setHistorialError(error)
+
         setPoints(points + response.data.points)
         const correctAnswer = response.data.answer
 
@@ -198,21 +199,28 @@ const Game = () => {
           setAnswer(null)
         }, 500)
       })
-      .catch(e => setHistorialError({ error: e.response.data.error }))
+      .catch(e => setHistorialError(e.response.data.error))
+  }
+
+  const createSave = async () => {
+    try {
+      const response = await axios
+        .post("/history/create", {
+          token: getUser().token,
+          category: category,
+          userId: getUser().userId
+        })
+      saveId.current = response.data.id
+    } catch (err) {
+      setHistorialError(err.response.data.error)
+    }
   }
 
   useEffect( () => {
     fetchQuestions(category, getUser().token)
       .then(data => setQuestions(data))
       .catch(err => setError({error: err.response.data.error, status: err.response.status}));
-    axios
-      .post("/history/create", {
-        token: getUser().token,
-        category: category,
-        userId: getUser().userId
-      })
-      .then(response => saveId.current = response.data.id)
-      .catch(err => setHistorialError({error: err.response.data.error, status: err.response.status}))
+    createSave()
     //eslint-disable-next-line
   }, []);
 

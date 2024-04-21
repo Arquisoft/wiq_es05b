@@ -1,8 +1,10 @@
 import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { customRender } from "../utils/customRenderer";
+import { fireEvent, screen } from "@testing-library/react";
 import ErrorSnackBar from "../../views/components/ErrorSnackBar";
-import { Snackbar } from "@mui/material";
 import '@testing-library/jest-dom';
+
+const render = customRender();
 
 describe("ErrorSnackBar component", () => {
     test("renders snackbar with provided error message", () => {
