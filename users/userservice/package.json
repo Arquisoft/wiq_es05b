@@ -24,6 +24,7 @@
     "cyt-utils": "*2.0.9",
     "express": "^4.18.2",
     "express-prom-bundle": "^7.0.0",
+    "i18next": "^23.11.2",
     "mongoose": "^8.0.4"
   },
   "devDependencies": {

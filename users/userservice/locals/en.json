@@ -1,0 +1,9 @@
+{
+  "translation": {
+    "error_invalid_id": "Invalid id format",
+    "error_user_exists": "Username already exists",
+    "error_user_not_found": "User not found",
+    "error_fetching_data": "An error occurred while fetching user data",
+    "error_missing_field": "Missing field"
+  }
+}
