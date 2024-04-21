@@ -23,6 +23,12 @@ describe("Footer component", () => {
 
     test("has fixed position at the bottom of the page", () => {
         render(<Footer />);
+        const appBar = screen.getByTestId("footer");
+        expect(appBar).toHaveStyle({ top: "auto", bottom: 0, position: "fixed" });
+    });
+
+    test("has fixed position at the bottom of the page", () => {
+        render(<Footer />);
         const footer = screen.getByTestId("footer");
         expect(footer).toHaveStyle({ top: "auto", bottom: 0, position: "fixed" });
     });
