@@ -81,7 +81,6 @@ export default function App() {
     setConfig(configs[nextIndex]);
   }
 
-  console.log(theme)
 
   return (
     <ThemeProvider theme={theme}>
