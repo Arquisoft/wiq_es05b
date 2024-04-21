@@ -45,8 +45,29 @@ const AddFriendTab = () => {
             }
         });
 
-        setUsers(response.data);
+        setUsers(response.data.filter(user => user._id !== getUser().userId));
     }
+
+    const sendFriendRequest = async (toId) => {
+
+        try {
+            const response = await axios({
+                method: 'post',
+                url: `/users/social/sendrequest`,
+                headers: {
+                    Authorization: `Bearer ${getUser().token}`
+                },
+                data: {
+                    userId: getUser().userId,
+                    toId: toId
+                }
+            });
+            //show toastr
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     useEffect(() => {
         fetchUsers();
@@ -55,10 +76,10 @@ const AddFriendTab = () => {
     return (
         <Container sx={tabStyle} >
             <Typography variant="h4" element="p">Add Friends</Typography>
-            <Container sx={{ display: "flex", gap: "1rem", justifyContent: 'center'}}>
-            <TextField label="Search users..." variant="standard" value={filter}
-                onChange={(event) => setFilter(event.target.value)} />
-            <Button variant="contained" onClick={() => fetchUsers(filter)}><SearchIcon /></Button>
+            <Container sx={{ display: "flex", gap: "1rem", justifyContent: 'center' }}>
+                <TextField label="Search users..." variant="standard" value={filter}
+                    onChange={(event) => setFilter(event.target.value)} />
+                <Button variant="contained" onClick={() => fetchUsers(filter)}><SearchIcon /></Button>
             </Container>
 
             <Container sx={{ padding: '2em', display: "flex", flexDirection: "column", gap: "1rem", overflowY: "scroll", height: "400px", width: "100%", alignItems: "center" }}>
@@ -66,7 +87,7 @@ const AddFriendTab = () => {
                     return (
                         <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
                             <Typography variant="body1" element="p">{user.username}</Typography>
-                            <Button variant="contained">Add Friend</Button>
+                            <Button variant="contained" onClick={() => sendFriendRequest(user._id)} >Add Friend</Button>
                         </Paper>
                     )
                 })}

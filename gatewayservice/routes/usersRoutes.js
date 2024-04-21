@@ -46,4 +46,15 @@ module.exports = (app, axios, authTokenMiddleware) => {
       .catch((error) => next({ error: "gw: An error occurred while fetching user data: " + error}));
   });
 
+  app.post("/users/social/sendrequest", async (req, res, next) => {
+
+    axios
+      .post(`${userServiceUrl}/social/sendrequest`, req.body)
+      .then(({ data }) => {
+        console.log(data);
+        res.json(data);
+      })
+      .catch((error) => next({ error: "gw: An error occurred while creating friend request: " + error}));
+  });
+
 };
