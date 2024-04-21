@@ -31,13 +31,9 @@ const SaveList = () => {
   const [maxPages, setMaxPages] = useState(0)
 
   const fetchSaves = () => {
-    axios({
-      method: 'get',
-      url: `/history/get/${getUser().userId}?page=${page}&limit=${limit}`,
-      headers: {
-        'Authorization': `Bearer ${getUser().token}`
-      }
-    })
+    axios
+      .get(`/history/get/${getUser().userId}?page=${page}&limit=${limit}`,
+        { headers: { Authorization: `Bearer ${getUser().token}` } })
       .then(response => {
         setSaves(response.data.saves)
         setMaxPages(response.data.maxPages)
