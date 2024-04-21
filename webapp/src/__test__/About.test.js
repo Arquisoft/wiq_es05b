@@ -1,12 +1,13 @@
 import React from 'react';
-import { render, fireEvent, screen, waitFor, act } from '@testing-library/react';
+import { customRender } from "./utils/customRenderer";
+import { screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import About from '../views/About.jsx';
-import {MemoryRouter} from "react-router";
 
 const mockAxios = new MockAdapter(axios);
+const render = customRender();
 
 describe("About component", () => {
     beforeEach(() => {
@@ -14,7 +15,7 @@ describe("About component", () => {
     });
 
     test("renders component", async () => {
-        render(<MemoryRouter><About /></MemoryRouter>);
+        render(<About />);
 
         await act(async () => {});
         const aboutUs = screen.getByText('About Us').closest('.MuiPaper-root');

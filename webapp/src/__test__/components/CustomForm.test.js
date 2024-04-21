@@ -1,8 +1,10 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { customRender } from "../utils/customRenderer";
+import { screen } from "@testing-library/react";
 import CustomForm from "../../views/components/CustomForm";
 import '@testing-library/jest-dom';
+
+const render = customRender();
 
 describe("CustomForm component", () => {
     test("renders form with provided data", () => {
@@ -34,11 +36,7 @@ describe("CustomForm component", () => {
             link: "/faq",
         };
 
-        render(
-            <MemoryRouter>
-                <CustomForm formData={formData} suggestion={suggestion} />
-            </MemoryRouter>
-        );
+        render(<CustomForm formData={formData} suggestion={suggestion} />);
 
         expect(screen.getByText("Test Form")).toBeInTheDocument();
 

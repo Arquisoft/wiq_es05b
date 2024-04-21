@@ -1,10 +1,12 @@
 import React from 'react';
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
+import { customRender } from "./utils/customRenderer";
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import AddUser from '../components/AddUser';
 
 const mockAxios = new MockAdapter(axios);
+const render = customRender()
 
 describe('AddUser component', () => {
   beforeEach(() => {

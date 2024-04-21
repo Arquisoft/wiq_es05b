@@ -1,7 +1,10 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { customRender } from "../utils/customRenderer";
+import { fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SaveDetails from '../../views/components/SaveDetails';
+
+const render = customRender();
 
 describe('SaveDetails component', () => {
     const mockSave = {

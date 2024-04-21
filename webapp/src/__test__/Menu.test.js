@@ -1,15 +1,16 @@
 import React from 'react';
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { customRender } from "./utils/customRenderer";
+import { screen, waitFor, act } from '@testing-library/react';
 import axios from 'axios';
 import Menu from '../views/Menu.jsx';
-import { AuthContext } from "../views/context/AuthContext";
-import {MemoryRouter} from "react-router";
 import { useAuth } from "../App.jsx";
 import '@testing-library/jest-dom';
 
 jest.mock('axios');
 jest.mock('../views/context/AuthContext');
 require("./utils/localStorageMock")()
+
+const render = customRender((() => useAuth())())
 
 // Configura una implementación simulada de axios
 jest.mock('../App.jsx', () => ({
@@ -27,19 +28,13 @@ jest.mock('../App.jsx', () => ({
 
 describe('Menu component', () => {
 
-    const mockAuth = useAuth();
-
     beforeEach(() => {
         axios.post.mockReset();
     });
 
     it('load game menu', async () => {
 
-        await act(() => render(
-            <AuthContext.Provider value={mockAuth}>
-                <MemoryRouter><Menu /></MemoryRouter>
-            </AuthContext.Provider>
-        ));
+        await act(() => render(<Menu />));
         waitFor(() => {
             expect(history.location.pathname).toBe("/menu");
             const categoryButtons = screen.getAllByRole('button');
@@ -54,11 +49,7 @@ describe('Menu component', () => {
     });
 
     test( "redirect to capitals", async () => {
-        await act(async () => {
-            render(<AuthContext.Provider value={mockAuth}>
-                <MemoryRouter><Menu /></MemoryRouter>
-            </AuthContext.Provider>);
-        });
+        await act(async () => render(<Menu />));
         waitFor(() => {
             expect(history.location.pathname).toBe("/menu");
             const capitalsButton = screen.getByText(/Capitals/i, { selector: 'a' });
@@ -74,11 +65,7 @@ describe('Menu component', () => {
     })
 
     test( "redirect to area", async () => {
-        await act(async () => {
-            render(<AuthContext.Provider value={mockAuth}>
-                <MemoryRouter><Menu /></MemoryRouter>
-            </AuthContext.Provider>);
-        });
+        await act(async () => render(<Menu />));
         waitFor(() => {
             expect(history.location.pathname).toBe("/menu");
         const areaButton = screen.getByText(/Area/i, { selector: 'a' });
@@ -94,11 +81,7 @@ describe('Menu component', () => {
     })
 
     test( "redirect to continent", async () => {
-        await act(async () => {
-            render(<AuthContext.Provider value={mockAuth}>
-                <MemoryRouter><Menu /></MemoryRouter>
-            </AuthContext.Provider>);
-        });
+        await act(async () => render(<Menu />));
         waitFor(() => {
             expect(history.location.pathname).toBe("/menu");
             const continentButton = screen.getByText(/Continent/i, {selector: 'a'});
@@ -115,11 +98,7 @@ describe('Menu component', () => {
     })
 
     test( "redirect to currency", async () => {
-        await act(async () => {
-            render(<AuthContext.Provider value={mockAuth}>
-                <MemoryRouter><Menu /></MemoryRouter>
-            </AuthContext.Provider>);
-        });
+        await act(async () => render(<Menu />));
         waitFor(() => {
             expect(history.location.pathname).toBe("/menu");
             const currencyButton = screen.getByText(/Currency/i, {selector: 'a'});
@@ -136,11 +115,7 @@ describe('Menu component', () => {
     })
 
     test( "redirect to economy", async () => {
-        await act(async () => {
-            render(<AuthContext.Provider value={mockAuth}>
-                <MemoryRouter><Menu /></MemoryRouter>
-            </AuthContext.Provider>);
-        });
+        await act(async () => render(<Menu />));
         waitFor(() => {
             expect(history.location.pathname).toBe("/menu");
             const economyButton = screen.getByText(/Economy/i, {selector: 'a'});
@@ -157,11 +132,7 @@ describe('Menu component', () => {
     })
 
     test( "redirect to gdp", async () => {
-        await act(async () => {
-            render(<AuthContext.Provider value={mockAuth}>
-                <MemoryRouter><Menu /></MemoryRouter>
-            </AuthContext.Provider>);
-        });
+        await act(async () => render(<Menu />));
         waitFor(() => {
             expect(history.location.pathname).toBe("/menu");
             const gdpButton = screen.getByText(/gdp/i, {selector: 'a'});
@@ -178,11 +149,7 @@ describe('Menu component', () => {
     })
 
     test( "redirect to geography", async () => {
-        await act(async () => {
-            render(<AuthContext.Provider value={mockAuth}>
-                <MemoryRouter><Menu /></MemoryRouter>
-            </AuthContext.Provider>);
-        });
+        await act(async () => render(<Menu />));
         waitFor(() => {
             expect(history.location.pathname).toBe("/menu");
             const geographyButton = screen.getByText(/Geography/i, {selector: 'a'});
@@ -199,11 +166,7 @@ describe('Menu component', () => {
     })
 
     test( "redirect to languages", async () => {
-        await act(async () => {
-            render(<AuthContext.Provider value={mockAuth}>
-                <MemoryRouter><Menu /></MemoryRouter>
-            </AuthContext.Provider>);
-        });
+        await act(async () => render(<Menu />));
         waitFor(() => {
             expect(history.location.pathname).toBe("/menu");
             const languagesButton = screen.getByText(/Languages/i, {selector: 'a'});
@@ -220,11 +183,7 @@ describe('Menu component', () => {
     })
 
     test( "redirect to politics", async () => {
-        await act(async () => {
-            render(<AuthContext.Provider value={mockAuth}>
-                <MemoryRouter><Menu /></MemoryRouter>
-            </AuthContext.Provider>);
-        });
+        await act(async () => render(<Menu />));
         waitFor(() => {
             expect(history.location.pathname).toBe("/menu");
             const politicsButton = screen.getByText(/Politics/i, {selector: 'a'});
@@ -241,11 +200,7 @@ describe('Menu component', () => {
     })
 
     test( "redirect to population", async () => {
-        await act(async () => {
-            render(<AuthContext.Provider value={mockAuth}>
-                <MemoryRouter><Menu /></MemoryRouter>
-            </AuthContext.Provider>);
-        });
+        await act(async () => render(<Menu />));
         waitFor(() => {
             expect(history.location.pathname).toBe("/menu");
             const populationButton = screen.getByText(/Population/i, {selector: 'a'});
@@ -263,11 +218,7 @@ describe('Menu component', () => {
 
 
     test( "redirect to president", async () => {
-        await act(async () => {
-            render(<AuthContext.Provider value={mockAuth}>
-                <MemoryRouter><Menu /></MemoryRouter>
-            </AuthContext.Provider>);
-        });
+        await act(async () => render(<Menu />));
         waitFor(() => {
             expect(history.location.pathname).toBe("/menu");
             const presidentButton = screen.getByText(/President/i, {selector: 'a'});

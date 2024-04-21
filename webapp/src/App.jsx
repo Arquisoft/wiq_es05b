@@ -18,39 +18,12 @@ import axios from "axios";
 import configDefault from "./views/components/config/particles-config.json";
 import configJordi from "./views/components/config/particles-config-jordi";
 import configGraph from "./views/components/config/particles-config-graph";
+import defaultTheme from "./views/components/config/defaultTheme.json"
 
 import { ConfigContext } from "./views/context/ConfigContext";
 import { AuthContext } from "./views/context/AuthContext";
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#2e3487",
-      contrastText: "#FFF",
-    },
-    secondary: {
-      main: "#f2f2f2",
-      contrastText: "#2e3487",
-    },
-    dark: {
-      main: "#0f0f5e",
-      contrastText: "#F2F2F2",
-    },
-    light: {
-      main: "#5e86cf",
-      contrastText: "#F2F2F2",
-    },
-    red: {
-      main: '#BA0000',
-      contrastText: '#FFF'
-    }
-  },
-
-  typography: {
-    fontFamily: "Verdana, sans-serif",
-    fontSize: 16,
-  },
-});
+const theme = createTheme(defaultTheme);
 
 let configs = [
   configDefault,
@@ -107,6 +80,8 @@ export default function App() {
     const nextIndex = (currentIndex + 1) % configs.length;
     setConfig(configs[nextIndex]);
   }
+
+  console.log(theme)
 
   return (
     <ThemeProvider theme={theme}>

@@ -1,12 +1,13 @@
 import React from 'react';
-import { render, fireEvent, screen, waitFor, act } from '@testing-library/react';
+import { customRender } from "./utils/customRenderer";
+import { screen, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import Home from '../views/Home.jsx';
-import {MemoryRouter} from "react-router";
 
 const mockAxios = new MockAdapter(axios);
+const render = customRender();
 
 describe("Home component", () => {
     beforeEach(() => {
@@ -14,7 +15,7 @@ describe("Home component", () => {
     });
 
     test("renders component", async () => {
-        render(<MemoryRouter><Home /></MemoryRouter>);
+        render(<Home />);
 
         await act(async () => {});
 
@@ -22,7 +23,7 @@ describe("Home component", () => {
     })
 
     test( "redirect to login", async () => {
-        render(<MemoryRouter><Home /></MemoryRouter>);
+        render(<Home />);
 
         const playButton = screen.getByText(/Play/i, { selector: 'a' });
         act(() => {
