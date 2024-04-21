@@ -1,6 +1,6 @@
 import React from 'react';
 import { customRender} from "../utils/customRenderer";
-import { screen, fireEvent, waitFor } from '@testing-library/react';
+import {screen, fireEvent, waitFor, act} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { useAuth } from "../../App.jsx";
 import axios from 'axios';
@@ -49,7 +49,9 @@ describe('SaveList component', () => {
 
     beforeEach(() => {
         axios.mockResolvedValueOnce({ data: { saves: mockSaves, maxPages: 2 } });
-        render(<SaveList />);
+        act(() => {
+            render(<SaveList />);
+        });
     });
 
     it('renders a list of saves and handles pagination', async () => {
@@ -66,4 +68,15 @@ describe('SaveList component', () => {
         });
     });
 
+    it('renders a list of saves with correct information', async () => {
+        const saveListItems = await screen.findAllByRole('listitem');
+
+        expect(saveListItems).toHaveLength(4);
+
+        expect(screen.getByText('Test category 1')).toBeInTheDocument();
+        expect(screen.getByText('Test category 2')).toBeInTheDocument();
+
+        expect(screen.getByText('30')).toBeInTheDocument();
+        expect(screen.getByText('40')).toBeInTheDocument();
+    });
 });
