@@ -1,9 +1,9 @@
 import React from 'react';
-import { customRender } from "./utils/customRenderer";
+import { customRender } from "../utils/customRenderer";
 import { waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import axios from 'axios';
-import Ranking from '../views/Ranking';
+import Ranking from '../../views/Ranking';
 
 jest.mock('axios');
 const render = customRender();

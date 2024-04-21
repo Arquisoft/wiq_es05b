@@ -1,10 +1,10 @@
 import React from 'react';
-import { customRender } from "./utils/customRenderer";
+import { customRender } from "../utils/customRenderer";
 import { screen, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import Home from '../views/Home.jsx';
+import Home from '../../views/Home.jsx';
 
 const mockAxios = new MockAdapter(axios);
 const render = customRender();

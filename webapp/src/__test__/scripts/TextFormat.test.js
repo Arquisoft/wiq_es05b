@@ -1,4 +1,4 @@
-const textFormat = require('../scripts/textFormat');
+const textFormat = require('../../scripts/textFormat');
 
 describe('textFormat function', () => {
     test('converts camel case to title case', () => {

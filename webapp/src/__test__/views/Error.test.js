@@ -1,17 +1,17 @@
 import React from 'react';
-import { customRender } from "./utils/customRenderer"
+import { customRender } from "../utils/customRenderer"
 import { screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Error from '../views/Error.jsx';
-import { useAuth } from "../App.jsx";
+import Error from '../../views/Error.jsx';
+import { useAuth } from "../../App.jsx";
 
 jest.mock('axios');
-jest.mock('../views/context/AuthContext');
-require("./utils/localStorageMock")()
+jest.mock('../../views/context/AuthContext');
+require("../utils/localStorageMock")()
 
 const render = customRender((() => useAuth())())
 
-jest.mock('../App.jsx', () => ({
+jest.mock('../../App.jsx', () => ({
     useAuth: jest.fn().mockReturnValue({
         getUser: jest.fn(),
         isAuthenticated: jest.fn().mockReturnValue(true),

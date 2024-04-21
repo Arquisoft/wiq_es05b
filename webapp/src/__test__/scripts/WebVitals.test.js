@@ -1,4 +1,4 @@
-import reportWebVitals from "../scripts/reportWebVitals";
+import reportWebVitals from "../../scripts/reportWebVitals";
 import * as webVitals from "web-vitals";
 import {waitFor} from "@testing-library/react";
 

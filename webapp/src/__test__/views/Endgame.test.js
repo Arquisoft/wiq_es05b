@@ -1,8 +1,8 @@
 import React from 'react';
-import { customRender } from "./utils/customRenderer";
+import { customRender } from "../utils/customRenderer";
 import {fireEvent, screen, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import Endgame from '../views/Endgame';
+import Endgame from '../../views/Endgame';
 
 const render = customRender()
 

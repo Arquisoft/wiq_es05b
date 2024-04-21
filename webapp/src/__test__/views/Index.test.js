@@ -2,10 +2,11 @@ import React from 'react';
 import {render, screen, waitFor} from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import axios from 'axios';
-import App from '../App';
+import App from '../../App';
 import '@testing-library/jest-dom/extend-expect';
+
 jest.mock('axios');
-jest.mock('../views/components/Particles.jsx', () => {
+jest.mock('../../views/components/Particles.jsx', () => {
     return function DummyParticles() {
         return <div data-testid="particles" />;
     };
