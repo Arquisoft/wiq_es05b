@@ -47,7 +47,7 @@ describe("Footer component", () => {
 
     test("is accessible", async () => {
         render(<Footer />);
-        const footer = screen.getByTestId("footer");
+        screen.getByTestId("footer");
         expect(await screen.findByTestId("footer")).toBeVisible();
     });
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 import { customRender } from "../utils/customRenderer";
-import {screen, waitFor, act, fireEvent} from '@testing-library/react';
+import {screen, waitFor} from '@testing-library/react';
 import axios from 'axios';
 import Nav from '../../views/components/Nav.jsx';
 import { useAuth } from "../../App.jsx";

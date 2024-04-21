@@ -2,7 +2,6 @@ import React from 'react';
 import {waitFor, render, act} from '@testing-library/react';
 import axios from 'axios';
 import App from '../App.jsx';
-import {useAuth} from "../App.jsx";
 import '@testing-library/jest-dom';
 import {MemoryRouter} from "react-router";
 
@@ -88,7 +87,7 @@ describe('App', () => {
 
 const tryToRender = async (path) => {
   window.history.pushState({}, '', path);
-  await act(() => {
+  act(() => {
     render(
       <MemoryRouter initialEntries={[path]} initialIndex={0}>
         <App />

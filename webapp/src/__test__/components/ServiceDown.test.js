@@ -1,6 +1,5 @@
 import React from 'react';
 import { customRender } from "../utils/customRenderer";
-import { screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ServiceDownMessage from '../../views/components/ServiceDownMessage';
 
