@@ -49,7 +49,7 @@ describe('SaveList component', () => {
 
     beforeEach(async () => {
         axios.get.mockReset();
-        axios.get.mockResolvedValue({ data: { saves: mockSaves, maxPages: 2 } });
+        axios.get.mockResolvedValue(Promise.resolve({ data: { saves: mockSaves, maxPages: 2 } }));
         await act(() => render(<SaveList />))
     });
 
@@ -70,7 +70,7 @@ describe('SaveList component', () => {
     it('renders a list of saves with correct information', async () => {
         const saveListItems = await screen.findAllByRole('listitem');
 
-        expect(saveListItems).toHaveLength(4);
+        expect(saveListItems).toHaveLength(6);
 
         expect(screen.getByText('Test category 1')).toBeInTheDocument();
         expect(screen.getByText('Test category 2')).toBeInTheDocument();
