@@ -45,7 +45,7 @@ const AddFriendTab = () => {
                 'Authorization': `Bearer ${getUser().token}`
             }
         });
-
+        console.log(response.data);
         setUsers(response.data.filter(user => user._id !== getUser().userId));
     }
 
@@ -65,6 +65,7 @@ const AddFriendTab = () => {
                 }
             });
             //show toastr
+            getSentRequests();
         } catch (error) {
             console.log(error);
         }
@@ -80,6 +81,7 @@ const AddFriendTab = () => {
                 }
             });
             console.log(response.data);
+            setSentRequests(response.data);
         } catch (error) {
             console.log(error);
         }
@@ -105,7 +107,7 @@ const AddFriendTab = () => {
                     return (
                         <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
                             <Typography variant="body1" element="p">{user.username}</Typography>
-                            <Button variant="contained" onClick={() => sendFriendRequest(user._id)} >Add Friend</Button>
+                            <Button variant="contained" onClick={() => sendFriendRequest(user._id)} disabled={sentRequests.some(request => request.from.userId === getUser().userId && request.to.userId === user._id)}>Add Friend</Button>
                         </Paper>
                     )
                 })}
