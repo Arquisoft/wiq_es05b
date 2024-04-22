@@ -4,9 +4,19 @@ const port = 8002;
 const mongoose = require('mongoose');
 const { loggerFactory, errorHandlerMiddleware, responseLoggerMiddleware, requestLoggerMiddleware } = require("cyt-utils")
 const promBundle = require('express-prom-bundle');
+const i18next = require('i18next');
 
 // Create a logger
 const logger = loggerFactory()
+
+i18next.init({
+  lng: 'en',
+  fallbackLng: 'en',
+  resources: {
+    en: require('./locals/en.json'),
+    es: require('./locals/es.json'),
+  }
+})
 
 // Connect to MongoDB
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
@@ -15,6 +25,9 @@ mongoose.connect(mongoUri);
 // Middleware to log requests and responses
 app.use(requestLoggerMiddleware(logger.info.bind(logger), "Auth Service"))
 app.use(responseLoggerMiddleware(logger.info.bind(logger), "Auth Service"))
+
+app.set("i18next", i18next);
+app.use(require("./middleware/i18nMiddleware")(i18next))
 
 //Prometheus configuration
 const metricsMiddleware = promBundle({includeMethod: true});
