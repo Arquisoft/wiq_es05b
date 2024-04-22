@@ -111,7 +111,7 @@ const Buttons = () => {
         onClick={() => {navigate("/"); logout()}}
         startIcon={<LogoutIcon />}
       >
-        <Typography variant="button">Logout</Typography>
+        <Typography variant="button">Logout</Typography> {/* TODO - change i18n */}
       </Button>
     </Paper>
   )
@@ -130,7 +130,7 @@ const AccountPanel = () => {
 const HistoryPanel = () => {
   return (
     <Paper elevation={3} sx={{padding:"1rem 1rem 2rem"}}>
-      <Typography variant="h3" component="p" sx={{textAlign: "center"}}>History</Typography>
+      <Typography variant="h3" component="p" sx={{textAlign: "center"}}>History</Typography> {/* TODO - change i18n */}
       <SaveList />
     </Paper>
   )

@@ -8,24 +8,25 @@ import { AuthContext } from '../context/AuthContext';
 import { ConfigContext } from '../context/ConfigContext';
 import MyAvatar from "./MyAvatar"
 import axios from "axios"
+import { useTranslation } from "react-i18next";
 
 const pages = [
-    { displayed: 'Home', link: '/home', logged: false},
-    { displayed: 'Menu', link: '/menu', logged: true},
-    { displayed: 'Global Ranking', link: '/ranking', logged: false},
-    { displayed: 'About', link: '/about', logged: false}
+    { code: 'home_home', link: '/home', logged: false},
+    { code: 'home_menu', link: '/menu', logged: true},
+    { code: 'home_ranking', link: '/ranking', logged: false},
+    { code: 'home_about', link: '/about', logged: false}
 ];
 
 const settings = [
-    { displayed: 'Account', link: '/account', logged: true },
-    { displayed: 'Login', link: '/login', logged: false },
-    { displayed: 'Sign Up', link: '/signup', logged: false },
-    { displayed: 'Logout', link: '/logout', logged: true }
+    { code: 'home_menu_account', link: '/account', logged: true },
+    { code: 'home_menu_login', link: '/login', logged: false },
+    { code: 'home_menu_sign_up', link: '/signup', logged: false },
+    { code: 'home_menu_logout', link: '/logout', logged: true }
 ];
 
 const locale = [
-  {displayed: "Spanish", value: "es"},
-  {displayed: "English", value: "en"},
+  {displayed: "Spanish", value: "es"}, // TODO - change i18n
+  {displayed: "English", value: "en"}, // TODO - change i18n
 ]
 
 const threshold = 899;
@@ -45,12 +46,13 @@ const JordiButton = () => {
           textTransform: 'none'
         }}
       >
-        Swap
+        Swap {/* TODO - change i18n */}
       </Button>
   );
 };
 
 const NavMenu = ({handleCloseNavMenu}) => {
+  const { t } = useTranslation()
   const { isAuthenticated } = useContext(AuthContext)
   return (
     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -58,13 +60,13 @@ const NavMenu = ({handleCloseNavMenu}) => {
           if (page.logged && !isAuthenticated()) return null
           return (
             <Button
-              key={page.displayed}
+              key={page.code}
               onClick={handleCloseNavMenu}
               component={Link}
               sx={{ my: 2, color: 'white', display: 'block' }}
               to={page.link}
             >
-              {page.displayed}
+              {t(page.code)}
             </Button>
           )
         })}
@@ -103,7 +105,7 @@ const DropDownMenu = ({handleCloseNavMenu, anchorElNav, setAnchorElNav}) => {
           ))}
           <Divider />
           <MenuItem onClick={() => {swapConfig();handleCloseNavMenu()}}>
-              <Typography textAlign="center">Swap</Typography>
+              <Typography textAlign="center">Swap</Typography> {/* TODO - change i18n */}
           </MenuItem>
         </Menu>
     </Box>
@@ -129,8 +131,9 @@ const LocaleMenu = ({setLocale, locale: l}) => {
         }}
         variant="outlined"
         color="secondary"
+        startIcon={<KeyboardArrowDownIcon />}
       >
-        {l} <KeyboardArrowDownIcon />
+        {l}
       </Button>
       <Menu
         anchorEl={anchorEl}
@@ -158,6 +161,7 @@ export default function Nav() {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [width, setWidth] = useState(window.innerWidth);
   const [locale, setLocale] = useState('en');
+  const { t } = useTranslation();
 
   const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
   const handleCloseNavMenu = () => setAnchorElNav(null);
@@ -171,7 +175,6 @@ export default function Nav() {
   useEffect(handleWindowResize, [])
 
   useEffect(() => {
-    console.log(locale)
     axios.defaults.headers.common['Accept-Language'] = locale;
   }, [locale])
 
@@ -180,11 +183,11 @@ export default function Nav() {
       if (isAuthenticated() !== setting.logged) return null
       return (
         <MenuItem
-          key={setting.displayed}
+          key={setting.code}
           onClick={setting.link === '/logout' ? () => {handleCloseUserMenu(); logout()} : handleCloseUserMenu}
           component={Link}
           to={setting.link === '/logout' ? "/" : setting.link}>
-          <Typography textAlign="center">{setting.displayed}</Typography>
+          <Typography textAlign="center">{t(setting.code)}</Typography>
         </MenuItem>
       )
     })

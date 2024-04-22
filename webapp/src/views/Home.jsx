@@ -33,7 +33,7 @@ function Home() {
             component={Link}
             to="/menu"
           >
-            Play
+            Play {/* TODO - change i18n */}
           </Button>
         </Container>
       </Container>

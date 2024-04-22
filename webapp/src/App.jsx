@@ -23,6 +23,8 @@ import defaultTheme from "./views/components/config/defaultTheme.json"
 import { ConfigContext } from "./views/context/ConfigContext";
 import { AuthContext } from "./views/context/AuthContext";
 
+import "./scripts/i18next"
+
 const theme = createTheme(defaultTheme);
 
 let configs = [

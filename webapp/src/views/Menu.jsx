@@ -48,7 +48,7 @@ const Buttons = ({ categories }) => {
         Choose a category to play
       </Typography>
 
-      <TextField sx={categorySearch} label="Search categories..." variant="standard" onChange={(e) => setFilter(e.target.value)} />
+      <TextField sx={categorySearch} label="Search categories..." variant="standard" onChange={(e) => setFilter(e.target.value)} /> {/* TODO - change i18n */}
 
       <Container sx={buttonGroup}>
         {filteredCategories.map((category, i) => (

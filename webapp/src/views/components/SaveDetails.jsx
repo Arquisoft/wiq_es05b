@@ -6,7 +6,7 @@ const Summary = ({category, points}) => {
   return (
     <Box sx={{display: "flex", justifyContent: "space-between"}}>
       <Typography variant="h5" component="p">{textFormat(category)}</Typography>
-      <Typography variant="h5" component="p">Points: {points}</Typography>
+      <Typography variant="h5" component="p">Points: {points}</Typography> {/* TODO - change i18n */}
     </Box>
   )
 }
@@ -23,8 +23,8 @@ const Question = ({index, question}) => {
           })}
         </Container>
         <Box sx={{position: "absolute", right: 0, top: 0}}>
-          <Typography>Points: {question.points}</Typography>
-          <Typography>Time: {question.time} s</Typography>
+          <Typography>Points: {question.points}</Typography> {/* TODO - change i18n */}
+          <Typography>Time: {question.time} s</Typography> {/* TODO - change i18n */}
         </Box>
     </Box>
   )

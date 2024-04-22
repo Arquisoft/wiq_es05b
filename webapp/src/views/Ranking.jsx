@@ -6,10 +6,10 @@ import Loader from "./components/Loader";
 import ServiceDownMessage from "./components/ServiceDownMessage";
 
 const baseFilters = [
-  { filter: "totalPoints", displayed: "Points" },
-  { filter: "totalTime", displayed: "Time" },
-  { filter: "category", displayed: "Category" },
-  { filter: "correct", displayed: "Correct ratio" },
+  { filter: "totalPoints", displayed: "Points" }, // TODO - change i18n
+  { filter: "totalTime", displayed: "Time" }, // TODO - change i18n
+  { filter: "category", displayed: "Category" }, // TODO - change i18n
+  { filter: "correct", displayed: "Correct ratio" }, // TODO - change i18n
 ]
 
 const rowGenerator = (score, i) => {
@@ -32,19 +32,19 @@ const RankingList = ({ scores, error }) => {
     return <ServiceDownMessage grave={grave} code={error.status} reason={error.message} />
   }
   if (scores.length === 0)
-    return <Typography variant="h5" align="center">No scores to show</Typography>
+    return <Typography variant="h5" align="center">No scores to show</Typography> // TODO - change i18n
   return (
     <TableContainer component={Container}>
       <Table>
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell><Typography fontWeight="bold">User</Typography></TableCell>
-            <TableCell><Typography fontWeight="bold">Category</Typography></TableCell>
-            <TableCell align="right"><Typography fontWeight="bold">Time</Typography></TableCell>
-            <TableCell align="right"><Typography fontWeight="bold">Points</Typography></TableCell>
-            <TableCell align="right"><Typography fontWeight="bold">Correct Ratio</Typography></TableCell>
-            <TableCell align="right"><Typography fontWeight="bold">Date</Typography></TableCell>
+            <TableCell><Typography fontWeight="bold">User</Typography></TableCell> {/* TODO - change i18n */}
+            <TableCell><Typography fontWeight="bold">Category</Typography></TableCell> {/* TODO - change i18n */}
+            <TableCell align="right"><Typography fontWeight="bold">Time</Typography></TableCell> {/* TODO - change i18n */}
+            <TableCell align="right"><Typography fontWeight="bold">Points</Typography></TableCell> {/* TODO - change i18n */}
+            <TableCell align="right"><Typography fontWeight="bold">Correct Ratio</Typography></TableCell> {/* TODO - change i18n */}
+            <TableCell align="right"><Typography fontWeight="bold">Date</Typography></TableCell> {/* TODO - change i18n */}
           </TableRow>
         </TableHead>
         <TableBody>

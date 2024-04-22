@@ -16,7 +16,7 @@ const Save = ({save, onClick}) => {
     <ListItem
       button
       onClick={() => onClick(save)}
-      secondaryAction={<ListItemText primary={points} secondary="Points" />}
+      secondaryAction={<ListItemText primary={points} secondary="Points" />} {/* TODO - change i18n */}
     >
       <ListItemText primary={textFormat(save.category)} secondary={formattedDate}/>
     </ListItem>

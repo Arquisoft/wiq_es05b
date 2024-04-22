@@ -13,17 +13,19 @@ export default function Error() {
       }}>
         <img src="/jordi-error.jpg" alt="Oh no" />
         <Typography variant="h4" component="p">
+          {/* TODO - change i18n */}
           Oh no, an error occurred.
         </Typography>
         <Typography variant="h5" component="p">
+          {/* TODO - change i18n */}
           It seems the requested URL does no exist or you don't have enough
           privileges to see it.
         </Typography>
         <Typography variant="h5" component="p">
-          Go back sinner.
+          Go back sinner. {/* TODO - change i18n */}
         </Typography>
         <Button component={Link} to="/home" variant="contained">
-          Go Home
+          Go Home {/* TODO - change i18n */}
         </Button>
       </Paper>
     </Container>
