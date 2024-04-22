@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cron = require('node-cron');
 const { loggerFactory, errorHandlerMiddleware, responseLoggerMiddleware, requestLoggerMiddleware } = require("cyt-utils")
 const promBundle = require('express-prom-bundle');
+const i18next = require('i18next');
 
 const WikidataQAManager = require('./WikidataGenerator');
 const groups = require('./groups.json');
@@ -13,6 +14,17 @@ const app = express();
 const port = 8003;
 
 const logger = loggerFactory()
+
+i18next.init({
+	lng: 'en',
+	fallbackLng: 'en',
+	resources: {
+		en: require('./locals/en.json'),
+		es: require('./locals/es.json'),
+	}
+})
+
+app.set("i18next", i18next);
 
 // Connect to the database
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/questions';

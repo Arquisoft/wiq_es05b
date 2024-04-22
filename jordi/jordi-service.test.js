@@ -3,7 +3,6 @@ const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
 const Question = require("./jordi-model");
 const axios = require("axios");
-const error = require("mongoose/lib/error");
 
 let mongoServer;
 let app;

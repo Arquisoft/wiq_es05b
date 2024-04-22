@@ -1,0 +1,6 @@
+{
+  "translation": {
+    "error_invalid_id": "Invalid id format",
+    "error_invalid_n": "'n' must be a number"
+  }
+}

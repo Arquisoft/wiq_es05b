@@ -1,5 +1,7 @@
 module.exports = function (app, questionsRepository) {
 
+  const i18next = app.get("i18next")
+
   app.get("/categories", async (_req, res, next) => {
     questionsRepository.getCategories()
       .then(result => res.json(result))
@@ -7,7 +9,7 @@ module.exports = function (app, questionsRepository) {
   })
 
   app.get("/question/:id", (req, res, next) => {
-    if(!questionsRepository.checkValidId(req.params.id)) return next({status: 400, error: "Invalid id format"})
+    if(!questionsRepository.checkValidId(req.params.id)) return next({status: 400, error: i18next.t("error_invalid_id")})
 
     questionsRepository
       .findQuestionById(req.params.id)
@@ -20,7 +22,7 @@ module.exports = function (app, questionsRepository) {
   app.get('/questions/:category/:n', async (req, res, next) => {
     const {category, n} = req.params;
 
-    if(isNaN(n)) return next({status: 400, error: "N must be a number"})
+    if(isNaN(n)) return next({status: 400, error: i18next.t("error_invalid_n")})
 
     questionsRepository.getQuestions(category, n)
       .then(result => {

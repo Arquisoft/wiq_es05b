@@ -8,17 +8,16 @@ module.exports = {
     this.uri = uri;
   },
   checkUp: async function () {
-    if (this.mongoose.connection.readyState != 1) {
+    if (this.mongoose.connection.readyState !== 1) {
       await this.mongoose.connect(this.uri);
     }
   },
   getCategories: async function () {
     try {
       await this.checkUp();
-      let result = await this.mongoose.connection
+      return await this.mongoose.connection
         .collection(this.collectionName)
         .distinct("categories");
-      return result;
     } catch (error) {
       throw error.message;
     }
@@ -38,8 +37,7 @@ module.exports = {
 
       for (let i = 0; i < result.length; i++) {
         const question = result[i];
-        const options = await this.getDistinctOptions(question);
-        question.options = options;
+        question.options = await this.getDistinctOptions(question);
       }
 
       return result;
@@ -79,16 +77,14 @@ module.exports = {
   findQuestionById: async function (id) {
     try {
       await this.checkUp();
-      const question = await this.mongoose.connection
+      return await this.mongoose.connection
         .collection(this.collectionName)
-        .findOne({ _id: new this.mongoose.Types.ObjectId(id) });
-      return question;
+        .findOne({_id: new this.mongoose.Types.ObjectId(id)});
     } catch (error) {
       throw error.message;
     }
   },
   checkValidId: function (id) {
-    if (!id || !this.mongoose.isValidObjectId(id)) return false;
-    return true;
+    return !(!id || !this.mongoose.isValidObjectId(id));
   },
 };
