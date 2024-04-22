@@ -13,4 +13,15 @@ module.exports = function (app, userRepository, socialRepository) {
         }
     });
 
+    app.get("/social/sentrequests/:userId", async (req, res, next) => {
+        const { userId } = req.params;
+
+        try {
+            const result = await socialRepository.getSentRequests(userId);
+            res.json(result);
+        } catch (error) {
+            next({ error: error });
+        }
+    });
+
 }

@@ -33,6 +33,7 @@ const AddFriendTab = () => {
     const { getUser } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
     const [filter, setFilter] = useState('');
+    const [sentRequests, setSentRequests] = useState([]);
 
     const fetchUsers = async (filter) => {
         if (!filter) filter = 'all';
@@ -69,9 +70,25 @@ const AddFriendTab = () => {
         }
     }
 
+    const getSentRequests = async () => {
+        try {
+            const response = await axios({
+                method: 'get',
+                url: `/users/social/sentrequests/${getUser().userId}`,
+                headers: {
+                    Authorization: `Bearer ${getUser().token}`
+                }
+            });
+            console.log(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     useEffect(() => {
         fetchUsers();
+        getSentRequests();
     }, []);
 
     return (

@@ -24,4 +24,12 @@ module.exports = {
             throw error.message;
         }
     },
+    getSentRequests: async function (userId) {
+        try {
+            await this.checkUp()
+            return await this.request.find({ "from.userId": new this.mongoose.Types.ObjectId(userId) });
+        } catch (error) {
+            throw error.message;
+        }
+    },
 };

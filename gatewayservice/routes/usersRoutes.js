@@ -57,4 +57,16 @@ module.exports = (app, axios, authTokenMiddleware) => {
       .catch((error) => next({ error: "gw: An error occurred while creating friend request: " + error}));
   });
 
+  app.get("/users/social/sentrequests/:userId", async (req, res, next) => {
+    const { userId } = req.params;
+
+    axios
+      .get(`${userServiceUrl}/social/sentrequests/${userId}`)
+      .then(({ data }) => {
+        console.log(data);
+        res.json(data);
+      })
+      .catch((error) => next({ error: "gw: An error occurred while fetching sent requests: " + error}));
+  });
+
 };
