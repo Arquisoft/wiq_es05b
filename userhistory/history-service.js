@@ -36,6 +36,8 @@ app.use(express.json())
 app.use(requestLoggerMiddleware(logger.info.bind(logger), "History Service"))
 app.use(responseLoggerMiddleware(logger.info.bind(logger), "History Service"))
 
+app.use(require("./middleware/i18nMiddleware")(i18next))
+
 //Prometheus configuration
 const metricsMiddleware = promBundle({includeMethod: true});
 app.use(metricsMiddleware);

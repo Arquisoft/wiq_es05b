@@ -4,6 +4,9 @@ const historyServiceUrl = process.env.HISTORY_SERVICE_URL || "http://localhost:8
 const userServiceUrl = process.env.USER_SERVICE_URL || "http://localhost:8001";
 
 module.exports = (app, axios, authMiddleware) => {
+
+  const i18next = app.get("i18next")
+
   app.get("/history/get/:userId", authMiddleware, (req, res, next) => {
     const { userId } = req.params
     const { page, limit } = req.query
@@ -15,7 +18,7 @@ module.exports = (app, axios, authMiddleware) => {
     axios
       .get(url)
       .then(response => res.status(response.status).json(response.data))
-      .catch(() => next({error: "An error occurred while fetching user history"}))
+      .catch(() => next({error: i18next.t("error_fetch_history")}))
   })
 
   app.get("/history/get/:userId/:id", authMiddleware, (req, res, next) => {
@@ -24,32 +27,32 @@ module.exports = (app, axios, authMiddleware) => {
     axios
       .get(`${historyServiceUrl}/get/${userId}/${id}`)
       .then(response => res.status(response.status).json(response.data))
-      .catch(() => next({error: "An error occurred while fetching user history"}))
+      .catch(() => next({error: i18next.t("error_fetch_history")}))
   })
 
   app.post("/history/create", authMiddleware, (req, res, next) => {
     const result = fieldChecker(["userId", "category"], req.body)
-    if(result) return next({status: 400, error: `Missing ${result}`})
+    if(result) return next({status: 400, error: `${i18next.t("error_missing_field")} ${result}`})
 
     const { userId, category } = req.body
 
     axios
       .post(`${historyServiceUrl}/create`, { userId, category })
       .then(response => res.status(response.status).json(response.data))
-      .catch(() => next({error: "An error occurred while creating the save"}))
+      .catch(() => next({error: i18next.t("error_create_save")}))
   })
 
   app.post("/history/add/:id", (req, res, next) => {
     const { id } = req.params
     const result = fieldChecker(["last", "statement", "options", "answer", "correct", "time", "points"], req.body)
-    if(result) return next({status: 400, error: `Missing ${result}`})
+    if(result) return next({status: 400, error: `${i18next.t("error_missing_field")} ${result}`})
 
     const { last, statement, options, answer, correct, time, points } = req.body
 
     axios
       .post(`${historyServiceUrl}/add/${id}`, { last, statement, options, answer, correct, time, points })
       .then(response => res.status(response.status).json(response.data))
-      .catch(() => next({error: "An error occurred while creating the save"}))
+      .catch(() => next({error: i18next.t("error_create_save")}))
   })
 
   app.get("/ranking/:n", (req, res, next) => {
@@ -70,6 +73,6 @@ module.exports = (app, axios, authMiddleware) => {
         }))
         res.status(response.status).json(response.data)
       })
-      .catch(() => next({error: "An error occured while fetching the ranking"}))
+      .catch(() => next({error: i18next.t("error_fetch_ranking")}))
   })
 }

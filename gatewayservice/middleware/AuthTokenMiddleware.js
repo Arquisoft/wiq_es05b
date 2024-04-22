@@ -1,4 +1,4 @@
-module.exports = (req, res, next) => {
+module.exports = (i18next) => (req, res, next) => {
   const { userIdToken } = req
   let userId
 
@@ -10,8 +10,8 @@ module.exports = (req, res, next) => {
     userId = req.query.userId
   }
 
-  if(!userId) return next({status: 400, error: "No userId provided"})
-  if (userIdToken && userIdToken !== userId) return next({ status: 401, error: "You don't own this save" })
+  if(!userId) return next({status: 400, error: `${i18next.t("error_missing_field")} userId`})
+  if (userIdToken && userIdToken !== userId) return next({ status: 401, error: i18next.t("error_save_property") })
 
   next()
 }

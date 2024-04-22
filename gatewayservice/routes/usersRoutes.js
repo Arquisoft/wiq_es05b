@@ -2,6 +2,9 @@ const userServiceUrl = process.env.USER_SERVICE_URL || "http://localhost:8001";
 const authServiceUrl = process.env.AUTH_SERVICE_URL || "http://localhost:8002";
 
 module.exports = (app, axios, authTokenMiddleware) => {
+
+  const i18next = app.get("i18next")
+
   app.post("/adduser", async (req, res, next) => {
     axios
       .post(`${userServiceUrl}/adduser`, req.body)
@@ -15,13 +18,13 @@ module.exports = (app, axios, authTokenMiddleware) => {
             });
           })
           .catch((error) =>{
-            let e = error.error || "Login service is having a nap right now"
+            let e = error.error || i18next.t("error_login_service_unable")
             if (error.code && error.code.includes("ECONNREFUSED")) 
-              e = { error: "Service unavailable" }
+              e = { error: i18next.t("error_service_unavailable") }
             res.status(200).json({ message: response.data.message, error: e })
           })
       })
-      .catch(() => next({ error: "An error occurred while adding user" }));
+      .catch(() => next({ error: i18next.t("error_adding_user") }));
   });
 
   app.get("/user/:userId", authTokenMiddleware, (req, res, next) => {
@@ -29,6 +32,6 @@ module.exports = (app, axios, authTokenMiddleware) => {
     axios
       .get(`${userServiceUrl}/user/${userId}`)
       .then(({ data }) => res.json(data))
-      .catch(() => next({error: "An error occurred while fetching user data"}))
+      .catch(() => next({error: i18next.t("error_fetch_user")}))
   })
 };
