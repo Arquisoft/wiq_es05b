@@ -1,6 +1,6 @@
 {
   "translation": {
-    "error_invalid_credentials": "Invalid credentials",
-    "error_missing_field": "Missing field"
+    "error_invalid_credentials": "Credenciales inválidas",
+    "error_missing_field": "Falta el campo"
   }
 }

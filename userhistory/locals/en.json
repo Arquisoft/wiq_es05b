@@ -1,0 +1,14 @@
+{
+  "translation": {
+    "user_created": "Save created successfully",
+    "question_added": "Question added successfully",
+    "error_save_not_found": "Save not found",
+    "error_save_finished": "Save is already finished",
+    "error_invalid_credentials": "Invalid credentials",
+    "error_missing_field": "Missing field",
+    "error_empty_category": "Category cannot be empty",
+    "error_invalid_userId": "Invalid userId format",
+    "error_invalid_Id": "Invalid id format",
+    "error_invalid_n": "Invalid value for n"
+  }
+}
