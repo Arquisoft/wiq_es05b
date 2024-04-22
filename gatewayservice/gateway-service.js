@@ -1,6 +1,7 @@
 const express = require('express');
 const promBundle = require('express-prom-bundle');
 const axios = require('axios');
+const cors = require('cors');
 const { loggerFactory,  requestLoggerMiddleware,  responseLoggerMiddleware,  errorHandlerMiddleware } = require("cyt-utils")
 const swaggerUi = require('swagger-ui-express');
 const fs = require('fs');
@@ -25,6 +26,7 @@ const port = 8000;
 app.set("i18next", i18next)
 
 app.use(express.json());
+app.use(cors());
 
 app.use(requestLoggerMiddleware(logger.info.bind(logger), "Gateway Service"))
 app.use(responseLoggerMiddleware(logger.info.bind(logger), "Gateway Service"))
