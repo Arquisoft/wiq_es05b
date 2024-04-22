@@ -1,7 +1,7 @@
 module.exports = {
     mongoose: null,
     uri: null,
-    request: require("../../models/friendRequest-model"),
+    request: require("../friendRequest-model"),
     init: function (mongoose, uri) {
         this.mongoose = mongoose;
         this.uri = uri;
@@ -11,11 +11,11 @@ module.exports = {
             await this.mongoose.connect(this.uri);
         }
     },
-    insertRequest: async function (fromId, toId) {
+    insertRequest: async function (fromName,fromId, toId) {
         try {
             await this.checkUp()
             const newRequest = new this.request({
-                from: {userId: new this.mongoose.Types.ObjectId(fromId)},
+                from: {username: fromName, userId: new this.mongoose.Types.ObjectId(fromId)},
                 to: {userId: new this.mongoose.Types.ObjectId(toId)}
             });
             await newRequest.save();

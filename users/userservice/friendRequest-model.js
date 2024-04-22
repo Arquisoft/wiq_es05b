@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 const friendRequestSchema = new mongoose.Schema({
     from: {
+        username: {
+            type: String,
+            required: true,
+        },
         userId: {
             type: mongoose.Types.ObjectId,
             required: true,
@@ -21,4 +25,4 @@ const friendRequestSchema = new mongoose.Schema({
 
 const FriendRequest = mongoose.model('FriendRequest', friendRequestSchema);
 
-module.exports = FriendRequest;
+module.exports = FriendRequest

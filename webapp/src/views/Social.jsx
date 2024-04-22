@@ -58,6 +58,7 @@ const AddFriendTab = () => {
                     Authorization: `Bearer ${getUser().token}`
                 },
                 data: {
+                    name: getUser().username,
                     userId: getUser().userId,
                     toId: toId
                 }

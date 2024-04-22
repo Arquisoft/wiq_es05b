@@ -1,7 +1,7 @@
 module.exports = {
   mongoose: null,
   uri: null,
-  User: require("../../models/user-model"),
+  User: require("../user-model"),
   init: function (mongoose, uri) {
     this.mongoose = mongoose;
     this.uri = uri;
