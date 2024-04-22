@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppBar, Box, Container, IconButton, Toolbar, Tooltip, Button, Typography, Menu, MenuItem, Divider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Link } from 'react-router-dom';
 import { ReactComponent as CustomIcon } from '../../media/logoS.svg';
 import { AuthContext } from '../context/AuthContext';
 import { ConfigContext } from '../context/ConfigContext';
 import MyAvatar from "./MyAvatar"
+import axios from "axios"
 
 const pages = [
     { displayed: 'Home', link: '/home', logged: false},
@@ -21,6 +23,11 @@ const settings = [
     { displayed: 'Logout', link: '/logout', logged: true }
 ];
 
+const locale = [
+  {displayed: "Spanish", value: "es"},
+  {displayed: "English", value: "en"},
+]
+
 const threshold = 899;
 
 const JordiButton = () => {
@@ -33,7 +40,6 @@ const JordiButton = () => {
         onClick={swapConfig}
         sx={{
           display: { xs: 'none', md: 'inline-flex' },
-          marginLeft: '1rem',
           borderRadius: '50px',
           fontWeight: 'bold',
           textTransform: 'none'
@@ -104,11 +110,54 @@ const DropDownMenu = ({handleCloseNavMenu, anchorElNav, setAnchorElNav}) => {
   )
 }
 
+const LocaleMenu = ({setLocale, locale: l}) => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  return (
+    <>
+      <Button
+        onClick={handleClick}
+        sx={{ my: 2,
+          color: 'white',
+          display: { xs: 'none', md: 'inline-flex' },
+        }}
+        variant="outlined"
+        color="secondary"
+      >
+        {l} <KeyboardArrowDownIcon />
+      </Button>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        {locale.map((l, i) =>
+          <MenuItem
+            key={`lang-${i}`}
+            onClick={() => { handleClose(); setLocale(l.value) }}>
+            <Typography textAlign="center">{l.displayed}</Typography>
+          </MenuItem>
+        )}
+      </Menu>
+    </>
+  )
+}
+
 export default function Nav() {
   const { isAuthenticated, logout } = useContext(AuthContext)
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [width, setWidth] = useState(window.innerWidth);
+  const [locale, setLocale] = useState('en');
 
   const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
   const handleCloseNavMenu = () => setAnchorElNav(null);
@@ -120,6 +169,11 @@ export default function Nav() {
   }
 
   useEffect(handleWindowResize, [])
+
+  useEffect(() => {
+    console.log(locale)
+    axios.defaults.headers.common['Accept-Language'] = locale;
+  }, [locale])
 
   const generateMenuItems = () => {
     return settings.map((setting) => {
@@ -144,16 +198,16 @@ export default function Nav() {
             handleCloseNavMenu={handleCloseNavMenu}
             anchorElNav={anchorElNav}
             setAnchorElNav={setAnchorElNav}
+            locale={locale}
           />
           <NavIcon width={width} />
           <NavMenu handleCloseNavMenu={handleCloseNavMenu} />
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+          <Box sx={{ flexGrow: 0, display: "flex", flexFlow: "row", alignItems: "center", gap: "1rem" }}>
+            <Tooltip title="User profile">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <MyAvatar />
               </IconButton>
             </Tooltip>
-            <JordiButton />
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -166,6 +220,8 @@ export default function Nav() {
             >
               {generateMenuItems()}
             </Menu>
+            <LocaleMenu setLocale={setLocale} locale={locale} />
+            <JordiButton />
           </Box>
         </Toolbar>
       </Container>
