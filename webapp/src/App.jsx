@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router";
 import Home from "./views/Home";
-import Nav from "./views/components/Nav";
+import Nav from "./views/components/Nav2";
 import Footer from "./views/components/Footer";
 import Login from "./views/Login";
 import Signup from "./views/Signup";
