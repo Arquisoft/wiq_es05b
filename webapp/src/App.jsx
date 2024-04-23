@@ -23,6 +23,10 @@ import defaultTheme from "./views/components/config/defaultTheme.json"
 import { ConfigContext } from "./views/context/ConfigContext";
 import { AuthContext } from "./views/context/AuthContext";
 
+import "./scripts/i18next"
+import {LocaleContext} from "./views/context/LocaleContext";
+import {useTranslation} from "react-i18next";
+
 const theme = createTheme(defaultTheme);
 
 let configs = [
@@ -72,6 +76,8 @@ function useAuth(i = null) {
 
 export default function App() {
   const [config, setConfig] = useState(configDefault);
+  const [locale, setLocale] = useState("en");
+  const {i18n, t} = useTranslation()
 
   const auth = useAuth()
 
@@ -81,27 +87,34 @@ export default function App() {
     setConfig(configs[nextIndex]);
   }
 
+  useEffect(() => {
+    axios.defaults.headers.common['Accept-Language'] = locale;
+    i18n.changeLanguage(locale)
+      .then(() => {})
+  }, [locale, i18n])
 
   return (
     <ThemeProvider theme={theme}>
       <ConfigContext.Provider value={{config, swapConfig}}>
-      <AuthContext.Provider value={auth}>
-        <Nav />
-        <Particles />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/about" element={<About />} />
-          <Route path="/ranking" element={<Ranking />} />
-          <Route path="/menu" element={<Menu />} />
-          <Route path="/game/:category" element={<Game />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="*" element={<Error />} />
-        </Routes>
-        <Footer />
-      </AuthContext.Provider>
+        <LocaleContext.Provider value={{locale, setLocale, t}}>
+          <AuthContext.Provider value={auth}>
+            <Nav />
+            <Particles />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/ranking" element={<Ranking />} />
+              <Route path="/menu" element={<Menu />} />
+              <Route path="/game/:category" element={<Game />} />
+              <Route path="/account" element={<Account />} />
+              <Route path="*" element={<Error />} />
+            </Routes>
+            <Footer />
+          </AuthContext.Provider>
+        </LocaleContext.Provider>
       </ConfigContext.Provider>
     </ThemeProvider>
   );

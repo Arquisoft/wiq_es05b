@@ -81,7 +81,7 @@ describe('[History Service] - /create', () => {
         const response = await request(app).post('/create').send(req);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing userId")
+        expect(response.body.error).toBe("Missing field userId")
     });
 
     it('Should return 400 when missing category', async () => {
@@ -89,7 +89,7 @@ describe('[History Service] - /create', () => {
         const response = await request(app).post('/create').send(req);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing category")
+        expect(response.body.error).toBe("Missing field category")
     });
 
     it('Should return 400 when category is empty', async () => {
@@ -133,7 +133,7 @@ describe('[History Service] - /add/:id', () => {
         const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing last");
+        expect(response.body.error).toBe("Missing field last");
     });
 
     it('Should return 400 when missing statement', async () => {
@@ -141,7 +141,7 @@ describe('[History Service] - /add/:id', () => {
         const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing statement");
+        expect(response.body.error).toBe("Missing field statement");
     });
 
     it('Should return 400 when missing options', async () => {
@@ -149,7 +149,7 @@ describe('[History Service] - /add/:id', () => {
         const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing options");
+        expect(response.body.error).toBe("Missing field options");
     });
 
     it('Should return 400 when missing answer', async () => {
@@ -157,7 +157,7 @@ describe('[History Service] - /add/:id', () => {
         const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing answer");
+        expect(response.body.error).toBe("Missing field answer");
     });
 
     it('Should return 400 when missing correct', async () => {
@@ -165,7 +165,7 @@ describe('[History Service] - /add/:id', () => {
         const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing correct");
+        expect(response.body.error).toBe("Missing field correct");
     });
 
     it('Should return 400 when missing time', async () => {
@@ -173,7 +173,7 @@ describe('[History Service] - /add/:id', () => {
         const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing time");
+        expect(response.body.error).toBe("Missing field time");
     });
 
     it('Should return 400 when missing points', async () => {
@@ -181,7 +181,7 @@ describe('[History Service] - /add/:id', () => {
         const response = await request(app).post(`/add/${saveId}`).send(question);
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe("Missing points");
+        expect(response.body.error).toBe("Missing field points");
     });
 
     it('Should return 400 when id is invalid', async () => {

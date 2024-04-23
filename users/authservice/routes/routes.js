@@ -12,9 +12,11 @@ const checkFieldsOn = (fields, obj) => {
 
 module.exports = function (app, userRepository) {
 
+  const i18next = app.get("i18next")
+
   app.post('/login', async (req, res, next) => {
     const value = checkFieldsOn(['username', 'password'], req.body)
-    if(value) return next({status: 400, error: `Missing ${value}`})
+    if(value) return next({status: 400, error: `${i18next.t("error_missing_field")} ${value}`})
 
     const { username, password } = req.body;
 
@@ -24,7 +26,7 @@ module.exports = function (app, userRepository) {
           const token = jwt.sign({ userId: result._id }, JWT_SECRET, { expiresIn: '4h' });
           res.json({ token, username, userId: result._id});
         } else {
-          next({ status: 401, error: 'Invalid credentials' });
+          next({ status: 401, error: i18next.t("error_invalid_credentials") });
         }
       })
       .catch(err => next(err));

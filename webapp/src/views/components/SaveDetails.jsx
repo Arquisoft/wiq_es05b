@@ -1,17 +1,21 @@
 import {Box, Typography, Container, Button, Divider} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import textFormat from "../../scripts/textFormat";
+import {useContext} from "react";
+import {LocaleContext} from "../context/LocaleContext";
 
 const Summary = ({category, points}) => {
+  const { t } = useContext(LocaleContext)
   return (
     <Box sx={{display: "flex", justifyContent: "space-between"}}>
       <Typography variant="h5" component="p">{textFormat(category)}</Typography>
-      <Typography variant="h5" component="p">Points: {points}</Typography>
+      <Typography variant="h5" component="p">{t("history_points")} {points}</Typography>
     </Box>
   )
 }
 
 const Question = ({index, question}) => {
+  const { t } = useContext(LocaleContext)
   return (
     <Box sx={{position: "relative"}}>
       <Typography variant="h6" component="p">{index}. {question.statement}</Typography>
@@ -23,8 +27,8 @@ const Question = ({index, question}) => {
           })}
         </Container>
         <Box sx={{position: "absolute", right: 0, top: 0}}>
-          <Typography>Points: {question.points}</Typography>
-          <Typography>Time: {question.time} s</Typography>
+          <Typography>{t("history_points")} {question.points}</Typography>
+          <Typography>{t("history_time")} {question.time} s</Typography>
         </Box>
     </Box>
   )

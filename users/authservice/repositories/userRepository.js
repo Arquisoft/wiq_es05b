@@ -7,15 +7,14 @@ module.exports = {
     this.uri = uri;
   },
   checkUp: async function () {
-    if (this.mongoose.connection.readyState != 1) {
+    if (this.mongoose.connection.readyState !== 1) {
       await this.mongoose.connect(this.uri);
     }
   },
   findUserByUsername: async function (username) {
     try {
       await this.checkUp()
-      const user = await this.User.findOne({ username });
-      return user;
+      return await this.User.findOne({ username });
     } catch (error) {
       throw error.message;
     }

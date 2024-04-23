@@ -1,0 +1,89 @@
+{
+  "translation": {
+    "home_home": "Inicio",
+    "home_menu": "Menu",
+    "home_ranking": "Ranking",
+    "home_about": "Acerca de",
+
+    "home_menu_account": "Cuenta",
+    "home_menu_login": "Iniciar Sesión",
+    "home_menu_sign_up": "Registrarse",
+    "home_menu_logout": "Cerrar Sesión",
+
+    "signup_title": "Registrarse",
+    "signup_suggestion_text": "¿Ya tienes una cuenta?",
+    "signup_suggestion_link": "Iniciar Sesión",
+    "signup_submit_button": "Crear cuenta",
+
+    "login_title": "Iniciar Sesión",
+    "login_suggestion_text": "¿No tienes una cuenta?",
+    "login_suggestion_link": "Registrarse",
+    "login_submit_button": "Iniciar Sesión",
+
+    "form_default_title": "Formulario",
+    "form_default_submit": "Enviar",
+    "form_username": "Nombre de usuario",
+    "form_password": "Contraseña",
+
+    "ranking_title": "Ranking",
+    "ranking_filter": "Filtrar por:",
+    "ranking_filter_points": "Puntos",
+    "ranking_filter_time": "Tiempo",
+    "ranking_filter_category": "Categoría",
+    "ranking_filter_ratio": "Porcentaje de acierto",
+    "ranking_no_scores": "No hay puntuaciones para mostrar.",
+    "ranking_table_user": "Usuario",
+    "ranking_table_category": "Categoría",
+    "ranking_table_time": "Tiempo",
+    "ranking_table_points": "Puntos",
+    "ranking_table_ratio": "Aciertos",
+    "ranking_table_date": "Fecha",
+
+    "menu_title": "Menu",
+    "menu_choose": "Elija una categoria para jugar",
+    "menu_search_placeholder": "Buscar categoria...",
+
+    "about_title": "Acerca de",
+    "about_p1": "¡Bienvenido a nuestro proyecto! Nos dedicamos a ofrecer contenidos y servicios de calidad a nuestros usuarios.",
+    "about_p2": "Nuestra misión es proporcionar una forma divertida de aprender y practicar conocimientos generales a través de un juego de preguntas y respuestas.",
+    "about_p3": "No dude en explorar nuestro sitio y descubrir más sobre lo que podemos ofrecerle.",
+    "about_p4": "Si tiene alguna pregunta o comentario, no dude en ponerse en contacto con nosotros.",
+    "about_p5": "¡Gracias por su visita!",
+    "about_contact_us": "Contáctenos",
+    "about_contact_channels": "Puede ponerse en contacto con nosotros a través de los siguientes canales:",
+    "about_mailing": "Correo:",
+    "about_github": "¡Visite nuestra página de github!",
+
+    "account_user_data": "Datos",
+
+    "history_title": "Historial",
+    "history_button_logout": "Cerrar Sesión",
+    "history_points": "Puntos:",
+    "history_time": "Tiempo:",
+    "history_points2": "Puntos",
+
+    "endgame_result": "Resultados",
+    "endgame_points": "Puntuacion total:",
+    "endgame_correct": "Respuestas correctas:",
+    "endgame_wrong": "Respuestas incorrectas:",
+    "endgame_time": "Tiempo:",
+    "endgame_home_button": "Volver al Inicio",
+
+    "button_play": "Jugar",
+
+    "loader_msg": "Cargando, por favor espere...",
+
+    "i18n_spanish": "Español",
+    "i18n_english": "Ingles",
+
+    "nav_button_swap": "Cambiar fondo",
+
+    "error_service_down_msg": "El servicio esta caido",
+    "error_reason": "Motivo",
+    "error_service_down_page_msg": "El servicio parece estar caído, por favor inténtelo más tarde.",
+    "error_occurred": "Oh no, ha ocurrido un error.",
+    "error_bad_request": "Parece que la URL solicitada no existe o no tiene suficientes privilegios para verla.",
+    "error_sinner": "Vuelve pecador.",
+    "error_home_button": "Volver al Inicio"
+  }
+}

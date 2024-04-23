@@ -1,30 +1,46 @@
 const express = require('express');
 const promBundle = require('express-prom-bundle');
 const axios = require('axios');
+const cors = require('cors');
 const { loggerFactory,  requestLoggerMiddleware,  responseLoggerMiddleware,  errorHandlerMiddleware } = require("cyt-utils")
 const swaggerUi = require('swagger-ui-express');
 const fs = require('fs');
 const YAML = require('yaml');
+const i18next = require('i18next');
 
 const logger = loggerFactory()
+
+i18next.init({
+  lng: 'en',
+  fallbackLng: 'en',
+  resources: {
+    en: require('./locals/en.json'),
+    es: require('./locals/es.json'),
+  }
+})
 
 // Create the server
 const app = express();
 const port = 8000;
 
+app.set("i18next", i18next)
+
 app.use(express.json());
+app.use(cors());
 
 app.use(requestLoggerMiddleware(logger.info.bind(logger), "Gateway Service"))
 app.use(responseLoggerMiddleware(logger.info.bind(logger), "Gateway Service"))
+
+app.use(require("./middleware/i18nMiddleware")(i18next))
 
 //Prometheus configuration
 const metricsMiddleware = promBundle({includeMethod: true});
 app.use(metricsMiddleware);
 
 // Middleware instantiation
-const dataValidatorMiddleware = require('./middleware/DataValidatorMiddleware')
-const authMiddleware = require('./middleware/AuthMiddleware')
-const authTokenMiddleware = require("./middleware/AuthTokenMiddleware")
+const dataValidatorMiddleware = require('./middleware/DataValidatorMiddleware')(i18next)
+const authMiddleware = require('./middleware/AuthMiddleware')(i18next)
+const authTokenMiddleware = require("./middleware/AuthTokenMiddleware")(i18next)
 
 // Routes middleware
 app.use("/adduser", dataValidatorMiddleware)

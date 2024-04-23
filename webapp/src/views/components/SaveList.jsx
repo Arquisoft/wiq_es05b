@@ -4,10 +4,12 @@ import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../context/AuthContext";
 import SaveDetails from "./SaveDetails";
 import textFormat from "../../scripts/textFormat";
+import {LocaleContext} from "../context/LocaleContext";
 
 const limit= 10
 
 const Save = ({save, onClick}) => {
+  const { t } = useContext(LocaleContext)
   const date = new Date(save.createdAt)
   const formattedDate = date.toISOString().split("T")[0];
 
@@ -16,7 +18,7 @@ const Save = ({save, onClick}) => {
     <ListItem
       button
       onClick={() => onClick(save)}
-      secondaryAction={<ListItemText primary={points} secondary="Points" />}
+      secondaryAction={<ListItemText primary={points} secondary={t("history_points2")} />}
     >
       <ListItemText primary={textFormat(save.category)} secondary={formattedDate}/>
     </ListItem>

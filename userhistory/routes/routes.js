@@ -5,15 +5,17 @@ const checkFieldsOn = (fields, obj) => {
 }
 
 module.exports = (app, saveRepository) => {
+  const i18next = app.get("i18next");
+
   // TODO - Add error mapping
   app.post("/create", (req, res, next) => {
     const result = checkFieldsOn(["userId", "category"], req.body)
-    if(result) return next({status: 400, error: `Missing ${result}`})
+    if(result) return next({status: 400, error: `${i18next.t("error_missing_field")} ${result}`})
 
     const { userId, category } = req.body;
 
-    if (category.trim().length === 0) return next({ status: 400, error: "Category cannot be empty"})
-    if (!saveRepository.isValidObjectId(userId)) return next({ status: 400, error: "Invalid userId format" });
+    if (category.trim().length === 0) return next({ status: 400, error: i18next.t("error_empty_category")})
+    if (!saveRepository.isValidObjectId(userId)) return next({ status: 400, error: i18next.t("error_invalid_userId") });
 
     saveRepository
       .createSave(userId, category)
@@ -25,10 +27,10 @@ module.exports = (app, saveRepository) => {
   // TODO - Gateway should check if the user is owner of the save
   app.post("/add/:id", (req, res, next) => {
     const { id } = req.params;
-    if (!saveRepository.isValidObjectId(id)) return next({ status: 400, error: "Invalid id format"})
+    if (!saveRepository.isValidObjectId(id)) return next({ status: 400, error: i18next.t("error_invalid_Id")})
 
     const result = checkFieldsOn(["last", "statement", "options", "answer", "correct", "time", "points"], req.body)
-    if(result) return next({status: 400, error: `Missing ${result}`})
+    if(result) return next({status: 400, error: `${i18next.t("error_missing_field")} ${result}`})
 
     const { last, statement, options, answer, correct, time, points } = req.body;
 
@@ -37,10 +39,10 @@ module.exports = (app, saveRepository) => {
     saveRepository
       .addAnswer(question, id, last)
       .then((result) => {
-        if (result.message.includes("Save not found")) return next({ status: 404, error: result.message})
-        if (result.message.includes("Save is already finished")) return next({ status: 400, error: result.message})
+        if (result.message.includes(i18next.t("error_save_not_found"))) return next({ status: 404, error: result.message})
+        if (result.message.includes(i18next.t("error_save_finished"))) return next({ status: 400, error: result.message})
 
-        res.json({ message: "Question added successfully" });
+        res.json({ message: i18next.t("question_added") });
       })
       .catch((e) => next(e));
   });
@@ -48,7 +50,7 @@ module.exports = (app, saveRepository) => {
   // TODO - Add error mapping
   app.get("/get/:userId", (req, res, next) => {
     const { userId } = req.params;
-    if (!saveRepository.isValidObjectId(userId)) return next({ status: 400, error: "Invalid userId format"})
+    if (!saveRepository.isValidObjectId(userId)) return next({ status: 400, error: i18next.t("error_invalid_userId")})
     let { page, limit } = req.query;
 
     if (!("page" in req.query) || !("limit" in req.query) || isNaN(parseInt(page)) || isNaN(parseInt(limit))) {
@@ -65,13 +67,13 @@ module.exports = (app, saveRepository) => {
   // TODO - Add error mapping
   app.get("/get/:userId/:id", (req, res, next) => {
     const { userId, id } = req.params;
-    if (!saveRepository.isValidObjectId(userId)) return next({status: 400, error: "Invalid userId format"})
-    if (!saveRepository.isValidObjectId(id)) return next({status: 400, error: "Invalid id format"})
+    if (!saveRepository.isValidObjectId(userId)) return next({status: 400, error: i18next.t("error_invalid_userId")})
+    if (!saveRepository.isValidObjectId(id)) return next({status: 400, error: i18next.t("error_invalid_Id")})
 
     saveRepository
       .getUserSave(userId, id)
       .then((result) => {
-        if (!result) return next({status: 404, error: "Save not found"})
+        if (!result) return next({status: 404, error: i18next.t("error_save_not_found")})
 
         res.json(result);
       })
@@ -86,7 +88,7 @@ module.exports = (app, saveRepository) => {
     if (["totalPoints", "totalTime", "date", "category", "correct"].indexOf(order) === -1)
       order = "totalPoints";
 
-    if (isNaN(n)) return next({status: 400, error: "Invalid value for n"})
+    if (isNaN(n)) return next({status: 400, error: i18next.t("error_invalid_n")})
 
     saveRepository
       .getRanking(Number(n), order)

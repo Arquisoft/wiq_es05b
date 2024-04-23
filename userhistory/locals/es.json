@@ -1,0 +1,14 @@
+{
+  "translation": {
+    "user_created": "Usuario creado correctamente",
+    "question_added": "Pregunta guardada correctamente",
+    "error_save_not_found": "Partida no encontrada",
+    "error_save_finished": "La partida ya ha terminado",
+    "error_invalid_credentials": "Credenciales inválidas",
+    "error_missing_field": "Falta el campo",
+    "error_empty_category": "La categoria no puede estar vacia",
+    "error_invalid_userId": "Formato de userId no valido",
+    "error_invalid_Id": "Formato de Id no valido",
+    "error_invalid_n": "Valor de n no valido"
+  }
+}

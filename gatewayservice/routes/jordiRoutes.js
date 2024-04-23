@@ -3,13 +3,16 @@ const questionServiceUrl = process.env.JORDI_SERVICE_URL || "http://localhost:80
 const historyService = process.env.HISTORY_SERVICE_URL || "http://localhost:8004";
 
 module.exports = (app, axios) => {
+
+  const i18next = app.get("i18next")
+
   app.post("/game/answer", (req, res, next) => {
 
     // TODO - Check save ownership
     // const { userIdToken: userId } = req
 
     const result = checkFields(["questionId", "last", "answer", "time", "saveId", "statement", "options"], req.body)
-    if(result) return next({status: 400, error: `Field ${result} is required`})
+    if(result) return next({status: 400, error: `${i18next.t("error_missing_field")} ${result}`})
 
     const { questionId, last, answer, time, saveId, statement, options } = req.body
 
@@ -29,16 +32,16 @@ module.exports = (app, axios) => {
           .post(`${historyService}/add/${saveId}`,
             {last, statement, options, answer: iAnswer, correct: iCorrect, time, points})
           .then(() => res.json({answer: question.answer, points}))
-          .catch(() => res.json({answer: question.answer, points, error: "An error occured while saving the answer"}));
+          .catch(() => res.json({answer: question.answer, points, error: i18next.t("error_adding_answer")}));
       })
-      .catch(() => next({error: "An error occured while fetching the answer"}));
+      .catch(() => next({error: i18next.t("error_fetch_answer")}));
   });
 
   app.get("/game/categories", (_req, res, next) => {
     axios
       .get(`${questionServiceUrl}/categories`)
       .then((response) => res.status(response.status).send(response.data))
-      .catch(() => next({error: "An error occured while fetching the categories"})
+      .catch(() => next({error: i18next.t("error_fetch_categories")})
       );
   });
 
@@ -54,6 +57,6 @@ module.exports = (app, axios) => {
           })
           res.status(response.status).send(questions)
         })
-        .catch(() => next({ error: "An error occured while fetching the questions"}));
+        .catch(() => next({ error: i18next.t("error_fetch_questions")}));
   });
 };

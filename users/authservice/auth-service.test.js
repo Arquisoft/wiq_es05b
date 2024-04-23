@@ -59,14 +59,14 @@ describe('[Auth Service] - /login', () => {
     const response = await request(app).post('/login').send({"password": "a"})
 
     expect(response.status).toBe(400);
-    expect(response.body).toHaveProperty('error', 'Missing username');
+    expect(response.body).toHaveProperty('error', 'Missing field username');
   })
 
   it("Should return 400 when password not present", async () => {
     const response = await request(app).post('/login').send({"username": "a"})
 
     expect(response.status).toBe(400);
-    expect(response.body).toHaveProperty('error', 'Missing password');
+    expect(response.body).toHaveProperty('error', 'Missing field password');
   })
 });
 
