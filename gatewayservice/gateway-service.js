@@ -2,7 +2,7 @@ const express = require('express');
 const promBundle = require('express-prom-bundle');
 const axios = require('axios');
 const cors = require('cors');
-const { loggerFactory,  requestLoggerMiddleware,  responseLoggerMiddleware,  errorHandlerMiddleware } = require("cyt-utils")
+const { loggerFactory,  requestLoggerMiddleware,  responseLoggerMiddleware,  errorHandlerMiddleware, i18nextInitializer, i18nextMiddleware } = require("cyt-utils")
 const swaggerUi = require('swagger-ui-express');
 const fs = require('fs');
 const YAML = require('yaml');
@@ -10,13 +10,9 @@ const i18next = require('i18next');
 
 const logger = loggerFactory()
 
-i18next.init({
-  lng: 'en',
-  fallbackLng: 'en',
-  resources: {
-    en: require('./locals/en.json'),
-    es: require('./locals/es.json'),
-  }
+i18nextInitializer(i18next, {
+  en: require('./locals/en.json'),
+  es: require('./locals/es.json'),
 })
 
 // Create the server
@@ -31,7 +27,7 @@ app.use(cors());
 app.use(requestLoggerMiddleware(logger.info.bind(logger), "Gateway Service"))
 app.use(responseLoggerMiddleware(logger.info.bind(logger), "Gateway Service"))
 
-app.use(require("./middleware/i18nMiddleware")(i18next))
+app.use(i18nextMiddleware(i18next))
 
 //Prometheus configuration
 const metricsMiddleware = promBundle({includeMethod: true});

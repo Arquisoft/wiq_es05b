@@ -1,20 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cron = require('node-cron');
-const { loggerFactory, errorHandlerMiddleware, responseLoggerMiddleware, requestLoggerMiddleware} = require("cyt-utils")
+const { loggerFactory, errorHandlerMiddleware, responseLoggerMiddleware, requestLoggerMiddleware, i18nextMiddleware, i18nextInitializer} = require("cyt-utils")
 const promBundle = require('express-prom-bundle');
 const i18next = require('i18next');
 
 // Create a logger
 const logger = loggerFactory()
 
-i18next.init({
-    lng: 'en',
-    fallbackLng: 'en',
-    resources: {
-        en: require('./locals/en.json'),
-        es: require('./locals/es.json'),
-    }
+i18nextInitializer(i18next, {
+    en: require('./locals/en.json'),
+    es: require('./locals/es.json'),
 })
 
 // Creates the app
@@ -36,7 +32,7 @@ app.use(express.json())
 app.use(requestLoggerMiddleware(logger.info.bind(logger), "History Service"))
 app.use(responseLoggerMiddleware(logger.info.bind(logger), "History Service"))
 
-app.use(require("./middleware/i18nMiddleware")(i18next))
+app.use(i18nextMiddleware(i18next))
 
 //Prometheus configuration
 const metricsMiddleware = promBundle({includeMethod: true});
