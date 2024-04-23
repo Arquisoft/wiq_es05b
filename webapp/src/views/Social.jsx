@@ -132,8 +132,6 @@ const FriendRequestsTab = props => {
         }
     }
 
-
-
     return (
         <Container sx={tabStyle}>
             <Typography variant="h4" element="p">Friend Requests</Typography>
@@ -152,12 +150,33 @@ const FriendRequestsTab = props => {
     )
 }
 
+const FriendsTab = props => {
+    const { friends, reloadSocialData } = props;
+    const { getUser } = useContext(AuthContext);
+
+    return (
+        <Container sx={tabStyle}>
+            <Typography variant="h4" element="p">Friends</Typography>
+            <Container sx={{ padding: '2em', display: "flex", flexDirection: "column", gap: "1rem", overflowY: "scroll", height: "400px", width: "100%", alignItems: "center" }}>
+                {friends.map((friendship, index) => {
+                    return (
+                        <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
+                            <Typography variant="body1" element="p">{friendship.user1.username === getUser().username ? friendship.user2.username : friendship.user1.username}</Typography>
+                        </Paper>
+                    )
+                })}
+            </Container>
+        </Container>
+    );
+}
+
 
 export default function Social() {
     const { getUser } = useContext(AuthContext);
     const [selectedTab, setSelectedTab] = useState("friendsTab");
     const [sentRequests, setSentRequests] = useState([]);
     const [friendRequests, setFriendRequests] = useState([]);
+    const [friends, setFriends] = useState([]);
     const [reloadData, setReloadData] = useState(false);
 
     useEffect(() => {
@@ -211,10 +230,21 @@ export default function Social() {
                     Authorization: `Bearer ${getUser().token}`
                 }
             });
-            console.log(response.data);
+            parseFriends(response.data);
         } catch (error) {
             console.log(error);
         }
+    }
+
+    const parseFriends = (friendships) => {
+        const friends = [];
+        for (let friendship of friendships) {
+            if (friendship.users[0]._id === getUser().userId)
+                friends.push(friendship.users[1]);
+            else
+                friends.push(friendship.users[0]);
+        }
+        setFriends(friends);
     }
 
     return (
@@ -233,7 +263,7 @@ export default function Social() {
                 <Paper elevation={3} sx={{
                     height: "100%",
                 }} >
-                    {selectedTab === "friendsTab" && <Typography variant="h6" element="p">Friends</Typography>}
+                    {selectedTab === "friendsTab" && <FriendsTab friends={friends} reloadSocialData={reloadSocialData} />}
                     {selectedTab === "addFriendTab" && <AddFriendTab sentRequests={sentRequests} reloadSocialData={reloadSocialData} />}
                     {selectedTab === "friendRequests" && <FriendRequestsTab friendRequests={friendRequests} reloadSocialData={reloadSocialData} />}
                 </Paper>
