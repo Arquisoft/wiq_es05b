@@ -7,6 +7,7 @@ import Loader from "./components/Loader";
 import ProtectedComponent from "./components/ProtectedComponent";
 import ServiceDownMessage from "./components/ServiceDownMessage";
 import {AuthContext} from "./context/AuthContext";
+import {LocaleContext} from "./context/LocaleContext";
 
 const buttonConfig = {
   width: "9rem",
@@ -33,6 +34,7 @@ const MyButton = ({ text, link }) => (
 
 const Buttons = ({ categories }) => {
   const [filter, setFilter] = useState('');
+  const { t } = useContext(LocaleContext);
 
   if (!categories || categories.length === 0) return <Loader />
 
@@ -45,10 +47,10 @@ const Buttons = ({ categories }) => {
     <Container>
 
       <Typography variant="h5" component="p">
-        Choose a category to play
+        {t("menu_choose")}
       </Typography>
 
-      <TextField sx={categorySearch} label="Search categories..." variant="standard" onChange={(e) => setFilter(e.target.value)} /> {/* TODO - change i18n */}
+      <TextField sx={categorySearch} label={t("menu_search_placeholder")} variant="standard" onChange={(e) => setFilter(e.target.value)} />
 
       <Container sx={buttonGroup}>
         {filteredCategories.map((category, i) => (
@@ -63,6 +65,7 @@ export default function GameMenu() {
   const { getUser, isAuthenticated } = useContext(AuthContext)
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
+  const { t } = useContext(LocaleContext);
 
   useEffect(() => {
     if(!isAuthenticated()) return;
@@ -90,7 +93,7 @@ export default function GameMenu() {
           sx={{ margin: "2rem 0", padding: "1rem", textAlign: "center" }}
         >
           <Typography variant="h3" component="p" sx={{ marginBottom: "2rem" }}>
-            Menu
+            {t("menu_title")}
           </Typography>
           {
             error ?

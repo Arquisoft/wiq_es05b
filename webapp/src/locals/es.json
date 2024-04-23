@@ -20,9 +20,13 @@
     "login_suggestion_link": "Registrarse",
     "login_submit_button": "Iniciar Sesión",
 
+    "form_default_title": "Formulario",
+    "form_default_submit": "Enviar",
     "form_username": "Nombre de usuario",
     "form_password": "Contraseña",
 
+    "ranking_title": "Ranking",
+    "ranking_filter": "Filtrar por:",
     "ranking_filter_points": "Puntos",
     "ranking_filter_time": "Tiempo",
     "ranking_filter_category": "Categoría",
@@ -32,9 +36,11 @@
     "ranking_table_category": "Categoría",
     "ranking_table_time": "Tiempo",
     "ranking_table_points": "Puntos",
-    "ranking_table_ratio": "Porcentaje de acierto",
+    "ranking_table_ratio": "Aciertos",
     "ranking_table_date": "Fecha",
 
+    "menu_title": "Menu",
+    "menu_choose": "Elija una categoria para jugar",
     "menu_search_placeholder": "Buscar categoria...",
 
     "about_title": "Acerca de",
@@ -42,11 +48,13 @@
     "about_p2": "Nuestra misión es proporcionar una forma divertida de aprender y practicar conocimientos generales a través de un juego de preguntas y respuestas.",
     "about_p3": "No dude en explorar nuestro sitio y descubrir más sobre lo que podemos ofrecerle.",
     "about_p4": "Si tiene alguna pregunta o comentario, no dude en ponerse en contacto con nosotros.",
-    "about_p5": "¿Gracias por su visita!",
+    "about_p5": "¡Gracias por su visita!",
     "about_contact_us": "Contáctenos",
     "about_contact_channels": "Puede ponerse en contacto con nosotros a través de los siguientes canales:",
-    "about_mailing": "Información de correo:",
+    "about_mailing": "Correo:",
     "about_github": "¡Visite nuestra página de github!",
+
+    "account_user_data": "Datos",
 
     "history_title": "Historial",
     "history_button_logout": "Cerrar Sesión",

@@ -7,8 +7,7 @@ import { ReactComponent as CustomIcon } from '../../media/logoS.svg';
 import { AuthContext } from '../context/AuthContext';
 import { ConfigContext } from '../context/ConfigContext';
 import MyAvatar from "./MyAvatar"
-import axios from "axios"
-import { useTranslation } from "react-i18next";
+import {LocaleContext} from "../context/LocaleContext"
 
 const pages = [
     { code: 'home_home', link: '/home', logged: false},
@@ -25,14 +24,15 @@ const settings = [
 ];
 
 const locale = [
-  {displayed: "Spanish", value: "es"}, // TODO - change i18n
-  {displayed: "English", value: "en"}, // TODO - change i18n
+  { code: "i18n_spanish", value: "es" },
+  { code: "i18n_english", value: "en" },
 ]
 
 const threshold = 899;
 
 const JordiButton = () => {
   const { swapConfig } = useContext(ConfigContext);
+  const { t } = useContext(LocaleContext)
 
   return (
       <Button
@@ -46,13 +46,13 @@ const JordiButton = () => {
           textTransform: 'none'
         }}
       >
-        Swap {/* TODO - change i18n */}
+        {t("nav_button_swap")}
       </Button>
   );
 };
 
 const NavMenu = ({handleCloseNavMenu}) => {
-  const { t } = useTranslation()
+  const { t } = useContext(LocaleContext)
   const { isAuthenticated } = useContext(AuthContext)
   return (
     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -83,6 +83,7 @@ const NavIcon = ({width}) => (
 const DropDownMenu = ({handleCloseNavMenu, anchorElNav, setAnchorElNav}) => {
   const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
   const { swapConfig } = useContext(ConfigContext);
+  const { t } = useContext(LocaleContext)
   return (
     <Box sx={{ flexGrow: { md: 1 }, display: { xs: 'flex', md: 'none' }, width: { xs: 'fit-content' } }}>
         <IconButton size="large" onClick={handleOpenNavMenu} color="inherit">
@@ -99,20 +100,21 @@ const DropDownMenu = ({handleCloseNavMenu, anchorElNav, setAnchorElNav}) => {
           sx={{ display: { xs: 'block', md: 'none' } }}
         >
           {pages.map((page) => (
-              <MenuItem key={page.displayed} onClick={handleCloseNavMenu} component={Link} to={page.link}>
-                  <Typography textAlign="center">{page.displayed}</Typography>
+              <MenuItem key={page.code} onClick={handleCloseNavMenu} component={Link} to={page.link}>
+                  <Typography textAlign="center">{t(page.code)}</Typography>
               </MenuItem>
           ))}
           <Divider />
           <MenuItem onClick={() => {swapConfig();handleCloseNavMenu()}}>
-              <Typography textAlign="center">Swap</Typography> {/* TODO - change i18n */}
+              <Typography textAlign="center">{t("nav_button_swap")}</Typography>
           </MenuItem>
         </Menu>
     </Box>
   )
 }
 
-const LocaleMenu = ({setLocale, locale: l}) => {
+const LocaleMenu = () => {
+  const {locale: l, setLocale, t} = useContext(LocaleContext)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -143,11 +145,11 @@ const LocaleMenu = ({setLocale, locale: l}) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        {locale.map((l, i) =>
+        {locale.map((l) =>
           <MenuItem
-            key={`lang-${i}`}
+            key={l.code}
             onClick={() => { handleClose(); setLocale(l.value) }}>
-            <Typography textAlign="center">{l.displayed}</Typography>
+            <Typography textAlign="center">{t(l.code)}</Typography>
           </MenuItem>
         )}
       </Menu>
@@ -156,12 +158,11 @@ const LocaleMenu = ({setLocale, locale: l}) => {
 }
 
 export default function Nav() {
+  const { t } = useContext(LocaleContext)
   const { isAuthenticated, logout } = useContext(AuthContext)
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [width, setWidth] = useState(window.innerWidth);
-  const [locale, setLocale] = useState('en');
-  const { t } = useTranslation();
 
   const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
   const handleCloseNavMenu = () => setAnchorElNav(null);
@@ -173,10 +174,6 @@ export default function Nav() {
   }
 
   useEffect(handleWindowResize, [])
-
-  useEffect(() => {
-    axios.defaults.headers.common['Accept-Language'] = locale;
-  }, [locale])
 
   const generateMenuItems = () => {
     return settings.map((setting) => {
@@ -201,7 +198,6 @@ export default function Nav() {
             handleCloseNavMenu={handleCloseNavMenu}
             anchorElNav={anchorElNav}
             setAnchorElNav={setAnchorElNav}
-            locale={locale}
           />
           <NavIcon width={width} />
           <NavMenu handleCloseNavMenu={handleCloseNavMenu} />
@@ -223,7 +219,7 @@ export default function Nav() {
             >
               {generateMenuItems()}
             </Menu>
-            <LocaleMenu setLocale={setLocale} locale={locale} />
+            <LocaleMenu />
             <JordiButton />
           </Box>
         </Toolbar>

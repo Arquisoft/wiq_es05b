@@ -4,22 +4,24 @@ import { useNavigate } from "react-router-dom"
 import { Navigate } from 'react-router';
 import { AuthContext } from './context/AuthContext';
 import CustomForm from './components/CustomForm';
+import {LocaleContext} from "./context/LocaleContext";
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { isAuthenticated, setUser, logout } = useContext(AuthContext);
+  const { t } = useContext(LocaleContext);
   const navigate = useNavigate();
 
   const suggestion = {
-    text: "Don't have an account?", // TODO - change i18n
-    linkText: "Sign up", // TODO - change i18n
+    text: t("login_suggestion_text"),
+    linkText: t("login_suggestion_link"),
     link: "/signup",
   }
 
   const formData = {
-    title: "Login", // TODO - change i18n
-    submitButtonTx: "Login", // TODO - change i18n
+    title: t("login_title"),
+    submitButtonTx: t("login_submit_button"),
     submit: (callback) => {
       axios
         .post(`/login`, { username, password })
@@ -29,7 +31,7 @@ export default function Login() {
         })
         .catch(error => {
           if(!error.response && error.code === 'ERR_NETWORK')
-            callback("Service is down") // TODO - change i18n
+            callback(t("error_service_down_msg"))
           else
             callback(error.response.data.error);
           logout();
@@ -38,7 +40,7 @@ export default function Login() {
     fields: [
       {
         required: true,
-        displayed: "Username",
+        displayed: t("form_username"),
         name: "username",
         value: username,
         type: "text",
@@ -46,7 +48,7 @@ export default function Login() {
       },
       {
         required: true,
-        displayed: "Password",
+        displayed: t("form_password"),
         name: "password",
         value: password,
         type: "password",

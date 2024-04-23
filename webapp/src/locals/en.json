@@ -20,9 +20,13 @@
     "login_suggestion_link": "Sign up",
     "login_submit_button": "Login",
 
+    "form_default_title": "Form",
+    "form_default_submit": "Submit",
     "form_username": "Username",
     "form_password": "Password",
 
+    "ranking_title": "Global Ranking",
+    "ranking_filter": "Filter by:",
     "ranking_filter_points": "Points",
     "ranking_filter_time": "Time",
     "ranking_filter_category": "Category",
@@ -35,6 +39,8 @@
     "ranking_table_ratio": "Correct Ratio",
     "ranking_table_date": "Date",
 
+    "menu_title": "Menu",
+    "menu_choose": "Choose a category to play",
     "menu_search_placeholder": "Search categories...",
 
     "about_title": "About Us",
@@ -47,6 +53,8 @@
     "about_contact_channels": "You can reach us via the following channels:",
     "about_mailing": "Mailing Info:",
     "about_github": "Checkout our github page!",
+
+    "account_user_data": "User Data",
 
     "history_title": "History",
     "history_button_logout": "Logout",

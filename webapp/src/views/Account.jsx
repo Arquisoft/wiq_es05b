@@ -10,6 +10,7 @@ import axios from "axios";
 import textFormat from "../scripts/textFormat";
 import Loader from "./components/Loader";
 import ServerDownMessage from "./components/ServiceDownMessage";
+import {LocaleContext} from "./context/LocaleContext";
 
 const Field = ({description, value}) => {
   return (
@@ -44,6 +45,7 @@ const UserData = () => {
   const { getUser } = useContext(AuthContext);
   const [data, setData] = useState()
   const [error, setError] = useState(false)
+  const { t } = useContext(LocaleContext)
 
   useEffect(() => {
     axios
@@ -82,7 +84,7 @@ const UserData = () => {
         paddingTop: "1rem",
         paddingBottom: "2rem"
       }}>
-      <Typography variant="h4" element="p">User data</Typography>
+      <Typography variant="h4" element="p">{t("account_user_data")}</Typography>
       <Container>
         {generateView()}
       </Container>
@@ -93,6 +95,7 @@ const UserData = () => {
 const Buttons = () => {
   const navigate = useNavigate()
   const { logout } = useContext(AuthContext);
+  const { t } = useContext(LocaleContext);
 
   return (
     <Paper
@@ -111,7 +114,7 @@ const Buttons = () => {
         onClick={() => {navigate("/"); logout()}}
         startIcon={<LogoutIcon />}
       >
-        <Typography variant="button">Logout</Typography> {/* TODO - change i18n */}
+        <Typography variant="button">{t("history_button_logout")}</Typography>
       </Button>
     </Paper>
   )
@@ -128,9 +131,10 @@ const AccountPanel = () => {
 }
 
 const HistoryPanel = () => {
+  const { t } = useContext(LocaleContext);
   return (
     <Paper elevation={3} sx={{padding:"1rem 1rem 2rem"}}>
-      <Typography variant="h3" component="p" sx={{textAlign: "center"}}>History</Typography> {/* TODO - change i18n */}
+      <Typography variant="h3" component="p" sx={{textAlign: "center"}}>{t("history_title")}</Typography>
       <SaveList />
     </Paper>
   )
