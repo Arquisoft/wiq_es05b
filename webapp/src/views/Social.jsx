@@ -14,7 +14,7 @@ const Menu = (props) => {
             <Paper elevation={3} sx={{ display: "flex", flexFlow: "column", gap: "1rem", justifyContent: "center", alignItems: "flex-start", padding: "2rem 1rem" }}>
                 <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => setSelectedTab("friendsTab")}>Friends</Typography>
                 <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => setSelectedTab("addFriendTab")}>Add Friend</Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: '.5em'}}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '.5em' }}>
                     <Typography variant="h6" element="p" sx={{ padding: 0, cursor: "pointer" }} onClick={() => setSelectedTab("friendRequests")}>Friend Requests</Typography>
                     {friendRequests.length && <NotificationAddOutlinedIcon sx={{ color: "mediumvioletred" }} />}
                 </Box>
@@ -35,7 +35,7 @@ const tabStyle = {
 }
 
 const AddFriendTab = (props) => {
-    const { sentRequests, getSentRequests } = props;
+    const { sentRequests, reloadSocialData } = props;
     const { getUser } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
     const [filter, setFilter] = useState('');
@@ -69,8 +69,8 @@ const AddFriendTab = (props) => {
                     toId: toId
                 }
             });
-            //show toastr
-            getSentRequests();
+            //show toaster??
+            reloadSocialData();
         } catch (error) {
             console.log(error);
         }
@@ -78,7 +78,6 @@ const AddFriendTab = (props) => {
 
     useEffect(() => {
         fetchUsers();
-        getSentRequests();
     }, []);
 
     return (
@@ -106,12 +105,31 @@ const AddFriendTab = (props) => {
 }
 
 const FriendRequestsTab = props => {
-    const { friendRequests } = props;
+    const { getUser } = useContext(AuthContext);
+    const { friendRequests, reloadSocialData } = props;
 
 
     const parseDate = rawDate => {
         const date = new Date(rawDate);
         return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+    }
+
+    const acceptRequest = async (fromId) => {
+        const toId = getUser().userId;
+        try {
+            const response = await axios({
+                method: 'get',
+                url: `/users/social/acceptrequest/${fromId}/${toId}`,
+                headers: {
+                    Authorization: `Bearer ${getUser().token}`
+                }
+            });
+            console.log(response.data);
+            //show toaster??
+            reloadSocialData();
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 
@@ -125,7 +143,7 @@ const FriendRequestsTab = props => {
                         <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
                             <Typography variant="body1" element="p">{request.from.username}</Typography>
                             <Typography variant="body1" element="p">{parseDate(request.createdAt)}</Typography>
-                            <Button variant="contained">Accept</Button>
+                            <Button variant="contained" onClick={() => acceptRequest(request.from.userId)}>Accept</Button>
                         </Paper>
                     )
                 })}
@@ -140,11 +158,16 @@ export default function Social() {
     const [selectedTab, setSelectedTab] = useState("friendsTab");
     const [sentRequests, setSentRequests] = useState([]);
     const [friendRequests, setFriendRequests] = useState([]);
+    const [reloadData, setReloadData] = useState(false);
 
     useEffect(() => {
         getSentRequests();
         getFriendRequests();
-    }, []);
+    }, [reloadData]);
+
+    const reloadSocialData = () => {
+        setReloadData(!reloadData);
+    }
 
     const getSentRequests = async () => {
         try {
@@ -195,8 +218,8 @@ export default function Social() {
                     height: "100%",
                 }} >
                     {selectedTab === "friendsTab" && <Typography variant="h6" element="p">Friends</Typography>}
-                    {selectedTab === "addFriendTab" && <AddFriendTab sentRequests={sentRequests} getSentRequests={getSentRequests} />}
-                    {selectedTab === "friendRequests" && <FriendRequestsTab friendRequests={friendRequests} />}
+                    {selectedTab === "addFriendTab" && <AddFriendTab sentRequests={sentRequests} reloadSocialData={reloadSocialData} />}
+                    {selectedTab === "friendRequests" && <FriendRequestsTab friendRequests={friendRequests} reloadSocialData={reloadSocialData} />}
                 </Paper>
 
             </Container>

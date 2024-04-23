@@ -81,4 +81,16 @@ module.exports = (app, axios, authTokenMiddleware) => {
       .catch((error) => next({ error: "gw: An error occurred while fetching received requests: " + error}));
   });
 
+  app.get("/users/social/acceptrequest/:fromId/:toId", async (req, res, next) => {
+    const { fromId, toId } = req.params;
+    
+    axios
+      .get(`${userServiceUrl}/social/acceptrequest/${fromId}/${toId}`)
+      .then(({ data }) => {
+        console.log(data);
+        res.json(data);
+      })
+      .catch((error) => next({ error: "gw: An error occurred while accepting friend request: " + error}));
+  });
+
 };

@@ -35,4 +35,17 @@ module.exports = function (app, userRepository, socialRepository) {
         }
     });
 
+    app.get("/social/acceptrequest/:fromId/:toId", async (req, res, next) => {
+        const { fromId, toId } = req.params
+        console.log('hola2')
+
+        try {
+            await socialRepository.deleteRequest(fromId, toId);
+            const result = await socialRepository.insertFriendship(fromId, toId);
+            res.json(result);
+        } catch (error) {
+            next({ error: error });
+        }
+    });
+
 }
