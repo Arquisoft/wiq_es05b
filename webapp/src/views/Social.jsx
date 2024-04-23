@@ -12,9 +12,8 @@ const Menu = (props) => {
         <Container sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
             <Paper elevation={3} sx={{ display: "flex", flexFlow: "column", gap: "1rem", justifyContent: "center", alignItems: "flex-start", padding: "2rem 1rem" }}>
                 <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => setSelectedTab("friendsTab")}>Friends</Typography>
-                <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => setSelectedTab("groupsTab")}>Groups</Typography>
                 <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => setSelectedTab("addFriendTab")}>Add Friend</Typography>
-                <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => setSelectedTab("joinGroupTab")}>Join Group</Typography>
+                <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => setSelectedTab("friendRequests")}>Friend Requests</Typography>
             </Paper>
         </Container>
     )
@@ -29,11 +28,11 @@ const tabStyle = {
     alignItems: "center",
 }
 
-const AddFriendTab = () => {
+const AddFriendTab = (props) => {
+    const { sentRequests, getSentRequests } = props;
     const { getUser } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
     const [filter, setFilter] = useState('');
-    const [sentRequests, setSentRequests] = useState([]);
 
     const fetchUsers = async (filter) => {
         if (!filter) filter = 'all';
@@ -71,23 +70,6 @@ const AddFriendTab = () => {
         }
     }
 
-    const getSentRequests = async () => {
-        try {
-            const response = await axios({
-                method: 'get',
-                url: `/users/social/sentrequests/${getUser().userId}`,
-                headers: {
-                    Authorization: `Bearer ${getUser().token}`
-                }
-            });
-            console.log(response.data);
-            setSentRequests(response.data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-
     useEffect(() => {
         fetchUsers();
         getSentRequests();
@@ -117,9 +99,80 @@ const AddFriendTab = () => {
     )
 }
 
+const FriendRequestsTab = () => {
+    const { getUser } = useContext(AuthContext);
+    const [friendRequests, setFriendRequests] = useState([]);
+
+    useEffect(() => {
+        getFriendRequests();
+    },[]);
+
+    const getFriendRequests = async () => {
+        try {
+            const response = await axios({
+                method: 'get',
+                url: `/users/social/receivedrequests/${getUser().userId}`,
+                headers: {
+                    Authorization: `Bearer ${getUser().token}`
+                }
+            });
+            console.log(response.data);
+            setFriendRequests(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const parseDate = rawDate => {
+        const date = new Date(rawDate);
+        return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+    }
+
+
+
+    return (
+        <Container sx={tabStyle}>
+            <Typography variant="h4" element="p">Friend Requests</Typography>
+            <Container sx={{ padding: '2em', display: "flex", flexDirection: "column", gap: "1rem", overflowY: "scroll", height: "400px", width: "100%", alignItems: "center" }}>
+                {friendRequests.map((request, index) => {
+                    return (
+                        <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
+                            <Typography variant="body1" element="p">{request.from.username}</Typography>
+                            <Typography variant="body1" element="p">{parseDate(request.createdAt)}</Typography>
+                            <Button variant="contained">Accept</Button>
+                        </Paper>
+                    )
+                })}
+            </Container>
+        </Container>
+    )
+}
+
 
 export default function Social() {
-    const [selectedTab, setSelectedTab] = useState("addFriendTab")
+    const { getUser } = useContext(AuthContext);
+    const [selectedTab, setSelectedTab] = useState("friendsTab");
+    const [sentRequests, setSentRequests] = useState([]);
+
+    useEffect(() => {
+        getSentRequests();
+    }, []);
+
+    const getSentRequests = async () => {
+        try {
+            const response = await axios({
+                method: 'get',
+                url: `/users/social/sentrequests/${getUser().userId}`,
+                headers: {
+                    Authorization: `Bearer ${getUser().token}`
+                }
+            });
+            console.log(response.data);
+            setSentRequests(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <ProtectedComponent>
@@ -138,9 +191,8 @@ export default function Social() {
                     height: "100%",
                 }} >
                     {selectedTab === "friendsTab" && <Typography variant="h6" element="p">Friends</Typography>}
-                    {selectedTab === "groupsTab" && <Typography variant="h6" element="p">Groups</Typography>}
-                    {selectedTab === "addFriendTab" && <AddFriendTab />}
-                    {selectedTab === "joinGroupTab" && <Typography variant="h6" element="p">Join Group</Typography>}
+                    {selectedTab === "addFriendTab" && <AddFriendTab sentRequests={sentRequests} getSentRequests={getSentRequests} />}
+                    {selectedTab === "friendRequests" && <FriendRequestsTab />}
                 </Paper>
 
             </Container>

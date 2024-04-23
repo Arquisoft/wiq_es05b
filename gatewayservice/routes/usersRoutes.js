@@ -69,4 +69,16 @@ module.exports = (app, axios, authTokenMiddleware) => {
       .catch((error) => next({ error: "gw: An error occurred while fetching sent requests: " + error}));
   });
 
+  app.get("/users/social/receivedrequests/:userId", async (req, res, next) => {
+    const { userId } = req.params;
+
+    axios
+      .get(`${userServiceUrl}/social/receivedrequests/${userId}`)
+      .then(({ data }) => {
+        console.log(data);
+        res.json(data);
+      })
+      .catch((error) => next({ error: "gw: An error occurred while fetching received requests: " + error}));
+  });
+
 };

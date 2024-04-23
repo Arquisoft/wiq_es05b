@@ -1,3 +1,5 @@
+const { get } = require("mongoose");
+
 module.exports = {
     mongoose: null,
     uri: null,
@@ -28,6 +30,14 @@ module.exports = {
         try {
             await this.checkUp()
             return await this.request.find({ "from.userId": new this.mongoose.Types.ObjectId(userId) });
+        } catch (error) {
+            throw error.message;
+        }
+    },
+    getReceivedRequests: async function (userId) {
+        try {
+            await this.checkUp()
+            return await this.request.find({ "to.userId": new this.mongoose.Types.ObjectId(userId) });
         } catch (error) {
             throw error.message;
         }

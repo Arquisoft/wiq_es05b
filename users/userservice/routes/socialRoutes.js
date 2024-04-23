@@ -24,4 +24,15 @@ module.exports = function (app, userRepository, socialRepository) {
         }
     });
 
+    app.get("/social/receivedrequests/:userId", async (req, res, next) => {
+        const { userId } = req.params;
+
+        try {
+            const result = await socialRepository.getReceivedRequests(userId);
+            res.json(result);
+        } catch (error) {
+            next({ error: error });
+        }
+    });
+
 }
