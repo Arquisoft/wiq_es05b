@@ -23,7 +23,7 @@ describe('Ranking', () => {
         });
 
         expect(screen.getByText('Global Ranking')).toBeInTheDocument();
-        expect(screen.getByLabelText('Filter')).toBeInTheDocument();
+        expect(screen.getByLabelText('Filter by:')).toBeInTheDocument();
     });
 
 });
