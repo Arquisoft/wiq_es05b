@@ -83,7 +83,7 @@ module.exports = (app, axios, authTokenMiddleware) => {
 
   app.get("/users/social/acceptrequest/:fromId/:toId", async (req, res, next) => {
     const { fromId, toId } = req.params;
-    
+
     axios
       .get(`${userServiceUrl}/social/acceptrequest/${fromId}/${toId}`)
       .then(({ data }) => {
@@ -91,6 +91,18 @@ module.exports = (app, axios, authTokenMiddleware) => {
         res.json(data);
       })
       .catch((error) => next({ error: "gw: An error occurred while accepting friend request: " + error}));
+  });
+
+  app.get("/users/social/friends/:userId", async (req, res, next) => {
+    const { userId } = req.params;
+
+    axios
+      .get(`${userServiceUrl}/social/friends/${userId}`)
+      .then(({ data }) => {
+        console.log(data);
+        res.json(data);
+      })
+      .catch((error) => next({ error: "gw: An error occurred while fetching friends: " + error}));
   });
 
 };

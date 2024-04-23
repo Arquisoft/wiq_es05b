@@ -163,6 +163,7 @@ export default function Social() {
     useEffect(() => {
         getSentRequests();
         getFriendRequests();
+        getFriends();
     }, [reloadData]);
 
     const reloadSocialData = () => {
@@ -196,6 +197,21 @@ export default function Social() {
             });
             console.log(response.data);
             setFriendRequests(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const getFriends = async () => {
+        try {
+            const response = await axios({
+                method: 'get',
+                url: `/users/social/friends/${getUser().userId}`,
+                headers: {
+                    Authorization: `Bearer ${getUser().token}`
+                }
+            });
+            console.log(response.data);
         } catch (error) {
             console.log(error);
         }

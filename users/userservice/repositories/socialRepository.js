@@ -14,12 +14,12 @@ module.exports = {
             await this.mongoose.connect(this.uri);
         }
     },
-    insertRequest: async function (fromName,fromId, toId) {
+    insertRequest: async function (fromName, fromId, toId) {
         try {
             await this.checkUp()
             const newRequest = new this.request({
-                from: {username: fromName, userId: new this.mongoose.Types.ObjectId(fromId)},
-                to: {userId: new this.mongoose.Types.ObjectId(toId)}
+                from: { username: fromName, userId: new this.mongoose.Types.ObjectId(fromId) },
+                to: { userId: new this.mongoose.Types.ObjectId(toId) }
             });
             await newRequest.save();
             return { message: "Friend request added successfully" };
@@ -64,4 +64,12 @@ module.exports = {
             throw error.message;
         }
     },
+    getFriendships: async function (userId) {
+        try {
+            await this.checkUp()
+            return await this.friendship.find({ users: { $in: [new this.mongoose.Types.ObjectId(userId)] }});
+        } catch (error) {
+            throw error.message;
+        }
+    }
 };
