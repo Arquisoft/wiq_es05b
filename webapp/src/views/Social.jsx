@@ -16,7 +16,7 @@ const Menu = (props) => {
                 <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => setSelectedTab("addFriendTab")}>Add Friend</Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '.5em' }}>
                     <Typography variant="h6" element="p" sx={{ padding: 0, cursor: "pointer" }} onClick={() => setSelectedTab("friendRequests")}>Friend Requests</Typography>
-                    {friendRequests.length && <NotificationAddOutlinedIcon sx={{ color: "mediumvioletred" }} />}
+                    {friendRequests.length != 0 && <NotificationAddOutlinedIcon sx={{ color: "mediumvioletred" }} />}
                 </Box>
 
 
