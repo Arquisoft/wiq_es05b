@@ -35,7 +35,7 @@ const tabStyle = {
 }
 
 const AddFriendTab = (props) => {
-    const { sentRequests, reloadSocialData } = props;
+    const { sentRequests, reloadSocialData, friends} = props;
     const { getUser } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
     const [filter, setFilter] = useState('');
@@ -94,7 +94,7 @@ const AddFriendTab = (props) => {
                     return (
                         <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
                             <Typography variant="body1" element="p">{user.username}</Typography>
-                            <Button variant="contained" onClick={() => sendFriendRequest(user._id)} disabled={sentRequests.some(request => request.from.userId === getUser().userId && request.to.userId === user._id)}>Add Friend</Button>
+                            <Button variant="contained" onClick={() => sendFriendRequest(user._id)} disabled={sentRequests.some(request => request.from.userId === getUser().userId && request.to.userId === user._id) || friends.some(f => f._id === user._id) }>Add Friend</Button>
                         </Paper>
                     )
                 })}
@@ -264,7 +264,7 @@ export default function Social() {
                     height: "100%",
                 }} >
                     {selectedTab === "friendsTab" && <FriendsTab friends={friends} reloadSocialData={reloadSocialData} />}
-                    {selectedTab === "addFriendTab" && <AddFriendTab sentRequests={sentRequests} reloadSocialData={reloadSocialData} />}
+                    {selectedTab === "addFriendTab" && <AddFriendTab sentRequests={sentRequests} reloadSocialData={reloadSocialData} friends={friends}/>}
                     {selectedTab === "friendRequests" && <FriendRequestsTab friendRequests={friendRequests} reloadSocialData={reloadSocialData} />}
                 </Paper>
 
