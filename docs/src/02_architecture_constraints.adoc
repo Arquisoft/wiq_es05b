@@ -64,6 +64,6 @@ and https://www.w3.org/Style/CSS/[CSS].
 |*_Usability_*
 |The application must be user-friendly, with a clean and intuitive interface that is easy to navigate.
 The user experience should be seamless and engaging, with a focus on accessibility and adaptability.
-
+So, to achieve this, we should use tools like Google LightHouse to measure the performance of the application.
 
 |===
