@@ -234,7 +234,7 @@ describe('[Gateway Service] - /user/:userId', () => {
 })*/
 
 const express = require('express');
-const routes = require('../gatewayservice/routes/routes');
+const routes = require('./routes/gatewayRoutes');
 
 let app2 = express();
 app2.use(express.json());
