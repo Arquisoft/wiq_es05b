@@ -100,3 +100,59 @@ describe('[User Service] - /user/:userId', () => {
     expect(response.body).toHaveProperty("error", "User not found")
   })
 })
+
+
+const express = require('express');
+const routes = require('../userservice/routes/routes');
+
+const mockUserRepository = {
+  getUser: jest.fn(),
+  insertUser: jest.fn(),
+  checkValidId: jest.fn(),
+};
+
+const app2 = express();
+app2.use(express.json());
+routes(app2, mockUserRepository);
+
+describe('User Routes', () => {
+  it('adds a new user with unique username', async () => {
+    const password = 'password';
+    const hashedPassword = await bcrypt.hash(password, 10);
+    mockUserRepository.getUser.mockResolvedValue(null);
+    mockUserRepository.insertUser.mockResolvedValue({ username: 'username', password: hashedPassword });
+
+    const res = await request(app2).post('/adduser').send({ username: 'username', password });
+    expect(res.statusCode).toEqual(200);
+  });
+
+  it('fails to add a new user with existing username', async () => {
+    mockUserRepository.getUser.mockResolvedValue({ username: 'username' });
+
+    const res = await request(app2).post('/adduser').send({ username: 'username', password: 'password' });
+    expect(res.statusCode).toEqual(400);
+  });
+
+  it('fetches user by id', async () => {
+    mockUserRepository.checkValidId.mockReturnValue(true);
+    mockUserRepository.getUser.mockResolvedValue({ _id: 'userId', username: 'username' });
+
+    const res = await request(app2).get('/user/userId');
+    expect(res.statusCode).toEqual(200);
+  });
+
+  it('returns error for invalid id format', async () => {
+    mockUserRepository.checkValidId.mockReturnValue(false);
+
+    const res = await request(app2).get('/user/invalid');
+    expect(res.statusCode).toEqual(400);
+  });
+
+  it('returns error for non-existent user', async () => {
+    mockUserRepository.checkValidId.mockReturnValue(true);
+    mockUserRepository.getUser.mockResolvedValue(null);
+
+    const res = await request(app2).get('/user/nonexistent');
+    expect(res.statusCode).toEqual(404);
+  });
+});
