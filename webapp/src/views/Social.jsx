@@ -1,9 +1,10 @@
+import CheckIcon from '@mui/icons-material/Check';
 import GroupIcon from '@mui/icons-material/Group';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import NotificationAddOutlinedIcon from '@mui/icons-material/NotificationAddOutlined';
-import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
+import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemove';
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, Button, Container, Modal, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Modal, Paper, TextField, Tooltip, Typography } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import ProtectedComponent from "./components/ProtectedComponent";
@@ -36,7 +37,7 @@ const menuItemStyle = {
     gap: '.5em',
     transition: 'transform .3s ease-in-out',
     '&:hover': {
-        transform: 'translate(5%, 0)',
+        transform: 'translate(10px, 0)',
     }
 }
 
@@ -127,7 +128,9 @@ const AddFriendTab = (props) => {
                     return (
                         <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
                             <Typography variant="body1" element="p">{user.username}</Typography>
-                            <Button variant="contained" onClick={() => sendFriendRequest(user._id)} disabled={sentRequests.some(request => request.from.userId === getUser().userId && request.to.userId === user._id) || friends.some(f => f._id === user._id)}>Add Friend</Button>
+                            <Tooltip title="Send friend request">
+                                <Button variant="contained" onClick={() => sendFriendRequest(user._id)} disabled={sentRequests.some(request => request.from.userId === getUser().userId && request.to.userId === user._id) || friends.some(f => f._id === user._id)}><GroupAddIcon /></Button>
+                            </Tooltip>
                         </Paper>
                     )
                 })}
@@ -178,7 +181,9 @@ const FriendRequestsTab = props => {
                             <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
                                 <Typography variant="body1" element="p">{request.from.username}</Typography>
                                 <Typography variant="body1" element="p">{parseDate(request.createdAt)}</Typography>
-                                <Button variant="contained" onClick={() => acceptRequest(request.from.userId)}>Accept</Button>
+                                <Tooltip title="Accept friend request">
+                                    <Button variant="contained" onClick={() => acceptRequest(request.from.userId)}><CheckIcon /></Button>
+                                </Tooltip>
                             </Paper>
                         )
                     })}
@@ -235,7 +240,9 @@ const FriendsTab = props => {
                         return (
                             <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
                                 <Typography variant="body1" element="p">{friend.username}</Typography>
-                                <Button variant="contained" onClick={() => handleOpen(friend)} ><PersonRemoveOutlinedIcon /></Button>
+                                <Tooltip title="Remove friend">
+                                    <Button variant="contained" onClick={() => handleOpen(friend)} ><PersonRemoveOutlinedIcon /></Button>
+                                </Tooltip>
                             </Paper>
                         )
                     })}
