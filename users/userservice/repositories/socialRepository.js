@@ -71,5 +71,14 @@ module.exports = {
         } catch (error) {
             throw error.message;
         }
+    },
+    deleteFriendship: async function (userId1, userId2) {
+        try {
+            await this.checkUp()
+            await this.friendship.deleteOne({ users: { $all: [new this.mongoose.Types.ObjectId(userId1), new this.mongoose.Types.ObjectId(userId2)] } });
+            return { message: "Friendship deleted successfully" };
+        } catch (error) {
+            throw error.message;
+        }
     }
 };

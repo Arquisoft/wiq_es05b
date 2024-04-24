@@ -1,6 +1,7 @@
 import NotificationAddOutlinedIcon from '@mui/icons-material/NotificationAddOutlined';
+import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Modal, Paper, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import ProtectedComponent from "./components/ProtectedComponent";
@@ -32,6 +33,18 @@ const tabStyle = {
     padding: "2rem",
     justifyContent: "center",
     alignItems: "center",
+}
+
+const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 500,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow:12,
+    p: 4,
 }
 
 const AddFriendTab = (props) => {
@@ -159,6 +172,37 @@ const FriendsTab = props => {
     const { friends, reloadSocialData } = props;
     const { getUser } = useContext(AuthContext);
 
+    const [showRemoveFriendModal, setShowRemoveFriendModal] = useState(false);
+    const [friendToDelete, setFriendToDelete] = useState(null);
+
+    const handleOpen = (friend) => {
+        setFriendToDelete(friend);
+        setShowRemoveFriendModal(true);
+    }
+    const handleClose = () => setShowRemoveFriendModal(false);
+
+    const removeFriend = async (friendId) => {
+        const userId = getUser().userId;
+        try {
+            const response = await axios({
+                method: 'post',
+                url: `/users/social/removefriend`,
+                headers: {
+                    Authorization: `Bearer ${getUser().token}`
+                },
+                data: {
+                    user1: userId,
+                    user2: friendId
+                }
+            });
+            //show toaster??
+            reloadSocialData();
+            handleClose();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <Container sx={tabStyle}>
             <Typography variant="h4" element="p">Friends</Typography>
@@ -171,13 +215,41 @@ const FriendsTab = props => {
                         return (
                             <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
                                 <Typography variant="body1" element="p">{friend.username}</Typography>
+                                <Button variant="contained" onClick={() => handleOpen(friend)} ><PersonRemoveOutlinedIcon /></Button>
                             </Paper>
                         )
                     })}
+                    <RemoveFriendModal showRemoveFriendModal={showRemoveFriendModal} handleClose={handleClose} removeFriend={removeFriend} friendToDelete={friendToDelete} />
                 </Container>
             }
         </Container>
     );
+}
+
+const RemoveFriendModal = (props) => {
+    const { showRemoveFriendModal, handleClose, removeFriend, friendToDelete } = props;
+
+    if (friendToDelete)
+        return (
+            <Modal
+                open={showRemoveFriendModal}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description">
+                <Box sx={modalStyle}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        Removal confirmation
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        Are you sure that you want to remove {friendToDelete.username} from your friend list?
+                    </Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-evenly', gap: '1em', mt: 2 }}>
+                        <Button variant="contained" onClick={handleClose}>Cancel</Button>
+                        <Button variant="contained" onClick={() => removeFriend(friendToDelete._id)}>Remove</Button>
+                    </Box>
+                </Box>
+            </Modal>
+        );
 }
 
 const EmptyTabMessage = () => {

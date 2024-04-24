@@ -105,4 +105,14 @@ module.exports = (app, axios, authTokenMiddleware) => {
       .catch((error) => next({ error: "gw: An error occurred while fetching friends: " + error}));
   });
 
+  app.post("/users/social/removefriend", async (req, res, next) => {
+    axios
+      .post(`${userServiceUrl}/social/removefriend`, req.body)
+      .then(({ data }) => {
+        console.log(data);
+        res.json(data);
+      })
+      .catch((error) => next({ error: "gw: An error occurred while removing friend: " + error}));
+  });
+
 };
