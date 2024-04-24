@@ -236,19 +236,19 @@ describe('[Gateway Service] - /user/:userId', () => {
 const express = require('express');
 const routes = require('../gatewayservice/routes/routes');
 
-app = express();
-app.use(express.json());
-routes(app);
+let app2 = express();
+app2.use(express.json());
+routes(app2);
 
 describe('Routes', () => {
     it('returns OK status for health check', async () => {
-        const res = await request(app).get('/health');
+        const res = await request(app2).get('/health');
         expect(res.statusCode).toEqual(200);
         expect(res.body).toEqual({ status: "OK" });
     });
 
     it('returns teapot status for root path', async () => {
-        const res = await request(app).get('/');
+        const res = await request(app2).get('/');
         expect(res.statusCode).toEqual(418);
         expect(res.body).toEqual({ message: "¯\_(ツ)_/¯" });
     });
