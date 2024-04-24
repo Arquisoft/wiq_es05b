@@ -158,10 +158,10 @@ const FriendsTab = props => {
         <Container sx={tabStyle}>
             <Typography variant="h4" element="p">Friends</Typography>
             <Container sx={{ padding: '2em', display: "flex", flexDirection: "column", gap: "1rem", overflowY: "scroll", height: "400px", width: "100%", alignItems: "center" }}>
-                {friends.map((friendship, index) => {
+                {friends.map((friend, index) => {
                     return (
                         <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
-                            <Typography variant="body1" element="p">{friendship.user1.username === getUser().username ? friendship.user2.username : friendship.user1.username}</Typography>
+                            <Typography variant="body1" element="p">{friend.username}</Typography>
                         </Paper>
                     )
                 })}
@@ -239,10 +239,10 @@ export default function Social() {
     const parseFriends = (friendships) => {
         const friends = [];
         for (let friendship of friendships) {
-            if (friendship.users[0]._id === getUser().userId)
-                friends.push(friendship.users[1]);
+            if (friendship.user1._id === getUser().userId)
+                friends.push(friendship.user2);
             else
-                friends.push(friendship.users[0]);
+                friends.push(friendship.user1);
         }
         setFriends(friends);
     }
