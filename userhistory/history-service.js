@@ -39,7 +39,7 @@ const metricsMiddleware = promBundle({includeMethod: true});
 app.use(metricsMiddleware);
 
 // Routes
-require('./routes/routes')(app, saveRepository);
+require('./routes/historyRoutes')(app, saveRepository);
 
 app.use(errorHandlerMiddleware(logger.error.bind(logger), "History Service"))
 

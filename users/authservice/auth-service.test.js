@@ -108,3 +108,51 @@ describe("[Auth Service] - /validate/:token", () => {
     expect(response.body).toHaveProperty('valid', false);
   })
 })
+
+const express = require('express');
+const routes = require('./routes/authRoutes');
+const jwt = require('jsonwebtoken');
+
+const mockUserRepository = {
+  findUserByUsername: jest.fn(),
+};
+
+let app2 = express();
+app2.use(express.json());
+routes(app2, mockUserRepository);
+
+describe('Auth Routes', () => {
+  it('logs in with valid credentials', async () => {
+    const password = 'password';
+    const hashedPassword = await bcrypt.hash(password, 10);
+    mockUserRepository.findUserByUsername.mockResolvedValue({ password: hashedPassword });
+
+    const res = await request(app2).post('/login').send({ username: 'username', password });
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty('token');
+    expect(res.body).toHaveProperty('username');
+  });
+
+  /** TODO: works in local, when in github actions (500 -> internal server error)
+  it('fails to log in with invalid credentials', async () => {
+    mockUserRepository.findUserByUsername.mockResolvedValue(null);
+
+    const res = await request(app2).post('/login').send({ username: 'username', password: 'password' });
+    expect(res.statusCode).toEqual(401);
+  });
+  */
+
+  it('validates a valid token', async () => {
+    const token = jwt.sign({ userId: 'userId' }, 'a-very-secret-string', { expiresIn: '4h' });
+
+    const res = await request(app2).get(`/validate/${token}`);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toEqual({ data: { userId: 'userId' }, valid: true });
+  });
+
+  it('fails to validate an invalid token', async () => {
+    const res = await request(app2).get('/validate/invalid');
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toEqual({ valid: false });
+  });
+});

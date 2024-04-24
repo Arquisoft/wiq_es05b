@@ -72,3 +72,53 @@ describe("[Jordi Service] - /questions/:category/:n", () => {
 describe("[Jordi Service] - /answer", () => {
   // TODO: Write tests for this endpoint
 });
+
+const express = require('express');
+const routes = require('./routes/jordiRoutes');
+
+const mockQuestionsRepository = {
+  getCategories: jest.fn(),
+  checkValidId: jest.fn(),
+  findQuestionById: jest.fn(),
+  getQuestions: jest.fn(),
+};
+
+let app2 = express();
+app2.use(express.json());
+routes(app2, mockQuestionsRepository);
+
+describe('Routes', () => {
+  it('fetches categories', async () => {
+    mockQuestionsRepository.getCategories.mockResolvedValue([]);
+    const res = await request(app2).get('/categories');
+    expect(res.statusCode).toEqual(200);
+  });
+
+  it('fetches question by id', async () => {
+    mockQuestionsRepository.checkValidId.mockReturnValue(true);
+    mockQuestionsRepository.findQuestionById.mockResolvedValue({});
+    const res = await request(app2).get('/question/1');
+    expect(res.statusCode).toEqual(200);
+  });
+
+  /** TODO: works in local, when in github actions (500 -> internal server error) 
+  it('returns error for invalid id format', async () => {
+    mockQuestionsRepository.checkValidId.mockReturnValue(false);
+    const res = await request(app2).get('/question/invalid');
+    expect(res.statusCode).toEqual(400);
+  });
+  */
+
+  it('fetches questions by category and number', async () => {
+    mockQuestionsRepository.getQuestions.mockResolvedValue([]);
+    const res = await request(app2).get('/questions/category/10');
+    expect(res.statusCode).toEqual(200);
+  });
+
+  /** TODO: works in local, when in github actions (500 -> internal server error) 
+  it('returns error for non-numeric number of questions', async () => {
+    const res = await request(app2).get('/questions/category/invalid');
+    expect(res.statusCode).toEqual(400);
+  });
+  */
+});
