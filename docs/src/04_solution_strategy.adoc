@@ -11,7 +11,7 @@ we have decided to use the following technologies, as they were the one given to
 * *_JavaScript_*: Main programming language. It is used in both back and front end.
 * *_React_*: JavaScript library used in the design of graphical user interfaces.
 * *_ExpressJS_*: Framework built on the top of _Node.js_ and used in the backend.
-* *_MongoDB_*: Used as the database for the app.
+* *_MongoDB_*: Several instances are used to persist the information of the app.
 * *_Github_*: Used for versioning the proyect and as a mean of communication for the dev team.
 * *_Docker_*: Used for the app deployment.
 * *_Github actions_*: Used for testing purposes, app deployment and as a CI/CD tool.
@@ -27,6 +27,7 @@ for different purpouses. For instance, we currently have the following microserv
 * *_Webapp service_*. Web application that uses the _gateway service_ to allow basic login and user features.
 * *_Jordi service_*. Sevice to generate and return questions from the Wikidata API.
 * *_Userhistory service_*. Service to generate the user's history and global ranking.
+TODO: Fill with the upcoming microservices
 
 === Decisions taken to achieve quality goals
 
@@ -35,7 +36,6 @@ for different purpouses. For instance, we currently have the following microserv
 
 |*_Usability_*
 |The user must be able to use the application without any doubt or trouble.
-For this purpose, we will have to use some techniques such as the use of the conventions.
 
 |*_Perfomance_*
 |To achieve a good performance we will try to make as few requests as possible to
@@ -44,7 +44,12 @@ WikiData in order to avoid overloading its services.
 |*_Maintainability and Escalability_*
 |The application must be well structured so the modifications or expansions that
 will have to be made can be done in a simple way without having to modify the previous
-code excessively. For it,we will use design patterns and coding conventions to obtain a clean code.
+code excessively. For it, along with a microservice structure we will make use of design patterns
+and coding conventions to obtain a clean maintainable code.
+
+To be more specific, the Gateway Pattern and the Single Responsibility Pattern define the architectural design principles that we will follow in our microservices implementation.
+The Gateway Pattern will be used to provide a unified entry point for all external requests,
+while the Single Responsibility Pattern will ensure that each microservice has a clear and specific responsibility.
 
 |===
 

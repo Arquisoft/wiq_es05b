@@ -5,7 +5,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 == Deployment View
 
-The infrastructure of our system consists mainly of a single server, which is hosted in a B1s Azure virtual machine. It contains a dockerized nodejs app based on microservices architecture which exposes port 3000 to the internet as an entry point to de user interface of the system. The server contains a MongoDB database used to store the application data and interacts with the Wikidata API in order to provide dynamic-generated content to the user based on the information retrieved.
+The infrastructure of our system consists mainly on a single server, which is hosted in an Oracle Virtual Machine arm64 running Ubuntu 22.04 LTS. It contains a dockerized nodejs app based on microservices architecture which exposes port 443 and 80 to the internet as an entry point to de user interface of the system, aswell as the port 8000 which is provided for the API use. The server contains a MongoDB database used to store the application data and interacts with the Wikidata API in order to provide dynamic-generated content to the user based on the information retrieved.
 
 
 === Infrastructure Level 1

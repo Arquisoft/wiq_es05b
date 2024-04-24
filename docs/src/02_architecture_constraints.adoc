@@ -13,19 +13,8 @@ These constraints are set by the project, and we believe that altering them woul
 |===
 | Constraint | Explanation
 
-|*_Docker_*
-| The app will be running in a Docker Host due to
-its outstanding interoperability, robust security mechanisms, and its effectiveness in deploying applications
-
 |*_Wikidata_*
 | This project will be using wikidata to retrieve the source of the game questions
-
-|*_React_*
-| A JavaScript framework used for constructing visual interfaces.
-
-|*_Git/GitHub_*
-| Our development process will leverage Git for version control and GitHub as a remote repository. This combination empowers us to:
-collaborate effectively, maintain a clean codebase and assign tasks
 
 |===
 
@@ -40,7 +29,7 @@ collaborate effectively, maintain a clean codebase and assign tasks
 |*_Time_*
 | Deadline at the end of the semester,
 the time is divided among two hours per week of in-class work, multiple meetings with team members, and individual self-work.
-We'll also have four deliverables spaced two weeks apart, where we'll receive feedback from the instructor.
+We'll also have four deliverables spaced every two weeks, where we'll receive feedback from the instructor.
 
 |*_Testing_*
 | Various scenarios will be explored to accurately assess the application's functionality.
@@ -48,7 +37,8 @@ Diverse testing techniques will be employed to achieve comprehensive coverage, a
 the highest possible quality assurance. We also work with different levels of testing,
 including unit, integration, load, and system testing. Additionally, a shift-left testing
 approach will be used, where testing is performed as early as possible in the development
-process, enabling the early detection of bugs and errors.
+process, following dynamics like Behaviour Driven Development (BDD) or Test Driven Development (TDD)
+enabling the early detection of bugs and errors.
 
 |*_Tech proficiency_*
 |All team members are beginners in the majority of the technologies we're using, and this is our first endeavor
@@ -74,5 +64,6 @@ and https://www.w3.org/Style/CSS/[CSS].
 |*_Usability_*
 |The application must be user-friendly, with a clean and intuitive interface that is easy to navigate.
 The user experience should be seamless and engaging, with a focus on accessibility and adaptability.
+
 
 |===
