@@ -35,7 +35,7 @@ const tabStyle = {
 }
 
 const AddFriendTab = (props) => {
-    const { sentRequests, reloadSocialData, friends} = props;
+    const { sentRequests, reloadSocialData, friends } = props;
     const { getUser } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
     const [filter, setFilter] = useState('');
@@ -94,7 +94,7 @@ const AddFriendTab = (props) => {
                     return (
                         <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
                             <Typography variant="body1" element="p">{user.username}</Typography>
-                            <Button variant="contained" onClick={() => sendFriendRequest(user._id)} disabled={sentRequests.some(request => request.from.userId === getUser().userId && request.to.userId === user._id) || friends.some(f => f._id === user._id) }>Add Friend</Button>
+                            <Button variant="contained" onClick={() => sendFriendRequest(user._id)} disabled={sentRequests.some(request => request.from.userId === getUser().userId && request.to.userId === user._id) || friends.some(f => f._id === user._id)}>Add Friend</Button>
                         </Paper>
                     )
                 })}
@@ -135,17 +135,22 @@ const FriendRequestsTab = props => {
     return (
         <Container sx={tabStyle}>
             <Typography variant="h4" element="p">Friend Requests</Typography>
-            <Container sx={{ padding: '2em', display: "flex", flexDirection: "column", gap: "1rem", overflowY: "scroll", height: "400px", width: "100%", alignItems: "center" }}>
-                {friendRequests.map((request, index) => {
-                    return (
-                        <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
-                            <Typography variant="body1" element="p">{request.from.username}</Typography>
-                            <Typography variant="body1" element="p">{parseDate(request.createdAt)}</Typography>
-                            <Button variant="contained" onClick={() => acceptRequest(request.from.userId)}>Accept</Button>
-                        </Paper>
-                    )
-                })}
-            </Container>
+
+            {friendRequests.length === 0 ?
+                <EmptyTabMessage />
+                :
+                <Container sx={{ padding: '2em', display: "flex", flexDirection: "column", gap: "1rem", overflowY: "scroll", height: "400px", width: "100%", alignItems: "center" }}>
+                    {friendRequests.map((request, index) => {
+                        return (
+                            <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
+                                <Typography variant="body1" element="p">{request.from.username}</Typography>
+                                <Typography variant="body1" element="p">{parseDate(request.createdAt)}</Typography>
+                                <Button variant="contained" onClick={() => acceptRequest(request.from.userId)}>Accept</Button>
+                            </Paper>
+                        )
+                    })}
+                </Container>
+            }
         </Container>
     )
 }
@@ -157,17 +162,33 @@ const FriendsTab = props => {
     return (
         <Container sx={tabStyle}>
             <Typography variant="h4" element="p">Friends</Typography>
-            <Container sx={{ padding: '2em', display: "flex", flexDirection: "column", gap: "1rem", overflowY: "scroll", height: "400px", width: "100%", alignItems: "center" }}>
-                {friends.map((friend, index) => {
-                    return (
-                        <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
-                            <Typography variant="body1" element="p">{friend.username}</Typography>
-                        </Paper>
-                    )
-                })}
-            </Container>
+
+            {friends.length === 0 ?
+                <EmptyTabMessage />
+                :
+                <Container sx={{ padding: '2em', display: "flex", flexDirection: "column", gap: "1rem", overflowY: "scroll", height: "400px", width: "100%", alignItems: "center" }}>
+                    {friends.map((friend, index) => {
+                        return (
+                            <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
+                                <Typography variant="body1" element="p">{friend.username}</Typography>
+                            </Paper>
+                        )
+                    })}
+                </Container>
+            }
         </Container>
     );
+}
+
+const EmptyTabMessage = () => {
+    return (
+        <Container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '2em', gap: '1em' }}>
+
+            <img src="/jordi-empty.jpg" alt="empty" style={{ width: '75%' }} />
+            <Typography variant="h5" element="p">Oops... this seems to be empty</Typography>
+
+        </Container>
+    )
 }
 
 
@@ -264,7 +285,7 @@ export default function Social() {
                     height: "100%",
                 }} >
                     {selectedTab === "friendsTab" && <FriendsTab friends={friends} reloadSocialData={reloadSocialData} />}
-                    {selectedTab === "addFriendTab" && <AddFriendTab sentRequests={sentRequests} reloadSocialData={reloadSocialData} friends={friends}/>}
+                    {selectedTab === "addFriendTab" && <AddFriendTab sentRequests={sentRequests} reloadSocialData={reloadSocialData} friends={friends} />}
                     {selectedTab === "friendRequests" && <FriendRequestsTab friendRequests={friendRequests} reloadSocialData={reloadSocialData} />}
                 </Paper>
 
