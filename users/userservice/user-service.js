@@ -46,7 +46,7 @@ app.use("/adduser", dataMiddleware)
 userRepository.init(mongoose, mongoUri);
 
 // Routes
-require('./routes/routes')(app, userRepository)
+require('./routes/usersRoutes')(app, userRepository)
 
 // Error handling middleware
 app.use(errorHandlerMiddleware(logger.error.bind(logger), "User Service"))

@@ -103,7 +103,7 @@ describe('[User Service] - /user/:userId', () => {
 
 
 const express = require('express');
-const routes = require('../userservice/routes/routes');
+const routes = require('./routes/usersRoutes');
 
 const mockUserRepository = {
   getUser: jest.fn(),

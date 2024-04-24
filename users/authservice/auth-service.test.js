@@ -110,7 +110,7 @@ describe("[Auth Service] - /validate/:token", () => {
 })
 
 const express = require('express');
-const routes = require('../authservice/routes/routes');
+const routes = require('./routes/authRoutes');
 const jwt = require('jsonwebtoken');
 
 const mockUserRepository = {
