@@ -75,7 +75,7 @@ image::03_technical_context.drawio.png["Technical Context diagram", align="cente
 | Request for question data with category
 | Question sources
 
-| *_Database_*
+| *_Persistence_*
 | RAW data for questions and answers
 | Structured data of questions and answers
 
