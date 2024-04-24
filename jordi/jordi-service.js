@@ -4,10 +4,9 @@ const cron = require('node-cron');
 const { loggerFactory, errorHandlerMiddleware, responseLoggerMiddleware, requestLoggerMiddleware, i18nextMiddleware, i18nextInitializer } = require("cyt-utils")
 const promBundle = require('express-prom-bundle');
 const i18next = require('i18next');
-
-const WikidataQAManager = require('./WikidataGenerator');
-const groups = require('./groups.json');
-const generators = groups.map(group => new WikidataQAManager(group));
+const axios = require('axios');
+const script = require("./scripts/script")
+const WikidataGenerator = require("./WikidataGenerator")
 
 // Create the server
 const app = express();
@@ -33,6 +32,9 @@ const schedule = process.env.SCHEDULE || "* * * 1 * *";
 const questionsRepository = require('./repositories/questionRepository');
 questionsRepository.init(mongoose, mongoUri);
 
+const groupsRepository = require('./repositories/groupsRepository');
+groupsRepository.init(mongoose, mongoUri);
+
 // Middleware to analyze request bodies 
 app.use(express.json());
 
@@ -47,7 +49,8 @@ const metricsMiddleware = promBundle({includeMethod: true});
 app.use(metricsMiddleware);
 
 // Routes
-require("./routes/jordiRoutes")(app, questionsRepository);
+require("./routes/jordi-ask")(app, questionsRepository);
+require("./routes/jordi-think")(app, questionsRepository, groupsRepository);
 
 app.use(errorHandlerMiddleware(logger.error.bind(logger), "Jordi Service"))
 
@@ -65,57 +68,17 @@ module.exports = server;
 
 // Script to generate questions
 
-async function script() {
-
-	try {
-
-		for (let count = 0; count < generators.length; count++) {
-			const generator = generators[count];
-
-			let questions = null;
-			try {
-				questions = await generateQuestions(count);
-			} catch (error) {
-				continue;
-			}
-
-
-			if (questions.length === 0)
-				throw new Error("Wikidata API error: No questions generated.");
-
-			await mongoose.connection.collection("questions").deleteMany({ groupId: generator.groupId });
-
-			await mongoose.connection.collection("questions").insertMany(questions);
-
-			// Output
-
-			// for (const question of questions) {
-			//     console.log(question.statement);
-			// }
-			// console.log("Questions generated " + questions.length);
-
-			console.log(`MongoDB [${new Date().toLocaleString('en-GB') }]: Questions updated for group -> ${generator.groupId}`);
-
-		}
-	} catch (error) {
-		console.error("Error:", error);
-	}
+if (generateOnStartup) {
+	console.log("Generating questions on startup");
+	script(groupsRepository, questionsRepository, WikidataGenerator)
+	.catch(e => console.log("Oh no", e));
 }
-
-async function generateQuestions(count) {
-	const result = [];
-	result.push(...await generators[count].generate());
-	return result;
-}
-
-if (generateOnStartup)
-	script();
 
 // * second * minute * hour * date * month * year
 cron.schedule(schedule, () => {
 	console.log("Running script at : " + new Date());
-	script();
-
+	script(groupsRepository, questionsRepository, WikidataGenerator)
+	.catch(e => console.log("Oh no", e));
 }, {
 	scheduled: true,
 	timezone: "Europe/Madrid"

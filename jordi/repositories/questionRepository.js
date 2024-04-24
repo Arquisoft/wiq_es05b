@@ -1,17 +1,23 @@
+const {Question} = require("../jordi-model");
+
 module.exports = {
+
   mongoose: null,
   uri: null,
   collectionName: "questions",
+  Question,
 
   init: function (mongoose, uri) {
     this.mongoose = mongoose;
     this.uri = uri;
   },
+
   checkUp: async function () {
     if (this.mongoose.connection.readyState !== 1) {
       await this.mongoose.connect(this.uri);
     }
   },
+
   getCategories: async function () {
     try {
       await this.checkUp();
@@ -41,6 +47,28 @@ module.exports = {
       }
 
       return result;
+    } catch (error) {
+      throw error.message;
+    }
+  },
+
+  insertQuestions: async function (questions) {
+    try {
+      await this.checkUp();
+      await this.mongoose.connection
+        .collection(this.collectionName)
+        .insertMany(questions);
+    } catch (error) {
+      throw error.message;
+    }
+  },
+
+  deleteQuestions: async function (groupId) {
+    try {
+      await this.checkUp();
+      await this.mongoose.connection
+        .collection(this.collectionName)
+        .deleteMany({ groupId });
     } catch (error) {
       throw error.message;
     }
@@ -84,6 +112,7 @@ module.exports = {
       throw error.message;
     }
   },
+
   checkValidId: function (id) {
     return !(!id || !this.mongoose.isValidObjectId(id));
   },
