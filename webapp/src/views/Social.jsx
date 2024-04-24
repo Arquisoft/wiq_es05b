@@ -1,3 +1,5 @@
+import GroupIcon from '@mui/icons-material/Group';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import NotificationAddOutlinedIcon from '@mui/icons-material/NotificationAddOutlined';
 import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
 import SearchIcon from '@mui/icons-material/Search';
@@ -6,25 +8,6 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import ProtectedComponent from "./components/ProtectedComponent";
 import { AuthContext } from "./context/AuthContext";
-
-const Menu = (props) => {
-    const { setSelectedTab, friendRequests } = props;
-
-    return (
-        <Container sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-            <Paper elevation={3} sx={{ display: "flex", flexFlow: "column", gap: "1rem", justifyContent: "center", alignItems: "flex-start", padding: "2rem 1rem" }}>
-                <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => setSelectedTab("friendsTab")}>Friends</Typography>
-                <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => setSelectedTab("addFriendTab")}>Add Friend</Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: '.5em' }}>
-                    <Typography variant="h6" element="p" sx={{ padding: 0, cursor: "pointer" }} onClick={() => setSelectedTab("friendRequests")}>Friend Requests</Typography>
-                    {friendRequests.length != 0 && <NotificationAddOutlinedIcon sx={{ color: "mediumvioletred" }} />}
-                </Box>
-
-
-            </Paper>
-        </Container>
-    )
-}
 
 const tabStyle = {
     display: "flex",
@@ -43,8 +26,45 @@ const modalStyle = {
     width: 500,
     bgcolor: 'background.paper',
     border: '2px solid #000',
-    boxShadow:12,
+    boxShadow: 12,
     p: 4,
+}
+
+const menuItemStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '.5em',
+    transition: 'transform .3s ease-in-out',
+    '&:hover': {
+        transform: 'translate(5%, 0)',
+    }
+}
+
+
+const Menu = (props) => {
+    const { setSelectedTab, friendRequests } = props;
+
+    return (
+        <Container sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <Paper elevation={3} sx={{ display: "flex", flexFlow: "column", gap: "1rem", justifyContent: "center", alignItems: "flex-start", padding: "2rem 1rem" }}>
+                <Box sx={menuItemStyle}>
+                    <GroupIcon />
+                    <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => setSelectedTab("friendsTab")}>Friends</Typography>
+                </Box>
+                <Box sx={menuItemStyle}>
+                    <GroupAddIcon />
+                    <Typography variant="h6" element="p" sx={{ padding: 0, cursor: "pointer" }} onClick={() => setSelectedTab("friendRequests")}>Friend Requests</Typography>
+                    {friendRequests.length != 0 && <NotificationAddOutlinedIcon sx={{ color: "mediumvioletred" }} />}
+                </Box>
+                <Box sx={menuItemStyle}>
+                    <SearchIcon />
+                    <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => setSelectedTab("addFriendTab")}>Search users</Typography>
+                </Box>
+
+
+            </Paper>
+        </Container>
+    )
 }
 
 const AddFriendTab = (props) => {
