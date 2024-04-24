@@ -1,4 +1,5 @@
 import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import GroupIcon from '@mui/icons-material/Group';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import NotificationAddOutlinedIcon from '@mui/icons-material/NotificationAddOutlined';
@@ -38,6 +39,13 @@ const menuItemStyle = {
     transition: 'transform .3s ease-in-out',
     '&:hover': {
         transform: 'translate(10px, 0)',
+    }
+}
+
+const rejectButtonStyle = {
+    backgroundColor: 'palevioletred',
+    '&:hover': {
+        backgroundColor: '#c94d76',
     }
 }
 
@@ -168,6 +176,28 @@ const FriendRequestsTab = props => {
         }
     }
 
+    const rejectRequest = async (fromId) => {
+        const toId = getUser().userId;
+        try {
+            const response = await axios({
+                method: 'post',
+                url: `/users/social/rejectrequest`,
+                headers: {
+                    Authorization: `Bearer ${getUser().token}`
+                },
+                data: {
+                    fromId: fromId,
+                    toId: toId
+                }
+            });
+            console.log(response.data);
+            //show toaster??
+            reloadSocialData();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <Container sx={tabStyle}>
             <Typography variant="h4" element="p">Friend Requests</Typography>
@@ -181,9 +211,14 @@ const FriendRequestsTab = props => {
                             <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
                                 <Typography variant="body1" element="p">{request.from.username}</Typography>
                                 <Typography variant="body1" element="p">{parseDate(request.createdAt)}</Typography>
-                                <Tooltip title="Accept friend request">
-                                    <Button variant="contained" onClick={() => acceptRequest(request.from.userId)}><CheckIcon /></Button>
-                                </Tooltip>
+                                <Box sx={{ display: "flex", gap: "1em" }}>
+                                    <Tooltip title="Accept friend request">
+                                        <Button variant="contained" onClick={() => acceptRequest(request.from.userId)}><CheckIcon /></Button>
+                                    </Tooltip>
+                                    <Tooltip title="Reject friend request">
+                                        <Button sx={rejectButtonStyle} variant="contained" onClick={() => rejectRequest(request.from.userId) }><CloseIcon /></Button>
+                                    </Tooltip>
+                                </Box>
                             </Paper>
                         )
                     })}

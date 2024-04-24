@@ -89,4 +89,14 @@ module.exports = function (app, userRepository, socialRepository) {
         }
     });
 
+    app.post("/social/rejectrequest", async (req, res, next) => {
+        const { fromId, toId } = req.body;
+        try {
+            const result = await socialRepository.deleteRequest(fromId, toId);
+            res.json(result);
+        } catch (error) {
+            next({ error: error });
+        }
+    });
+
 }
