@@ -51,6 +51,8 @@ const clearQuestions = async () => {
 describe("[Jordi Service] - /categories", () => {
   it("Should return 200 and an array of categories", async () => {
 
+    console.log("XD");
+
     axios.get.mockImplementation(() => Promise.resolve(getQuestion()));
 
 		app = require("./jordi-service");
