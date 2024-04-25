@@ -37,7 +37,7 @@ const menuItemStyle = {
     display: 'flex',
     alignItems: 'center',
     gap: '.5em',
-    transition: 'transform .3s ease-in-out',
+    transition: 'transform .3s ease-out',
     '&:hover': {
         transform: 'translate(10px, 0)',
     }
@@ -64,7 +64,7 @@ const Menu = (props) => {
                 <Box sx={menuItemStyle}>
                     <GroupAddIcon />
                     <Typography variant="h6" element="p" sx={{ padding: 0, cursor: "pointer" }} onClick={() => setSelectedTab("friendRequests")}>Friend Requests</Typography>
-                    {friendRequests.length != 0 && <NotificationAddOutlinedIcon sx={{ color: "mediumvioletred" }} />}
+                    {friendRequests.length != 0 && <NotificationAddOutlinedIcon sx={{ color: "palevioletred" }} />}
                 </Box>
                 <Box sx={menuItemStyle}>
                     <SearchIcon />
