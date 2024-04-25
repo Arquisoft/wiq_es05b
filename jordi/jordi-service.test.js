@@ -301,7 +301,21 @@ describe("[Jordi Service] - /categories", () => {
 
 describe("[Jordi Service] - /questions/:category/:n", () => {
   
-  
+  it("Should return 200 and an array of questions", async () => {
+
+    axios.get.mockImplementation(() => Promise.resolve(WikidataMock));
+    await request(app).post("/addGroups").send(groups);
+    await request(app).get("/gen/capitals");
+    
+    const response = await request(app).get('/questions/capitals/2');
+
+    expect(response.status).toBe(200);
+    expect(response).toHaveProperty("text");
+
+    const responseQuestions = JSON.parse(response.text);
+    expect(responseQuestions).toHaveLength(2);
+
+  });
 
 });
 
