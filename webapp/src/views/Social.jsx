@@ -3,6 +3,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import GroupIcon from '@mui/icons-material/Group';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import NotificationAddOutlinedIcon from '@mui/icons-material/NotificationAddOutlined';
+import PersonIcon from '@mui/icons-material/Person';
 import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemove';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, Button, Container, Modal, Paper, TextField, Tooltip, Typography } from "@mui/material";
@@ -287,9 +288,15 @@ const FriendsTab = props => {
                         return (
                             <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
                                 <Typography variant="body1" element="p">{friend.username}</Typography>
-                                <Tooltip title="Remove friend">
-                                    <Button variant="contained" onClick={() => handleOpen(friend)} ><PersonRemoveOutlinedIcon /></Button>
-                                </Tooltip>
+
+                                <Box sx={{ display: "flex", gap: "1em" }}>
+                                    <Tooltip title="View profile">
+                                        <Button variant="contained" onClick={() => handleOpen(friend)} ><PersonIcon /></Button>
+                                    </Tooltip>
+                                    <Tooltip title="Remove friend">
+                                        <Button variant="contained" onClick={() => handleOpen(friend)} ><PersonRemoveOutlinedIcon /></Button>
+                                    </Tooltip>
+                                </Box>
                             </Paper>
                         )
                     })}
@@ -336,6 +343,10 @@ const EmptyTabMessage = () => {
 
         </Container>
     )
+}
+
+const UserProfile = () => {
+
 }
 
 
