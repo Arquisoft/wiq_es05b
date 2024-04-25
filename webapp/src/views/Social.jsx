@@ -1,3 +1,4 @@
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import GroupIcon from '@mui/icons-material/Group';
@@ -7,13 +8,13 @@ import PersonIcon from '@mui/icons-material/Person';
 import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemove';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, Button, Container, Modal, Paper, TextField, Tooltip, Typography } from "@mui/material";
+import Divider from '@mui/material/Divider';
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import InfoSnackBAr from "./components/InfoSnackBar";
 import ProtectedComponent from "./components/ProtectedComponent";
 import UserAvatar from './components/UserAvatar';
 import { AuthContext } from "./context/AuthContext";
-
 const tabStyle = {
     display: "flex",
     flexDirection: "column",
@@ -52,25 +53,29 @@ const rejectButtonStyle = {
     }
 }
 
+const profileStyle = {
+
+}
+
 
 const Menu = (props) => {
-    const { setSelectedTab, friendRequests } = props;
+    const { openTab, friendRequests } = props;
 
     return (
         <Container sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
             <Paper elevation={3} sx={{ display: "flex", flexFlow: "column", gap: "1rem", justifyContent: "center", alignItems: "flex-start", padding: "2rem 1rem" }}>
                 <Box sx={menuItemStyle}>
                     <GroupIcon />
-                    <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => setSelectedTab("friendsTab")}>Friends</Typography>
+                    <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => openTab("friendsTab")}>Friends</Typography>
                 </Box>
                 <Box sx={menuItemStyle}>
                     <GroupAddIcon />
-                    <Typography variant="h6" element="p" sx={{ padding: 0, cursor: "pointer" }} onClick={() => setSelectedTab("friendRequests")}>Friend Requests</Typography>
+                    <Typography variant="h6" element="p" sx={{ padding: 0, cursor: "pointer" }} onClick={() => openTab("friendRequests")}>Friend Requests</Typography>
                     {friendRequests.length != 0 && <NotificationAddOutlinedIcon sx={{ color: "palevioletred" }} />}
                 </Box>
                 <Box sx={menuItemStyle}>
                     <SearchIcon />
-                    <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => setSelectedTab("addFriendTab")}>Search users</Typography>
+                    <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => openTab("addFriendTab")}>Search users</Typography>
                 </Box>
 
 
@@ -129,6 +134,8 @@ const AddFriendTab = (props) => {
     return (
         <Container sx={tabStyle} >
             <Typography variant="h4" element="p">Add Friends</Typography>
+            <Divider />
+
             <Container sx={{ display: "flex", gap: "1rem", justifyContent: 'center' }}>
                 <TextField label="Search users..." variant="standard" value={filter}
                     onChange={(event) => setFilter(event.target.value)} />
@@ -158,16 +165,10 @@ const AddFriendTab = (props) => {
 
 const FriendRequestsTab = props => {
     const { getUser } = useContext(AuthContext);
-    const { friendRequests, reloadSocialData } = props;
+    const { friendRequests, reloadSocialData, parseDate } = props;
 
     const [accpetRequestSnackBarMsg, setAcceptRequestSnackBarMsg] = useState('');
     const [rejectRequestSnackBarMsg, setRejectRequestSnackBarMsg] = useState('');
-
-
-    const parseDate = rawDate => {
-        const date = new Date(rawDate);
-        return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
-    }
 
     const acceptRequest = async (fromId) => {
         const toId = getUser().userId;
@@ -212,6 +213,7 @@ const FriendRequestsTab = props => {
     return (
         <Container sx={tabStyle}>
             <Typography variant="h4" element="p">Friend Requests</Typography>
+            <Divider />
 
             {friendRequests.length === 0 ?
                 <EmptyTabMessage />
@@ -242,7 +244,7 @@ const FriendRequestsTab = props => {
 }
 
 const FriendsTab = props => {
-    const { friends, reloadSocialData } = props;
+    const { friends, reloadSocialData, openProfile } = props;
     const { getUser } = useContext(AuthContext);
 
     const [showRemoveFriendModal, setShowRemoveFriendModal] = useState(false);
@@ -280,6 +282,7 @@ const FriendsTab = props => {
     return (
         <Container sx={tabStyle}>
             <Typography variant="h4" element="p">Friends</Typography>
+            <Divider />
 
             {friends.length === 0 ?
                 <EmptyTabMessage />
@@ -288,13 +291,13 @@ const FriendsTab = props => {
                     {friends.map((friend, index) => {
                         return (
                             <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
-                                <Box sx={{ display: "flex", gap: "1em", alignItems:'center'}}>
+                                <Box sx={{ display: "flex", gap: "1em", alignItems: 'center' }}>
                                     <UserAvatar username={friend.username} size={50} />
                                     <Typography variant="body1" element="p">{friend.username}</Typography>
                                 </Box>
                                 <Box sx={{ display: "flex", gap: "1em" }}>
                                     <Tooltip title="View profile">
-                                        <Button variant="contained" onClick={() => handleOpen(friend)} ><PersonIcon /></Button>
+                                        <Button variant="contained" onClick={() => openProfile(friend)} ><PersonIcon /></Button>
                                     </Tooltip>
                                     <Tooltip title="Remove friend">
                                         <Button variant="contained" onClick={() => handleOpen(friend)} ><PersonRemoveOutlinedIcon /></Button>
@@ -348,8 +351,28 @@ const EmptyTabMessage = () => {
     )
 }
 
-const UserProfile = () => {
+const UserProfile = (props) => {
+    const { user, parseDate, openTab } = props;
 
+    return (
+
+        <Container sx={{ display: 'flex', flexDirection: 'column', gap: '0em', padding: '.5em' }}>
+            <ArrowBackIcon sx={{ cursor: 'pointer', paddingTop: '.5em'}} onClick={() => openTab('friendsTab')} />
+            <Box sx={{ display: 'flex', gap: '2em', alignItems: 'center', justifyContent:'center'}}>
+                <Box sx={{ display: 'flex', gap: '1em' }}>
+                    <UserAvatar username={user.username} size={100} />
+                </Box>
+                <Box sx={{ display: 'flex', gap: '.25em', flexDirection: 'column' }}>
+                    <Typography variant="h4" element="p">{user.username}</Typography>
+                    <Typography variant="body1" element="p">Joined: {parseDate(user.createdAt)}</Typography>
+                </Box>
+            </Box>
+
+            <Divider sx={{padding:'.5em'}}/>
+
+        </Container>
+
+    )
 }
 
 
@@ -360,6 +383,8 @@ export default function Social() {
     const [friendRequests, setFriendRequests] = useState([]);
     const [friends, setFriends] = useState([]);
     const [reloadData, setReloadData] = useState(false);
+
+    const [openedProfileUser, setOpenedProfileUser] = useState(null);
 
     useEffect(() => {
         getSentRequests();
@@ -429,6 +454,20 @@ export default function Social() {
         setFriends(friends);
     }
 
+    const openProfile = (user) => {
+        setOpenedProfileUser(user);
+    }
+
+    const openTab = (tab) => {
+        setOpenedProfileUser(null);
+        setSelectedTab(tab);
+    }
+
+    const parseDate = rawDate => {
+        const date = new Date(rawDate);
+        return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+    }
+
     return (
         <ProtectedComponent>
             <Container
@@ -441,13 +480,14 @@ export default function Social() {
                 }}
             >
 
-                <Menu setSelectedTab={setSelectedTab} friendRequests={friendRequests} />
+                <Menu openTab={openTab} friendRequests={friendRequests} />
                 <Paper elevation={3} sx={{
                     height: "100%",
                 }} >
-                    {selectedTab === "friendsTab" && <FriendsTab friends={friends} reloadSocialData={reloadSocialData} />}
-                    {selectedTab === "addFriendTab" && <AddFriendTab sentRequests={sentRequests} reloadSocialData={reloadSocialData} friends={friends} />}
-                    {selectedTab === "friendRequests" && <FriendRequestsTab friendRequests={friendRequests} reloadSocialData={reloadSocialData} />}
+                    {selectedTab === "friendsTab" && !openedProfileUser && <FriendsTab friends={friends} reloadSocialData={reloadSocialData} openProfile={openProfile} />}
+                    {selectedTab === "addFriendTab" && !openedProfileUser && <AddFriendTab sentRequests={sentRequests} reloadSocialData={reloadSocialData} friends={friends} />}
+                    {selectedTab === "friendRequests" && !openedProfileUser && <FriendRequestsTab friendRequests={friendRequests} reloadSocialData={reloadSocialData} parseDate={parseDate} />}
+                    {openedProfileUser && <UserProfile user={openedProfileUser} parseDate={parseDate} openTab={openTab} />}
                 </Paper>
 
             </Container>
