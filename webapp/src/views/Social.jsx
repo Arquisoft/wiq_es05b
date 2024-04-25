@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Box, Button, Container, Modal, Paper, TextField, Tooltip, Typography } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
+import InfoSnackBAr from "./components/InfoSnackBar";
 import ProtectedComponent from "./components/ProtectedComponent";
 import { AuthContext } from "./context/AuthContext";
 
@@ -81,6 +82,7 @@ const AddFriendTab = (props) => {
     const { getUser } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
     const [filter, setFilter] = useState('');
+    const [snackBarMsg, setSnackBarMsg] = useState('');
 
     const fetchUsers = async (filter) => {
         if (!filter) filter = 'all';
@@ -111,7 +113,7 @@ const AddFriendTab = (props) => {
                     toId: toId
                 }
             });
-            //show toaster??
+            setSnackBarMsg("Friend request sent!");
             reloadSocialData();
         } catch (error) {
             console.log(error);
@@ -128,7 +130,10 @@ const AddFriendTab = (props) => {
             <Container sx={{ display: "flex", gap: "1rem", justifyContent: 'center' }}>
                 <TextField label="Search users..." variant="standard" value={filter}
                     onChange={(event) => setFilter(event.target.value)} />
-                <Button variant="contained" onClick={() => fetchUsers(filter)}><SearchIcon /></Button>
+                <Tooltip title="Search users">
+                    <Button variant="contained" onClick={() => fetchUsers(filter)}><SearchIcon /></Button>
+                </Tooltip>
+
             </Container>
 
             <Container sx={{ padding: '2em', display: "flex", flexDirection: "column", gap: "1rem", overflowY: "scroll", height: "400px", width: "100%", alignItems: "center" }}>
@@ -144,6 +149,7 @@ const AddFriendTab = (props) => {
                 })}
             </Container>
 
+            {snackBarMsg != '' && <InfoSnackBAr msg={snackBarMsg} setMsg={setSnackBarMsg} />}
         </Container>
     )
 }
@@ -151,6 +157,9 @@ const AddFriendTab = (props) => {
 const FriendRequestsTab = props => {
     const { getUser } = useContext(AuthContext);
     const { friendRequests, reloadSocialData } = props;
+
+    const [accpetRequestSnackBarMsg, setAcceptRequestSnackBarMsg] = useState('');
+    const [rejectRequestSnackBarMsg, setRejectRequestSnackBarMsg] = useState('');
 
 
     const parseDate = rawDate => {
@@ -169,7 +178,7 @@ const FriendRequestsTab = props => {
                 }
             });
             console.log(response.data);
-            //show toaster??
+            setAcceptRequestSnackBarMsg("Friend request accepted!");
             reloadSocialData();
         } catch (error) {
             console.log(error);
@@ -191,7 +200,7 @@ const FriendRequestsTab = props => {
                 }
             });
             console.log(response.data);
-            //show toaster??
+            setRejectRequestSnackBarMsg("Friend request rejected");
             reloadSocialData();
         } catch (error) {
             console.log(error);
@@ -216,7 +225,7 @@ const FriendRequestsTab = props => {
                                         <Button variant="contained" onClick={() => acceptRequest(request.from.userId)}><CheckIcon /></Button>
                                     </Tooltip>
                                     <Tooltip title="Reject friend request">
-                                        <Button sx={rejectButtonStyle} variant="contained" onClick={() => rejectRequest(request.from.userId) }><CloseIcon /></Button>
+                                        <Button sx={rejectButtonStyle} variant="contained" onClick={() => rejectRequest(request.from.userId)}><CloseIcon /></Button>
                                     </Tooltip>
                                 </Box>
                             </Paper>
@@ -224,6 +233,8 @@ const FriendRequestsTab = props => {
                     })}
                 </Container>
             }
+            {accpetRequestSnackBarMsg != '' && <InfoSnackBAr msg={accpetRequestSnackBarMsg} setMsg={setAcceptRequestSnackBarMsg} />}
+            {rejectRequestSnackBarMsg != '' && <InfoSnackBAr msg={rejectRequestSnackBarMsg} setMsg={setRejectRequestSnackBarMsg} />}
         </Container>
     )
 }
@@ -234,6 +245,7 @@ const FriendsTab = props => {
 
     const [showRemoveFriendModal, setShowRemoveFriendModal] = useState(false);
     const [friendToDelete, setFriendToDelete] = useState(null);
+    const [removeFriendSnackMSg, setRemoveFriendSnackMSg] = useState('');
 
     const handleOpen = (friend) => {
         setFriendToDelete(friend);
@@ -255,7 +267,7 @@ const FriendsTab = props => {
                     user2: friendId
                 }
             });
-            //show toaster??
+            setRemoveFriendSnackMSg("You and " + friendToDelete.username + " are no longer friends :(");
             reloadSocialData();
             handleClose();
         } catch (error) {
@@ -284,6 +296,7 @@ const FriendsTab = props => {
                     <RemoveFriendModal showRemoveFriendModal={showRemoveFriendModal} handleClose={handleClose} removeFriend={removeFriend} friendToDelete={friendToDelete} />
                 </Container>
             }
+            {removeFriendSnackMSg != '' && <InfoSnackBAr msg={removeFriendSnackMSg} setMsg={setRemoveFriendSnackMSg} />}
         </Container>
     );
 }
