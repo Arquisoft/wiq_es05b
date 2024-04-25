@@ -11,6 +11,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import InfoSnackBAr from "./components/InfoSnackBar";
 import ProtectedComponent from "./components/ProtectedComponent";
+import UserAvatar from './components/UserAvatar';
 import { AuthContext } from "./context/AuthContext";
 
 const tabStyle = {
@@ -287,8 +288,10 @@ const FriendsTab = props => {
                     {friends.map((friend, index) => {
                         return (
                             <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
-                                <Typography variant="body1" element="p">{friend.username}</Typography>
-
+                                <Box sx={{ display: "flex", gap: "1em", alignItems:'center'}}>
+                                    <UserAvatar username={friend.username} size={50} />
+                                    <Typography variant="body1" element="p">{friend.username}</Typography>
+                                </Box>
                                 <Box sx={{ display: "flex", gap: "1em" }}>
                                     <Tooltip title="View profile">
                                         <Button variant="contained" onClick={() => handleOpen(friend)} ><PersonIcon /></Button>
@@ -304,7 +307,7 @@ const FriendsTab = props => {
                 </Container>
             }
             {removeFriendSnackMSg != '' && <InfoSnackBAr msg={removeFriendSnackMSg} setMsg={setRemoveFriendSnackMSg} />}
-        </Container>
+        </Container >
     );
 }
 
