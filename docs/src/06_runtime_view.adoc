@@ -17,3 +17,7 @@ image::06_login.drawio.png["Login Diagram", align="center"]
 === Question Flow
 
 image::06_question.drawio.png["Question Diagram", align="center"]
+
+=== Ranking View Flow
+
+image::06_ranking.drawio.png["Ranking Diagram", align="center"]
