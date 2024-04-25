@@ -40,21 +40,25 @@ we must use internationalice the app, so it can be used by people from different
 elect a good font and its size, and make the app responsive.
 
 |*_Perfomance_*
-|To enhance performance and minimize system overload, we are optimizing our requests to WikiData.
-This strategic reduction in requests will help prevent service disruptions. Additionally,
-we are upgrading our infrastructure by transitioning from an Azure B1s VM to a more robust Oracle Cloud VM.Standard.A1.Flex instance.
-This new setup includes 4 OCPU cores, 24 GB of RAM, and 50 GB of storage. To further reduce the strain on our server,
-we have adjusted all monitoring probes to collect data at 15-second intervals.
+|To optimize performance and reduce the risk of system overload, we are strategically reducing our requests to WikiData.
+This measure will help maintain stable service. Additionally, we are enhancing our infrastructure by upgrading from an
+Azure B1s VM to a more capable Oracle Cloud VM.Standard.A1.Flex instance, which features 4 OCPU cores, 24 GB of RAM, and 50 GB of storage. 
+
+To further alleviate server stress, we have recalibrated our monitoring probes to gather data at 15-second intervals.
+We are also implementing a reverse proxy in our application to serve as a load balancer.
+This setup efficiently distributes traffic across various microservices and caches static content,
+significantly reducing backend server load and improving user response times.
 
 |*_Maintainability and Escalability_*
-|The application must be well structured so the modifications or expansions that
-will have to be made can be done in a simple way without having to modify the previous
-code excessively. For it, along with a microservice structure we will make use of design patterns
-and coding conventions to obtain a clean maintainable code.
+|The application must be well structured so that modifications or expansions can be made in a straightforward manner
+without requiring excessive alterations to existing code. To achieve this, along with employing a microservices architecture,
+we will utilize design patterns and coding conventions to maintain clean, maintainable code.
 
-To be more specific, the Gateway Pattern and the Single Responsibility Pattern define the architectural design principles that we will follow in our microservices implementation.
-The Gateway Pattern will be used to provide a unified entry point for all external requests,
-while the Single Responsibility Pattern will ensure that each microservice has a clear and specific responsibility.
+To be more specific, the Gateway Pattern and the Single Responsibility Pattern define the architectural design
+principles that we will follow in our microservices implementation. The Gateway Pattern will be used to provide a unified
+entry point for all external requests, while the Single Responsibility Pattern will ensure that each microservice has a clear and specific role.
+Also we will integrate a reverse proxy to our application to serve as a load balancer, which will help us to scale our application horizontally.
+Also simplifies the SSL configuration and the management of the certificates.
 
 |===
 
