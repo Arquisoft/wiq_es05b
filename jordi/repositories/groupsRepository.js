@@ -53,10 +53,10 @@ module.exports = {
     }
   },
 
-  removeGroup: async function (groupId) {
+  removeGroups: async function (filter, options) {
     try {
       await this.checkUp();
-      await this.Group.deleteOne({ groupId });
+      await this.Group.deleteMany(filter, options);
       return { message: "Group removed successfully" };
     } catch (error) {
       throw error.message;

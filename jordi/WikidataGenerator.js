@@ -54,11 +54,15 @@ class WikidataGenerator {
         const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(this.sparqlquery)}&format=json`; // UwU Txoka Was Here
 
         const response = await axios.get(url);
+
         const data = response.data;
+
         if (0 < data.results.bindings.length) {
             
             const questions = [];
 
+
+            
             data.results.bindings.forEach(q => {
 
                 const questionParam = q.question.value;

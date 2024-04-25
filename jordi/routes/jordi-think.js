@@ -3,86 +3,108 @@ const script = require("../scripts/script")
 
 module.exports = function (app, questionsRepository, groupsRepository) {
 
-    const i18next = app.get("i18next");
+  const i18next = app.get("i18next");
 
-    app.get("/gen/:groupId", async (req, res, next) => {
-        
-        try {
+  app.get("/gen/:groupId", async (req, res, next) => {
 
-            const {groupId} = req.params;
+    try {
 
-            let group = await groupsRepository.findGroups({groupId: groupId});
-            
-            if (!group[0]) {
-                return next({status:404, error: "Group not found"});
-            }
+      const { groupId } = req.params;
 
-            group = group[0];
+      let group = await groupsRepository.findGroups({ groupId: groupId });
 
-            const generator = new WikidataGenerator(group);
+      if (!group[0]) {
+        return next({ status: 404, error: "Group not found" });
+      }
 
-            generator.generate().then(questions => {
+      group = group[0];
 
-                questionsRepository.deleteQuestions(groupId).then(() => {
-                    questionsRepository.insertQuestions(questions).then(() => {
-                        res.json({message: "Questions generated successfully: " + groupId});
-                        console.log("Questions generated successfully: " + groupId)
-                    }).catch(error => {
-                        console.log("XD")
-                        console.log(error);
-                        next(error);
-                    });
-                })
+      const generator = new WikidataGenerator(group);
 
-            }).catch(error => {
-                console.log(error);
-                next(error);
-            });
+      generator.generate().then(questions => {
 
-
-        } catch (error) {
+        questionsRepository.deleteQuestions(groupId).then(() => {
+          questionsRepository.insertQuestions(questions).then(() => {
+            res.json({ message: "Questions generated successfully: " + groupId });
+            console.log("Questions generated successfully: " + groupId)
+          }).catch(error => {
+            console.log("XD")
+            console.log(error);
             next(error);
-        }
-        
-        
-    
-    });
+          });
+        })
 
-    app.get("/gen", async (req, res , next) => {
-        try {
+      }).catch(error => {
+        console.log(error);
+        next(error);
+      });
 
-           await script(groupsRepository, questionsRepository, WikidataGenerator);
-            res.json({message: "All questions generated successfully"});
-            
-        } catch (error) {
-            next(error);
-        }
-    });
 
-    app.post("/addGroups", async (req, res, next) => {
-        try {
-            
-            const groups = req.body;
-            
-            for (let group of groups) {
-                await groupsRepository.insertGroup(group);
-            }
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
 
-            res.json({message: "Groups added successfully"})
 
-        } catch (error) {
-            next(error);
-        }
-    });
 
-    app.get("/removeGroup/:groupId", async (req, res, next) => {
-        try {
-            const {groupId} = req.params;
-            await groupsRepository.removeGroup(groupId);
-            res.json({message: "Group removed successfully"})
-        } catch (error) {
-            next(error);
-        }
-    });
+  });
+
+  app.get("/gen", async (req, res, next) => {
+    try {
+      await script(groupsRepository, questionsRepository, WikidataGenerator);
+      res.json({ message: "All questions generated successfully" });
+
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  });
+
+  app.get("/groups", async (req, res, next) => {
+    try {
+      const groups = await groupsRepository.findGroups({});
+      res.json(groups);
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  });
+
+  app.post("/addGroups", async (req, res, next) => {
+    try {
+
+      const groups = req.body;
+
+      for (let group of groups) {
+        await groupsRepository.insertGroup(group);
+      }
+
+      res.json({ message: "Groups added successfully" })
+
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.get("/removeGroup/:groupId", async (req, res, next) => {
+    try {
+      const { groupId } = req.params;
+      await groupsRepository.removeGroups({ groupId: groupId });
+      res.json({ message: "Group removed successfully" })
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  });
+
+  app.get("/removeAllGroups", async (req, res, next) => {
+    try {
+      await groupsRepository.removeGroups();
+      res.json({ message: "All groups removed successfully" });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  });
 
 }

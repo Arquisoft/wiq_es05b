@@ -49,4 +49,5 @@ const groupSchema = new mongoose.Schema(
 
 const Question = mongoose.model('questions', questionSchema);
 const Group = mongoose.model('groups', groupSchema);
+
 module.exports = { Question, Group };
