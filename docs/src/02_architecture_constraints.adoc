@@ -13,8 +13,16 @@ These constraints are set by the project, and we believe that altering them woul
 |===
 | Constraint | Explanation
 
+|*_Docker_*
+| The app will be running in a Docker Host due to
+its outstanding interoperability, robust security mechanisms, and its effectiveness in deploying applications
+
 |*_Wikidata_*
-| This project will be using wikidata to retrieve the source of the game questions
+| This project will be using Wikidata to retrieve the source of the game questions
+
+|*_Git/GitHub_*
+| Our development process will leverage Git for version control and GitHub as a remote repository. This combination empowers us to:
+collaborate effectively, maintain a clean codebase and assign tasks
 
 |===
 
