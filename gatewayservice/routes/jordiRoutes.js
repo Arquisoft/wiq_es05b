@@ -7,10 +7,10 @@ module.exports = (app, axios) => {
   const i18next = app.get("i18next")
 
   app.post("/game/answer", (req, res, next) => {
-    let { isHot } = req.params
+    let { isHot } = req.query
 
-    if(!("isHot" in req.params)) isHot = false
-    if(typeof isHot !== "boolean") isHot = false
+    if(!("isHot" in req.query)) isHot = false
+    isHot = (isHot === "true")
 
     // TODO - Check save ownership
     // const { userIdToken: userId } = req

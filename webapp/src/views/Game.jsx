@@ -166,12 +166,11 @@ const Game = () => {
   const [wrong, setWrong] = useState(0)
   const [totalTime, setTotalTime] = useState(0)
   const [count,setCount] = useState(0);
-  const [specialQuestionNumber, _] = useState(Math.floor(Math.random() * 10));
+  const [specialQuestionNumber, _] = useState(Math.floor(Math.random() * 9));
   const [special,setSpecial] = useState(false);
   const { hotQuestion } = useContext(GameContext);
   const { category } = useParams()
   const [disabledButton, setDisabledButton] = useState(false)
-
   const handleNextQuestion = async () => {
     clearInterval(interval.current)
     setDisabledButton(true)
@@ -197,7 +196,7 @@ const Game = () => {
         setHistorialError(error)
         setCount(count+1);
         setSpecial(count === specialQuestionNumber)
-        setPoints((special && hotQuestion) ?  (points + (2*response.data.points)):(points + response.data.points))
+        setPoints(points + response.data.points)
         const correctAnswer = response.data.answer
 
         const iAnswered = questions[current].options.indexOf(answer)
