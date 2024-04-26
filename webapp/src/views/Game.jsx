@@ -41,10 +41,11 @@ const Points = ({points}) => {
   );
 }
 
-const Title = ({question}) => {
+const Title = ({question,special}) => {
+  const color = special ? "red" : "black";
   return (
     <Paper elevation={3} sx={{ padding: "1rem" }}>
-      <Typography variant="h4">{question.statement}</Typography>
+      <Typography variant="h4" style={{color}}>{question.statement}</Typography>
     </Paper>
   );
 }
@@ -114,7 +115,7 @@ const Buttons = ({question, setAnswer}) => {
   );
 }
 
-const MainView = ({error, historialError, setHistorialError, questions, current, setAnswer, interval, time, setTime, points, correct, wrong, totalTime}) => {
+const MainView = ({error, historialError, setHistorialError, questions, current, setAnswer, interval, time, setTime, points, correct, wrong, totalTime,special}) => {
   if (error)
     return (
       <Paper elevation={3} sx={{padding: "1rem 0"}}>
@@ -132,7 +133,7 @@ const MainView = ({error, historialError, setHistorialError, questions, current,
   return (
     <>
       <Points points={points} />
-      <Title question={questions[current]} />
+      <Title question={questions[current]} special={special}/>
       <Timer time={time} setTime={setTime} interval={interval} />
       <Buttons question={questions[current]} setAnswer={setAnswer} />
       {historialError && <ErrorSnackBar msg={historialError} setMsg={setHistorialError} />}
@@ -155,9 +156,10 @@ const Game = () => {
   const [wrong, setWrong] = useState(0)
   const [totalTime, setTotalTime] = useState(0)
   const { category} = useParams()
-
-    const { hotQuestion } = useContext(GameContext);
-    console.log('Received variable from GameMenu:', hotQuestion)
+  const [count,setCount] = useState(0);
+  const [specialQuestionNumber,setSpecialQuestionNumber] = useState(Math.floor(Math.random() * 10));
+  const[special,setSpecial] = useState(false);
+  const { hotQuestion, setHotQuestion } = useContext(GameContext);
   const handleNextQuestion = async () => {
     clearInterval(interval.current)
     interval.current = setInterval(() => {
@@ -180,8 +182,9 @@ const Game = () => {
       .then(response => {
         const { error } = response.data
         setHistorialError(error)
-
-        setPoints(points + response.data.points)
+        setCount(count+1);
+        setSpecial(count === specialQuestionNumber)
+        setPoints((special && hotQuestion) ?  (points + (2*response.data.points)):(points + response.data.points))
         const correctAnswer = response.data.answer
 
         const iAnswered = questions[current].options.indexOf(answer)
@@ -259,6 +262,7 @@ const Game = () => {
           correct={correct}
           wrong={wrong}
           totalTime={totalTime}
+          special={(special && hotQuestion)}
         />
       </Container>
     </ProtectedComponent>

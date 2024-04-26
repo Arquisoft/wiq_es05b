@@ -1,4 +1,4 @@
-import { Button, Container, Paper, TextField, Typography } from "@mui/material";
+import {Button, Container, Paper, TextField, ToggleButton, ToggleButtonGroup, Typography} from "@mui/material";
 import axios from "axios";
 import {useContext, useEffect, useState} from "react";
 import { Link } from "react-router-dom";
@@ -9,10 +9,7 @@ import ServiceDownMessage from "./components/ServiceDownMessage";
 import {AuthContext} from "./context/AuthContext";
 import {LocaleContext} from "./context/LocaleContext";
 import GameContext from './context/GameContext';
-
-const [hotQuestion, setHotQuestion] = useState(false); // Local state for the boolean variable
-const { hotQuestion: contextShowHint, setHotQuestion: setContextShowHint } = useContext(GameContext); // Get context values
-setHotQuestion(!hotQuestion);
+import * as React from 'react';
 
 const buttonConfig = {
   width: "9rem",
@@ -49,7 +46,6 @@ const Buttons = ({ categories }) => {
       category.toLowerCase().includes(filter.toLowerCase()));
 
   return (
-      <GameContext.Provider value={{ hotQuestion, setHotQuestion }}>
       <Container>
       <Typography variant="h5" component="p">
         {t("menu_choose")}
@@ -63,17 +59,37 @@ const Buttons = ({ categories }) => {
         ))}
       </Container>
     </Container>
-      </GameContext.Provider>
+
   );
 };
+
 
 export default function GameMenu() {
   const { getUser, isAuthenticated } = useContext(AuthContext)
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
   const { t } = useContext(LocaleContext);
+  const { hotQuestion, setHotQuestion } = useContext(GameContext);
+    const ColorToggleButton = () => {
+        const [color, setColor] = React.useState('primary');
+        const handleChange = (event) => {
+            setColor('secondary');
+            setHotQuestion(!hotQuestion)
+        };
 
-  useEffect(() => {
+        return (
+            <ToggleButtonGroup
+                color={color}
+                exclusive
+                onChange={handleChange}
+                aria-label="Platform"
+            >
+                <ToggleButton value="hotQ">{t("menu_hotQ")}</ToggleButton>
+            </ToggleButtonGroup>
+        );
+    }
+
+    useEffect(() => {
     if(!isAuthenticated()) return;
     axios.get(`/game/categories`, { headers: { Authorization: `Bearer ${getUser().token}` } })
       .then((response) => {
@@ -85,7 +101,7 @@ export default function GameMenu() {
 
   return (
     <ProtectedComponent>
-      <Container
+        <Container
         component="main"
         maxWidth="md"
         sx={{
@@ -102,12 +118,17 @@ export default function GameMenu() {
             {t("menu_title")}
           </Typography>
           {
-            error ?
-              <ServiceDownMessage grave={grave} code={error.code} reason={error.message} /> :
-              <Buttons categories={categories} />
+            error ?(
+                    <ServiceDownMessage grave={grave} code={error.code} reason={error.message} />
+                ) : (
+                    <>
+                        < Buttons categories={categories}/>
+                        <ColorToggleButton/>
+                    </>
+            )
           }
         </Paper>
       </Container>
     </ProtectedComponent>
-  );
+ );
 }
