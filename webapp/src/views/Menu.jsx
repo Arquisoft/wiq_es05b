@@ -62,8 +62,10 @@ const Buttons = ({ categories, fetched }) => {
         ))}
       </Container>
     </Container>
+
   );
 };
+
 
 export default function GameMenu() {
   const { getUser, isAuthenticated } = useContext(AuthContext)
@@ -93,7 +95,7 @@ export default function GameMenu() {
         );
     }
 
-  useEffect(() => {
+    useEffect(() => {
     if(!isAuthenticated()) return;
     axios.get(`/game/categories`, { headers: { Authorization: `Bearer ${getUser().token}` } })
       .then((response) => {
@@ -131,10 +133,11 @@ export default function GameMenu() {
                         <Buttons categories={categories} fetched={fetched} />
                         <ColorToggleButton/>
                     </>
-                )
+            )
           }
         </Paper>
       </Container>
+
     </ProtectedComponent>
-  );
+ );
 }

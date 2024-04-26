@@ -11,8 +11,8 @@ import grave from "../media/graveJordi.svg"
 import {useLocation, useParams} from "react-router-dom";
 import ErrorSnackBar from "./components/ErrorSnackBar";
 import Endgame from "./Endgame";
-import GameContext from './context/GameContext';
 import { LocaleContext } from "./context/LocaleContext";
+import GameContext from './context/GameContext';
 
 const initialTime = 10
 
@@ -122,7 +122,7 @@ const Counter = ({current, total}) => {
 const MainView = ({error, historialError, setHistorialError, questions,
                   current, setAnswer, interval, time,
                   setTime, points, correct, wrong,
-                  totalTime, disabledButton,special}) => {
+                  totalTime, disabledButton}) => {
   if (error)
     return (
       <Paper elevation={3} sx={{padding: "1rem 0"}}>
@@ -165,12 +165,12 @@ const Game = () => {
   const [correct, setCorrect] = useState(0)
   const [wrong, setWrong] = useState(0)
   const [totalTime, setTotalTime] = useState(0)
-  const [count,setCount] = useState(0);
-  const [specialQuestionNumber, _] = useState(Math.floor(Math.random() * 9));
-  const [special,setSpecial] = useState(false);
-  const { hotQuestion } = useContext(GameContext);
-  const { category } = useParams()
   const [disabledButton, setDisabledButton] = useState(false)
+  const { category} = useParams()
+  const [count,setCount] = useState(0);
+  const [specialQuestionNumber,setSpecialQuestionNumber] = useState(Math.floor(Math.random() * 10));
+  const[special,setSpecial] = useState(false);
+  const { hotQuestion, setHotQuestion } = useContext(GameContext);
   const handleNextQuestion = async () => {
     clearInterval(interval.current)
     setDisabledButton(true)
