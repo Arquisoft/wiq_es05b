@@ -12,6 +12,7 @@ import {useLocation, useParams} from "react-router-dom";
 import ErrorSnackBar from "./components/ErrorSnackBar";
 import Endgame from "./Endgame";
 import GameContext from './context/GameContext';
+import { LocaleContext } from "./context/LocaleContext";
 
 const initialTime = 10
 
@@ -25,7 +26,7 @@ const changeButtonColor = (i, color) => {
   if (button != null) {
     button.style.color = color;
     setTimeout(() => {
-      button.style.color = "black";
+      button.style.color = "";
     }, 500);
   }
 };
@@ -61,25 +62,22 @@ const Line = ({progressBarPercent}) => {
 }
 
 const Timer = ({time, setTime, interval}) => {
+  const { t } = useContext(LocaleContext)
 
   useEffect(() => {
-    if(time <= 0) {
-      clearInterval(interval.current)
-      return;
-    } else {
-      interval.current = window.setInterval(() => setTime(time - 1), 1000)
-    }
-    return () => {
-      setInterval(null)
-      clearInterval(interval.current)
-    }
-  }, [interval, setTime, time]);
+    const tick = () => setTime((prevTime) => prevTime - 1);
+
+    if (time > 0) interval.current = setInterval(tick, 1000);
+    else clearInterval(interval.current);
+
+    return () => clearInterval(interval.current);
+  }, [time, setTime, interval]);
 
   return (
     <Paper elevation={3} sx={{ padding: "1rem"}}>
       <Box sx={{ ml: 1, display: "flex", margin: "5px" }}>
         <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
-          Time left: {time}
+          {t("game_time_left")} {time}
         </Typography>
       </Box>
       <Box sx={{ margin: "10px" }}>
@@ -89,7 +87,7 @@ const Timer = ({time, setTime, interval}) => {
   );
 }
 
-const Buttons = ({question, setAnswer}) => {
+const Buttons = ({question, setAnswer, disabled}) => {
   const buttonStyle = {
     height: {xs: "10rem", md: "13rem"},
     width: "100%",
@@ -106,7 +104,7 @@ const Buttons = ({question, setAnswer}) => {
     <Paper elevation={3} sx={{padding: "1rem 0" }}>
       <Container sx={{ display: "grid", gridTemplateColumns: {xs: "repeat(1, 1fr)", md: "repeat(2, 1fr)"} }}>
         {question.options.map((option, i) => (
-          <Button key={i} id={`button${i}`} sx={buttonStyle} onClick={() => setAnswer(option)}>
+          <Button disabled={disabled} key={i} id={`button${i}`} sx={buttonStyle} onClick={() => setAnswer(option)}>
             {option}
           </Button>
         ))}
@@ -115,7 +113,16 @@ const Buttons = ({question, setAnswer}) => {
   );
 }
 
-const MainView = ({error, historialError, setHistorialError, questions, current, setAnswer, interval, time, setTime, points, correct, wrong, totalTime,special}) => {
+const Counter = ({current, total}) => {
+  return (
+    <Typography sx={{ fontWeight: 400, fontSize: "35px" }}>{current + 1}/{total}</Typography>
+  )
+}
+
+const MainView = ({error, historialError, setHistorialError, questions,
+                  current, setAnswer, interval, time,
+                  setTime, points, correct, wrong,
+                  totalTime, disabledButton,special}) => {
   if (error)
     return (
       <Paper elevation={3} sx={{padding: "1rem 0"}}>
@@ -132,10 +139,13 @@ const MainView = ({error, historialError, setHistorialError, questions, current,
     )
   return (
     <>
-      <Points points={points} />
-      <Title question={questions[current]} special={special}/>
+      <Box sx={{ display: "flex", flexFlow: "row", alignItems: "center", justifyContent: "space-between"}}>
+        <Points points={points} />
+        <Counter current={current} total={questions.length}/>
+      </Box>
+      <Title question={questions[current]} special={special} />
       <Timer time={time} setTime={setTime} interval={interval} />
-      <Buttons question={questions[current]} setAnswer={setAnswer} />
+      <Buttons question={questions[current]} setAnswer={setAnswer} disabled={disabledButton} />
       {historialError && <ErrorSnackBar msg={historialError} setMsg={setHistorialError} />}
     </>
   )
@@ -155,14 +165,16 @@ const Game = () => {
   const [correct, setCorrect] = useState(0)
   const [wrong, setWrong] = useState(0)
   const [totalTime, setTotalTime] = useState(0)
-  const { category } = useParams()
   const [count,setCount] = useState(0);
   const [specialQuestionNumber, _] = useState(Math.floor(Math.random() * 10));
   const [special,setSpecial] = useState(false);
   const { hotQuestion } = useContext(GameContext);
-  console
+  const { category } = useParams()
+  const [disabledButton, setDisabledButton] = useState(false)
+
   const handleNextQuestion = async () => {
     clearInterval(interval.current)
+    setDisabledButton(true)
     interval.current = setInterval(() => {
       setTime((prevTimer) => prevTimer - 1);
     }, 1000);
@@ -202,6 +214,7 @@ const Game = () => {
 
         setTimeout(() => {
           setTime(initialTime)
+          setDisabledButton(false)
           setCurrent(current + 1);
           setAnswer(null)
         }, 500)
@@ -228,12 +241,12 @@ const Game = () => {
       .then(data => setQuestions(data))
       .catch(err => setError({error: err.response.data.error, status: err.response.status}));
     createSave()
+    return () => clearInterval(interval.current)
     //eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    if(time === 0) handleNextQuestion();
-    if(answer !== null) handleNextQuestion()
+    if(time === 0 || answer !== null) handleNextQuestion();
     //eslint-disable-next-line
   }, [time, answer]);
 
@@ -264,6 +277,7 @@ const Game = () => {
           wrong={wrong}
           totalTime={totalTime}
           special={(special && hotQuestion)}
+          disabledButton={disabledButton}
         />
       </Container>
     </ProtectedComponent>

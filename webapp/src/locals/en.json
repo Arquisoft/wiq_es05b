@@ -44,6 +44,7 @@
     "menu_search_placeholder": "Search categories...",
     "menu_hotQ_enable": "Enable hot question",
     "menu_hotQ_disable": "Disable hot question",
+    "menu_no_categories": "No categories to show",
 
     "about_title": "About Us",
     "about_p1": "Welcome to our project! We are dedicated to providing quality content and services to our users.",
@@ -63,6 +64,8 @@
     "history_points": "Points:",
     "history_time": "Time:",
     "history_points2": "Points",
+
+    "game_time_left": "Time left:",
 
     "endgame_result": "Game result",
     "endgame_points": "Total points:",
