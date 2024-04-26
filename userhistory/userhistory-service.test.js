@@ -25,7 +25,8 @@ const baseQuestion = {
     answer: 1,
     correct: 0,
     time: 10,
-    points: 10
+    points: 10,
+    isHot:false
 };
 
 const baseReq = {
