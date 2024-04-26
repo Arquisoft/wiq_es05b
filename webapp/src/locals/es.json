@@ -42,6 +42,7 @@
     "menu_title": "Menu",
     "menu_choose": "Elija una categoria para jugar",
     "menu_search_placeholder": "Buscar categoria...",
+    "menu_no_categories": "No hay categorias que mostrar",
 
     "about_title": "Acerca de",
     "about_p1": "¡Bienvenido a nuestro proyecto! Nos dedicamos a ofrecer contenidos y servicios de calidad a nuestros usuarios.",

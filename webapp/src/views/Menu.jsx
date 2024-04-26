@@ -32,11 +32,14 @@ const MyButton = ({ text, link }) => (
   </Button>
 );
 
-const Buttons = ({ categories }) => {
+const Buttons = ({ categories, fetched }) => {
   const [filter, setFilter] = useState('');
   const { t } = useContext(LocaleContext);
 
-  if (!categories || categories.length === 0) return <Loader />
+  if (!fetched)
+    return <Loader />
+  if(fetched && categories.length === 0)
+    return <Typography variant="h6" component="p">{t("menu_no_categories")}</Typography>;
 
   let filteredCategories = categories;
   if (filter !== '' && filter.trim().length > 0)
@@ -65,13 +68,17 @@ export default function GameMenu() {
   const { getUser, isAuthenticated } = useContext(AuthContext)
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
+  const [fetched, setFetched] = useState(false);
   const { t } = useContext(LocaleContext);
 
   useEffect(() => {
     if(!isAuthenticated()) return;
     axios.get(`/game/categories`, { headers: { Authorization: `Bearer ${getUser().token}` } })
       .then((response) => {
-        if (response) setCategories(response.data);
+        if (response) {
+          setCategories(response.data);
+          setFetched(true);
+        }
       })
       .catch((error) => setError({ code: error.response.status, message: error.response.data.error }));
       //eslint-disable-next-line
@@ -98,7 +105,7 @@ export default function GameMenu() {
           {
             error ?
               <ServiceDownMessage grave={grave} code={error.code} reason={error.message} /> :
-              <Buttons categories={categories} />
+              <Buttons categories={categories} fetched={fetched} />
           }
         </Paper>
       </Container>
