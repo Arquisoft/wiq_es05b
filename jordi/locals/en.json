@@ -1,6 +1,15 @@
 {
   "translation": {
     "error_invalid_id": "Invalid id format",
-    "error_invalid_n": "'n' must be a number"
+    "error_invalid_n": "'n' must be a number",
+    "error_group_not_found": "Group not found",
+    "error_group_exists": "Already existing groups detected",
+
+    "group_questions_generated": "Questions generated successfully: ",
+    "all_questions_generated": "All questions generated successfully",
+    "groups_added": "Groups added successfully",
+    "group_removed": "Group removed successfully",
+    "all_groups_removed": "All groups removed successfully",
+    "group_created": "Group created successfully"
   }
 }

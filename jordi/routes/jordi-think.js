@@ -13,31 +13,18 @@ module.exports = function (app, questionsRepository, groupsRepository) {
 
       let group = await groupsRepository.findGroups({ groupId: groupId });
 
-      if (!group[0]) {
-        return next({ status: 404, error: "Group not found" });
-      }
+      if (!group[0]) return next({ status: 404, error: i18next.t("error_group_not_found") });
 
       group = group[0];
 
       const generator = new WikidataGenerator(group);
 
-      generator.generate().then(questions => {
+      const questions = await generator.generate()
 
-        questionsRepository.deleteQuestions(groupId).then(() => {
-          questionsRepository.insertQuestions(questions).then(() => {
-            res.json({ message: "Questions generated successfully: " + groupId });
-            console.log("Questions generated successfully: " + groupId)
-          }).catch(error => {
-            console.log(error);
-            next(error);
-          });
-        })
-
-      }).catch(error => {
-        next(error);
-      });
-
-
+      await questionsRepository.deleteQuestions(groupId)
+      await questionsRepository.insertQuestions(questions)
+      res.json({ message: i18next.t("group_questions_generated") + groupId });
+      console.log("Questions generated successfully: " + groupId)
     } catch (error) {
       next(error);
     }
@@ -47,7 +34,7 @@ module.exports = function (app, questionsRepository, groupsRepository) {
   app.get("/gen", async (req, res, next) => {
     try {
       await script(groupsRepository, questionsRepository, WikidataGenerator);
-      res.json({ message: "All questions generated successfully" });
+      res.json({ message: i18next.t("all_questions_generated") });
 
     } catch (error) {
       next(error);
@@ -72,7 +59,7 @@ module.exports = function (app, questionsRepository, groupsRepository) {
         await groupsRepository.insertGroup(group);
       }
 
-      res.json({ message: "Groups added successfully" })
+      res.json({ message: i18next.t("groups_added") })
 
     } catch (error) {
       next(error);
@@ -83,7 +70,7 @@ module.exports = function (app, questionsRepository, groupsRepository) {
     try {
       const { groupId } = req.params;
       await groupsRepository.removeGroups({ groupId: groupId });
-      res.json({ message: "Group removed successfully" })
+      res.json({ message: i18next.t("group_removed") })
     } catch (error) {
       next(error);
     }
@@ -92,7 +79,7 @@ module.exports = function (app, questionsRepository, groupsRepository) {
   app.get("/removeAllGroups", async (req, res, next) => {
     try {
       await groupsRepository.removeGroups();
-      res.json({ message: "All groups removed successfully" });
+      res.json({ message: i18next.t("all_groups_removed") });
     } catch (error) {
       next(error);
     }

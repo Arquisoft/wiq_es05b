@@ -33,7 +33,7 @@ const questionsRepository = require('./repositories/questionRepository');
 questionsRepository.init(mongoose, mongoUri);
 
 const groupsRepository = require('./repositories/groupsRepository');
-groupsRepository.init(mongoose, mongoUri);
+groupsRepository.init(mongoose, mongoUri, i18next);
 
 // Middleware to analyze request bodies 
 app.use(express.json());

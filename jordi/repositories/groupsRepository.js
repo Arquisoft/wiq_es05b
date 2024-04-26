@@ -6,10 +6,12 @@ module.exports = {
   uri: null,
   collectionName: "groups",
   Group,
+  i18next: null,
 
-  init: function (mongoose, uri) {
+  init: function (mongoose, uri, i18next) {
     this.mongoose = mongoose;
     this.uri = uri;
+    this.i18next = i18next;
   },
 
   checkUp: async function () {
@@ -46,12 +48,12 @@ module.exports = {
       });
 
       await group.save();
-      return { message: "Group created successfully" };
+      return { message: this.i18next.t("group_created") };
 
     } catch (error) {
 
       if (error.code === 11000) {
-        throw { status: 409, error: "Already existing groups detected" };
+        throw { status: 409, error: this.i18next.t("error_group_exists") };
       }
 
       throw error.message;
@@ -62,7 +64,7 @@ module.exports = {
     try {
       await this.checkUp();
       await this.Group.deleteMany(filter, options);
-      return { message: "Group removed successfully" };
+      return { message: this.i18next.t("group_removed") };
     } catch (error) {
       throw error.message;
     }
