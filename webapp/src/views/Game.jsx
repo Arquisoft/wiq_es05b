@@ -155,11 +155,12 @@ const Game = () => {
   const [correct, setCorrect] = useState(0)
   const [wrong, setWrong] = useState(0)
   const [totalTime, setTotalTime] = useState(0)
-  const { category} = useParams()
+  const { category } = useParams()
   const [count,setCount] = useState(0);
-  const [specialQuestionNumber,setSpecialQuestionNumber] = useState(Math.floor(Math.random() * 10));
-  const[special,setSpecial] = useState(false);
-  const { hotQuestion, setHotQuestion } = useContext(GameContext);
+  const [specialQuestionNumber, _] = useState(Math.floor(Math.random() * 10));
+  const [special,setSpecial] = useState(false);
+  const { hotQuestion } = useContext(GameContext);
+  console
   const handleNextQuestion = async () => {
     clearInterval(interval.current)
     interval.current = setInterval(() => {
@@ -169,7 +170,7 @@ const Game = () => {
     if(!saveId.current) await createSave()
     if(!saveId.current) return
     axios
-      .post("/game/answer", {
+      .post(`/game/answer?isHot=${special && hotQuestion}`, {
         token: getUser().token,
         saveId: saveId.current,
         questionId: questions[current]._id,

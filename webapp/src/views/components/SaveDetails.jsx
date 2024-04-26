@@ -18,7 +18,7 @@ const Question = ({index, question}) => {
   const { t } = useContext(LocaleContext)
   return (
     <Box sx={{position: "relative"}}>
-      <Typography variant="h6" component="p">{index}. {question.statement}</Typography>
+      <Typography variant="h6" component="p" color = {question.isHot ? "red" : ""}>{index}. {question.statement}</Typography>
         <Container>
           {question.options.map((option, i) => {
             if (i === question.correct) return <Typography key={i} color="success.main">{option}</Typography>

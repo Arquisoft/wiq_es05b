@@ -73,8 +73,6 @@ export default function GameMenu() {
 
     const ColorToggleButton = () => {
         const theme = useTheme();
-        const [hotQuestion, setHotQuestion] = useState(false);
-
         const handleChange = () => {
             setHotQuestion(!hotQuestion);
         };
