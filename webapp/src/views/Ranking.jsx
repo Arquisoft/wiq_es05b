@@ -9,7 +9,7 @@ import {LocaleContext} from "./context/LocaleContext";
 const baseFilters = [
   { filter: "totalPoints", code: "ranking_filter_points" },
   { filter: "totalTime", code: "ranking_filter_time" },
-  { filter: "category", code: "ranking_filter_category" },
+  // { filter: "category", code: "ranking_filter_category" },
   { filter: "correct", code: "ranking_filter_ratio" },
 ]
 

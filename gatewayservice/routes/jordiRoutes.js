@@ -7,6 +7,10 @@ module.exports = (app, axios) => {
   const i18next = app.get("i18next")
 
   app.post("/game/answer", (req, res, next) => {
+    let { isHot } = req.query
+
+    if(!("isHot" in req.query)) isHot = false
+    isHot = (isHot === "true")
 
     // TODO - Check save ownership
     // const { userIdToken: userId } = req
@@ -25,12 +29,14 @@ module.exports = (app, axios) => {
         if(answer === null) points = 0
         else if(answer === question.answer) points = 100
 
+        if(isHot) points *= 2
+
         const iAnswer = options.indexOf(answer)
         const iCorrect = options.indexOf(question.answer)
 
         axios
           .post(`${historyService}/add/${saveId}`,
-            {last, statement, options, answer: iAnswer, correct: iCorrect, time, points})
+            {last, statement, options, answer: iAnswer, correct: iCorrect, time, points, isHot})
           .then(() => res.json({answer: question.answer, points}))
           .catch(() => res.json({answer: question.answer, points, error: i18next.t("error_adding_answer")}));
       })

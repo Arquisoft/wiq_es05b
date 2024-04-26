@@ -12,6 +12,7 @@ import {useParams} from "react-router-dom";
 import ErrorSnackBar from "./components/ErrorSnackBar";
 import Endgame from "./Endgame";
 import { LocaleContext } from "./context/LocaleContext";
+import GameContext from './context/GameContext';
 
 const initialTime = 10
 
@@ -41,10 +42,11 @@ const Points = ({points}) => {
   );
 }
 
-const Title = ({question}) => {
+const Title = ({question,special}) => {
+  const color = special ? "red" : "black";
   return (
     <Paper elevation={3} sx={{ padding: "1rem" }}>
-      <Typography variant="h4">{question.statement}</Typography>
+      <Typography variant="h4" style={{color}}>{question.statement}</Typography>
     </Paper>
   );
 }
@@ -120,7 +122,7 @@ const Counter = ({current, total}) => {
 const MainView = ({error, historialError, setHistorialError, questions,
                   current, setAnswer, interval, time,
                   setTime, points, correct, wrong,
-                  totalTime, disabledButton}) => {
+                  totalTime, disabledButton,special}) => {
   if (error)
     return (
       <Paper elevation={3} sx={{padding: "1rem 0"}}>
@@ -141,7 +143,7 @@ const MainView = ({error, historialError, setHistorialError, questions,
         <Points points={points} />
         <Counter current={current} total={questions.length}/>
       </Box>
-      <Title question={questions[current]} />
+      <Title question={questions[current]} special={special} />
       <Timer time={time} setTime={setTime} interval={interval} />
       <Buttons question={questions[current]} setAnswer={setAnswer} disabled={disabledButton} />
       {historialError && <ErrorSnackBar msg={historialError} setMsg={setHistorialError} />}
@@ -163,9 +165,12 @@ const Game = () => {
   const [correct, setCorrect] = useState(0)
   const [wrong, setWrong] = useState(0)
   const [totalTime, setTotalTime] = useState(0)
-  const { category } = useParams()
   const [disabledButton, setDisabledButton] = useState(false)
-
+  const { category} = useParams()
+  const [count,setCount] = useState(0);
+  const [specialQuestionNumber] = useState(Math.floor(Math.random() * 10));
+  const[special,setSpecial] = useState(false);
+  const { hotQuestion } = useContext(GameContext);
   const handleNextQuestion = async () => {
     clearInterval(interval.current)
     setDisabledButton(true)
@@ -176,7 +181,7 @@ const Game = () => {
     if(!saveId.current) await createSave()
     if(!saveId.current) return
     axios
-      .post("/game/answer", {
+      .post(`/game/answer?isHot=${special && hotQuestion}`, {
         token: getUser().token,
         saveId: saveId.current,
         questionId: questions[current]._id,
@@ -189,7 +194,8 @@ const Game = () => {
       .then(response => {
         const { error } = response.data
         setHistorialError(error)
-
+        setCount(count+1);
+        setSpecial(count === specialQuestionNumber)
         setPoints(points + response.data.points)
         const correctAnswer = response.data.answer
 
@@ -208,8 +214,6 @@ const Game = () => {
         setTimeout(() => {
           setTime(initialTime)
           setDisabledButton(false)
-          changeButtonColor(iCorrect, undefined)
-          changeButtonColor(iCorrect, undefined)
           setCurrent(current + 1);
           setAnswer(null)
         }, 500)
@@ -271,6 +275,7 @@ const Game = () => {
           correct={correct}
           wrong={wrong}
           totalTime={totalTime}
+          special={(special && hotQuestion)}
           disabledButton={disabledButton}
         />
       </Container>

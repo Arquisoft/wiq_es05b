@@ -14,7 +14,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Particles from "./views/components/Particles";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import GameContext from './views/context/GameContext';
 import configDefault from "./views/components/config/particles-config.json";
 import configJordi from "./views/components/config/particles-config-jordi";
 import configGraph from "./views/components/config/particles-config-graph";
@@ -78,7 +78,7 @@ export default function App() {
   const [config, setConfig] = useState(configDefault);
   const [locale, setLocale] = useState("en");
   const {i18n, t} = useTranslation()
-
+  const [hotQuestion, setHotQuestion] = useState(false);
   const auth = useAuth()
 
   function swapConfig() {
@@ -95,6 +95,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <GameContext.Provider value={{ hotQuestion, setHotQuestion }}>
       <ConfigContext.Provider value={{config, swapConfig}}>
         <LocaleContext.Provider value={{locale, setLocale, t}}>
           <AuthContext.Provider value={auth}>
@@ -116,6 +117,7 @@ export default function App() {
           </AuthContext.Provider>
         </LocaleContext.Provider>
       </ConfigContext.Provider>
+      </GameContext.Provider>
     </ThemeProvider>
   );
 }

@@ -1,4 +1,4 @@
-import { Button, Container, Paper, TextField, Typography } from "@mui/material";
+import {Button, Container, Paper, TextField, ToggleButton, ToggleButtonGroup, Typography} from "@mui/material";
 import axios from "axios";
 import {useContext, useEffect, useState} from "react";
 import { Link } from "react-router-dom";
@@ -8,6 +8,8 @@ import ProtectedComponent from "./components/ProtectedComponent";
 import ServiceDownMessage from "./components/ServiceDownMessage";
 import {AuthContext} from "./context/AuthContext";
 import {LocaleContext} from "./context/LocaleContext";
+import GameContext from './context/GameContext';
+import * as React from 'react';
 
 const buttonConfig = {
   width: "9rem",
@@ -47,8 +49,7 @@ const Buttons = ({ categories, fetched }) => {
       category.toLowerCase().includes(filter.toLowerCase()));
 
   return (
-    <Container>
-
+      <Container>
       <Typography variant="h5" component="p">
         {t("menu_choose")}
       </Typography>
@@ -61,8 +62,10 @@ const Buttons = ({ categories, fetched }) => {
         ))}
       </Container>
     </Container>
+
   );
 };
+
 
 export default function GameMenu() {
   const { getUser, isAuthenticated } = useContext(AuthContext)
@@ -70,8 +73,28 @@ export default function GameMenu() {
   const [error, setError] = useState(null);
   const [fetched, setFetched] = useState(false);
   const { t } = useContext(LocaleContext);
+  const { hotQuestion, setHotQuestion } = useContext(GameContext);
 
-  useEffect(() => {
+    const ColorToggleButton = () => {
+        const handleChange = () => {
+            setHotQuestion(!hotQuestion);
+        };
+
+        return (
+            <ToggleButtonGroup
+                color={hotQuestion ? "secondary" : "primary"}
+                exclusive
+                onChange={handleChange}
+                aria-label="Platform"
+            >
+                <ToggleButton value="hotQuestion">
+                    {hotQuestion ? t('menu_hotQ_disable') : t('menu_hotQ_enable')}
+                </ToggleButton>
+            </ToggleButtonGroup>
+        );
+    }
+
+    useEffect(() => {
     if(!isAuthenticated()) return;
     axios.get(`/game/categories`, { headers: { Authorization: `Bearer ${getUser().token}` } })
       .then((response) => {
@@ -104,11 +127,16 @@ export default function GameMenu() {
           </Typography>
           {
             error ?
-              <ServiceDownMessage grave={grave} code={error.code} reason={error.message} /> :
-              <Buttons categories={categories} fetched={fetched} />
+                (<ServiceDownMessage grave={grave} code={error.code} reason={error.message} /> ):(
+                    <>
+                        <Buttons categories={categories} fetched={fetched} />
+                        <ColorToggleButton/>
+                    </>
+            )
           }
         </Paper>
       </Container>
+
     </ProtectedComponent>
-  );
+ );
 }

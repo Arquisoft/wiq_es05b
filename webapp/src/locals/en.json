@@ -42,6 +42,8 @@
     "menu_title": "Menu",
     "menu_choose": "Choose a category to play",
     "menu_search_placeholder": "Search categories...",
+    "menu_hotQ_enable": "Enable hot question",
+    "menu_hotQ_disable": "Disable hot question",
     "menu_no_categories": "No categories to show",
 
     "about_title": "About Us",

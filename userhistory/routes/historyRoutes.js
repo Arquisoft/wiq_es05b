@@ -29,12 +29,12 @@ module.exports = (app, saveRepository) => {
     const { id } = req.params;
     if (!saveRepository.isValidObjectId(id)) return next({ status: 400, error: i18next.t("error_invalid_Id")})
 
-    const result = checkFieldsOn(["last", "statement", "options", "answer", "correct", "time", "points"], req.body)
+    const result = checkFieldsOn(["last", "statement", "options", "answer", "correct", "time", "points", "isHot"], req.body)
     if(result) return next({status: 400, error: `${i18next.t("error_missing_field")} ${result}`})
 
-    const { last, statement, options, answer, correct, time, points } = req.body;
+    const { last, statement, options, answer, correct, time, points, isHot } = req.body;
 
-    const question = { statement, options, answer, correct, time, points };
+    const question = { statement, options, answer, correct, time, points, isHot };
 
     saveRepository
       .addAnswer(question, id, last)
