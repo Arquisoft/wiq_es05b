@@ -8,7 +8,7 @@ import Loader from "./components/Loader";
 import {AuthContext} from "./context/AuthContext";
 import ServiceDownMessage from "./components/ServiceDownMessage";
 import grave from "../media/graveJordi.svg"
-import {useLocation, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import ErrorSnackBar from "./components/ErrorSnackBar";
 import Endgame from "./Endgame";
 import { LocaleContext } from "./context/LocaleContext";
@@ -168,9 +168,9 @@ const Game = () => {
   const [disabledButton, setDisabledButton] = useState(false)
   const { category} = useParams()
   const [count,setCount] = useState(0);
-  const [specialQuestionNumber,setSpecialQuestionNumber] = useState(Math.floor(Math.random() * 10));
+  const [specialQuestionNumber] = useState(Math.floor(Math.random() * 10));
   const[special,setSpecial] = useState(false);
-  const { hotQuestion, setHotQuestion } = useContext(GameContext);
+  const { hotQuestion } = useContext(GameContext);
   const handleNextQuestion = async () => {
     clearInterval(interval.current)
     setDisabledButton(true)

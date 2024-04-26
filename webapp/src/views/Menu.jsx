@@ -1,4 +1,4 @@
-import {Button, Container, Paper, TextField, ToggleButton, ToggleButtonGroup, Typography, useTheme} from "@mui/material";
+import {Button, Container, Paper, TextField, ToggleButton, ToggleButtonGroup, Typography} from "@mui/material";
 import axios from "axios";
 import {useContext, useEffect, useState} from "react";
 import { Link } from "react-router-dom";
@@ -76,7 +76,6 @@ export default function GameMenu() {
   const { hotQuestion, setHotQuestion } = useContext(GameContext);
 
     const ColorToggleButton = () => {
-        const theme = useTheme();
         const handleChange = () => {
             setHotQuestion(!hotQuestion);
         };
