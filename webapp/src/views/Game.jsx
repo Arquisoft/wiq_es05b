@@ -122,7 +122,7 @@ const Counter = ({current, total}) => {
 const MainView = ({error, historialError, setHistorialError, questions,
                   current, setAnswer, interval, time,
                   setTime, points, correct, wrong,
-                  totalTime, disabledButton}) => {
+                  totalTime, disabledButton,special}) => {
   if (error)
     return (
       <Paper elevation={3} sx={{padding: "1rem 0"}}>
