@@ -49,6 +49,11 @@ module.exports = {
       return { message: "Group created successfully" };
 
     } catch (error) {
+
+      if (error.code === 11000) {
+        throw { status: 409, error: "Already existing groups detected" };
+      }
+
       throw error.message;
     }
   },

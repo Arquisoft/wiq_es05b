@@ -17,8 +17,8 @@ module.exports = function (app, questionsRepository) {
       .catch(err => next(err));
   })
 
-  // TODO - Should return 404 if category not found
-  // TODO - Check n is a number -> error 400
+  // TODO: Should return 404 if category not found
+  // TODO: Check n is a number -> error 400
   app.get('/questions/:category/:n', async (req, res, next) => {
     const {category, n} = req.params;
 

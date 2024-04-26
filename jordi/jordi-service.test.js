@@ -243,6 +243,18 @@ describe("[Jordi Service] - /groups", () => {
 
   });
 
+  it("Should return 409 if the group already exists", async () => {
+      
+      await request(app).post("/addGroups").send(groups);
+  
+      const response = await request(app).post("/addGroups").send(groups);
+  
+      expect(response.status).toBe(409);
+      expect(response).toHaveProperty("text");
+      expect(response.text).toBe("{\"error\":\"Already existing groups detected\"}");
+  
+    });
+
 });
 
 describe("[Jordi Service] - /removeAllGroups", () => {
@@ -264,6 +276,31 @@ describe("[Jordi Service] - /removeAllGroups", () => {
     expect(response.status).toBe(200);
     expect(response).toHaveProperty("text");
     expect(response.text).toBe("{\"message\":\"All groups removed successfully\"}");
+
+  });
+
+});
+
+describe("[Jordi Service] - /removeGroup/:groupId", () => {
+  it("Should return 200 and a message: Group removed successfully", async () => {
+
+    await request(app).post("/addGroups").send(groups);
+    const response = await request(app).get("/removeGroup/capitals");
+    
+    expect(response.status).toBe(200);
+    expect(response).toHaveProperty("text");
+    expect(response.text).toBe("{\"message\":\"Group removed successfully\"}");
+  });
+
+  it("Should return 200 and a message: Group removed successfully (Even with database empty)", async () => {
+
+    const response = await request(app).get("/removeGroup/capitals");
+
+    expect(response.status).toBe(200);
+
+    expect(response).toHaveProperty("text");
+
+    expect(response.text).toBe("{\"message\":\"Group removed successfully\"}");
 
   });
 
@@ -319,9 +356,29 @@ describe("[Jordi Service] - /questions/:category/:n", () => {
 
 });
 
-describe("[Jordi Service] - /answer", () => {
-  // TODO: Write tests for this endpoint
-});
+describe("[Jordi Service] - /question/:id", () => {
+    
+    it("Should return 200 and a question", async () => {
+  
+      axios.get.mockImplementation(() => Promise.resolve(WikidataMock));
+      
+      await request(app).post("/addGroups").send(groups);
+      await request(app).get("/gen/capitals");
+
+      const question = await request(app).get('/questions/capitals/1');
+      
+      const response = await request(app).get('/question/' + question.body[0]._id);
+  
+      expect(response.status).toBe(200);
+      expect(response).toHaveProperty("text");
+  
+      const responseQuestion = JSON.parse(response.text);
+      expect(responseQuestion).toHaveProperty("categories");
+      expect(responseQuestion).toHaveProperty("statements");
+  
+    });
+  
+  });
 
 const express = require('express');
 const routes = require('./routes/jordi-ask');

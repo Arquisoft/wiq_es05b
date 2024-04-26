@@ -28,24 +28,19 @@ module.exports = function (app, questionsRepository, groupsRepository) {
             res.json({ message: "Questions generated successfully: " + groupId });
             console.log("Questions generated successfully: " + groupId)
           }).catch(error => {
-            console.log("XD")
             console.log(error);
             next(error);
           });
         })
 
       }).catch(error => {
-        console.log(error);
         next(error);
       });
 
 
     } catch (error) {
-      console.log(error);
       next(error);
     }
-
-
 
   });
 
@@ -55,7 +50,6 @@ module.exports = function (app, questionsRepository, groupsRepository) {
       res.json({ message: "All questions generated successfully" });
 
     } catch (error) {
-      console.log(error);
       next(error);
     }
   });
@@ -65,7 +59,6 @@ module.exports = function (app, questionsRepository, groupsRepository) {
       const groups = await groupsRepository.findGroups({});
       res.json(groups);
     } catch (error) {
-      console.log(error);
       next(error);
     }
   });
@@ -92,7 +85,6 @@ module.exports = function (app, questionsRepository, groupsRepository) {
       await groupsRepository.removeGroups({ groupId: groupId });
       res.json({ message: "Group removed successfully" })
     } catch (error) {
-      console.log(error);
       next(error);
     }
   });
@@ -102,7 +94,6 @@ module.exports = function (app, questionsRepository, groupsRepository) {
       await groupsRepository.removeGroups();
       res.json({ message: "All groups removed successfully" });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   });
