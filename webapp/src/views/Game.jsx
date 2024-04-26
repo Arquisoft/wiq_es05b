@@ -63,17 +63,13 @@ const Timer = ({time, setTime, interval}) => {
   const { t } = useContext(LocaleContext)
 
   useEffect(() => {
-    if(time <= 0) {
-      clearInterval(interval.current)
-      return;
-    } else {
-      interval.current = window.setInterval(() => setTime(time - 1), 1000)
-    }
-    return () => {
-      setInterval(null)
-      clearInterval(interval.current)
-    }
-  }, [interval, setTime, time]);
+    const tick = () => setTime((prevTime) => prevTime - 1);
+
+    if (time > 0) interval.current = setInterval(tick, 1000);
+    else clearInterval(interval.current);
+
+    return () => clearInterval(interval.current);
+  }, [time, setTime, interval]);
 
   return (
     <Paper elevation={3} sx={{ padding: "1rem"}}>
@@ -232,12 +228,12 @@ const Game = () => {
       .then(data => setQuestions(data))
       .catch(err => setError({error: err.response.data.error, status: err.response.status}));
     createSave()
+    return () => clearInterval(interval.current)
     //eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    if(time === 0) handleNextQuestion();
-    if(answer !== null) handleNextQuestion()
+    if(time === 0 || answer !== null) handleNextQuestion();
     //eslint-disable-next-line
   }, [time, answer]);
 
