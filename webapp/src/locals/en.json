@@ -62,6 +62,8 @@
     "history_time": "Time:",
     "history_points2": "Points",
 
+    "game_time_left": "Time left:",
+
     "endgame_result": "Game result",
     "endgame_points": "Total points:",
     "endgame_correct": "Correct answers:",

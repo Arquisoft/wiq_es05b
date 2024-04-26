@@ -11,6 +11,7 @@ import grave from "../media/graveJordi.svg"
 import {useParams} from "react-router-dom";
 import ErrorSnackBar from "./components/ErrorSnackBar";
 import Endgame from "./Endgame";
+import { LocaleContext } from "./context/LocaleContext";
 
 const initialTime = 10
 
@@ -59,6 +60,7 @@ const Line = ({progressBarPercent}) => {
 }
 
 const Timer = ({time, setTime, interval}) => {
+  const { t } = useContext(LocaleContext)
 
   useEffect(() => {
     if(time <= 0) {
@@ -77,7 +79,7 @@ const Timer = ({time, setTime, interval}) => {
     <Paper elevation={3} sx={{ padding: "1rem"}}>
       <Box sx={{ ml: 1, display: "flex", margin: "5px" }}>
         <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
-          Time left: {time}
+          {t("game_time_left")} {time}
         </Typography>
       </Box>
       <Box sx={{ margin: "10px" }}>
@@ -113,6 +115,12 @@ const Buttons = ({question, setAnswer}) => {
   );
 }
 
+const Counter = ({current, total}) => {
+  return (
+    <Typography sx={{ fontWeight: 400, fontSize: "35px" }}>{current + 1}/{total}</Typography>
+  )
+}
+
 const MainView = ({error, historialError, setHistorialError, questions, current, setAnswer, interval, time, setTime, points, correct, wrong, totalTime}) => {
   if (error)
     return (
@@ -130,7 +138,10 @@ const MainView = ({error, historialError, setHistorialError, questions, current,
     )
   return (
     <>
-      <Points points={points} />
+      <Box sx={{ display: "flex", flexFlow: "row", alignItems: "center", justifyContent: "space-between"}}>
+        <Points points={points} />
+        <Counter current={current} total={questions.length}/>
+      </Box>
       <Title question={questions[current]} />
       <Timer time={time} setTime={setTime} interval={interval} />
       <Buttons question={questions[current]} setAnswer={setAnswer} />
