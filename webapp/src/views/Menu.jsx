@@ -1,4 +1,4 @@
-import {Button, Container, Paper, TextField, ToggleButton, ToggleButtonGroup, Typography} from "@mui/material";
+import {Button, Container, Paper, TextField, ToggleButton, ToggleButtonGroup, Typography, useTheme} from "@mui/material";
 import axios from "axios";
 import {useContext, useEffect, useState} from "react";
 import { Link } from "react-router-dom";
@@ -70,21 +70,25 @@ export default function GameMenu() {
   const [error, setError] = useState(null);
   const { t } = useContext(LocaleContext);
   const { hotQuestion, setHotQuestion } = useContext(GameContext);
+
     const ColorToggleButton = () => {
-        const [color, setColor] = React.useState('primary');
-        const handleChange = (event) => {
-            setColor('secondary');
-            setHotQuestion(!hotQuestion)
+        const theme = useTheme();
+        const [hotQuestion, setHotQuestion] = useState(false);
+
+        const handleChange = () => {
+            setHotQuestion(!hotQuestion);
         };
 
         return (
             <ToggleButtonGroup
-                color={color}
+                color={hotQuestion ? "secondary" : "primary"}
                 exclusive
                 onChange={handleChange}
                 aria-label="Platform"
             >
-                <ToggleButton value="hotQ">{t("menu_hotQ")}</ToggleButton>
+                <ToggleButton value="hotQuestion">
+                    {hotQuestion ? t('menu_hotQ_disable') : t('menu_hotQ_enable')}
+                </ToggleButton>
             </ToggleButtonGroup>
         );
     }
@@ -129,6 +133,7 @@ export default function GameMenu() {
           }
         </Paper>
       </Container>
+
     </ProtectedComponent>
  );
 }

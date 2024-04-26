@@ -42,7 +42,8 @@
     "menu_title": "Menu",
     "menu_choose": "Elija una categoria para jugar",
     "menu_search_placeholder": "Buscar categoria...",
-    "menu_hotQ": "Activar pregunta caliente",
+    "menu_hotQ_enable": "Activar pregunta caliente",
+    "menu_hotQ_disable": "Desactivar pregunta caliente",
 
     "about_title": "Acerca de",
     "about_p1": "¡Bienvenido a nuestro proyecto! Nos dedicamos a ofrecer contenidos y servicios de calidad a nuestros usuarios.",
