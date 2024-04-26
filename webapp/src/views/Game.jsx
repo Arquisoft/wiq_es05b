@@ -8,9 +8,10 @@ import Loader from "./components/Loader";
 import {AuthContext} from "./context/AuthContext";
 import ServiceDownMessage from "./components/ServiceDownMessage";
 import grave from "../media/graveJordi.svg"
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import ErrorSnackBar from "./components/ErrorSnackBar";
 import Endgame from "./Endgame";
+import GameContext from './context/GameContext';
 
 const initialTime = 10
 
@@ -155,6 +156,8 @@ const Game = () => {
   const [totalTime, setTotalTime] = useState(0)
   const { category} = useParams()
 
+    const { hotQuestion } = useContext(GameContext);
+    console.log('Received variable from GameMenu:', hotQuestion)
   const handleNextQuestion = async () => {
     clearInterval(interval.current)
     interval.current = setInterval(() => {

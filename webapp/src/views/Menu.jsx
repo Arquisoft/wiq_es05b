@@ -8,6 +8,11 @@ import ProtectedComponent from "./components/ProtectedComponent";
 import ServiceDownMessage from "./components/ServiceDownMessage";
 import {AuthContext} from "./context/AuthContext";
 import {LocaleContext} from "./context/LocaleContext";
+import GameContext from './context/GameContext';
+
+const [hotQuestion, setHotQuestion] = useState(false); // Local state for the boolean variable
+const { hotQuestion: contextShowHint, setHotQuestion: setContextShowHint } = useContext(GameContext); // Get context values
+setHotQuestion(!hotQuestion);
 
 const buttonConfig = {
   width: "9rem",
@@ -44,8 +49,8 @@ const Buttons = ({ categories }) => {
       category.toLowerCase().includes(filter.toLowerCase()));
 
   return (
-    <Container>
-
+      <GameContext.Provider value={{ hotQuestion, setHotQuestion }}>
+      <Container>
       <Typography variant="h5" component="p">
         {t("menu_choose")}
       </Typography>
@@ -58,6 +63,7 @@ const Buttons = ({ categories }) => {
         ))}
       </Container>
     </Container>
+      </GameContext.Provider>
   );
 };
 
