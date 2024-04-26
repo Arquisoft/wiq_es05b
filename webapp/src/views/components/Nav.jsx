@@ -12,7 +12,7 @@ import {
 import Toolbar from "@mui/material/Toolbar";
 import MenuIcon from "@mui/icons-material/Menu";
 import React, {useContext, useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import { ReactComponent as CustomIcon } from '../../media/logoS.svg';
 import {LocaleContext} from "../context/LocaleContext";
 import {AuthContext} from "../context/AuthContext";
@@ -169,6 +169,7 @@ const RightDrawer = () => {
 const LocaleMenu = () => {
   const {locale: l, setLocale, t} = useContext(LocaleContext)
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const url = useLocation()
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -176,6 +177,7 @@ const LocaleMenu = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <>
       <Button
@@ -187,6 +189,7 @@ const LocaleMenu = () => {
         variant="outlined"
         color="secondary"
         startIcon={open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+        disabled={/\/game\/*/.test(url.pathname)}
       >
         {l}
       </Button>

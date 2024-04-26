@@ -25,7 +25,7 @@ const changeButtonColor = (i, color) => {
   if (button != null) {
     button.style.color = color;
     setTimeout(() => {
-      button.style.color = "black";
+      button.style.color = "";
     }, 500);
   }
 };
@@ -85,7 +85,7 @@ const Timer = ({time, setTime, interval}) => {
   );
 }
 
-const Buttons = ({question, setAnswer}) => {
+const Buttons = ({question, setAnswer, disabled}) => {
   const buttonStyle = {
     height: {xs: "10rem", md: "13rem"},
     width: "100%",
@@ -102,7 +102,7 @@ const Buttons = ({question, setAnswer}) => {
     <Paper elevation={3} sx={{padding: "1rem 0" }}>
       <Container sx={{ display: "grid", gridTemplateColumns: {xs: "repeat(1, 1fr)", md: "repeat(2, 1fr)"} }}>
         {question.options.map((option, i) => (
-          <Button key={i} id={`button${i}`} sx={buttonStyle} onClick={() => setAnswer(option)}>
+          <Button disabled={disabled} key={i} id={`button${i}`} sx={buttonStyle} onClick={() => setAnswer(option)}>
             {option}
           </Button>
         ))}
@@ -117,7 +117,10 @@ const Counter = ({current, total}) => {
   )
 }
 
-const MainView = ({error, historialError, setHistorialError, questions, current, setAnswer, interval, time, setTime, points, correct, wrong, totalTime}) => {
+const MainView = ({error, historialError, setHistorialError, questions,
+                  current, setAnswer, interval, time,
+                  setTime, points, correct, wrong,
+                  totalTime, disabledButton}) => {
   if (error)
     return (
       <Paper elevation={3} sx={{padding: "1rem 0"}}>
@@ -140,7 +143,7 @@ const MainView = ({error, historialError, setHistorialError, questions, current,
       </Box>
       <Title question={questions[current]} />
       <Timer time={time} setTime={setTime} interval={interval} />
-      <Buttons question={questions[current]} setAnswer={setAnswer} />
+      <Buttons question={questions[current]} setAnswer={setAnswer} disabled={disabledButton} />
       {historialError && <ErrorSnackBar msg={historialError} setMsg={setHistorialError} />}
     </>
   )
@@ -160,10 +163,12 @@ const Game = () => {
   const [correct, setCorrect] = useState(0)
   const [wrong, setWrong] = useState(0)
   const [totalTime, setTotalTime] = useState(0)
-  const { category} = useParams()
+  const { category } = useParams()
+  const [disabledButton, setDisabledButton] = useState(false)
 
   const handleNextQuestion = async () => {
     clearInterval(interval.current)
+    setDisabledButton(true)
     interval.current = setInterval(() => {
       setTime((prevTimer) => prevTimer - 1);
     }, 1000);
@@ -202,6 +207,9 @@ const Game = () => {
 
         setTimeout(() => {
           setTime(initialTime)
+          setDisabledButton(false)
+          changeButtonColor(iCorrect, undefined)
+          changeButtonColor(iCorrect, undefined)
           setCurrent(current + 1);
           setAnswer(null)
         }, 500)
@@ -263,6 +271,7 @@ const Game = () => {
           correct={correct}
           wrong={wrong}
           totalTime={totalTime}
+          disabledButton={disabledButton}
         />
       </Container>
     </ProtectedComponent>
