@@ -44,6 +44,8 @@
     "menu_search_placeholder": "Buscar categoria...",
     "menu_hotQ_enable": "Activar pregunta caliente",
     "menu_hotQ_disable": "Desactivar pregunta caliente",
+    "menu_no_categories": "No hay categorias que mostrar",
+ 
 
     "about_title": "Acerca de",
     "about_p1": "¡Bienvenido a nuestro proyecto! Nos dedicamos a ofrecer contenidos y servicios de calidad a nuestros usuarios.",
@@ -63,6 +65,8 @@
     "history_points": "Puntos:",
     "history_time": "Tiempo:",
     "history_points2": "Puntos",
+
+    "game_time_left": "Tiempo restante:",
 
     "endgame_result": "Resultados",
     "endgame_points": "Puntuacion total:",
