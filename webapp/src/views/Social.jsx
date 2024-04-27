@@ -13,8 +13,11 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import InfoSnackBAr from "./components/InfoSnackBar";
 import ProtectedComponent from "./components/ProtectedComponent";
+import SaveList from "./components/SaveList";
 import UserAvatar from './components/UserAvatar';
 import { AuthContext } from "./context/AuthContext";
+
+
 const tabStyle = {
     display: "flex",
     flexDirection: "column",
@@ -367,9 +370,8 @@ const UserProfile = (props) => {
                     <Typography variant="body1" element="p">Joined: {parseDate(user.createdAt)}</Typography>
                 </Box>
             </Box>
-
             <Divider sx={{padding:'.5em'}}/>
-
+            <SaveList user={user}/>
         </Container>
 
     )
@@ -476,7 +478,7 @@ export default function Social() {
                     marginTop: 4,
                     display: "grid",
                     gridTemplateColumns: "1fr 2fr",
-                    height: "600px"
+                    height: "600px",
                 }}
             >
 

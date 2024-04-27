@@ -4,7 +4,7 @@ const historyServiceUrl = process.env.HISTORY_SERVICE_URL || "http://localhost:8
 const userServiceUrl = process.env.USER_SERVICE_URL || "http://localhost:8001";
 
 module.exports = (app, axios, authMiddleware) => {
-  app.get("/history/get/:userId", authMiddleware, (req, res, next) => {
+  app.get("/history/get/:userId", (req, res, next) => {
     const { userId } = req.params
     const { page, limit } = req.query
 
