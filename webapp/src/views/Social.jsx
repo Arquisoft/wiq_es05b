@@ -360,8 +360,10 @@ const UserProfile = (props) => {
     return (
 
         <Container sx={{ display: 'flex', flexDirection: 'column', gap: '0em', padding: '.5em' }}>
-            <ArrowBackIcon sx={{ cursor: 'pointer', paddingTop: '.5em'}} onClick={() => openTab('friendsTab')} />
-            <Box sx={{ display: 'flex', gap: '2em', alignItems: 'center', justifyContent:'center'}}>
+            <Tooltip title="Go back">
+                <ArrowBackIcon sx={{ cursor: 'pointer', paddingTop: '.5em' }} onClick={() => openTab('friendsTab')} />
+            </Tooltip>
+            <Box sx={{ display: 'flex', gap: '2em', alignItems: 'center', justifyContent: 'center' }}>
                 <Box sx={{ display: 'flex', gap: '1em' }}>
                     <UserAvatar username={user.username} size={100} />
                 </Box>
@@ -370,8 +372,8 @@ const UserProfile = (props) => {
                     <Typography variant="body1" element="p">Joined: {parseDate(user.createdAt)}</Typography>
                 </Box>
             </Box>
-            <Divider sx={{padding:'.5em'}}/>
-            <SaveList user={user}/>
+            <Divider sx={{ padding: '.5em' }} />
+            <SaveList user={user} />
         </Container>
 
     )

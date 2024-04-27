@@ -1,4 +1,4 @@
-import { Container, List, ListItem, ListItemText, Pagination } from "@mui/material";
+import { Box, List, ListItem, ListItemText, Pagination } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import textFormat from "../../scripts/textFormat";
@@ -58,7 +58,7 @@ const SaveList = (props) => {
   useEffect(fetchSaves, [page]);
 
   return (
-    <Container sx={{ display: "flex", flexFlow: "column", alignItems: "stretch" }}>
+    <Box sx={{ display: "flex", flexFlow: "column", alignItems: "stretch"}}>
       {
         displayedSave ?
           <SaveDetails save={displayedSave} back={() => setDisplayedSave(null)} /> :
@@ -80,7 +80,7 @@ const SaveList = (props) => {
             />
           </>)
       }
-    </Container>
+    </Box>
   )
 }
 
