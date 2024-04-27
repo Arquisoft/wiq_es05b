@@ -293,7 +293,7 @@ const FriendsTab = props => {
                 <Container sx={{ padding: '2em', display: "flex", flexDirection: "column", gap: "1rem", overflowY: "scroll", height: "400px", width: "100%", alignItems: "center" }}>
                     {friends.map((friend, index) => {
                         return (
-                            <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
+                            <Paper elevation={3} key={index} onClick={() => openProfile(friend)} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%", cursor:"pointer" }}>
                                 <Box sx={{ display: "flex", gap: "1em", alignItems: 'center' }}>
                                     <UserAvatar username={friend.username} size={50} />
                                     <Typography variant="body1" element="p">{friend.username}</Typography>
