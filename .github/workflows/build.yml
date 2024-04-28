@@ -25,7 +25,7 @@ jobs:
     - run: npm --prefix jordi ci
     - run: npm --prefix webapp ci
     - run: npm --prefix users/authservice test -- --coverage
-    - run: npm --prefix users/userservice test -- --coverage; cd users/userservice; cat coverage/lcov.info
+    - run: npm --prefix users/userservice test -- --coverage
     - run: npm --prefix userhistory test -- --coverage
     - run: npm --prefix gatewayservice test -- --coverage
     - run: npm --prefix jordi test -- --coverage
