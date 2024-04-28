@@ -19,9 +19,11 @@ module.exports = async (req, res, next) => {
         next()
     else { //Check whether the requested user is a friend of the logged one
         try {
+
+            const url = `${req.protocol}://${req.headers.host}/users/social/friends/${userIdToken}`
             const response = await axios({
                 method: 'get',
-                url: `http://localhost:8000/users/social/friends/${userIdToken}`,
+                url: url,
                 headers: {
                     Authorization: `Bearer ${userIdToken}`
                 }
