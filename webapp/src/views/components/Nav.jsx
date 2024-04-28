@@ -1,4 +1,17 @@
-import AppBar from "@mui/material/AppBar";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HomeIcon from '@mui/icons-material/Home';
+import InfoIcon from '@mui/icons-material/Info';
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import MenuIcon from "@mui/icons-material/Menu";
+import PeopleIcon from '@mui/icons-material/People';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PublicIcon from '@mui/icons-material/Public';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import WidgetsIcon from '@mui/icons-material/Widgets';
+
 import {
   Box, Button, Collapse,
   Container, Divider,
@@ -9,45 +22,36 @@ import {
   ListItemIcon,
   ListItemText, Menu, MenuItem, Tooltip, Typography
 } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import MenuIcon from "@mui/icons-material/Menu";
-import React, {useContext, useEffect, useState} from "react";
-import {Link, useLocation} from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { ReactComponent as CustomIcon } from '../../media/logoS.svg';
-import {LocaleContext} from "../context/LocaleContext";
-import {AuthContext} from "../context/AuthContext";
-import PublicIcon from '@mui/icons-material/Public';
-import InfoIcon from '@mui/icons-material/Info';
-import WidgetsIcon from '@mui/icons-material/Widgets';
-import HomeIcon from '@mui/icons-material/Home';
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import LogoutIcon from '@mui/icons-material/Logout';
-import LoginIcon from '@mui/icons-material/Login';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import { AuthContext } from "../context/AuthContext";
+import { ConfigContext } from "../context/ConfigContext";
+import { LocaleContext } from "../context/LocaleContext";
 import MyAvatar from "./MyAvatar";
-import {ConfigContext} from "../context/ConfigContext";;
+;
 
 const pages = [
-  {code: 'home_home', link: '/home', logged: false, icon: HomeIcon},
-  {code: 'home_menu', link: '/menu', logged: true, icon: WidgetsIcon},
-  {code: 'home_ranking', link: '/ranking', logged: false, icon: PublicIcon},
-  {code: 'home_about', link: '/about', logged: false, icon: InfoIcon}
+  { code: 'home_home', link: '/home', logged: false, icon: HomeIcon },
+  { code: 'home_menu', link: '/menu', logged: true, icon: WidgetsIcon },
+  { code: 'home_ranking', link: '/ranking', logged: false, icon: PublicIcon },
+  { code: 'home_about', link: '/about', logged: false, icon: InfoIcon }
 ];
 
 const settings = [
-    { displayed: 'Social', link: '/social', logged: true },
-  {code: 'home_menu_account', link: '/account', logged: true, icon: AccountCircleIcon},
-  {code: 'home_menu_login', link: '/login', logged: false, icon: LoginIcon},
-  {code: 'home_menu_sign_up', link: '/signup', logged: false, icon: PersonAddIcon},
-  {code: 'home_menu_logout', link: '/logout', logged: true, icon: LogoutIcon}
+  { code: 'home_menu_account', link: '/account', logged: true, icon: AccountCircleIcon },
+  { code: 'home_menu_social', link: '/social', logged: true, icon: PeopleIcon },
+  { code: 'home_menu_login', link: '/login', logged: false, icon: LoginIcon },
+  { code: 'home_menu_sign_up', link: '/signup', logged: false, icon: PersonAddIcon },
+  { code: 'home_menu_logout', link: '/logout', logged: true, icon: LogoutIcon },
+
 ];
 
 const locale = [
-  {code: "i18n_spanish", value: "es"},
-  {code: "i18n_english", value: "en"},
+  { code: "i18n_spanish", value: "es" },
+  { code: "i18n_english", value: "en" },
 ]
 
 const localeToText = (id) => locale.find(x => x.value === id).code
@@ -59,13 +63,13 @@ const listGenerator = (data, t, isAuthenticated, setOpen, logout) => {
     <List>
       {
         data.map(item => {
-          if(item.logged !== isAuthenticated) return null
-          const f = item.link === '/logout' ? () => {setOpen(false); logout()} : () => setOpen(false)
+          if (item.logged !== isAuthenticated) return null
+          const f = item.link === '/logout' ? () => { setOpen(false); logout() } : () => setOpen(false)
           return (
             <ListItemButton component={Link} to={item.link} onClick={f} key={item.code} disablePadding>
-              { item.icon && <ListItemIcon>
-                  <item.icon />
-                </ListItemIcon> }
+              {item.icon && <ListItemIcon>
+                <item.icon />
+              </ListItemIcon>}
               <ListItemText primary={t(item.code)} />
             </ListItemButton>
           )
@@ -75,7 +79,7 @@ const listGenerator = (data, t, isAuthenticated, setOpen, logout) => {
   )
 }
 
-const NavIcon = ({width}) => (
+const NavIcon = ({ width }) => (
   <Link style={{ margin: width > threshold ? '0.5rem' : '1rem auto' }} to="/home">
     <CustomIcon />
   </Link>
@@ -86,7 +90,7 @@ const LeftDrawer = () => {
   const { isAuthenticated, logout } = useContext(AuthContext)
   const { swapConfig } = useContext(ConfigContext);
   const [open, setOpen] = useState(false)
-  const {locale: l} = useContext(LocaleContext)
+  const { locale: l } = useContext(LocaleContext)
   const [openLocale, setOpenLocale] = useState(false)
 
   return (
@@ -122,7 +126,7 @@ const LeftDrawer = () => {
               <List component="div" disablePadding>
                 {locale.map(l => {
                   return (
-                    <ListItemButton key={l.code} onClick={() => {setOpenLocale(false); setOpen(false); setLocale(l.value)}} disablePadding>
+                    <ListItemButton key={l.code} onClick={() => { setOpenLocale(false); setOpen(false); setLocale(l.value) }} disablePadding>
                       <ListItemText primary={t(l.code)} />
                     </ListItemButton>
                   )
@@ -138,7 +142,7 @@ const LeftDrawer = () => {
 
 const UserIcon = () => {
   const [open, setOpen] = useState(false)
-  const { isAuthenticated } = useContext(AuthContext)
+  const { isAuthenticated,logout } = useContext(AuthContext)
   const { t } = useContext(LocaleContext)
 
   return (
@@ -150,7 +154,7 @@ const UserIcon = () => {
       </Tooltip>
       <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
         <Box>
-          {listGenerator(settings, t, isAuthenticated(), setOpen)}
+          {listGenerator(settings, t, isAuthenticated(), setOpen, logout)}
         </Box>
       </Drawer>
     </>
@@ -168,7 +172,7 @@ const RightDrawer = () => {
 }
 
 const LocaleMenu = () => {
-  const {locale: l, setLocale, t} = useContext(LocaleContext)
+  const { locale: l, setLocale, t } = useContext(LocaleContext)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const url = useLocation()
   const open = Boolean(anchorEl);
@@ -183,7 +187,8 @@ const LocaleMenu = () => {
     <>
       <Button
         onClick={handleClick}
-        sx={{ my: 2,
+        sx={{
+          my: 2,
           color: 'white',
           display: { xs: 'none', md: 'inline-flex' },
         }}

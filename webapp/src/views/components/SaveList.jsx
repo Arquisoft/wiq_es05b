@@ -41,7 +41,7 @@ const SaveList = (props) => {
 
   const fetchSaves = () => {
     axios
-      .get(`/history/get/${getUser().userId}?page=${page}&limit=${limit}`,
+      .get(`/history/get/${user.userId}?page=${page}&limit=${limit}`,
         { headers: { Authorization: `Bearer ${getUser().token}` } })
       .then(response => {
         setSaves(response.data.saves)

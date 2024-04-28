@@ -77,17 +77,7 @@ const RankingComponent = (props) => {
 
   return (
     <Container sx={{ display: "flex", flexFlow: "column", gap: "1rem"}}>
-      <Autocomplete
-        disablePortal
-        options={baseFilters}
-        getOptionLabel={(option) => option.displayed}
-        sx={{ width: 200, alignSelf: "flex-end" }}
-        onChange={(_, selected) => {
-          setFilter(selected ? selected.filter : '');
-        }}
-        renderInput={(params) => <TextField {...params} label="Filter" />}
-      />
-      <RankingList scores={scores} error={error} />
+      <RankingList scores={scores} error={error} setFilter={setFilter} />
     </ Container>
   );
 
