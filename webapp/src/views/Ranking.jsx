@@ -63,7 +63,7 @@ const RankingComponent = (props) => {
   const { scores, error, setFilter } = props;
 
   return (
-    <Container sx={{ display: "flex", flexFlow: "column", gap: "1rem" }}>
+    <Container sx={{ display: "flex", flexFlow: "column", gap: "1rem"}}>
       <Autocomplete
         disablePortal
         options={baseFilters}
@@ -141,7 +141,7 @@ export default function Ranking(props) {
 
 
       {friendMode && init &&
-        <Box style={{ paddingTop: "2rem" }}>
+        <Box style={{ paddingTop: "2rem"}}>
           <Typography variant="h4" component="h1" align="center" gutterBottom>
             Friends Ranking
           </Typography>

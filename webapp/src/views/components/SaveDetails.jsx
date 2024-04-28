@@ -39,7 +39,7 @@ const SaveDetails = ({ save, back }) => {
       </Tooltip>
       <Summary category={save.category} points={save.questions.reduce((acc, curr) => curr.points + acc, 0)} />
       <Divider />
-      <Box sx={{ display: "flex", flexFlow: "column", gap: "1rem", maxHeight: '600px', overflowY: 'scroll' }}>
+      <Box sx={{ display: "flex", flexFlow: "column", gap: "1rem", maxHeight: '400px', overflowY: 'scroll' }}>
         {save.questions.map((q, i) =>
           <Question key={i} index={i + 1} question={q} />)}
       </Box>
