@@ -34,6 +34,7 @@ app.use(metricsMiddleware);
 const dataValidatorMiddleware = require('./middleware/DataValidatorMiddleware')
 const authMiddleware = require('./middleware/AuthMiddleware')
 const authTokenMiddleware = require("./middleware/AuthTokenMiddleware")
+const friendMiddleware = require("./middleware/FriendMiddleware")
 
 // Routes middleware
 app.use("/adduser", dataValidatorMiddleware)
@@ -41,6 +42,7 @@ app.use("/login", dataValidatorMiddleware)
 app.use("/game", authMiddleware)
 app.use("/history", authMiddleware)
 app.use("/user", authMiddleware)
+app.use("/history/get/:userId",friendMiddleware)
 
 // Routes
 require("./routes/routes")(app)
