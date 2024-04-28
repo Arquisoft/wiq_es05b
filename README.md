@@ -169,7 +169,7 @@ We are grateful for their support and dedication in making this project a succes
 <img src="projectmedia/console.svg" style="width: 5%">
 
 ## Links of interest
-- [grafana](https://cyt.is-cool.dev/grafana)
+- [Grafana](https://cyt.is-cool.dev/grafana)
 - [OpenApi](https://cyt.is-cool.dev/api/doc)
 - [Elastic](https://cyt.is-cool.dev/kibana) 
 
