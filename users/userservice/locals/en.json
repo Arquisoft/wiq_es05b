@@ -1,5 +1,6 @@
 {
   "translation": {
+    "user_created": "User created successfully",
     "error_invalid_id": "Invalid id format",
     "error_user_exists": "Username already exists",
     "error_user_not_found": "User not found",

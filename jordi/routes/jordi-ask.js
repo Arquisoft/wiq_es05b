@@ -13,16 +13,19 @@ module.exports = function (app, questionsRepository) {
 
     questionsRepository
       .findQuestionById(req.params.id)
-      .then(result => res.json(result))
+      .then(result => {
+        if(!result) return next({status: 404, error: i18next.t("error_question_not_found")})
+        res.json(result)
+      })
       .catch(err => next(err));
   })
 
-  // TODO: Should return 404 if category not found
-  // TODO: Check n is a number -> error 400
   app.get('/questions/:category/:n', async (req, res, next) => {
     const {category, n} = req.params;
 
     if(isNaN(n)) return next({status: 400, error: i18next.t("error_invalid_n")})
+    const c = await questionsRepository.checkCategory(category);
+    if(!c) return next({status: 404, error: i18next.t("error_category_not_found")})
 
     questionsRepository.getQuestions(category, n)
       .then(result => {

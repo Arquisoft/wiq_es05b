@@ -4,6 +4,8 @@
     "error_invalid_n": "'n' debe ser un numero",
     "error_group_not_found": "Grupo no encontrado",
     "error_group_exists": "Already existing groups detected",
+    "error_question_not_found": "Pregunta no encontrada",
+    "error_category_not_found": "Categoria no encontrada",
 
     "group_questions_generated": "Preguntas generadas correctamente: ",
     "all_questions_generated": "Todas las preguntas generadas correctamente",
