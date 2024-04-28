@@ -6,7 +6,6 @@ import GroupIcon from '@mui/icons-material/Group';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import NotificationAddOutlinedIcon from '@mui/icons-material/NotificationAddOutlined';
 import PersonIcon from '@mui/icons-material/Person';
-import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemove';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, Button, Container, Modal, Paper, TextField, Tooltip, Typography } from "@mui/material";
 import Divider from '@mui/material/Divider';
@@ -299,7 +298,7 @@ const FriendsTab = props => {
                 <Container sx={{ padding: '2em', display: "flex", flexDirection: "column", gap: "1rem", overflowY: "scroll", height: "400px", width: "100%", alignItems: "center" }}>
                     {friends.map((friend, index) => {
                         return (
-                            <Paper elevation={3} key={index} onClick={() => openProfile(friend)} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%", cursor:"pointer" }}>
+                            <Paper elevation={3} key={index}  sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%"}}>
                                 <Box sx={{ display: "flex", gap: "1em", alignItems: 'center' }}>
                                     <UserAvatar username={friend.username} size={50} />
                                     <Typography variant="body1" element="p">{friend.username}</Typography>
@@ -309,7 +308,7 @@ const FriendsTab = props => {
                                         <Button variant="contained" onClick={() => openProfile(friend)} ><PersonIcon /></Button>
                                     </Tooltip>
                                     <Tooltip title="Remove friend">
-                                        <Button variant="contained" onClick={() => handleOpen(friend)} ><PersonRemoveOutlinedIcon /></Button>
+                                        <Button variant="contained" onClick={() => handleOpen(friend)} ><CloseIcon /></Button>
                                     </Tooltip>
                                 </Box>
                             </Paper>
