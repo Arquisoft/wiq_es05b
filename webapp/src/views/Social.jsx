@@ -1,4 +1,5 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import GroupIcon from '@mui/icons-material/Group';
@@ -16,6 +17,7 @@ import ProtectedComponent from "./components/ProtectedComponent";
 import SaveList from "./components/SaveList";
 import UserAvatar from './components/UserAvatar';
 import { AuthContext } from "./context/AuthContext";
+import Ranking from './Ranking';
 
 
 const tabStyle = {
@@ -65,7 +67,7 @@ const Menu = (props) => {
     const { openTab, friendRequests } = props;
 
     return (
-        <Container sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <Container sx={{ display: "flex", flexDirection: "column", gap: "1rem",minWidth:'350px  '}}>
             <Paper elevation={3} sx={{ display: "flex", flexFlow: "column", gap: "1rem", justifyContent: "center", alignItems: "flex-start", padding: "2rem 1rem" }}>
                 <Box sx={menuItemStyle}>
                     <GroupIcon />
@@ -75,6 +77,10 @@ const Menu = (props) => {
                     <GroupAddIcon />
                     <Typography variant="h6" element="p" sx={{ padding: 0, cursor: "pointer" }} onClick={() => openTab("friendRequests")}>Friend Requests</Typography>
                     {friendRequests.length != 0 && <NotificationAddOutlinedIcon sx={{ color: "palevioletred" }} />}
+                </Box>
+                <Box sx={menuItemStyle}>
+                    <BarChartIcon />
+                    <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => openTab("friendsRankingTab")}>Friends Ranking</Typography>
                 </Box>
                 <Box sx={menuItemStyle}>
                     <SearchIcon />
@@ -484,13 +490,14 @@ export default function Social() {
                 }}
             >
 
-                <Menu openTab={openTab} friendRequests={friendRequests} />
+                <Menu openTab={openTab} friendRequests={friendRequests}/>
                 <Paper elevation={3} sx={{
                     height: "100%",
                 }} >
                     {selectedTab === "friendsTab" && !openedProfileUser && <FriendsTab friends={friends} reloadSocialData={reloadSocialData} openProfile={openProfile} />}
                     {selectedTab === "addFriendTab" && !openedProfileUser && <AddFriendTab sentRequests={sentRequests} reloadSocialData={reloadSocialData} friends={friends} />}
                     {selectedTab === "friendRequests" && !openedProfileUser && <FriendRequestsTab friendRequests={friendRequests} reloadSocialData={reloadSocialData} parseDate={parseDate} />}
+                    {selectedTab === "friendsRankingTab" && !openedProfileUser && <Ranking friends={friends} /> }
                     {openedProfileUser && <UserProfile user={openedProfileUser} parseDate={parseDate} openTab={openTab} />}
                 </Paper>
 
