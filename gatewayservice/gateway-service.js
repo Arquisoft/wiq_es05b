@@ -36,6 +36,7 @@ app.use(metricsMiddleware);
 // Middleware instantiation
 const dataValidatorMiddleware = require('./middleware/DataValidatorMiddleware')(i18next)
 const authMiddleware = require('./middleware/AuthMiddleware')(i18next)
+const adminMiddleware = require('./middleware/AdminMiddleware')(i18next)
 const authTokenMiddleware = require("./middleware/AuthTokenMiddleware")(i18next)
 
 // Routes middleware
@@ -44,6 +45,9 @@ app.use("/login", dataValidatorMiddleware)
 app.use("/game", authMiddleware)
 app.use("/history", authMiddleware)
 app.use("/user", authMiddleware)
+
+app.use("/admin", authMiddleware)
+app.use("/admin", adminMiddleware)
 
 // Routes
 require("./routes/gatewayRoutes")(app)
