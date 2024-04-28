@@ -67,12 +67,6 @@ internal and external technical risks, as well as the technical debts that shoul
 
 This is mainly because load balancing and auto-scaling are not implemented yet.
 
-| Not-so-robust error handling
-| 6
-| The project's error handling mechanisms may not be robust enough to handle unexpected errors and exceptions. This could result in crashes, data loss, and security vulnerabilities. Implementing comprehensive error handling and logging mechanisms is essential to ensure the project's stability and reliability.
-
-To mitigate this effect, we have implemented an automatic restart on every microservice, but it is not enough.
-
 | Code quality issues
 | 5
 | The project's codebase may contain quality issues such as code smells, duplication, and poor documentation. This can make the codebase difficult to maintain, extend, and debug. Regular code reviews, refactoring, and documentation updates are essential to ensure the project's code quality and maintainability.
