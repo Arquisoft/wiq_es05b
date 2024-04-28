@@ -63,4 +63,55 @@ module.exports = (app, axios) => {
         })
         .catch(() => next({ error: i18next.t("error_fetch_questions")}));
   });
+
+
+  // ADMIN ROUTES ONLY
+  app.get("/gen/:groupId", async (req, res, next) => {
+
+    axios.get(`${questionServiceUrl}/gen/${req.params.groupId}`)
+      .then(response => res.status(response.status).send(response.data))
+      .catch(error => next(error));
+
+  });
+
+  app.get("/admin/gen", async (req, res, next) => {
+    
+    axios.get(`${questionServiceUrl}/gen`)
+      .then(response => res.status(response.status).send(response.data))
+      .catch(error => next(error));
+
+  });
+
+  app.get("/admin/groups", async (req, res, next) => {
+    
+    axios.get(`${questionServiceUrl}/groups`)
+      .then(response => res.status(response.status).send(response.data))
+      .catch(error => next(error));
+
+  });
+
+  app.post("/admin/addGroups", async (req, res, next) => {
+    
+    axios.post(`${questionServiceUrl}/addGroups`, req.body)
+      .then(response => res.status(response.status).send(response.data))
+      .catch(error => next(error));
+
+  });
+
+  app.get("/admin/removeGroup/:groupId", async (req, res, next) => {
+    
+    axios.get(`${questionServiceUrl}/removeGroup/${req.params.groupId}`)
+      .then(response => res.status(response.status).send(response.data))
+      .catch(error => next(error));
+
+  });
+
+  app.get("/admin/removeAllGroups", async (req, res, next) => {
+    
+    axios.get(`${questionServiceUrl}/removeAllGroups`)
+      .then(response => res.status(response.status).send(response.data))
+      .catch(error => next(error));
+
+  });
+
 };

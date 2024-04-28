@@ -10,6 +10,7 @@ import Menu from "./views/Menu";
 import Game from "./views/Game";
 import Account from "./views/Account";
 import Error from "./views/Error";
+import HowTo from "./views/HowToPlay";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Particles from "./views/components/Particles";
 import React, { useState, useEffect } from "react";
@@ -111,6 +112,7 @@ export default function App() {
               <Route path="/menu" element={<Menu />} />
               <Route path="/game/:category" element={<Game />} />
               <Route path="/account" element={<Account />} />
+              <Route path="/howTo" element={<HowTo />} />
               <Route path="*" element={<Error />} />
             </Routes>
             <Footer />
