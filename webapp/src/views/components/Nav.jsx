@@ -34,14 +34,16 @@ const pages = [
   {code: 'home_home', link: '/home', logged: false, icon: HomeIcon},
   {code: 'home_menu', link: '/menu', logged: true, icon: WidgetsIcon},
   {code: 'home_ranking', link: '/ranking', logged: false, icon: PublicIcon},
-  {code: 'home_about', link: '/about', logged: false, icon: InfoIcon}
+  {code: 'home_about', link: '/about', logged: false, icon: InfoIcon},
+  {code: 'howto_title', link: '/howTo', logged: false, icon: InfoIcon}
+
 ];
 
 const settings = [
   {code: 'home_menu_account', link: '/account', logged: true, icon: AccountCircleIcon},
   {code: 'home_menu_login', link: '/login', logged: false, icon: LoginIcon},
   {code: 'home_menu_sign_up', link: '/signup', logged: false, icon: PersonAddIcon},
-  {code: 'home_menu_logout', link: '/logout', logged: true, icon: LogoutIcon}
+  {code: 'home_menu_logout', link: '/logout', logged: true, icon: LogoutIcon},
 ];
 
 const locale = [
