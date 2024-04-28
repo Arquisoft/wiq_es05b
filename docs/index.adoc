@@ -83,6 +83,6 @@ include::src/11_technical_risks.adoc[]
 
 <<<<
 // 12. Glossary
-include::src/12_glossary.adoc[]
+include::src/13_glossary.adoc[]
 
 
