@@ -207,7 +207,7 @@ const FriendRequestsTab = props => {
                 },
                 data: {
                     fromId: fromId,
-                    toId: toId
+                    userId: toId
                 }
             });
             console.log(response.data);
@@ -275,7 +275,7 @@ const FriendsTab = props => {
                     Authorization: `Bearer ${getUser().token}`
                 },
                 data: {
-                    user1: userId,
+                    userId: userId,
                     user2: friendId
                 }
             });

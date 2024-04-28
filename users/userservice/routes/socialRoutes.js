@@ -78,10 +78,10 @@ module.exports = function (app, userRepository, socialRepository) {
     });
 
     app.post("/social/removefriend", async (req, res, next) => {
-        const { user1, user2 } = req.body;
+        const { userId, user2 } = req.body;
         console.log(req.body);
         try {
-            const result = await socialRepository.deleteFriendship(user1,user2);
+            const result = await socialRepository.deleteFriendship(userId,user2);
             res.json(result);
         } catch (error) {
             console.log(error)
@@ -90,9 +90,9 @@ module.exports = function (app, userRepository, socialRepository) {
     });
 
     app.post("/social/rejectrequest", async (req, res, next) => {
-        const { fromId, toId } = req.body;
+        const { fromId, userId } = req.body;
         try {
-            const result = await socialRepository.deleteRequest(fromId, toId);
+            const result = await socialRepository.deleteRequest(fromId, userId);
             res.json(result);
         } catch (error) {
             next({ error: error });
