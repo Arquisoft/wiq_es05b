@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
 import { Container, Typography, TextField, Button, Paper } from "@mui/material";
 import { Link } from "react-router-dom";
 import ErrorSnackBar from "./ErrorSnackBar";
+import {LocaleContext} from "../context/LocaleContext";
 
 const introHandler = (event, submit) => {
   if (event.key === "Enter") submit();
@@ -17,11 +18,12 @@ const SuggestionText = ({ text, linkText, link }) => {
 
 const Form = ({ formData }) => {
   const [error, setError] = useState("");
+  const { t } = useContext(LocaleContext)
   
   return (
     <>
       <Typography component="h1" variant="h5">
-        {formData.title || "Form"}
+        { formData.title || t("form_default_title") }
       </Typography>
       {
         formData.fields.map((field, i) => {
@@ -42,7 +44,7 @@ const Form = ({ formData }) => {
         })
       }
       <Button variant="contained" color="primary" onClick={() => formData.submit(setError)}>
-        {formData.submitButtonTx || "Submit"}
+        {formData.submitButtonTx || t("Submit")}
       </Button>
       {error && (
         <ErrorSnackBar msg={error} setMsg={setError}/>

@@ -1,15 +1,17 @@
 module.exports = {
   mongoose: null,
   uri: null,
+  i18next: null,
   collectionName: "saves",
   Save: require("../history-model"),
 
-  init: function (mongoose, uri) {
+  init: function (mongoose, uri, i18next) {
     this.mongoose = mongoose;
     this.uri = uri;
+    this.i18next = i18next;
   },
   checkUp: async function () {
-    if (this.mongoose.connection.readyState != 1) {
+    if (this.mongoose.connection.readyState !== 1) {
       await this.mongoose.connect(this.uri);
     }
   },
@@ -22,7 +24,7 @@ module.exports = {
         questions: [],
       });
       await save.save();
-      return { message: "Save created successfully", id: save._id };
+      return { message: this.i18next.t("user_created"), id: save._id };
     } catch (error) {
       throw error.message;
     }
@@ -34,8 +36,8 @@ module.exports = {
     try {
       await this.checkUp()
       const result = await this.Save.findById(id);
-      if (!result) return { message: "Save not found" };
-      if (result.finished) return { message: "Save is already finished" };
+      if (!result) return { message: this.i18next.t("error_save_not_found") };
+      if (result.finished) return { message: this.i18next.t("error_save_finished") };
       result.questions.push(question);
       result.markModified("questions");
       if (close) {
@@ -43,7 +45,7 @@ module.exports = {
         result.markModified("finished");
       }
       await result.save();
-      return { message: "Question added successfully" };
+      return { message: this.i18next.t("question_added") };
     } catch (e) {
       throw e.message;
     }
@@ -51,8 +53,7 @@ module.exports = {
   getUserSave: async function (userId, id) {
     try {
       await this.checkUp();
-      const result = await this.Save.findOne({ userId: userId, _id: id });
-      return result;
+      return await this.Save.findOne({ userId: userId, _id: id });
     } catch (e) {
       throw e.message;
     }
@@ -94,7 +95,7 @@ module.exports = {
   getRanking: async function (n, order = "totalPoints") {
     try {
       await this.checkUp();
-      const result = await this.Save.aggregate([
+      return await this.Save.aggregate([
         { $match: { finished: true } },
         { $unwind: "$questions" },
         {
@@ -130,11 +131,9 @@ module.exports = {
             correct: { $divide: ["$totalCorrect", "$totalQuestions"] },
           },
         },
-        // FIXME: Always sort by totalPoints
         { $sort: { [order || "totalPoints"]: -1 } },
         { $limit: Number(n) },
       ]);
-      return result;
     } catch (e) {
       throw e.message;
     }

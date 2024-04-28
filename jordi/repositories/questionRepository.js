@@ -1,26 +1,43 @@
+const {Question} = require("../jordi-model");
+
 module.exports = {
+
   mongoose: null,
   uri: null,
   collectionName: "questions",
+  Question,
 
   init: function (mongoose, uri) {
     this.mongoose = mongoose;
     this.uri = uri;
   },
+
   checkUp: async function () {
-    if (this.mongoose.connection.readyState != 1) {
+    if (this.mongoose.connection.readyState !== 1) {
       await this.mongoose.connect(this.uri);
     }
   },
+
   getCategories: async function () {
     try {
       await this.checkUp();
-      let result = await this.mongoose.connection
+      return await this.mongoose.connection
         .collection(this.collectionName)
         .distinct("categories");
-      return result;
     } catch (error) {
       throw error.message;
+    }
+  },
+
+  checkCategory: async function (category) {
+    try {
+      await this.checkUp();
+      const result =  await this.mongoose.connection
+        .collection(this.collectionName)
+        .distinct("categories");
+      return result.some((x) => x === category);
+    } catch (e) {
+      throw e.message;
     }
   },
 
@@ -38,11 +55,32 @@ module.exports = {
 
       for (let i = 0; i < result.length; i++) {
         const question = result[i];
-        const options = await this.getDistinctOptions(question);
-        question.options = options;
+        question.options = await this.getDistinctOptions(question);
       }
 
       return result;
+    } catch (error) {
+      throw error.message;
+    }
+  },
+
+  insertQuestions: async function (questions) {
+    try {
+      await this.checkUp();
+      await this.mongoose.connection
+        .collection(this.collectionName)
+        .insertMany(questions);
+    } catch (error) {
+      throw error.message;
+    }
+  },
+
+  deleteQuestions: async function (groupId) {
+    try {
+      await this.checkUp();
+      await this.mongoose.connection
+        .collection(this.collectionName)
+        .deleteMany({ groupId });
     } catch (error) {
       throw error.message;
     }
@@ -79,16 +117,15 @@ module.exports = {
   findQuestionById: async function (id) {
     try {
       await this.checkUp();
-      const question = await this.mongoose.connection
+      return await this.mongoose.connection
         .collection(this.collectionName)
-        .findOne({ _id: new this.mongoose.Types.ObjectId(id) });
-      return question;
+        .findOne({_id: new this.mongoose.Types.ObjectId(id)});
     } catch (error) {
       throw error.message;
     }
   },
+
   checkValidId: function (id) {
-    if (!id || !this.mongoose.isValidObjectId(id)) return false;
-    return true;
+    return !(!id || !this.mongoose.isValidObjectId(id));
   },
 };

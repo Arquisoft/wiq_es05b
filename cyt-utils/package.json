@@ -1,0 +1,26 @@
+{
+  "name": "cyt-utils",
+  "version": "2.4.0",
+  "description": "A variety of utilities for the project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arquisoft/wiq_es05b.git"
+  },
+  "author": "wiq_es05b",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Arquisoft/wiq_es05b/issues"
+  },
+  "homepage": "https://github.com/Arquisoft/wiq_es05b#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "dependencies": {
+    "@elastic/ecs-winston-format": "^1.5.3",
+    "winston": "^3.13.0"
+  }
+}

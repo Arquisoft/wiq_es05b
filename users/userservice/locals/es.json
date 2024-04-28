@@ -1,0 +1,10 @@
+{
+  "translation": {
+    "user_created": "Usuario creado correctamente",
+    "error_invalid_id": "Formato de ID inválido",
+    "error_user_exists": "El usuario ya existe",
+    "error_user_not_found": "Usuario no encontrado",
+    "error_fetching_data": "Error al obtener los datos",
+    "error_missing_field": "Falta el campo"
+  }
+}

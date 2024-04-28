@@ -1,23 +1,13 @@
-module.exports = (req, res, next) => {
+module.exports = (i18next) => (req, res, next) => {
   const { userIdToken } = req
   let userId
 
-  if("userId" in req.params) {
-    userId = req.params.userId
-  } else if ("userId" in req.body) {
-    userId = req.body.userId
-  } else {
-    userId = req.query.userId
-  }
+  if("userId" in req.params) userId = req.params.userId
+  else if ("userId" in req.body) userId = req.body.userId
+  else userId = req.query.userId
 
-  if(!userId) {
-    res.status(400).json({error: "No userId provided"})
-    return
-  }
-  if (userIdToken && userIdToken !== userId) {
-    res.status(401).json({ error: "You don't own this save" })
-    return
-  }
+  if(!userId) return next({status: 400, error: `${i18next.t("error_missing_field")} userId`})
+  if (userIdToken && userIdToken !== userId) return next({ status: 401, error: i18next.t("error_save_property") })
 
   next()
 }

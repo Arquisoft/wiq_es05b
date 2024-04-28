@@ -1,44 +1,16 @@
-module.exports = function (req, res, next) {
+module.exports = (i18next) => (req, res, next) => {
   const { username, password } = req.body;
-  if (!username) {
-    res.status(400).json({ error: "Missing username" });
-    return;
-  }
-  if (!password) {
-    res.status(400).json({ error: "Missing password" });
-    return;
-  }
+  if (!("username" in req.body)) return next({ status: 400, error: `${i18next.t("error_missing_field")} username` });
+  if (!("password" in req.body)) return next({ status: 400, error: `${i18next.t("error_missing_field")} password` });
   
   // Signup password validation
   if(req.originalUrl === "/adduser") {
-    if (username.trim().length === 0) {
-      res.status(400).json({ error: "Username should not be empty" });
-      return;
-    }
-    if (password.length < 8) {
-      res.status(400).json({ error: "Password must be at least 8 characters long" });
-      return;
-    }
-
-    if (!/[A-Z]/.test(password)) {
-      res.status(400).json({ error: "Password must contain at least one uppercase letter" });
-      return;
-    }
-
-    if (!/[a-z]/.test(password)) {
-      res.status(400).json({ error: "Password must contain at least one lowercase letter" });
-      return;
-    }
-
-    if (!/\d/.test(password)) {
-      res.status(400).json({ error: "Password must contain at least one number" });
-      return;
-    }
-
-    if (!/[^A-Za-z0-9]/.test(password)) {
-      res.status(400).json({ error: "Password must contain at least one special character" });
-      return;
-    }
+    if (username.trim().length === 0) return next({status: 400, error: i18next.t("error_username_empty") });
+    if (password.length < 8) return next({status: 400, error: i18next.t("error_password_short") });
+    if (!/[A-Z]/.test(password)) return next({status: 400, error: i18next.t("error_password_uppercase") });
+    if (!/[a-z]/.test(password)) return next({status: 400, error: i18next.t("error_password_lowercase") });
+    if (!/\d/.test(password)) return next({status: 400, error: i18next.t("error_password_number") });
+    if (!/[^A-Za-z0-9]/.test(password)) return next({ status: 400, error: i18next.t("error_password_special") });
   }
 
   next();

@@ -3,7 +3,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-introduction-and-goals]]
 == Introduction and Goals
 
-WIQ (Wikidata Infinite Quest) is a project forked from the University of Oviedo latest base repo offered by the Software Architecture course. The development team (es05b) is formed by the following engineering students:
+CyT (Conocer y Triunfar) is a project forked from the University of Oviedo latest base repo offered by the Software Architecture course. The development team (es05b) is formed by the following engineering students:
 
 * Donato Martín, UO288787@uniovi.es
 * Luna Valdés, UO289321@uniovi.es
@@ -23,14 +23,16 @@ image::01_jordi_hurtado_happy.jpg[Jordi Hurtado, 1600, 900, align="center"]
 
 === Requirements Overview
 
-Users will be able to interact with our system in a lot of different ways.
+The main goal of this project is to develop a web application that will allow users to play a Q&A game with multiple categories.
+The application must have the following functionalities:
 
-* A fun Q&A game
-* A user registration system
-* An API to obtain user information respecting the privacy terms accorded
-* An API to obtain generated questions using real time updated and truthful information from the WikiData Programming Interface.
+* A front-end web that allows users to register and play the game.
+* A user registration system with a history of their games.
+* All of the questions data must be obtained from the WikiData knowledge database.
+* The application must have an API to obtain users information.
+* The application must have an API to obtain generated questions.
 
-More information can be obtained following this https://docs.google.com/document/d/1pahOfYFY--Wi7_9bbxiKOGevB_9tOSyRm78blncgBKg[link], where the course project is fully described and detailed.
+Further information can be found link:https://docs.google.com/document/d/1pahOfYFY--Wi7_9bbxiKOGevB_9tOSyRm78blncgBKg/[here].
 
 === Quality Goals
 
@@ -43,13 +45,14 @@ The following table describes the project's quality goals in a descending order.
 | The application must be not only easy to learn and use but also fun because if a game has no joy in it, then it shall never be called for that name.
 
 | *_Maintainability_*
-| Projects should always have enough quality to be able to be modified without making more changes than necessary. Not following this principle would make an information system fail in late stages of his lifecycle.
+| Projects must always have enough quality to be able to be modified without making more changes than necessary.
+Not following this principle would heavily increase costs in new feature implementation or bug solving that may arise in the future.
 
 | *_Security_*
 | Security is always key and therefore effort will be put into fighting against unauthorised access of information, including the users' personal or sensitive data that the information system may contain.
 
 | *_Scalability_*
-| The application may or may not increase its demand given enough time so not pursuing this goal might lead to an unavoidable failure.
+| Given an exponential growth of users, the application should allow for capacity resizing and overall a robust handling for a large number of connections.
 
 | *_Testability_*
 | The performance of the system is needed to be tested covering as many use cases as possible so all the other goals will be met.
@@ -78,7 +81,7 @@ a|
 
 | *_Users_*
 a|
-- Final users of WIQ
+- Final users of Conocer y Triunfar
 | They are just expected to use this project as it is intended to work.
 
 |===

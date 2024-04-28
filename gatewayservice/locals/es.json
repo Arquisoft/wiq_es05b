@@ -1,0 +1,28 @@
+{
+  "translation": {
+    "error_missing_field": "Falta el campo",
+    "error_username_empty": "El usuario no puede estar vacío",
+    "error_password_short": "La contraseña debe tener al menos 8 caracteres",
+    "error_password_uppercase": "La contraseña debe contener al menos una letra mayúscula",
+    "error_password_lowercase": "La contraseña debe contener al menos una letra minúscula",
+    "error_password_number": "La contraseña debe contener al menos un número",
+    "error_password_special": "La contraseña debe contener al menos un carácter especial",
+    "error_save_property": "Esta partida no te pertenece",
+    "error_invalid_token": "Token no valido",
+    "error_validating_token": "Error al validar el token",
+    "error_no_session_token": "No se ha proporcionado un token de sesión",
+    "error_unable_to_login": "No se ha podido iniciar sesión",
+    "error_fetch_user": "A ocurrido un error al obtener la informacion del usuario",
+    "error_adding_user": "A ocurrido un error al añadir el usuario",
+    "error_fetch_answer": "A ocurrido un error al obtener la respuesta",
+    "error_adding_answer": "A ocurrido un error al guardar la respuesta",
+    "error_fetch_categories": "A ocurrido un error al obtener las categorias",
+    "error_fetch_questions": "A ocurrido un error al obtener las preguntas",
+    "error_fetch_history": "A ocurrido un error al obtener el historial",
+    "error_fetch_ranking": "A ocurrido un error al obtener el ranking",
+    "error_login_service_unable": "El servicio de login se esta echando una siesta",
+    "error_service_unavailable": "Servicio no disponible",
+    "error_create_save": "A ocurrido un error al crear la partida",
+    "error_not_admin": "No eres administrador"
+  }
+}

@@ -21,4 +21,4 @@ const ErrorSnackBar = ({msg, setMsg}) => {
   )
 }
 
-export default ErrorSnackBar
+export default ErrorSnackBar;

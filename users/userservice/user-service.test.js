@@ -100,3 +100,5 @@ describe('[User Service] - /user/:userId', () => {
     expect(response.body).toHaveProperty("error", "User not found")
   })
 })
+
+

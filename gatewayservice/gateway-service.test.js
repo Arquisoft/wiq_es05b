@@ -232,3 +232,24 @@ describe('[Gateway Service] - /user/:userId', () => {
         expect(res.body).toHaveProperty("history", 'mockHistory');
     });
 })*/
+
+const express = require('express');
+const routes = require('./routes/gatewayRoutes');
+
+let app2 = express();
+app2.use(express.json());
+routes(app2);
+
+describe('Routes', () => {
+    it('returns OK status for health check', async () => {
+        const res = await request(app2).get('/health');
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toEqual({ status: "OK" });
+    });
+
+    it('returns teapot status for root path', async () => {
+        const res = await request(app2).get('/');
+        expect(res.statusCode).toEqual(418);
+        expect(res.body).toEqual({ message: "¯\_(ツ)_/¯" });
+    });
+});

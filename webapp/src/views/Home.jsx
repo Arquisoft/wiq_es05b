@@ -1,8 +1,11 @@
 import { Button, Container } from "@mui/material";
 import { Link } from "react-router-dom";
 import { ReactComponent as Logo } from "../media/logoM.svg";
+import {useContext} from "react";
+import {LocaleContext} from "./context/LocaleContext";
 
 function Home() {
+  const { t } = useContext(LocaleContext)
   return (
     <>
       <Container
@@ -33,7 +36,7 @@ function Home() {
             component={Link}
             to="/menu"
           >
-            Play
+            {t("button_play")}
           </Button>
         </Container>
       </Container>

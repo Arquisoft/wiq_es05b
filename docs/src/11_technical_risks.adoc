@@ -3,6 +3,11 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-technical-risks]]
 == Risks and Technical Debts
 
+The technical risks and technical debts section of the document provides an overview of potential challenges and issues
+that may arise during the development and maintenance of the project. These risks and debts need to be carefully considered
+and addressed to ensure the successful completion and long-term viability of the project. The following subsections outline the
+internal and external technical risks, as well as the technical debts that should be taken into account.
+
 === Technical risks
 
 ==== Internal
@@ -39,7 +44,11 @@ ifndef::imagesdir[:imagesdir: ../images]
 |===
 | Description | Priority |  Considerations
 
-| API failure
+| Oracle Cloud Failure
+| 8
+| The project relies on Oracle Cloud services for hosting and deployment. Any failure or downtime of Oracle Cloud services could result in service interruptions, data loss, and a poor user experience. This impact is only reduced thanks to the ease of migration of our dockerized services.
+
+| Wikidata API failure
 | 3
 | Even though an API failure is possible, it's a low impact event because we have the questions stored in the database and the game would still work.
 
@@ -58,20 +67,19 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 This is mainly because load balancing and auto-scaling are not implemented yet.
 
-| Not-so-robust error handling
-| 6
-| The project's error handling mechanisms may not be robust enough to handle unexpected errors and exceptions. This could result in crashes, data loss, and security vulnerabilities. Implementing comprehensive error handling and logging mechanisms is essential to ensure the project's stability and reliability.
-
-To mitigate this effect, we have implemented an automatic restart on every microservice, but it is not enough.
-
 | Code quality issues
 | 5
-| The project's codebase may contain quality issues such as code smells, duplication, and poor documentation. This can make the codebase difficult to maintain, extend, and debug. Regular code reviews, refactoring, and documentation updates are essential to ensure the project's code quality and maintainability.
+| The project's codebase may contain quality issues such as code smells, duplication, and poor code documentation. This can make the codebase difficult to maintain, extend, and debug. Regular code reviews, refactoring, and documentation updates are essential to ensure the project's code quality and maintainability.
 
 | Inadequate security measures
 | 4
 | The project's security measures may not be sufficient to protect against common threats such as, cross-site scripting, and DDoS attacks. Regular security audits and penetration testing are essential to identify vulnerabilities and ensure that the project's security measures are up to date.
 
-This would heavily impact the project's reputation and user trust, aswell as its availability.
+| Make the entire web internationalized
+| 6
+|The questions are not internationalized, so you can only play in english
 
+| Optional requirements
+| 8
+| Not all optional requirements are implemented
 |===
