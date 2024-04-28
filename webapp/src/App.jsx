@@ -7,6 +7,9 @@ import Account from "./views/Account";
 import Footer from "./views/components/Footer";
 import Nav from "./views/components/Nav";
 import Particles from "./views/components/Particles";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import GameContext from './views/context/GameContext';
 import Error from "./views/Error";
 import Game from "./views/Game";
 import Home from "./views/Home";
@@ -19,39 +22,16 @@ import Social from "./views/Social";
 import configGraph from "./views/components/config/particles-config-graph";
 import configJordi from "./views/components/config/particles-config-jordi";
 import configDefault from "./views/components/config/particles-config.json";
+import defaultTheme from "./views/components/config/defaultTheme.json"
 
 import { AuthContext } from "./views/context/AuthContext";
 import { ConfigContext } from "./views/context/ConfigContext";
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#2e3487",
-      contrastText: "#FFF",
-    },
-    secondary: {
-      main: "#f2f2f2",
-      contrastText: "#2e3487",
-    },
-    dark: {
-      main: "#0f0f5e",
-      contrastText: "#F2F2F2",
-    },
-    light: {
-      main: "#5e86cf",
-      contrastText: "#F2F2F2",
-    },
-    red: {
-      main: '#BA0000',
-      contrastText: '#FFF'
-    }
-  },
+import "./scripts/i18next"
+import {LocaleContext} from "./views/context/LocaleContext";
+import {useTranslation} from "react-i18next";
 
-  typography: {
-    fontFamily: "Verdana, sans-serif",
-    fontSize: 16,
-  },
-});
+const theme = createTheme(defaultTheme);
 
 let configs = [
   configDefault,
@@ -100,7 +80,9 @@ function useAuth(i = null) {
 
 export default function App() {
   const [config, setConfig] = useState(configDefault);
-
+  const [locale, setLocale] = useState("en");
+  const {i18n, t} = useTranslation()
+  const [hotQuestion, setHotQuestion] = useState(false);
   const auth = useAuth()
 
   function swapConfig() {
@@ -109,28 +91,38 @@ export default function App() {
     setConfig(configs[nextIndex]);
   }
 
+  useEffect(() => {
+    axios.defaults.headers.common['Accept-Language'] = locale;
+    i18n.changeLanguage(locale)
+      .then(() => {})
+  }, [locale, i18n])
+
   return (
     <ThemeProvider theme={theme}>
+      <GameContext.Provider value={{ hotQuestion, setHotQuestion }}>
       <ConfigContext.Provider value={{config, swapConfig}}>
-      <AuthContext.Provider value={auth}>
-        <Nav />
-        <Particles />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/about" element={<About />} />
-          <Route path="/ranking" element={<Ranking />} />
-          <Route path="/menu" element={<Menu />} />
-          <Route path="/game/:category" element={<Game />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/social" element={<Social />} />
+        <LocaleContext.Provider value={{locale, setLocale, t}}>
+          <AuthContext.Provider value={auth}>
+            <Nav />
+            <Particles />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/ranking" element={<Ranking />} />
+              <Route path="/menu" element={<Menu />} />
+              <Route path="/game/:category" element={<Game />} />
+              <Route path="/account" element={<Account />} />
+              <Route path="/social" element={<Social />} />
           <Route path="*" element={<Error />} />
-        </Routes>
-        <Footer />
-      </AuthContext.Provider>
+            </Routes>
+            <Footer />
+          </AuthContext.Provider>
+        </LocaleContext.Provider>
       </ConfigContext.Provider>
+      </GameContext.Provider>
     </ThemeProvider>
   );
 }

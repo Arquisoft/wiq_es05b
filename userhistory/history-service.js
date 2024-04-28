@@ -1,24 +1,23 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cron = require('node-cron');
-const winston = require('winston');
-const ecsFormat = require('@elastic/ecs-winston-format');
+const { loggerFactory, errorHandlerMiddleware, responseLoggerMiddleware, requestLoggerMiddleware, i18nextMiddleware, i18nextInitializer} = require("cyt-utils")
+const promBundle = require('express-prom-bundle');
+const i18next = require('i18next');
 
 // Create a logger
-const logger = winston.createLogger({
-    level: 'debug',
-    format: ecsFormat({ convertReqRes: true }),
-    transports: [
-        new winston.transports.File({
-            filename: 'logs/info.log',
-            level: 'debug'
-        })
-    ]
+const logger = loggerFactory()
+
+i18nextInitializer(i18next, {
+    en: require('./locals/en.json'),
+    es: require('./locals/es.json'),
 })
 
 // Creates the app
 const app = express();
 const port = 8004;
+
+app.set("i18next", i18next);
 
 // Connects to the database
 const mongoUri = process.env.MONGODB_URI || "mongodb://localhost:27017/history"
@@ -26,17 +25,23 @@ mongoose.connect(mongoUri);
 
 // Initializes the repository
 const saveRepository = require('./repositories/saveRepository');
-saveRepository.init(mongoose, mongoUri);
+saveRepository.init(mongoose, mongoUri, i18next);
 
 app.use(express.json())
 
-app.use(require("./middleware/ReqLoggerMiddleware")(logger.info.bind(logger)))
-app.use(require("./middleware/ResLoggerMiddleware")(logger.info.bind(logger)))
+app.use(requestLoggerMiddleware(logger.info.bind(logger), "History Service"))
+app.use(responseLoggerMiddleware(logger.info.bind(logger), "History Service"))
+
+app.use(i18nextMiddleware(i18next))
+
+//Prometheus configuration
+const metricsMiddleware = promBundle({includeMethod: true});
+app.use(metricsMiddleware);
 
 // Routes
-require('./routes/routes')(app, saveRepository);
+require('./routes/historyRoutes')(app, saveRepository);
 
-app.use(require("./middleware/ErrorHandlerMiddleware")(logger.error.bind(logger)))
+app.use(errorHandlerMiddleware(logger.error.bind(logger), "History Service"))
 
 const server = app.listen(port, () => console.log(`History listening on port ${port}`));
 

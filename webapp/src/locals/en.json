@@ -1,0 +1,94 @@
+{
+  "translation": {
+    "home_home": "Home",
+    "home_menu": "Menu",
+    "home_ranking": "Global Ranking",
+    "home_about": "About",
+
+    "home_menu_account": "Account",
+    "home_menu_login": "Login",
+    "home_menu_sign_up": "Sign Up",
+    "home_menu_logout": "Logout",
+
+    "signup_title": "Signup",
+    "signup_suggestion_text": "Already have an account?",
+    "signup_suggestion_link": "Login",
+    "signup_submit_button": "Create account",
+
+    "login_title": "Login",
+    "login_suggestion_text": "Don't have an account?",
+    "login_suggestion_link": "Sign up",
+    "login_submit_button": "Login",
+
+    "form_default_title": "Form",
+    "form_default_submit": "Submit",
+    "form_username": "Username",
+    "form_password": "Password",
+
+    "ranking_title": "Global Ranking",
+    "ranking_filter": "Filter by:",
+    "ranking_filter_points": "Points",
+    "ranking_filter_time": "Time",
+    "ranking_filter_category": "Category",
+    "ranking_filter_ratio": "Correct ratio",
+    "ranking_no_scores": "No scores to show",
+    "ranking_table_user": "User",
+    "ranking_table_category": "Category",
+    "ranking_table_time": "Time",
+    "ranking_table_points": "Points",
+    "ranking_table_ratio": "Correct Ratio",
+    "ranking_table_date": "Date",
+
+    "menu_title": "Menu",
+    "menu_choose": "Choose a category to play",
+    "menu_search_placeholder": "Search categories...",
+    "menu_hotQ_enable": "Enable hot question",
+    "menu_hotQ_disable": "Disable hot question",
+    "menu_no_categories": "No categories to show",
+
+    "about_title": "About Us",
+    "about_p1": "Welcome to our project! We are dedicated to providing quality content and services to our users.",
+    "about_p2": "Our mission is to provide a fun way of learning and practicing general knowledge through a Q&A game.",
+    "about_p3": "Feel free to explore our site and discover more about what we have to offer.",
+    "about_p4": "If you have any questions or feedback, please don't hesitate to contact us.",
+    "about_p5": "Thank you for visiting!",
+    "about_contact_us": "Contact Us",
+    "about_contact_channels": "You can reach us via the following channels:",
+    "about_mailing": "Mailing Info:",
+    "about_github": "Checkout our github page!",
+
+    "account_user_data": "User Data",
+
+    "history_title": "History",
+    "history_button_logout": "Logout",
+    "history_points": "Points:",
+    "history_time": "Time:",
+    "history_points2": "Points",
+
+    "game_time_left": "Time left:",
+
+    "endgame_result": "Game result",
+    "endgame_points": "Total points:",
+    "endgame_correct": "Correct answers:",
+    "endgame_wrong": "Wrong answers:",
+    "endgame_time": "Total time:",
+    "endgame_home_button": "Go Home",
+
+    "button_play": "Play",
+
+    "loader_msg": "Loading, please wait...",
+
+    "i18n_spanish": "Spanish",
+    "i18n_english": "English",
+
+    "nav_button_swap": "Swap",
+
+    "error_service_down_msg": "Service is down",
+    "error_reason": "Reason",
+    "error_service_down_page_msg": "The service seems to be down, please try again later.",
+    "error_occurred": "Oh no, an error occurred.",
+    "error_bad_request": "It seems the requested URL does no exist or you don't have enough privileges to see it.",
+    "error_sinner": "Go back sinner.",
+    "error_home_button": "Go Home"
+  }
+}

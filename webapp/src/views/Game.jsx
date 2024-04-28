@@ -11,6 +11,8 @@ import grave from "../media/graveJordi.svg"
 import {useParams} from "react-router-dom";
 import ErrorSnackBar from "./components/ErrorSnackBar";
 import Endgame from "./Endgame";
+import { LocaleContext } from "./context/LocaleContext";
+import GameContext from './context/GameContext';
 
 const initialTime = 10
 
@@ -24,7 +26,7 @@ const changeButtonColor = (i, color) => {
   if (button != null) {
     button.style.color = color;
     setTimeout(() => {
-      button.style.color = "black";
+      button.style.color = "";
     }, 500);
   }
 };
@@ -40,49 +42,42 @@ const Points = ({points}) => {
   );
 }
 
-const Title = ({question}) => {
+const Title = ({question,special}) => {
+  const color = special ? "red" : "black";
   return (
     <Paper elevation={3} sx={{ padding: "1rem" }}>
-      <Typography variant="h4">{question.statement}</Typography>
+      <Typography variant="h4" style={{color}}>{question.statement}</Typography>
     </Paper>
   );
 }
 
 const Line = ({progressBarPercent}) => {
-  return progressBarPercent > 70 ? (
+  return  (
     <LinearProgress
-      color="red"
-      variant={"determinate"}
+      color={progressBarPercent > 70 ? "red" : "light"}
+      variant="determinate"
       value={progressBarPercent}
     />
-  ) : (
-    <LinearProgress
-      color="light"
-      variant={"determinate"}
-      value={progressBarPercent}
-    />
-  );
+  )
 }
 
 const Timer = ({time, setTime, interval}) => {
+  const { t } = useContext(LocaleContext)
 
   useEffect(() => {
-    if(time === 0) {
-      clearInterval(interval.current)
-      return;
-    }
-    interval.current = window.setInterval(() => setTime(time - 1), 1000)
-    return () => {
-      setInterval(null)
-      clearInterval(interval.current)
-    }
-  }, [interval, setTime, time]);
+    const tick = () => setTime((prevTime) => prevTime - 1);
+
+    if (time > 0) interval.current = setInterval(tick, 1000);
+    else clearInterval(interval.current);
+
+    return () => clearInterval(interval.current);
+  }, [time, setTime, interval]);
 
   return (
     <Paper elevation={3} sx={{ padding: "1rem"}}>
       <Box sx={{ ml: 1, display: "flex", margin: "5px" }}>
         <Typography sx={{ fontWeight: 400, fontSize: "15px" }}>
-          Time left: {time}
+          {t("game_time_left")} {time}
         </Typography>
       </Box>
       <Box sx={{ margin: "10px" }}>
@@ -92,7 +87,7 @@ const Timer = ({time, setTime, interval}) => {
   );
 }
 
-const Buttons = ({question, setAnswer}) => {
+const Buttons = ({question, setAnswer, disabled}) => {
   const buttonStyle = {
     height: {xs: "10rem", md: "13rem"},
     width: "100%",
@@ -109,7 +104,7 @@ const Buttons = ({question, setAnswer}) => {
     <Paper elevation={3} sx={{padding: "1rem 0" }}>
       <Container sx={{ display: "grid", gridTemplateColumns: {xs: "repeat(1, 1fr)", md: "repeat(2, 1fr)"} }}>
         {question.options.map((option, i) => (
-          <Button key={i} id={`button${i}`} sx={buttonStyle} onClick={() => setAnswer(option)}>
+          <Button disabled={disabled} key={i} id={`button${i}`} sx={buttonStyle} onClick={() => setAnswer(option)}>
             {option}
           </Button>
         ))}
@@ -118,7 +113,16 @@ const Buttons = ({question, setAnswer}) => {
   );
 }
 
-const MainView = ({error, historialError, setHistorialError, questions, current, setAnswer, interval, time, setTime, points, correct, wrong, totalTime}) => {
+const Counter = ({current, total}) => {
+  return (
+    <Typography sx={{ fontWeight: 400, fontSize: "35px" }}>{current + 1}/{total}</Typography>
+  )
+}
+
+const MainView = ({error, historialError, setHistorialError, questions,
+                  current, setAnswer, interval, time,
+                  setTime, points, correct, wrong,
+                  totalTime, disabledButton,special}) => {
   if (error)
     return (
       <Paper elevation={3} sx={{padding: "1rem 0"}}>
@@ -135,10 +139,13 @@ const MainView = ({error, historialError, setHistorialError, questions, current,
     )
   return (
     <>
-      <Points points={points} />
-      <Title question={questions[current]} />
+      <Box sx={{ display: "flex", flexFlow: "row", alignItems: "center", justifyContent: "space-between"}}>
+        <Points points={points} />
+        <Counter current={current} total={questions.length}/>
+      </Box>
+      <Title question={questions[current]} special={special} />
       <Timer time={time} setTime={setTime} interval={interval} />
-      <Buttons question={questions[current]} setAnswer={setAnswer} />
+      <Buttons question={questions[current]} setAnswer={setAnswer} disabled={disabledButton} />
       {historialError && <ErrorSnackBar msg={historialError} setMsg={setHistorialError} />}
     </>
   )
@@ -158,15 +165,23 @@ const Game = () => {
   const [correct, setCorrect] = useState(0)
   const [wrong, setWrong] = useState(0)
   const [totalTime, setTotalTime] = useState(0)
+  const [disabledButton, setDisabledButton] = useState(false)
   const { category} = useParams()
-
-  const handleNextQuestion = () => {
+  const [count,setCount] = useState(0);
+  const [specialQuestionNumber] = useState(Math.floor(Math.random() * 10));
+  const[special,setSpecial] = useState(false);
+  const { hotQuestion } = useContext(GameContext);
+  const handleNextQuestion = async () => {
     clearInterval(interval.current)
+    setDisabledButton(true)
     interval.current = setInterval(() => {
       setTime((prevTimer) => prevTimer - 1);
     }, 1000);
+
+    if(!saveId.current) await createSave()
+    if(!saveId.current) return
     axios
-      .post("/game/answer", {
+      .post(`/game/answer?isHot=${special && hotQuestion}`, {
         token: getUser().token,
         saveId: saveId.current,
         questionId: questions[current]._id,
@@ -177,6 +192,10 @@ const Game = () => {
         options: questions[current].options
       })
       .then(response => {
+        const { error } = response.data
+        setHistorialError(error)
+        setCount(count+1);
+        setSpecial(count === specialQuestionNumber)
         setPoints(points + response.data.points)
         const correctAnswer = response.data.answer
 
@@ -194,31 +213,39 @@ const Game = () => {
 
         setTimeout(() => {
           setTime(initialTime)
+          setDisabledButton(false)
           setCurrent(current + 1);
           setAnswer(null)
         }, 500)
       })
-      .catch(e => setHistorialError({ error: e.response.data.error }))
+      .catch(e => setHistorialError(e.response.data.error))
+  }
+
+  const createSave = async () => {
+    try {
+      const response = await axios
+        .post("/history/create", {
+          token: getUser().token,
+          category: category,
+          userId: getUser().userId
+        })
+      saveId.current = response.data.id
+    } catch (err) {
+      setHistorialError(err.response.data.error)
+    }
   }
 
   useEffect( () => {
     fetchQuestions(category, getUser().token)
       .then(data => setQuestions(data))
       .catch(err => setError({error: err.response.data.error, status: err.response.status}));
-    axios
-      .post("/history/create", {
-        token: getUser().token,
-        category: category,
-        userId: getUser().userId
-      })
-      .then(response => saveId.current = response.data.id)
-      .catch(err => setHistorialError({error: err.response.data.error, status: err.response.status}))
+    createSave()
+    return () => clearInterval(interval.current)
     //eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    if(time === 0) handleNextQuestion();
-    if(answer !== null) handleNextQuestion()
+    if(time === 0 || answer !== null) handleNextQuestion();
     //eslint-disable-next-line
   }, [time, answer]);
 
@@ -248,6 +275,8 @@ const Game = () => {
           correct={correct}
           wrong={wrong}
           totalTime={totalTime}
+          special={(special && hotQuestion)}
+          disabledButton={disabledButton}
         />
       </Container>
     </ProtectedComponent>

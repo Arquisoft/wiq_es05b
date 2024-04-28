@@ -1,0 +1,27 @@
+{
+  "translation": {
+    "error_missing_field": "Missing field",
+    "error_username_empty": "Username should not be empty",
+    "error_password_short": "Password must be at least 8 characters long",
+    "error_password_uppercase": "Password must contain at least one uppercase letter",
+    "error_password_lowercase": "Password must contain at least one lowercase letter",
+    "error_password_number": "Password must contain at least one number",
+    "error_password_special": "Password must contain at least one special character",
+    "error_save_property": "You don't own this save",
+    "error_invalid_token": "Invalid token",
+    "error_validating_token": "Error validating token",
+    "error_no_session_token": "No session token provided",
+    "error_unable_to_login": "Unable to login",
+    "error_fetch_user": "An error occurred while fetching user data",
+    "error_adding_user": "An error occurred while adding user",
+    "error_fetch_answer": "An error occurred while fetching the answer",
+    "error_adding_answer": "An error occured while saving the answer",
+    "error_fetch_categories": "An error occured while fetching the categories",
+    "error_fetch_questions": "An error occured while fetching the questions",
+    "error_fetch_history": "An error occurred while fetching user history",
+    "error_fetch_ranking": "An error occured while fetching the ranking",
+    "error_login_service_unable": "Login service is having a nap right now",
+    "error_service_unavailable": "Service unavailable",
+    "error_create_save": "An error occurred while creating the save"
+  }
+}

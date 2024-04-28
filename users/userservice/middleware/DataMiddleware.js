@@ -3,9 +3,9 @@ const checkFieldsOn = (fields, obj) => {
         if (!obj[field]) return field;
 }
 
-module.exports = function (req, res, next) {
+module.exports = (i18next) => (req, res, next) => {
     const result = checkFieldsOn(["username", "password"], req.body);
-    if(result) return next({ status: 400, error: `Missing field ${result}` });
+    if(result) return next({ status: 400, error: `${i18next.t("error_missing_field")} '${result}'` });
 
     next()
 }

@@ -5,12 +5,13 @@ import grave from "../media/graveRanking.svg";
 import Loader from "./components/Loader";
 import ServiceDownMessage from "./components/ServiceDownMessage";
 import { AuthContext } from "./context/AuthContext";
+import { LocaleContext } from "./context/LocaleContext";
 
 const baseFilters = [
-  { filter: "totalPoints", displayed: "Points" },
-  { filter: "totalTime", displayed: "Time" },
-  { filter: "category", displayed: "Category" },
-  { filter: "correct", displayed: "Correct ratio" },
+  { filter: "totalPoints", code: "ranking_filter_points" },
+  { filter: "totalTime", code: "ranking_filter_time" },
+  // { filter: "category", code: "ranking_filter_category" },
+  { filter: "correct", code: "ranking_filter_ratio" },
 ]
 
 const rowGenerator = (score, i) => {
@@ -20,41 +21,53 @@ const rowGenerator = (score, i) => {
       <TableCell><Typography>{score.user}</Typography></TableCell>
       <TableCell><Typography>{score.category}</Typography></TableCell>
       <TableCell align="right"><Typography>{score.totalTime} s</Typography></TableCell>
-      <TableCell align="right"><Typography>{score.totalPoints}</Typography></TableCell>
-      <TableCell align="right"><Typography>{score.correct * 100}%</Typography></TableCell>
+      <TableCell align="right"><Typography>{score.totalPoints}</Typography></TableCell> 
+      <TableCell align="right"><Typography>{(score.correct * 100).toFixed(3)}%</Typography></TableCell>
       <TableCell align="right"><Typography>{new Date(score.date).toLocaleDateString()}</Typography></TableCell>
     </TableRow>
   )
 }
 
-const RankingList = ({ scores, error }) => {
+const RankingList = ({ scores, error, setFilter }) => {
+  const { t } = useContext(LocaleContext)
   if (error) {
-    console.log(error)
     return <ServiceDownMessage grave={grave} code={error.status} reason={error.message} />
   }
   if (scores.length === 0)
-    return <Typography variant="h5" align="center">No scores to show</Typography>
+    return <Typography variant="h5" align="center">{t("ranking_no_scores")}</Typography>
   return (
-    <TableContainer component={Container}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell><Typography fontWeight="bold">User</Typography></TableCell>
-            <TableCell><Typography fontWeight="bold">Category</Typography></TableCell>
-            <TableCell align="right"><Typography fontWeight="bold">Time</Typography></TableCell>
-            <TableCell align="right"><Typography fontWeight="bold">Points</Typography></TableCell>
-            <TableCell align="right"><Typography fontWeight="bold">Correct Ratio</Typography></TableCell>
-            <TableCell align="right"><Typography fontWeight="bold">Date</Typography></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {
-            scores.map((score, i) => rowGenerator(score, i))
-          }
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      <Autocomplete
+        disablePortal
+        options={baseFilters}
+        getOptionLabel={(option) => t(option.code)}
+        sx={{ width: 200, alignSelf: "flex-end"}}
+        onChange={(_, selected) => {
+          setFilter(selected ? selected.filter : '');
+        }}
+        renderInput={(params) => <TextField {...params} label={t("ranking_filter")} />}
+      />
+      <TableContainer component={Container}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell />
+              <TableCell><Typography fontWeight="bold">{t("ranking_table_user")}</Typography></TableCell>
+              <TableCell><Typography fontWeight="bold">{t("ranking_table_category")}</Typography></TableCell>
+              <TableCell align="right"><Typography fontWeight="bold">{t("ranking_table_time")}</Typography></TableCell>
+              <TableCell align="right"><Typography fontWeight="bold">{t("ranking_table_points")}</Typography></TableCell>
+              <TableCell align="right"><Typography fontWeight="bold">{t("ranking_table_ratio")}</Typography></TableCell>
+              <TableCell align="right"><Typography fontWeight="bold">{t("ranking_table_date")}</Typography></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {
+              scores.map((score, i) => rowGenerator(score, i))
+            }
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 };
 

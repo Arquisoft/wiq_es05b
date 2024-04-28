@@ -9,8 +9,8 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 | Term | Definition
 
-| WIQ
-| Wikidata Infinite Quest
+| CyT
+| Conocer y Triunfar
 
 | "Saber y Ganar"
 | A spanish TV show hosted by Jordi Hurtado which inspires this project

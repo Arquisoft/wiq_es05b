@@ -32,8 +32,8 @@ image::03_business_context.drawio.png["Diagram of business context", align="cent
 |===
 | Communication partners | Inputs | Outputs
 
-| *_WIQ_*
-| Interaction with wikidata to get the questions and answers and with the user to know their response
+| *Conocer y Triunfar*
+| Interaction with Wikidata to get the questions and answers and with the user to know their response
 | Response to the answers of the user 
 
 | *_Users_*
@@ -75,7 +75,7 @@ image::03_technical_context.drawio.png["Technical Context diagram", align="cente
 | Request for question data with category
 | Question sources
 
-| *_Database_*
+| *_Persistence_*
 | RAW data for questions and answers
 | Structured data of questions and answers
 

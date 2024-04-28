@@ -3,11 +3,13 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import textFormat from "../../scripts/textFormat";
 import { AuthContext } from "../context/AuthContext";
+import { LocaleContext } from "../context/LocaleContext";
 import SaveDetails from "./SaveDetails";
 
 const limit = 10
 
 const Save = ({ save, onClick }) => {
+  const { t } = useContext(LocaleContext)
   const date = new Date(save.createdAt)
   const formattedDate = date.toISOString().split("T")[0];
 
@@ -16,7 +18,7 @@ const Save = ({ save, onClick }) => {
     <ListItem
       button
       onClick={() => onClick(save)}
-      secondaryAction={<ListItemText primary={points} secondary="Points" />}
+      secondaryAction={<ListItemText primary={points} secondary={t("history_points2")} />}
     >
       <ListItemText primary={textFormat(save.category)} secondary={formattedDate} />
     </ListItem>
@@ -38,13 +40,9 @@ const SaveList = (props) => {
     user.userId = user._id;
 
   const fetchSaves = () => {
-    axios({
-      method: 'get',
-      url: `/history/get/${user.userId}?page=${page}&limit=${limit}`,
-      headers: {
-        'Authorization': `Bearer ${getUser().token}`
-      }
-    })
+    axios
+      .get(`/history/get/${getUser().userId}?page=${page}&limit=${limit}`,
+        { headers: { Authorization: `Bearer ${getUser().token}` } })
       .then(response => {
         setSaves(response.data.saves)
         setMaxPages(response.data.maxPages)

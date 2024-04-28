@@ -1,25 +1,29 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { customRender} from "../utils/customRenderer";
+import { screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { useAuth } from "../../App.jsx";
 import axios from 'axios';
 import SaveList from '../../views/components/SaveList';
-import { AuthContext } from "../../views/context/AuthContext";
-import { MemoryRouter } from "react-router";
 
 jest.mock('axios');
 jest.mock('../../views/context/AuthContext');
+require("../utils/localStorageMock")()
 
-const localStorageMock = (() => {
-    let store = {};
-    return {
-        getItem: key => store[key],
-        setItem: (key, value) => { store[key] = value },
-        removeItem: key => { delete store[key] },
-        clear: () => { store = {} }
-    };
-})();
+const render = customRender((() => useAuth())())
 
-Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+jest.mock('../../App.jsx', () => ({
+    useAuth: () => ({
+        getUser: () => ({
+            token: 'mockToken',
+            userId: '1',
+            username: 'testUser'
+        }),
+        isAuthenticated: () => true,
+        logout: jest.fn(),
+        setUser: jest.fn()
+    })
+}));
 
 describe('SaveList component', () => {
     const mockSaves = [
@@ -43,15 +47,10 @@ describe('SaveList component', () => {
         }
     ];
 
-    beforeEach(() => {
-        axios.mockResolvedValueOnce({ data: { saves: mockSaves, maxPages: 2 } });
-        render(
-            <AuthContext.Provider value={{ getUser: jest.fn().mockReturnValue({ userId: 1, token: 'mockToken' }) }}>
-                <MemoryRouter>
-                    <SaveList />
-                </MemoryRouter>
-            </AuthContext.Provider>
-        );
+    beforeEach(async () => {
+        axios.get.mockReset();
+        axios.get.mockResolvedValue(Promise.resolve({ data: { saves: mockSaves, maxPages: 2 } }));
+        await act(() => render(<SaveList />))
     });
 
     it('renders a list of saves and handles pagination', async () => {
@@ -68,4 +67,15 @@ describe('SaveList component', () => {
         });
     });
 
+    it('renders a list of saves with correct information', async () => {
+        const saveListItems = await screen.findAllByRole('listitem');
+
+        expect(saveListItems).toHaveLength(6);
+
+        expect(screen.getByText('Test category 1')).toBeInTheDocument();
+        expect(screen.getByText('Test category 2')).toBeInTheDocument();
+
+        expect(screen.getByText('30')).toBeInTheDocument();
+        expect(screen.getByText('40')).toBeInTheDocument();
+    });
 });

@@ -4,22 +4,24 @@ import { AuthContext } from './context/AuthContext';
 import CustomForm from "./components/CustomForm"
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
+import {LocaleContext} from "./context/LocaleContext";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setUser, isAuthenticated } = useContext(AuthContext);
+  const { t } = useContext(LocaleContext);
   const navigate = useNavigate();
 
   const suggestion = {
-    text: "Already have an account?",
-    linkText: "Login",
+    text: t("signup_suggestion_text"),
+    linkText: t("signup_suggestion_link"),
     link: "/login",
   }
 
   const formData = {
-    title: "Signup",
-    submitButtonTx: "Create account",
+    title: t("signup_title"),
+    submitButtonTx: t("signup_submit_button"),
     submit: (callback) => {
       axios
         .post(`/adduser`, { username, password })
@@ -33,7 +35,7 @@ export default function Signup() {
         })
         .catch(error => {
           if(!error.response && error.code === 'ERR_NETWORK')
-            callback("Service is down")
+            callback(t("error_service_down_msg"))
           else
             callback(error.response.data.error);
         });
@@ -41,7 +43,7 @@ export default function Signup() {
     fields: [
       {
         required: true,
-        displayed: "Username",
+        displayed: t("form_username"),
         name: "username",
         value: username,
         type: "text",
@@ -49,7 +51,7 @@ export default function Signup() {
       },
       {
         required: true,
-        displayed: "Password",
+        displayed: t("form_password"),
         name: "password",
         value: password,
         type: "password",

@@ -1,39 +1,42 @@
 const express = require('express');
-const cors = require('cors');
 const promBundle = require('express-prom-bundle');
 const axios = require('axios');
-const winston = require('winston');
-const ecsFormat = require('@elastic/ecs-winston-format');
+const cors = require('cors');
+const { loggerFactory,  requestLoggerMiddleware,  responseLoggerMiddleware,  errorHandlerMiddleware, i18nextInitializer, i18nextMiddleware } = require("cyt-utils")
+const swaggerUi = require('swagger-ui-express');
+const fs = require('fs');
+const YAML = require('yaml');
+const i18next = require('i18next');
 
-const logger = winston.createLogger({
-  level: 'debug',
-  format: ecsFormat({ convertReqRes: true }),
-  transports: [
-    new winston.transports.File({
-      filename: 'logs/info.log',
-      level: 'debug'
-    })
-  ]
+const logger = loggerFactory()
+
+i18nextInitializer(i18next, {
+  en: require('./locals/en.json'),
+  es: require('./locals/es.json'),
 })
 
 // Create the server
 const app = express();
 const port = 8000;
 
-app.use(cors());
-app.use(express.json());
+app.set("i18next", i18next)
 
-app.use(require("./middleware/ReqLoggerMiddleware")(logger.info.bind(logger)))
-app.use(require("./middleware/ResLoggerMiddleware")(logger.info.bind(logger)))
+app.use(express.json());
+app.use(cors());
+
+app.use(requestLoggerMiddleware(logger.info.bind(logger), "Gateway Service"))
+app.use(responseLoggerMiddleware(logger.info.bind(logger), "Gateway Service"))
+
+app.use(i18nextMiddleware(i18next))
 
 //Prometheus configuration
 const metricsMiddleware = promBundle({includeMethod: true});
 app.use(metricsMiddleware);
 
 // Middleware instantiation
-const dataValidatorMiddleware = require('./middleware/DataValidatorMiddleware')
-const authMiddleware = require('./middleware/AuthMiddleware')
-const authTokenMiddleware = require("./middleware/AuthTokenMiddleware")
+const dataValidatorMiddleware = require('./middleware/DataValidatorMiddleware')(i18next)
+const authMiddleware = require('./middleware/AuthMiddleware')(i18next)
+const authTokenMiddleware = require("./middleware/AuthTokenMiddleware")(i18next)
 const friendMiddleware = require("./middleware/FriendMiddleware")
 
 // Routes middleware
@@ -45,14 +48,27 @@ app.use("/user", authMiddleware)
 app.use("/history/get/:userId",friendMiddleware)
 
 // Routes
-require("./routes/routes")(app)
+require("./routes/gatewayRoutes")(app)
 require("./routes/jordiRoutes")(app, axios)
 require("./routes/usersRoutes")(app, axios, authTokenMiddleware)
 require("./routes/authRoutes")(app, axios)
 require("./routes/historyRoutes")(app, axios, authTokenMiddleware)
 
+// Open API
+const openapiPath='./GatewayAPI.yaml'
+if (fs.existsSync(openapiPath)) {
+  const file = fs.readFileSync(openapiPath, 'utf8');
+
+  // Parse the YAML content into a JavaScript object representing the Swagger document
+  const swaggerDocument = YAML.parse(file);
+
+  app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+} else {
+  console.log("Not configuring OpenAPI. Configuration file not present.")
+}
+
 // Error handler middleware
-app.use(require("./middleware/ErrorHandlerMiddleware")(logger.error.bind(logger)))
+app.use(errorHandlerMiddleware(logger.error.bind(logger), "Gateway Service"))
 
 // Start the gateway service
 const server = app.listen(port, () =>

@@ -3,6 +3,11 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-technical-risks]]
 == Risks and Technical Debts
 
+The technical risks and technical debts section of the document provides an overview of potential challenges and issues
+that may arise during the development and maintenance of the project. These risks and debts need to be carefully considered
+and addressed to ensure the successful completion and long-term viability of the project. The following subsections outline the
+internal and external technical risks, as well as the technical debts that should be taken into account.
+
 === Technical risks
 
 ==== Internal
@@ -39,7 +44,11 @@ ifndef::imagesdir[:imagesdir: ../images]
 |===
 | Description | Priority |  Considerations
 
-| API failure
+| Oracle Cloud Failure
+| 8
+| The project relies on Oracle Cloud services for hosting and deployment. Any failure or downtime of Oracle Cloud services could result in service interruptions, data loss, and a poor user experience. This impact is only reduced thanks to the ease of migration of our dockerized services.
+
+| Wikidata API failure
 | 3
 | Even though an API failure is possible, it's a low impact event because we have the questions stored in the database and the game would still work.
 
