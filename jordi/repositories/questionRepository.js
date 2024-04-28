@@ -32,9 +32,10 @@ module.exports = {
   checkCategory: async function (category) {
     try {
       await this.checkUp();
-      return await this.mongoose.connection
+      const result =  await this.mongoose.connection
         .collection(this.collectionName)
-        .findOne({ categories: category });
+        .distinct("categories");
+      return result.some((x) => x === category);
     } catch (e) {
       throw e.message;
     }
