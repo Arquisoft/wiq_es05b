@@ -62,5 +62,4 @@ server.on('close', () => {
     cron.getTasks().forEach(task => task.stop())
 });
 
-
 module.exports = server
