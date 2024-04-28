@@ -66,7 +66,7 @@ module.exports = (app, axios) => {
 
 
   // ADMIN ROUTES ONLY
-  app.get("/gen/:groupId", async (req, res, next) => {
+  app.get("/admin/gen/:groupId", async (req, res, next) => {
 
     axios.get(`${questionServiceUrl}/gen/${req.params.groupId}`)
       .then(response => res.status(response.status).send(response.data))
