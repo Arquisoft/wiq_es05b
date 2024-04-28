@@ -16,8 +16,8 @@ import ProtectedComponent from "./components/ProtectedComponent";
 import SaveList from "./components/SaveList";
 import UserAvatar from './components/UserAvatar';
 import { AuthContext } from "./context/AuthContext";
+import { LocaleContext } from "./context/LocaleContext";
 import Ranking from './Ranking';
-
 
 const tabStyle = {
     display: "flex",
@@ -63,6 +63,7 @@ const profileStyle = {
 
 
 const Menu = (props) => {
+    const { t } = useContext(LocaleContext)
     const { openTab, friendRequests } = props;
 
     return (
@@ -70,20 +71,20 @@ const Menu = (props) => {
             <Paper elevation={3} sx={{ display: "flex", flexFlow: "column", gap: "1rem", justifyContent: "center", alignItems: "flex-start", padding: "2rem 1rem" }}>
                 <Box sx={menuItemStyle}>
                     <GroupIcon />
-                    <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => openTab("friendsTab")}>Friends</Typography>
+                    <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => openTab("friendsTab")}>{t("social_menu_friends")}</Typography>
                 </Box>
                 <Box sx={menuItemStyle}>
                     <GroupAddIcon />
-                    <Typography variant="h6" element="p" sx={{ padding: 0, cursor: "pointer" }} onClick={() => openTab("friendRequests")}>Friend Requests</Typography>
+                    <Typography variant="h6" element="p" sx={{ padding: 0, cursor: "pointer" }} onClick={() => openTab("friendRequests")}>{t("social_menu_requests")}</Typography>
                     {friendRequests.length != 0 && <NotificationAddOutlinedIcon sx={{ color: "palevioletred" }} />}
                 </Box>
                 <Box sx={menuItemStyle}>
                     <BarChartIcon />
-                    <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => openTab("friendsRankingTab")}>Friends Ranking</Typography>
+                    <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => openTab("friendsRankingTab")}>{t("social_menu_ranking")}</Typography>
                 </Box>
                 <Box sx={menuItemStyle}>
                     <SearchIcon />
-                    <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => openTab("addFriendTab")}>Search users</Typography>
+                    <Typography variant="h6" element="p" sx={{ cursor: "pointer" }} onClick={() => openTab("addFriendTab")}>{t("social_menu_search")}</Typography>
                 </Box>
 
 
@@ -93,6 +94,7 @@ const Menu = (props) => {
 }
 
 const AddFriendTab = (props) => {
+    const { t } = useContext(LocaleContext);
     const { sentRequests, reloadSocialData, friends } = props;
     const { getUser } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
@@ -141,13 +143,13 @@ const AddFriendTab = (props) => {
 
     return (
         <Container sx={tabStyle} >
-            <Typography variant="h4" element="p">Add Friends</Typography>
+            <Typography variant="h4" element="p">{t("social_add")}</Typography>
             <Divider />
 
             <Container sx={{ display: "flex", gap: "1rem", justifyContent: 'center' }}>
-                <TextField label="Search users..." variant="standard" value={filter}
+                <TextField label={t("social_tooltip_search")} variant="standard" value={filter}
                     onChange={(event) => setFilter(event.target.value)} />
-                <Tooltip title="Search users">
+                <Tooltip title={t("social_tooltip_search")}>
                     <Button variant="contained" onClick={() => fetchUsers(filter)}><SearchIcon /></Button>
                 </Tooltip>
 
@@ -158,7 +160,7 @@ const AddFriendTab = (props) => {
                     return (
                         <Paper elevation={3} key={index} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", width: "90%" }}>
                             <Typography variant="body1" element="p">{user.username}</Typography>
-                            <Tooltip title="Send friend request">
+                            <Tooltip title={t("social_tooltip_send")}>
                                 <Button variant="contained" onClick={() => sendFriendRequest(user._id)} disabled={sentRequests.some(request => request.from.userId === getUser().userId && request.to.userId === user._id) || friends.some(f => f._id === user._id)}><GroupAddIcon /></Button>
                             </Tooltip>
                         </Paper>
@@ -172,6 +174,7 @@ const AddFriendTab = (props) => {
 }
 
 const FriendRequestsTab = props => {
+    const { t } = useContext(LocaleContext)
     const { getUser } = useContext(AuthContext);
     const { friendRequests, reloadSocialData, parseDate } = props;
 
@@ -220,7 +223,7 @@ const FriendRequestsTab = props => {
 
     return (
         <Container sx={tabStyle}>
-            <Typography variant="h4" element="p">Friend Requests</Typography>
+            <Typography variant="h4" element="p">{t("social_menu_requests")}</Typography>
             <Divider />
 
             {friendRequests.length === 0 ?
@@ -233,10 +236,10 @@ const FriendRequestsTab = props => {
                                 <Typography variant="body1" element="p">{request.from.username}</Typography>
                                 <Typography variant="body1" element="p">{parseDate(request.createdAt)}</Typography>
                                 <Box sx={{ display: "flex", gap: "1em" }}>
-                                    <Tooltip title="Accept friend request">
+                                    <Tooltip title={t("social_tooltip_accept")}>
                                         <Button variant="contained" onClick={() => acceptRequest(request.from.userId)}><CheckIcon /></Button>
                                     </Tooltip>
-                                    <Tooltip title="Reject friend request">
+                                    <Tooltip title={t("social_tooltip_reject")}>
                                         <Button sx={rejectButtonStyle} variant="contained" onClick={() => rejectRequest(request.from.userId)}><CloseIcon /></Button>
                                     </Tooltip>
                                 </Box>
@@ -252,6 +255,7 @@ const FriendRequestsTab = props => {
 }
 
 const FriendsTab = props => {
+    const { t } = useContext(LocaleContext);
     const { friends, reloadSocialData, openProfile } = props;
     const { getUser } = useContext(AuthContext);
 
@@ -289,7 +293,7 @@ const FriendsTab = props => {
 
     return (
         <Container sx={tabStyle}>
-            <Typography variant="h4" element="p">Friends</Typography>
+            <Typography variant="h4" element="p">{t("social_menu_friends")}</Typography>
             <Divider />
 
             {friends.length === 0 ?
@@ -304,10 +308,10 @@ const FriendsTab = props => {
                                     <Typography variant="body1" element="p">{friend.username}</Typography>
                                 </Box>
                                 <Box sx={{ display: "flex", gap: "1em" }}>
-                                    <Tooltip title="View profile">
+                                    <Tooltip title={t("social_tooltip_profile")}>
                                         <Button variant="contained" onClick={() => openProfile(friend)} ><PersonIcon /></Button>
                                     </Tooltip>
-                                    <Tooltip title="Remove friend">
+                                    <Tooltip title={t("social_tooltip_delete")}>
                                         <Button variant="contained" onClick={() => handleOpen(friend)} ><CloseIcon /></Button>
                                     </Tooltip>
                                 </Box>
@@ -323,6 +327,7 @@ const FriendsTab = props => {
 }
 
 const RemoveFriendModal = (props) => {
+    const { t } = useContext(LocaleContext);
     const { showRemoveFriendModal, handleClose, removeFriend, friendToDelete } = props;
 
     if (friendToDelete)
@@ -334,14 +339,14 @@ const RemoveFriendModal = (props) => {
                 aria-describedby="modal-modal-description">
                 <Box sx={modalStyle}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Removal confirmation
+                    {t("social_deletemodal_title")}
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Are you sure that you want to remove {friendToDelete.username} from your friend list?
+                    {t("social_deletemodal_text").replace('%', friendToDelete.username)}
                     </Typography>
                     <Box sx={{ display: 'flex', justifyContent: 'space-evenly', gap: '1em', mt: 2 }}>
-                        <Button variant="contained" onClick={handleClose}>Cancel</Button>
-                        <Button variant="contained" onClick={() => removeFriend(friendToDelete._id)}>Remove</Button>
+                        <Button variant="contained" onClick={handleClose}>{t("social_deletemodal_cancel")}</Button>
+                        <Button variant="contained" onClick={() => removeFriend(friendToDelete._id)}>{t("social_deletemodal_delete")}</Button>
                     </Box>
                 </Box>
             </Modal>
@@ -349,23 +354,26 @@ const RemoveFriendModal = (props) => {
 }
 
 const EmptyTabMessage = () => {
+    const { t } = useContext(LocaleContext);
+
     return (
         <Container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '2em', gap: '1em' }}>
 
             <img src="/jordi-empty.jpg" alt="empty" style={{ width: '75%' }} />
-            <Typography variant="h5" element="p">Oops... this seems to be empty</Typography>
+            <Typography variant="h5" element="p">{t("social_empty_jordi")}</Typography>
 
         </Container>
     )
 }
 
 const UserProfile = (props) => {
+    const { t } = useContext(LocaleContext);
     const { user, parseDate, openTab } = props;
 
     return (
 
         <Container sx={{ display: 'flex', flexDirection: 'column', gap: '0em', padding: '.5em' }}>
-            <Tooltip title="Go back">
+            <Tooltip title={t("social_tooltip_back")}>
                 <ArrowBackIcon sx={{ cursor: 'pointer', paddingTop: '.5em' }} onClick={() => openTab('friendsTab')} />
             </Tooltip>
             <Box sx={{ display: 'flex', gap: '2em', alignItems: 'center', justifyContent: 'center' }}>

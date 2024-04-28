@@ -36,10 +36,11 @@ const Question = ({ index, question }) => {
 }
 
 const SaveDetails = ({ save, back }) => {
+  const { t } = useContext(LocaleContext)
   return (
     <Box sx={{ display: "flex", flexFlow: "column", gap: "1rem"}}>
 
-      <Tooltip title="Go back">
+      <Tooltip title={t("social_tooltip_back")}>
         <CloseIcon sx={{ cursor: 'pointer', paddingTop: '.5em', marginLeft: "auto" }} onClick={back} />
       </Tooltip>
       <Summary category={save.category} points={save.questions.reduce((acc, curr) => curr.points + acc, 0)} />

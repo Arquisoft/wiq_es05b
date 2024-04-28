@@ -90,6 +90,25 @@
     "error_occurred": "Oh no, an error occurred.",
     "error_bad_request": "It seems the requested URL does no exist or you don't have enough privileges to see it.",
     "error_sinner": "Go back sinner.",
-    "error_home_button": "Go Home"
+    "error_home_button": "Go Home",
+
+    "social_menu_friends": "Friends",
+    "social_menu_requests": "Requests",
+    "social_menu_search": "Search users",
+    "social_menu_ranking": "Friends Ranking",
+    "social_tooltip_search": "Search users",
+    "social_tooltip_accept": "Accept request",
+    "social_tooltip_reject": "Reject request",
+    "social_tooltip_send": "Send friend request",
+    "social_tooltip_delete": "Delete friend",
+    "social_tooltip_profile": "View profile",
+    "social_tooltip_back": "Back",
+    "social_tooltip_add": "Add friends",
+    "social_empty_jordi": "Oops, this seems empty ...",
+    "social_deletemodal_title": "Remove friend",
+    "social_deletemodal_text": "Are you sure you want to remove % from your friend list?",
+    "social_deletemodal_cancel": "Cancel",
+    "social_deletemodal_delete": "Delete"
+
   }
 }

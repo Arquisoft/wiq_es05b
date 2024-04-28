@@ -90,6 +90,25 @@
     "error_occurred": "Oh no, ha ocurrido un error.",
     "error_bad_request": "Parece que la URL solicitada no existe o no tiene suficientes privilegios para verla.",
     "error_sinner": "Vuelve pecador.",
-    "error_home_button": "Volver al Inicio"
+    "error_home_button": "Volver al Inicio",
+
+    "social_menu_friends": "Amigos",
+    "social_menu_requests": "Solicitudes",
+    "social_menu_search": "Buscar usuarios",
+    "social_menu_ranking": "Ranking de amigos",
+    "social_tooltip_search": "Buscar usuarios",
+    "social_tooltip_accept": "Aceptar solicitud",
+    "social_tooltip_reject": "Rechazar solicitud",
+    "social_tooltip_send": "Enviar solicitud",
+    "social_tooltip_delete": "Eliminar amigo",
+    "social_tooltip_profile": "Ver perfil",
+    "social_tooltip_back": "Volver",
+    "social_add": "Añadir amigos",
+    "social_empty_jordi": "Vaya, esto está vacío ...",
+    "social_deletemodal_title": "Confirmación de eliminado",
+    "social_deletemodal_text": "¿Estás seguro de que quieres eliminar a % de tu lista de amigos?",
+    "social_deletemodal_cancel": "Cancelar",
+    "social_deletemodal_delete": "Eliminar"
+
   }
 }
