@@ -2,10 +2,10 @@
     "scripts": {
         "mongo": "docker run -d -p 27017:27017 --name=my-mongo mongo:latest",
         "webapp": "cd webapp && npm start",
-        "gateway": "cd gatewayservice && npm start",
-        "auth": "cd users/authservice && npm start",
-        "user": "cd users/userservice && npm start",
-        "jordi": "cd jordi && npm start",
-        "history": "cd userhistory && npm start"
+        "gateway": "cd gatewayservice && npm run dev",
+        "auth": "cd users/authservice && npm run dev",
+        "user": "cd users/userservice && npm run dev",
+        "jordi": "cd jordi && npm run dev",
+        "history": "cd userhistory && npm run dev"
     }
 }

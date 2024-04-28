@@ -11,6 +11,7 @@ module.exports = {
     this.i18next = i18next;
 
     this.initAdminUser();
+    this.initTestUser();
 
   },
   checkUp: async function () {
@@ -63,5 +64,25 @@ module.exports = {
         });
       }
     });
-  }
+  },
+  initTestUser: function () {
+    const testPassword = process.env.TEST_PASSWORD || "test";
+
+    this.getUser({ username: "test" }).then((user) => {
+      if (!user) {
+        bcrypt.hash(testPassword, 10, async (err, hashedPassword) => {
+          if (err) {
+            console.error("Error hashing test password", err);
+            return;
+          }
+          try {
+            await this.insertUser("test", hashedPassword);
+            console.log("Test user created successfully");
+          } catch (error) {
+            console.error("Error creating test user", error);
+          }
+        });
+      }
+    });
+  },
 };
