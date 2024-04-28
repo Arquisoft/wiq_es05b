@@ -21,13 +21,13 @@ jobs:
     - run: npm --prefix users/authservice ci
     - run: npm --prefix users/userservice ci
     - run: npm --prefix userhistory ci
-    - run: npm --prefix gatewayservice ci; cd gatewayservice; node sonarfix.js
+    - run: npm --prefix gatewayservice ci
     - run: npm --prefix jordi ci
     - run: npm --prefix webapp ci
     - run: npm --prefix users/authservice test -- --coverage
     - run: npm --prefix users/userservice test -- --coverage
     - run: npm --prefix userhistory test -- --coverage
-    - run: npm --prefix gatewayservice test -- --coverage
+    - run: npm --prefix gatewayservice test -- --coverage; cd gatewayservice; node sonarfix.js
     - run: npm --prefix jordi test -- --coverage
     - run: npm --prefix webapp test -- --coverage
 
