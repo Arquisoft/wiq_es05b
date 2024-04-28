@@ -1,4 +1,4 @@
-const checkFields = require("../utils/FieldChecker")
+const { fieldChecker } = require("cyt-utils")
 const questionServiceUrl = process.env.JORDI_SERVICE_URL || "http://localhost:8003";
 const historyService = process.env.HISTORY_SERVICE_URL || "http://localhost:8004";
 
@@ -15,7 +15,7 @@ module.exports = (app, axios) => {
     // TODO - Check save ownership
     // const { userIdToken: userId } = req
 
-    const result = checkFields(["questionId", "last", "answer", "time", "saveId", "statement", "options"], req.body)
+    const result = fieldChecker(["questionId", "last", "answer", "time", "saveId", "statement", "options"], req.body)
     if(result) return next({status: 400, error: `${i18next.t("error_missing_field")} ${result}`})
 
     const { questionId, last, answer, time, saveId, statement, options } = req.body

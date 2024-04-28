@@ -1,16 +1,10 @@
-
-// TODO - move to npm package
-const checkFieldsOn = (fields, obj) => {
-  for (let field of fields)
-    if (!(field in obj)) return field;
-  return null;
-}
+const { fieldChecker } = require("cyt-utils")
 
 module.exports = (app, saveRepository) => {
   const i18next = app.get("i18next");
 
   app.post("/create", (req, res, next) => {
-    const result = checkFieldsOn(["userId", "category"], req.body)
+    const result = fieldChecker(["userId", "category"], req.body)
     if(result) return next({status: 400, error: `${i18next.t("error_missing_field")} ${result}`})
 
     const { userId, category } = req.body;
@@ -29,7 +23,7 @@ module.exports = (app, saveRepository) => {
     const { id } = req.params;
     if (!saveRepository.isValidObjectId(id)) return next({ status: 400, error: i18next.t("error_invalid_Id")})
 
-    const result = checkFieldsOn(["last", "statement", "options", "answer", "correct", "time", "points", "isHot"], req.body)
+    const result = fieldChecker(["last", "statement", "options", "answer", "correct", "time", "points", "isHot"], req.body)
     if(result) return next({status: 400, error: `${i18next.t("error_missing_field")} ${result}`})
 
     const { last, statement, options, answer, correct, time, points, isHot } = req.body;

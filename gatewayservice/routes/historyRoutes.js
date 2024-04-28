@@ -1,4 +1,4 @@
-const fieldChecker = require("../utils/FieldChecker")
+const { fieldChecker } = require("cyt-utils")
 
 const historyServiceUrl = process.env.HISTORY_SERVICE_URL || "http://localhost:8004";
 const userServiceUrl = process.env.USER_SERVICE_URL || "http://localhost:8001";
