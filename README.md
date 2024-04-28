@@ -167,3 +167,7 @@ We are grateful for their support and dedication in making this project a succes
 
 <p style="color: #10ff00">To be continued</p>
 <img src="projectmedia/console.svg" style="width: 5%">
+
+## Links of interest
+- [grafana](https://cyt.is-cool.dev/grafana) 
+
