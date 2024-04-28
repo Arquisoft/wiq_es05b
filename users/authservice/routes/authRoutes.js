@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 // TODO - Move to GH secret
 const JWT_SECRET = process.env.SECRET || "a-very-secret-string"
 
+// TODO - Move to npm package
 const checkFieldsOn = (fields, obj) => {
   for (let field of fields)
     if (!(field in obj)) return field;

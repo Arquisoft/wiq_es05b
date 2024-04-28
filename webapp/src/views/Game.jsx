@@ -14,7 +14,7 @@ import Endgame from "./Endgame";
 import { LocaleContext } from "./context/LocaleContext";
 import GameContext from './context/GameContext';
 
-const initialTime = 10
+const initialTime = 20
 
 const fetchQuestions = async (category, token, n = 10) => {
   const response =  await axios.get(`/game/questions/${category}/${n}`, {headers: {Authorization: `Bearer ${token}`}})
@@ -81,7 +81,7 @@ const Timer = ({time, setTime, interval}) => {
         </Typography>
       </Box>
       <Box sx={{ margin: "10px" }}>
-        <Line progressBarPercent={10 * (10 - time)} />
+        <Line progressBarPercent={5 * (20 - time)} />
       </Box>
     </Paper>
   );

@@ -51,8 +51,6 @@ module.exports = (app, axios) => {
       );
   });
 
-  // TODO - Check n is a number -> error 400
-  // TODO - If no category is found -> error 404
   app.get("/game/questions/:category/:n", async (req, res, next) => {
       axios
         .get(`${questionServiceUrl}/questions/${req.params.category}/${req.params.n}`)

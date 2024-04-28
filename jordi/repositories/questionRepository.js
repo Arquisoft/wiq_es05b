@@ -29,6 +29,17 @@ module.exports = {
     }
   },
 
+  checkCategory: async function (category) {
+    try {
+      await this.checkUp();
+      return await this.mongoose.connection
+        .collection(this.collectionName)
+        .findOne({ categories: category });
+    } catch (e) {
+      throw e.message;
+    }
+  },
+
   getQuestions: async function (category, n = 10) {
     try {
       await this.checkUp();

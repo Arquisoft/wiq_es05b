@@ -21,7 +21,7 @@ module.exports = (app, axios, authTokenMiddleware) => {
             let e = error.error || i18next.t("error_login_service_unable")
             if (error.code && error.code.includes("ECONNREFUSED")) 
               e = { error: i18next.t("error_service_unavailable") }
-            res.status(200).json({ message: response.data.message, error: e })
+            res.json({ message: response.data.message, error: e })
           })
       })
       .catch(() => next({ error: i18next.t("error_adding_user") }));

@@ -1,3 +1,5 @@
+
+// TODO - Move to npm package
 const checkFieldsOn = (fields, obj) => {
     for (const field of fields)
         if (!obj[field]) return field;

@@ -3,10 +3,12 @@ const bcrypt = require('bcrypt');
 module.exports = {
   mongoose: null,
   uri: null,
+  i18next: null,
   User: require("../user-model"),
-  init: function (mongoose, uri) {
+  init: function (mongoose, uri, i18next) {
     this.mongoose = mongoose;
     this.uri = uri;
+    this.i18next = i18next;
 
     this.initAdminUser();
 
@@ -24,7 +26,7 @@ module.exports = {
         password: password,
       });
       await user.save();
-      return { message: "User created successfully" };
+      return { message: this.i18next.t("user_created") };
     } catch (error) {
       throw error.message;
     }

@@ -1,3 +1,5 @@
+
+// TODO - move to npm package
 const checkFieldsOn = (fields, obj) => {
   for (let field of fields)
     if (!(field in obj)) return field;
@@ -7,7 +9,6 @@ const checkFieldsOn = (fields, obj) => {
 module.exports = (app, saveRepository) => {
   const i18next = app.get("i18next");
 
-  // TODO - Add error mapping
   app.post("/create", (req, res, next) => {
     const result = checkFieldsOn(["userId", "category"], req.body)
     if(result) return next({status: 400, error: `${i18next.t("error_missing_field")} ${result}`})
@@ -23,7 +24,6 @@ module.exports = (app, saveRepository) => {
       .catch(error => next(error))
   })
 
-  // TODO - Add error mapping
   // TODO - Gateway should check if the user is owner of the save
   app.post("/add/:id", (req, res, next) => {
     const { id } = req.params;
@@ -47,7 +47,6 @@ module.exports = (app, saveRepository) => {
       .catch((e) => next(e));
   });
 
-  // TODO - Add error mapping
   app.get("/get/:userId", (req, res, next) => {
     const { userId } = req.params;
     if (!saveRepository.isValidObjectId(userId)) return next({ status: 400, error: i18next.t("error_invalid_userId")})
@@ -64,7 +63,6 @@ module.exports = (app, saveRepository) => {
       .catch((e) => next(e));
   });
 
-  // TODO - Add error mapping
   app.get("/get/:userId/:id", (req, res, next) => {
     const { userId, id } = req.params;
     if (!saveRepository.isValidObjectId(userId)) return next({status: 400, error: i18next.t("error_invalid_userId")})
@@ -92,7 +90,7 @@ module.exports = (app, saveRepository) => {
 
     saveRepository
       .getRanking(Number(n), order)
-      .then((result) => res.status(200).json(result))
+      .then((result) => res.json(result))
       .catch((error) => next(error));
   });
 };
