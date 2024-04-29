@@ -27,6 +27,7 @@
     "form_password": "Password",
 
     "ranking_title": "Global Ranking",
+    "ranking_title_friends": "Friends Ranking",
     "ranking_filter": "Filter by:",
     "ranking_filter_points": "Points",
     "ranking_filter_time": "Time",

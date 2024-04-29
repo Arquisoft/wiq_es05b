@@ -84,6 +84,7 @@ const RankingComponent = (props) => {
 }
 
 export default function Ranking(props) {
+  const { t } = useContext(LocaleContext);
   const { getUser } = useContext(AuthContext);
   const [scores, setScores] = useState();
   const [init, setInit] = useState(false); //To prevent error message from showing while fetching
@@ -133,7 +134,7 @@ export default function Ranking(props) {
             style={{ padding: 16, margin: "auto" }}
           >
             <Typography variant="h4" component="h1" align="center" gutterBottom>
-              Global Ranking
+              {t("ranking_title")}
             </Typography>
 
             <RankingComponent error={error} scores={scores} setFilter={setFilter} />
@@ -146,7 +147,7 @@ export default function Ranking(props) {
       {friendMode && init &&
         <Box style={{ paddingTop: "2rem"}}>
           <Typography variant="h4" component="h1" align="center" gutterBottom>
-            Friends Ranking
+          {t("ranking_title_friends")}
           </Typography>
           <RankingComponent error={error} scores={scores} setFilter={setFilter} />
         </Box>
