@@ -36,14 +36,11 @@ module.exports = (app, axios, authTokenMiddleware) => {
   });
 
   app.get("/users/search/:filter", async (req, res, next) => {
-    console.log("gw")
     let filter = req.params.filter;
-    console.log(filter)
 
     axios
       .get(`${userServiceUrl}/users/search/${filter}`)
       .then(({ data }) => {
-        console.log(data);
         res.json(data);
       })
       .catch((error) => next({ error: "gw: An error occurred while fetching user data: " + error }));
@@ -54,7 +51,6 @@ module.exports = (app, axios, authTokenMiddleware) => {
     axios
       .post(`${userServiceUrl}/social/sendrequest`, req.body)
       .then(({ data }) => {
-        console.log(data);
         res.json(data);
       })
       .catch((error) => next({ error: "gw: An error occurred while creating friend request: " + error }));
@@ -66,7 +62,6 @@ module.exports = (app, axios, authTokenMiddleware) => {
     axios
       .get(`${userServiceUrl}/social/sentrequests/${userId}`)
       .then(({ data }) => {
-        console.log(data);
         res.json(data);
       })
       .catch((error) => next({ error: "gw: An error occurred while fetching sent requests: " + error }));
@@ -78,7 +73,6 @@ module.exports = (app, axios, authTokenMiddleware) => {
     axios
       .get(`${userServiceUrl}/social/receivedrequests/${userId}`)
       .then(({ data }) => {
-        console.log(data);
         res.json(data);
       })
       .catch((error) => next({ error: "gw: An error occurred while fetching received requests: " + error }));
@@ -90,7 +84,6 @@ module.exports = (app, axios, authTokenMiddleware) => {
     axios
       .get(`${userServiceUrl}/social/acceptrequest/${fromId}/${userId}`)
       .then(({ data }) => {
-        console.log(data);
         res.json(data);
       })
       .catch((error) => next({ error: "gw: An error occurred while accepting friend request: " + error }));
@@ -102,7 +95,6 @@ module.exports = (app, axios, authTokenMiddleware) => {
     axios
       .get(`${userServiceUrl}/social/friends/${userId}`)
       .then(({ data }) => {
-        console.log(data);
         res.json(data);
       })
       .catch((error) => next({ error: "gw: An error occurred while fetching friends: " + error }));
@@ -112,7 +104,6 @@ module.exports = (app, axios, authTokenMiddleware) => {
     axios
       .post(`${userServiceUrl}/social/removefriend`, req.body)
       .then(({ data }) => {
-        console.log(data);
         res.json(data);
       })
       .catch((error) => next({ error: "gw: An error occurred while removing friend: " + error }));
@@ -122,7 +113,6 @@ module.exports = (app, axios, authTokenMiddleware) => {
     axios
       .post(`${userServiceUrl}/social/rejectrequest`, req.body)
       .then(({ data }) => {
-        console.log(data);
         res.json(data);
       })
       .catch((error) => next({ error: "gw: An error occurred while rejecting friend request: " + error }));

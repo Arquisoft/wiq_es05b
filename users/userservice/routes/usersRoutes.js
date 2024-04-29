@@ -47,7 +47,6 @@ module.exports = function (app, userRepository) {
 
     try {
       const users = await userRepository.getUsers(filter);
-      console.log(users);
       res.json(users);
     } catch (error) {
       next({ error: "us: An error occurred while fetching user data: " + error })

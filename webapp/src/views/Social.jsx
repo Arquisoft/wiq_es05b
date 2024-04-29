@@ -111,7 +111,6 @@ const AddFriendTab = (props) => {
                 'Authorization': `Bearer ${getUser().token}`
             }
         });
-        console.log(response.data);
         setUsers(response.data.filter(user => user._id !== getUser().userId));
     }
 
@@ -133,7 +132,6 @@ const AddFriendTab = (props) => {
             setSnackBarMsg("Friend request sent!");
             reloadSocialData();
         } catch (error) {
-            console.log(error);
         }
     }
 
@@ -191,11 +189,9 @@ const FriendRequestsTab = props => {
                     Authorization: `Bearer ${getUser().token}`
                 }
             });
-            console.log(response.data);
             setAcceptRequestSnackBarMsg("Friend request accepted!");
             reloadSocialData();
         } catch (error) {
-            console.log(error);
         }
     }
 
@@ -213,11 +209,9 @@ const FriendRequestsTab = props => {
                     userId: toId
                 }
             });
-            console.log(response.data);
             setRejectRequestSnackBarMsg("Friend request rejected");
             reloadSocialData();
         } catch (error) {
-            console.log(error);
         }
     }
 
@@ -287,7 +281,6 @@ const FriendsTab = props => {
             reloadSocialData();
             handleClose();
         } catch (error) {
-            console.log(error);
         }
     }
 
@@ -422,10 +415,8 @@ export default function Social() {
                     Authorization: `Bearer ${getUser().token}`
                 }
             });
-            console.log(response.data);
             setSentRequests(response.data);
         } catch (error) {
-            console.log(error);
         }
     }
 
@@ -438,10 +429,9 @@ export default function Social() {
                     Authorization: `Bearer ${getUser().token}`
                 }
             });
-            console.log(response.data);
             setFriendRequests(response.data);
         } catch (error) {
-            console.log(error);
+
         }
     }
 
@@ -456,7 +446,6 @@ export default function Social() {
             });
             parseFriends(response.data);
         } catch (error) {
-            console.log(error);
         }
     }
 
