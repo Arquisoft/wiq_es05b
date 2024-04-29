@@ -37,9 +37,7 @@ const pages = [
   {code: 'home_home', link: '/home', logged: false, icon: HomeIcon},
   {code: 'home_menu', link: '/menu', logged: true, icon: WidgetsIcon},
   {code: 'home_ranking', link: '/ranking', logged: false, icon: PublicIcon},
-  {code: 'home_about', link: '/about', logged: false, icon: InfoIcon},
-  {code: 'howto_title', link: '/howTo', logged: false, icon: InfoIcon}
-
+  {code: 'home_about', link: '/about', logged: false, icon: InfoIcon}
 ];
 
 const settings = [
