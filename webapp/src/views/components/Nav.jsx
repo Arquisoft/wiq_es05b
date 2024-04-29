@@ -47,7 +47,7 @@ const settings = [
   { code: 'home_menu_social', link: '/social', logged: true, icon: PeopleIcon },
   { code: 'home_menu_login', link: '/login', logged: false, icon: LoginIcon },
   { code: 'home_menu_sign_up', link: '/signup', logged: false, icon: PersonAddIcon },
-  { code: 'home_menu_logout', link: '/logout', logged: true, icon: LogoutIcon },
+  { code: 'home_menu_logout', link: '/home', logged: true, icon: LogoutIcon },
 
 ];
 
@@ -66,7 +66,7 @@ const listGenerator = (data, t, isAuthenticated, setOpen, logout) => {
       {
         data.map(item => {
           if (item.logged !== isAuthenticated) return null
-          const f = item.link === '/logout' ? () => { setOpen(false); logout() } : () => setOpen(false)
+          const f = item.link === '/home' ? () => { setOpen(false); logout() } : () => setOpen(false)
           return (
             <ListItemButton component={Link} to={item.link} onClick={f} key={item.code} disablePadding>
               {item.icon && <ListItemIcon>
