@@ -47,28 +47,21 @@ const ContactCard = ({ mails }) => {
 
 export default function About() {
   const { t } = useContext(LocaleContext)
-  const mails = [
-    "uo289295@uniovi.es",
-    "uo288787@uniovi.es",
-    "uo276255@uniovi.es",
-    "uo289321@uniovi.es",
-    "uo288705@uniovi.es"
-  ]
 
   return (
     <Container maxWidth="md" sx={{ marginTop: '2rem', display: "flex", gap: "2rem", flexFlow: "column", alignItems: "center" }}>
 
-      <Card width={'94%'} height={'550px'} title={'About the project'} image={'twcard.png'} imageHeigth={'45%'} lines={[
+      <Card width={'94%'} height={'fitContent'} title={t("about_title")} image={'twcard.png'} imageHeigth={'45%'} lines={[
         t("about_p1"),
         t("about_p2"),
         t("about_p3"),
         t("about_p4")
       ]} />
       <Box sx={{ display: 'flex', gap: '2rem', flexFlow: 'row wrap', justifyContent: 'center', width: '100%' }}>
-        <Card link={"https://github.com/Arquisoft/wiq_es05b"} width={'45%'} height={'300px'} title={'About the app'} image={'about-git.jpg'} imageHeigth={'50%'} lines={['Check our github here!']} />
-        <Card link={"/howTo"} width={'45%'} height={'300px'} title={'About the game'} image={'about-guide.jpg'} imageHeigth={'50%'} lines={['Check our guide to play here!']} />
+        <Card link={"https://github.com/Arquisoft/wiq_es05b"} width={'45%'} height={'300px'} title={t("about_app")} image={'about-git.jpg'} imageHeigth={'50%'} lines={[t("about_github")]} />
+        <Card link={"/howTo"} width={'45%'} height={'300px'} title={t("about_guide")} image={'about-guide.jpg'} imageHeigth={'50%'} lines={[t("about_guide_line")]} />
       </Box>
-      <Card link={"https://www.rtve.es/play/videos/saber-y-ganar/"} width={'94%'} height={'500px'} title={'About the program'} image={'about-jordi.jpg'} imageHeigth={'65%'} lines={['This app is inspired in the spanish TV show "Saber y Ganar"', "Don't forget to take a look here"]} />
+      <Card link={"https://www.rtve.es/play/videos/saber-y-ganar/"} width={'94%'} height={'500px'} title={t("about_program")} image={'about-jordi.jpg'} imageHeigth={'65%'} lines={[t("about_program_line"), t("about_program_line2")]} />
 
     </Container>
   );

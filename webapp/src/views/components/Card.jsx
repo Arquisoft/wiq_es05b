@@ -38,7 +38,7 @@ export default function Card(props) {
             <Box sx={{ padding: '2rem', height: '30%' }}>
                 <Typography variant="h5" component="h2" sx={{ marginBottom: '.5em' }}> {title}  </Typography>
                 {lines.map((line, i) => (
-                    <Typography key={i} variant="body1" component="p"> {line} </Typography>
+                    <Typography key={i} variant="body1" component="p" > {line} </Typography>
                 ))}
             </Box>
         </Paper>

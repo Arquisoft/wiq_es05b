@@ -49,6 +49,12 @@
     "menu_no_categories": "No categories to show",
 
     "about_title": "About Us",
+    "about_app": "About the app",
+    "about_guide": "About the game",
+    "about_guide_line": "Check the game guide here!",
+    "about_program": "About the program",
+    "about_program_line": "This project is inspired by the popular spanish show 'Saber y Ganar'",
+    "about_program_line2": "Don't forget to check the official program page!",
     "about_p1": "Welcome to our project! We are dedicated to providing quality content and services to our users.",
     "about_p2": "Our mission is to provide a fun way of learning and practicing general knowledge through a Q&A game.",
     "about_p3": "Feel free to explore our site and discover more about what we have to offer.",
