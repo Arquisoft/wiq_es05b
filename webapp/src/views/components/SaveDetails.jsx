@@ -16,7 +16,6 @@ const Summary = ({ category, points }) => {
 
 const Question = ({ index, question }) => {
   const { t } = useContext(LocaleContext)
-    console.log(question)
   return (
     <Box sx={{position: "relative"}}>
       <Typography variant="h6" component="p" style={{color: question.isHot ? "red" : ""}}>{index}. {question.statement}</Typography>

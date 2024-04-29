@@ -11,6 +11,7 @@ import GameContext from './views/context/GameContext';
 import Error from "./views/Error";
 import Game from "./views/Game";
 import Home from "./views/Home";
+import HowTo from "./views/HowToPlay";
 import Login from "./views/Login";
 import Menu from "./views/Menu";
 import Ranking from "./views/Ranking";
@@ -114,7 +115,8 @@ export default function App() {
                 <Route path="/game/:category" element={<Game />} />
                 <Route path="/account" element={<Account />} />
                 <Route path="/social" element={<Social />} />
-                <Route path="*" element={<Error />} />
+                <Route path="/howTo" element={<HowTo />} />
+              <Route path="*" element={<Error />} />
               </Routes>
               <Footer />
             </AuthContext.Provider>

@@ -1,126 +1,4 @@
-const groups = [
-  {
-      "groupId": "capitals",
-      "questionItem": "Q6256",
-      "answer": "P36",
-      "statements": [
-          "The capital of <QuestionItem> is...",
-          "What is the capital of <QuestionItem>?",
-          "Select the capital of <QuestionItem>"
-      ],
-      "categories": [
-          "capitals",
-          "geography"
-      ]
-  },
-  {
-      "groupId": "continent",
-      "questionItem": "Q6256",
-      "answer": "P30",
-      "statements": [
-          "The continent of <QuestionItem> is...",
-          "What is the continent of <QuestionItem>?",
-          "Select the continent of <QuestionItem>"
-      ],
-      "categories": [
-          "continent",
-          "geography"
-      ]
-  },
-  {
-      "groupId": "languages",
-      "questionItem": "Q6256",
-      "answer": "P37",
-      "statements": [
-          "The language spoken in <QuestionItem> is...",
-          "What is the language spoken in <QuestionItem>?",
-          "Select the language spoken in <QuestionItem>"
-      ],
-      "categories": [
-          "languages",
-          "geography"
-      ]
-  },
-  {
-      "groupId": "population",
-      "questionItem": "Q6256",
-      "answer": "P1082",
-      "statements": [
-          "The population of <QuestionItem> is...",
-          "What is the population of <QuestionItem>",
-          "Select the population of <QuestionItem>"
-      ],
-      "categories": [
-          "population",
-          "geography"
-      ],
-      "plainText": true,
-      "filter": "FILTER(LANG(?question) = 'en')"
-  },
-  {
-      "groupId": "area",
-      "questionItem": "Q6256",
-      "answer": "P2046",
-      "statements": [
-          "The area of <QuestionItem> is...",
-          "What is the area of <QuestionItem>",
-          "Select the area of <QuestionItem>"
-      ],
-      "categories": [
-          "area",
-          "geography"
-      ],
-      "plainText": true,
-      "filter": "FILTER(LANG(?question) = 'en')"
-  },
-  {
-      "groupId": "gdp",
-      "questionItem": "Q6256",
-      "answer": "P2131",
-      "statements": [
-          "The GDP of <QuestionItem> is...",
-          "What is the GDP of <QuestionItem>",
-          "Select the GDP of <QuestionItem>"
-      ],
-      "categories": [
-          "gdp",
-          "geography"
-      ],
-      "plainText": true,
-      "filter": "FILTER(LANG(?question) = 'en')"
-  },
-  {
-      "groupId": "currency",
-      "questionItem": "Q6256",
-      "answer": "P38",
-      "statements": [
-          "The currency of <QuestionItem> is...",
-          "What is the currency of <QuestionItem>",
-          "Select the currency of <QuestionItem>"
-      ],
-      "categories": [
-          "currency",
-          "geography",
-          "economy"
-      ]
-  },
-  {
-      "groupId": "president",
-      "questionItem": "Q6256",
-      "answer": "P35",
-      "statements": [
-          "The president of <QuestionItem> is...",
-          "Who is the president of <QuestionItem>",
-          "Select the president of <QuestionItem>"
-      ],
-      "categories": [
-          "president",
-          "geography",
-          "politics"
-      ]
-  }
-];
-
+const groups = require("./groups.json")
 
 const request = require("supertest");
 const { MongoMemoryServer } = require("mongodb-memory-server");
@@ -133,6 +11,20 @@ let mongoServer;
 let app;
 
 jest.mock("axios");
+jest.mock('i18next', () => {
+  const actualI18next = jest.requireActual('i18next');  // Optionally use actual for other methods
+  return {
+    ...actualI18next,  // Spread actual module to keep non-mocked parts
+    use: jest.fn().mockReturnThis(),
+    init: jest.fn().mockReturnThis(),
+    changeLanguage: jest.fn().mockReturnThis(),
+    t: jest.fn((key, fallback) => {
+      const resources = {en: require("./locals/en.json"), es: require("./locals/es.json")}
+      return resources["en"]["translation"][key] || key;
+    }),  // Return key or a fallback if provided
+  };
+});
+
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
@@ -388,6 +280,7 @@ const mockQuestionsRepository = {
   checkValidId: jest.fn(),
   findQuestionById: jest.fn(),
   getQuestions: jest.fn(),
+  checkCategory: jest.fn(),
 };
 
 let app2 = express();
@@ -418,6 +311,7 @@ describe('Routes', () => {
 
   it('fetches questions by category and number', async () => {
     mockQuestionsRepository.getQuestions.mockResolvedValue([]);
+    mockQuestionsRepository.checkCategory.mockResolvedValue(true);
     const res = await request(app2).get('/questions/category/10');
     expect(res.statusCode).toEqual(200);
   });

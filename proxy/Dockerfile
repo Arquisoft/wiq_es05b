@@ -16,6 +16,8 @@ COPY certificate.crt /etc/nginx/ssl/certificate.crt
 COPY ca_bundle.crt /etc/nginx/ssl/ca_bundle.crt
 COPY private.key /etc/nginx/ssl/private.key
 
+COPY robots.txt /usr/share/nginx/html/robots.txt
+
 EXPOSE 80
 EXPOSE 443
 

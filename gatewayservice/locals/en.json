@@ -22,6 +22,7 @@
     "error_fetch_ranking": "An error occured while fetching the ranking",
     "error_login_service_unable": "Login service is having a nap right now",
     "error_service_unavailable": "Service unavailable",
-    "error_create_save": "An error occurred while creating the save"
+    "error_create_save": "An error occurred while creating the save",
+    "error_not_admin": "You are not an admin"
   }
 }

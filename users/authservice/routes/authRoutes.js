@@ -1,21 +1,16 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { fieldChecker } = require('cyt-utils');
 
 // TODO - Move to GH secret
 const JWT_SECRET = process.env.SECRET || "a-very-secret-string"
-
-const checkFieldsOn = (fields, obj) => {
-  for (let field of fields)
-    if (!(field in obj)) return field;
-  return null;
-}
 
 module.exports = function (app, userRepository) {
 
   const i18next = app.get("i18next")
 
   app.post('/login', async (req, res, next) => {
-    const value = checkFieldsOn(['username', 'password'], req.body)
+    const value = fieldChecker(['username', 'password'], req.body)
     if(value) return next({status: 400, error: `${i18next.t("error_missing_field")} ${value}`})
 
     const { username, password } = req.body;

@@ -22,6 +22,7 @@
     "error_fetch_ranking": "A ocurrido un error al obtener el ranking",
     "error_login_service_unable": "El servicio de login se esta echando una siesta",
     "error_service_unavailable": "Servicio no disponible",
-    "error_create_save": "A ocurrido un error al crear la partida"
+    "error_create_save": "A ocurrido un error al crear la partida",
+    "error_not_admin": "No eres administrador"
   }
 }

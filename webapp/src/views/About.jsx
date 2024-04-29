@@ -46,7 +46,10 @@ const ContactCard = ({mails}) => {
 export default function About() {
   const mails = [
     "uo289295@uniovi.es",
-    "uo288787@uniovi.es"
+    "uo288787@uniovi.es",
+      "uo276255@uniovi.es",
+      "uo289321@uniovi.es",
+      "uo288705@uniovi.es"
   ]
 
   return (

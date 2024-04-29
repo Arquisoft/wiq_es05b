@@ -1,0 +1,69 @@
+ifndef::imagesdir[:imagesdir: ../images]
+== 12. Testing report
+
+=== 12.1. Unit tests
+Every component is equipped with its own unit tests to ensure its functionality operates accurately, thereby enhancing the project's security and resilience.
+
+TODO finish when merge
+
+=== 12.1.1. Coverage result
+We employ the Sonar tool to validate that our code is thoroughly tested.
+If the coverage falls below 80% or if there's more than 3% duplication, it triggers an error, halting integration until the minimum coverage is met.
+
+=== 12.2. E2E tests
+An end-to-end (E2E) test checks the entire application's functionality from start to finish,
+simulating real user interactions to ensure it works as expected.
+Our end-to-end approach focused on this functionality:
+- Check game integrity
+- Menu categories
+- Answering a game question
+- Game result
+- Login / register
+
+=== 12.3. Gatling tests
+TODO when deployes
+
+=== 12.4. Usability tests
+
+In today's digital age, web usability plays a crucial role in ensuring a positive user experience. A website that is intuitive, easy to navigate, and responsive not only attracts users but also keeps them engaged and satisfied. Recognizing this importance, our team prioritized usability testing to ensure our website meets the needs and expectations of our target audience.
+To conduct comprehensive testing, we divided our participants into two distinct groups. The first group consisted of individuals with prior experience using computers and navigating websites. Their insights and feedback helped us assess the effectiveness of our interface design and navigation structure for users familiar with digital platforms.
+In contrast, the second group consisted of individuals with limited or no experience using computers. By including these participants, we aimed to identify any usability barriers or challenges that might difficult their interaction with our website. Their feedback provided valuable insights into areas where we could improve accessibility for individuals with varying levels of digital knowledge.
+By testing our website with these diverse groups, we gained a comprehensive understanding of its usability across different users. This approach not only ensures inclusivity but also enhances the overall user experience, ultimately contributing to the success of our website in meeting its objectives.
+
+==== Group 1: Individuals with high computer exp
+
+|===
+| User | Challenges | Strengths
+
+| *_User 1_*
+| Tried to click the response too quickly and got confused with the answers
+| Good aesthetics
+
+| *_User 2_*
+| Too little time to answer questions, area category too weird
+| Intuitive colors for correct and incorrect answers
+
+| *_User 3_*
+| Confused by the swap button, thought that it meant switching accounts, couldn't find logout
+| Nice endgame, liked being able to see his points and time
+
+|===
+
+==== Group 2: Those with limited computer usage experience
+|===
+| User | Challenges | Strengths
+
+| *_User 1_*
+| There are too many categories simultaneously. Overwhelming, problems with register(trying to log in without an account),
+low time, all geography categories, wrong password message not found
+| fun game, nice looking
+| *_User 2_*
+| Account not found, would like a "how to play" screen, low time
+| Somewhat intuitive
+| *_User 3_*
+| Didn´t know that by clicking in a history game it would show details, low time
+| nothing to highlight
+|===
+
+=== Improvements based on usability testing
+Added more time to answer the questions and how to play menu

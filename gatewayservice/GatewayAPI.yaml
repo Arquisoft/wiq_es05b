@@ -251,128 +251,6 @@ paths:
                   message:
                     type: string
                     example: 'Service Unavailable'
-  /game/categories:
-    get:
-      summary: Get all categories
-      security:
-        - BearerAuth: [ ]
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: string
-                  example: 'Category 1'
-        '500':
-          description: 'Internal Server Error'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: 'An error occurred'
-        '503':
-          description: 'Service Unavailable'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: 'Service Unavailable'
-  /game/questions/{category}/{n}:
-    get:
-      summary: Get n questions from a category
-      parameters:
-        - name: category
-          in: path
-          required: true
-          schema:
-            type: string
-            example: 'Category 1'
-        - name: n
-          in: path
-          required: true
-          schema:
-            type: integer
-            example: 5
-      security:
-        - BearerAuth: [ ]
-      responses:
-        # TODO - 404 when category not found
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Question'
-        '500':
-          description: 'Internal Server Error'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: 'An error occurred'
-        '503':
-          description: 'Service Unavailable'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: 'Service Unavailable'
-  /ranking/{n}:
-    get:
-      summary: Get the top n users
-      parameters:
-        - name: n
-          in: path
-          required: true
-          schema:
-            type: integer
-            example: 5
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Record'
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: 'An error occurred'
-        '503':
-          description: Service unavailable
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: 'Service unavailable'
   /game/answer:
     post:
       summary: Get the answer of a question
@@ -475,6 +353,409 @@ paths:
                   error:
                     type: string
                     example: 'Service Unavailable'
+  /game/categories:
+    get:
+      summary: Get all categories
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: 'Category 1'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: 'Service Unavailable'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service Unavailable'
+  /game/questions/{category}/{n}:
+    get:
+      summary: Get n questions from a category
+      parameters:
+        - name: category
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'Category 1'
+        - name: n
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 5
+      security:
+        - BearerAuth: [ ]
+      responses:
+        # TODO - 404 when category not found
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Question'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: 'Service Unavailable'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service Unavailable'
+  /admin/gen/{groupId}:
+    get:
+      summary: Generate questions for a specified group
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'capitals'
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Questions generated successfully'
+        '404':
+          description: 'Not Found'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Group not found'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: 'Service Unavailable'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service Unavailable'
+  /admin/gen:
+    get:
+      summary: Generate questions for all groups
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Questions generated successfully'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: 'Service Unavailable'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service Unavailable'
+  /admin/groups:
+    get:
+      summary: Get all groups
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: 'capitals'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: 'Service Unavailable'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service Unavailable'
+  /admin/addGroups:
+    post:
+      summary: Add groups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                groups:
+                  type: array
+                  items:
+                    type: string
+                    example: 'capitals,asdf'
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Groups added successfully'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Missing required fields'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Group already exists'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: 'Service Unavailable'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service Unavailable'
+  /admin/removeGroup/{groupId}:
+    get:
+      summary: Remove a group
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'capitals'
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Group removed successfully'
+        '404':
+          description: 'Not Found'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Group not found'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: 'Service Unavailable'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service Unavailable'
+  /admin/removeAllGroups:
+    get:
+      summary: Remove all groups
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Groups removed successfully'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: 'Service Unavailable'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service Unavailable'
+  /ranking/{n}:
+    get:
+      summary: Get the top n users
+      parameters:
+        - name: n
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 5
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Record'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service unavailable'
   /valid/{token}:
     get:
       summary: Validate a token

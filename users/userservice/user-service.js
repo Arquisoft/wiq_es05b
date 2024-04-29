@@ -44,7 +44,7 @@ const dataMiddleware = require('./middleware/DataMiddleware')(i18next)
 app.use("/adduser", dataMiddleware)
 
 // Initialize the repository
-userRepository.init(mongoose, mongoUri);
+userRepository.init(mongoose, mongoUri, i18next);
 socialRepository.init(mongoose, mongoUri);
 
 // Routes
