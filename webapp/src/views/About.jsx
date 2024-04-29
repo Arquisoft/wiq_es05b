@@ -58,7 +58,7 @@ export default function About() {
   return (
     <Container maxWidth="md" sx={{ marginTop: '2rem', display: "flex", gap: "2rem", flexFlow: "column", alignItems: "center" }}>
 
-      <Card width={'94%'} height={'500px'} title={'About the project'} image={'twcard.png'} imageHeigth={'38%'} lines={[
+      <Card width={'94%'} height={'550px'} title={'About the project'} image={'twcard.png'} imageHeigth={'45%'} lines={[
         t("about_p1"),
         t("about_p2"),
         t("about_p3"),
