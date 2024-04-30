@@ -273,7 +273,7 @@ describe("[Jordi Service] - /question/:id", () => {
   });
 
 const express = require('express');
-const routes = require('./jordi-ask');
+const routes = require('./routes/jordi-ask');
 
 const mockQuestionsRepository = {
   getCategories: jest.fn(),

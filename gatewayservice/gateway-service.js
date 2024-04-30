@@ -52,11 +52,11 @@ app.use("/admin", authMiddleware)
 app.use("/admin", adminMiddleware)
 
 // Routes
-require("./gatewayRoutes")(app)
-require("./jordiRoutes")(app, axios)
-require("./usersRoutes")(app, axios, authTokenMiddleware)
-require("./authRoutes")(app, axios)
-require("./historyRoutes")(app, axios, authTokenMiddleware)
+require("./routes/gatewayRoutes")(app)
+require("./routes/jordiRoutes")(app, axios)
+require("./routes/usersRoutes")(app, axios, authTokenMiddleware)
+require("./routes/authRoutes")(app, axios)
+require("./routes/historyRoutes")(app, axios, authTokenMiddleware)
 
 // Open API
 const openapiPath='./GatewayAPI.yaml'

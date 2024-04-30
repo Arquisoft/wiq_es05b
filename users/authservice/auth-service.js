@@ -37,7 +37,7 @@ userRepository.init(mongoose, mongoUri);
 app.use(express.json());
 
 // Routes
-require('./authRoutes')(app, userRepository);
+require('./routes/authRoutes')(app, userRepository);
 
 // Error handling middleware
 app.use(errorHandlerMiddleware(logger.error.bind(logger), "Auth Service"))

@@ -49,8 +49,8 @@ const metricsMiddleware = promBundle({includeMethod: true});
 app.use(metricsMiddleware);
 
 // Routes
-require("./jordi-ask")(app, questionsRepository);
-require("./jordi-think")(app, questionsRepository, groupsRepository);
+require("./routes/jordi-ask")(app, questionsRepository);
+require("./routes/jordi-think")(app, questionsRepository, groupsRepository);
 
 app.use(errorHandlerMiddleware(logger.error.bind(logger), "Jordi Service"))
 

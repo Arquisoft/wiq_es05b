@@ -48,8 +48,8 @@ userRepository.init(mongoose, mongoUri, i18next);
 socialRepository.init(mongoose, mongoUri);
 
 // Routes
-require('./usersRoutes')(app, userRepository)
-require('./socialRoutes')(app, userRepository, socialRepository)
+require('./routes/usersRoutes')(app, userRepository)
+require('./routes/socialRoutes')(app, userRepository, socialRepository)
 
 // Error handling middleware
 app.use(errorHandlerMiddleware(logger.error.bind(logger), "User Service"))
