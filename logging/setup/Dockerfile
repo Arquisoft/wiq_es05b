@@ -4,6 +4,6 @@ COPY start.sh .
 COPY lib.sh .
 COPY roles/* ./roles/
 
-RUN chmod +x start.sh
+RUN /bin/bash -c "chmod +x ./start.sh"
 
 ENTRYPOINT ["./start.sh"]
