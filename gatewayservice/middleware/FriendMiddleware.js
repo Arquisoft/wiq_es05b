@@ -1,4 +1,5 @@
 const axios = require('axios');
+const userServiceUrl = process.env.USER_SERVICE_URL || "http://localhost:8001";
 
 module.exports = (i18next) => async (req, res, next) => {
     const { userIdToken } = req
@@ -15,7 +16,7 @@ module.exports = (i18next) => async (req, res, next) => {
     //Check whether the requested user is a friend of the logged one
     try {
         const response = await axios
-            .get(`/users/social/friends/${userIdToken}`,
+            .get(`${userServiceUrl}/social/friends/${userIdToken}`,
             {headers: {Authorization: `Bearer ${userIdToken}`}})
 
 
