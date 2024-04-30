@@ -53,8 +53,7 @@ module.exports = {
         ])
         .toArray();
 
-      for (let i = 0; i < result.length; i++) {
-        const question = result[i];
+      for (const question of result) {
         question.options = await this.getDistinctOptions(question);
       }
 
@@ -110,7 +109,7 @@ module.exports = {
 
       return result;
     } catch (error) {
-      throw error;
+      throw error.message;
     }
   },
 
