@@ -32,15 +32,15 @@ export default function Card(props) {
 
     return (
         <Paper elevation={3} sx={cardStyle}>
-            <Link to={link} sx={{ textDecoration: 'none' }}>
+            <Link to={link} style={{ textDecoration: 'none', color: 'black' }}>
                 <img src={image} alt="img" style={imageStyle} />
+                <Box sx={{ padding: '2rem', height: '30%' }}>
+                    <Typography variant="h5" component="h2" sx={{ marginBottom: '.5em' }}> {title}  </Typography>
+                    {lines.map((line, i) => (
+                        <Typography key={i} variant="body1" component="p" > {line} </Typography>
+                    ))}
+                </Box>
             </Link>
-            <Box sx={{ padding: '2rem', height: '30%' }}>
-                <Typography variant="h5" component="h2" sx={{ marginBottom: '.5em' }}> {title}  </Typography>
-                {lines.map((line, i) => (
-                    <Typography key={i} variant="body1" component="p" > {line} </Typography>
-                ))}
-            </Box>
         </Paper>
     );
 }
