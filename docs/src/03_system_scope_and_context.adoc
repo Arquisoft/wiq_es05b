@@ -68,8 +68,8 @@ image::03_technical_context.drawio.png["Technical Context diagram", align="cente
 | User's history
 
 | *_Users_*
-| Questions and posible answers  
-| Interaction to login and answer to questions
+| Questions and possible answers
+| Interaction to log in and answer to questions
 
 | *_Wikidata_*
 | Request for question data with category

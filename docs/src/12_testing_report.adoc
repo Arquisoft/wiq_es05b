@@ -21,7 +21,7 @@ Our end-to-end approach focused on this functionality:
 - Login / register
 
 === 12.3. Gatling tests
-TODO when deployes
+TODO when deploys
 
 === 12.4. Usability tests
 
