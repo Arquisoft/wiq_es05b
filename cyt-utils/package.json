@@ -1,6 +1,6 @@
 {
   "name": "cyt-utils",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "A variety of utilities for the project",
   "main": "index.js",
   "scripts": {
