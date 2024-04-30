@@ -77,7 +77,6 @@
     "howto_n3": "To access a specific game from your history, after accessing your profile, simply click on the desired game for its breakdown.",
     "howto_summary": "There are also several added options such as adding friends or viewing a global ranking available on the top navigation bar.",
 
-
     "account_user_data": "User Data",
 
     "history_title": "History",
@@ -96,6 +95,7 @@
     "endgame_home_button": "Go Home",
 
     "button_play": "Play",
+    "button_back": "Go Back",
 
     "loader_msg": "Loading, please wait...",
 
@@ -116,6 +116,7 @@
     "social_menu_requests": "Requests",
     "social_menu_search": "Search users",
     "social_menu_ranking": "Friends Ranking",
+    "social_snackbar_fq_accepted": "Friendship request accepted",
     "social_tooltip_search": "Search users",
     "social_tooltip_accept": "Accept request",
     "social_tooltip_reject": "Reject request",

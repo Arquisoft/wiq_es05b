@@ -95,6 +95,7 @@
     "endgame_home_button": "Volver al Inicio",
 
     "button_play": "Jugar",
+    "button_back": "Atras",
 
     "loader_msg": "Cargando, por favor espere...",
 
@@ -115,6 +116,7 @@
     "social_menu_requests": "Solicitudes",
     "social_menu_search": "Buscar usuarios",
     "social_menu_ranking": "Ranking de amigos",
+    "social_snackbar_fq_accepted": "Solicitud de amistad aceptada",
     "social_tooltip_search": "Buscar usuarios",
     "social_tooltip_accept": "Aceptar solicitud",
     "social_tooltip_reject": "Rechazar solicitud",

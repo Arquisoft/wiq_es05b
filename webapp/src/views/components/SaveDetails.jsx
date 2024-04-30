@@ -1,9 +1,16 @@
-import CloseIcon from '@mui/icons-material/Close';
-import { Box, Button, Container, Divider, Tooltip, Typography } from "@mui/material";
-import { useContext } from "react";
+import { Box, Button, Container, Divider, Typography } from "@mui/material";
+import { Fragment, useContext } from "react";
 import textFormat from "../../scripts/textFormat";
 import { LocaleContext } from "../context/LocaleContext";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+const insertBreakAfterN = (text, n=30) => {
+  if (text.length <= n) return text;
+  let index = text.indexOf(' ', n);
+  if (index === -1) return text;
+  let parts = [text.slice(0, index), text.slice(index + 1)];
+  return parts.map((part, i) => <Fragment key={i}>{part}<br /></Fragment>);
+}
 
 const Summary = ({ category, points }) => {
   const { t } = useContext(LocaleContext)
@@ -19,7 +26,7 @@ const Question = ({ index, question }) => {
   const { t } = useContext(LocaleContext)
   return (
     <Box sx={{position: "relative"}}>
-      <Typography variant="h6" component="p" style={{color: question.isHot ? "red" : ""}}>{index}. {question.statement}</Typography>
+      <Typography variant="h6" component="p" style={{color: question.isHot ? "red" : ""}}>{index}. {insertBreakAfterN(question.statement)}</Typography>
         <Container>
           {question.options.map((option, i) => {
             if (i === question.correct) return <Typography key={i} color="success.main">{option}</Typography>
@@ -38,9 +45,9 @@ const Question = ({ index, question }) => {
 const SaveDetails = ({ save, back }) => {
   const { t } = useContext(LocaleContext)
   return (
-    <Box sx={{ display: "flex", flexFlow: "column", gap: "1rem"}}>
+    <Container sx={{ display: "flex", flexFlow: "column", gap: "1rem"}}>
       <Button color="primary" onClick={back} startIcon={<ArrowBackIcon />} sx={{alignSelf: "start"}}>
-        Go back
+        {t("button_back")}
       </Button>
       <Summary category={save.category} points={save.questions.reduce((acc, curr) => curr.points + acc, 0)} />
       <Divider />
@@ -48,7 +55,7 @@ const SaveDetails = ({ save, back }) => {
         {save.questions.map((q, i) =>
           <Question key={i} index={i + 1} question={q} />)}
       </Box>
-    </Box>
+    </Container>
   )
 }
 

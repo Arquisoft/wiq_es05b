@@ -105,6 +105,7 @@ export default function Ranking(props) {
       .then((response) => setScores(response))
       .catch((error) => setError({ message: error.data.message, status: error.status }))
       .finally(() => setInit(true));
+      //eslint-disable-next-line
   }, [filter]);
 
   const fetchRanking = async (order) => {

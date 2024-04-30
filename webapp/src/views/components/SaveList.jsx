@@ -53,7 +53,7 @@ const SaveList = (props) => {
       })
   }
 
-  useEffect(fetchSaves, [page]);
+  useEffect(fetchSaves, [getUser, page, user.userId]);
 
   return (
     <Box sx={{ display: "flex", flexFlow: "column", alignItems: "stretch"}}>

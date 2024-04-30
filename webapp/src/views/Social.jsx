@@ -57,10 +57,6 @@ const rejectButtonStyle = {
     }
 }
 
-const profileStyle = {
-
-}
-
 
 const Menu = (props) => {
     const { t } = useContext(LocaleContext)
@@ -76,7 +72,7 @@ const Menu = (props) => {
                 <Box sx={menuItemStyle}>
                     <GroupAddIcon />
                     <Typography variant="h6" element="p" sx={{ padding: 0, cursor: "pointer" }} onClick={() => openTab("friendRequests")}>{t("social_menu_requests")}</Typography>
-                    {friendRequests.length != 0 && <NotificationAddOutlinedIcon sx={{ color: "palevioletred" }} />}
+                    {friendRequests.length !== 0 && <NotificationAddOutlinedIcon sx={{ color: "palevioletred" }} />}
                 </Box>
                 <Box sx={menuItemStyle}>
                     <BarChartIcon />
@@ -104,39 +100,31 @@ const AddFriendTab = (props) => {
     const fetchUsers = async (filter) => {
         if (!filter) filter = 'all';
 
-        const response = await axios({
-            method: 'get',
-            url: `/users/search/${filter}`,
-            headers: {
-                'Authorization': `Bearer ${getUser().token}`
-            }
-        });
+        const response = await axios
+            .get(`/users/search/${filter}`,
+            { headers: { Authorization: `Bearer ${getUser().token}` } });
+
         setUsers(response.data.filter(user => user._id !== getUser().userId));
     }
 
     const sendFriendRequest = async (toId) => {
 
         try {
-            const response = await axios({
-                method: 'post',
-                url: `/users/social/sendrequest`,
-                headers: {
-                    Authorization: `Bearer ${getUser().token}`
-                },
-                data: {
+            await axios
+                .post("/users/social/sendrequest",{
                     name: getUser().username,
                     userId: getUser().userId,
                     toId: toId
-                }
-            });
+                },
+                { headers: { Authorization: `Bearer ${getUser().token}` } })
             setSnackBarMsg("Friend request sent!");
             reloadSocialData();
-        } catch (error) {
-        }
+        } catch (error) {}
     }
 
     useEffect(() => {
         fetchUsers();
+        // eslint-disable-next-line
     }, []);
 
     return (
@@ -166,7 +154,7 @@ const AddFriendTab = (props) => {
                 })}
             </Container>
 
-            {snackBarMsg != '' && <InfoSnackBAr msg={snackBarMsg} setMsg={setSnackBarMsg} />}
+            {snackBarMsg !== '' && <InfoSnackBAr msg={snackBarMsg} setMsg={setSnackBarMsg} />}
         </Container>
     )
 }
@@ -182,37 +170,26 @@ const FriendRequestsTab = props => {
     const acceptRequest = async (fromId) => {
         const toId = getUser().userId;
         try {
-            const response = await axios({
-                method: 'get',
-                url: `/users/social/acceptrequest/${fromId}/${toId}`,
-                headers: {
-                    Authorization: `Bearer ${getUser().token}`
-                }
-            });
-            setAcceptRequestSnackBarMsg("Friend request accepted!");
+            await axios
+                .get(`/users/social/acceptrequest/${fromId}/${toId}`,
+                { headers: { Authorization: `Bearer ${getUser().token}` } });
+            setAcceptRequestSnackBarMsg(t("social_snackbar_fq_accepted"));
             reloadSocialData();
-        } catch (error) {
-        }
+        } catch (error) {}
     }
 
     const rejectRequest = async (fromId) => {
         const toId = getUser().userId;
         try {
-            const response = await axios({
-                method: 'post',
-                url: `/users/social/rejectrequest`,
-                headers: {
-                    Authorization: `Bearer ${getUser().token}`
-                },
-                data: {
-                    fromId: fromId,
-                    userId: toId
-                }
-            });
+            await axios
+            .post(`/users/social/rejectrequest`, {
+                fromId: fromId,
+                userId: toId
+            },
+            { headers: { Authorization: `Bearer ${getUser().token}` } });
             setRejectRequestSnackBarMsg("Friend request rejected");
             reloadSocialData();
-        } catch (error) {
-        }
+        } catch (error) {}
     }
 
     return (
@@ -242,8 +219,8 @@ const FriendRequestsTab = props => {
                     })}
                 </Container>
             }
-            {accpetRequestSnackBarMsg != '' && <InfoSnackBAr msg={accpetRequestSnackBarMsg} setMsg={setAcceptRequestSnackBarMsg} />}
-            {rejectRequestSnackBarMsg != '' && <InfoSnackBAr msg={rejectRequestSnackBarMsg} setMsg={setRejectRequestSnackBarMsg} />}
+            {accpetRequestSnackBarMsg !== '' && <InfoSnackBAr msg={accpetRequestSnackBarMsg} setMsg={setAcceptRequestSnackBarMsg} />}
+            {rejectRequestSnackBarMsg !== '' && <InfoSnackBAr msg={rejectRequestSnackBarMsg} setMsg={setRejectRequestSnackBarMsg} />}
         </Container>
     )
 }
@@ -266,17 +243,12 @@ const FriendsTab = props => {
     const removeFriend = async (friendId) => {
         const userId = getUser().userId;
         try {
-            const response = await axios({
-                method: 'post',
-                url: `/users/social/removefriend`,
-                headers: {
-                    Authorization: `Bearer ${getUser().token}`
-                },
-                data: {
+            await axios
+                .post(`/users/social/removefriend`, {
                     userId: userId,
                     user2: friendId
-                }
-            });
+                },
+                { headers: { Authorization: `Bearer ${getUser().token}` } });
             setRemoveFriendSnackMSg("You and " + friendToDelete.username + " are no longer friends :(");
             reloadSocialData();
             handleClose();
@@ -314,7 +286,7 @@ const FriendsTab = props => {
                     <RemoveFriendModal showRemoveFriendModal={showRemoveFriendModal} handleClose={handleClose} removeFriend={removeFriend} friendToDelete={friendToDelete} />
                 </Container>
             }
-            {removeFriendSnackMSg != '' && <InfoSnackBAr msg={removeFriendSnackMSg} setMsg={setRemoveFriendSnackMSg} />}
+            {removeFriendSnackMSg !== '' && <InfoSnackBAr msg={removeFriendSnackMSg} setMsg={setRemoveFriendSnackMSg} />}
         </Container >
     );
 }
@@ -400,53 +372,36 @@ export default function Social() {
         getSentRequests();
         getFriendRequests();
         getFriends();
+        // eslint-disable-next-line
     }, [reloadData]);
 
-    const reloadSocialData = () => {
-        setReloadData(!reloadData);
-    }
+    const reloadSocialData = () => setReloadData(!reloadData)
 
     const getSentRequests = async () => {
         try {
-            const response = await axios({
-                method: 'get',
-                url: `/users/social/sentrequests/${getUser().userId}`,
-                headers: {
-                    Authorization: `Bearer ${getUser().token}`
-                }
-            });
+            const response = await axios
+                .get(`/users/social/sentrequests/${getUser().userId}`,
+                { headers: { Authorization: `Bearer ${getUser().token}` } });
             setSentRequests(response.data);
-        } catch (error) {
-        }
+        } catch (error) {}
     }
 
     const getFriendRequests = async () => {
         try {
-            const response = await axios({
-                method: 'get',
-                url: `/users/social/receivedrequests/${getUser().userId}`,
-                headers: {
-                    Authorization: `Bearer ${getUser().token}`
-                }
-            });
+            const response = await axios
+                .get(`/users/social/receivedrequests/${getUser().userId}`,
+                { headers: { Authorization: `Bearer ${getUser().token}` } });
             setFriendRequests(response.data);
-        } catch (error) {
-
-        }
+        } catch (error) {}
     }
 
     const getFriends = async () => {
         try {
-            const response = await axios({
-                method: 'get',
-                url: `/users/social/friends/${getUser().userId}`,
-                headers: {
-                    Authorization: `Bearer ${getUser().token}`
-                }
-            });
+            const response = await axios
+                .get(`/users/social/friends/${getUser().userId}`,
+                { headers: { Authorization: `Bearer ${getUser().token}` } });
             parseFriends(response.data);
-        } catch (error) {
-        }
+        } catch (error) {}
     }
 
     const parseFriends = (friendships) => {
