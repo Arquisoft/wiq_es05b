@@ -74,12 +74,14 @@ if (generateOnStartup) {
 	.catch(e => console.log("Oh no", e));
 }
 
+// Disabled because of bugs in the library
+//
 // * second * minute * hour * date * month * year
-cron.schedule(schedule, () => {
-	console.log("Running script at : " + new Date());
-	script(groupsRepository, questionsRepository, WikidataGenerator)
-	.catch(e => console.log("Oh no", e));
-}, {
-	scheduled: true,
-	timezone: "Europe/Madrid"
-});
+// cron.schedule(schedule, () => {
+// 	console.log("Running script at : " + new Date());
+// 	script(groupsRepository, questionsRepository, WikidataGenerator)
+// 	.catch(e => console.log("Oh no", e));
+// }, {
+// 	scheduled: true,
+// 	timezone: "Europe/Madrid"
+// });

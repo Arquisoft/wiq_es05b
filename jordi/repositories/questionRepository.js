@@ -23,10 +23,7 @@ module.exports = {
       await this.checkUp();
       return await this.mongoose.connection
         .collection(this.collectionName)
-        .distinct("categories");
-    } catch (error) {
-      throw error.message;
-    }
+        .distinct("categories"); } catch (error) { throw error.message; }
   },
 
   checkCategory: async function (category) {
@@ -35,10 +32,7 @@ module.exports = {
       const result =  await this.mongoose.connection
         .collection(this.collectionName)
         .distinct("categories");
-      return result.some((x) => x === category);
-    } catch (e) {
-      throw e.message;
-    }
+      return result.some((x) => x === category); } catch (error) { throw error.message; }
   },
 
   getQuestions: async function (category, n = 10) {
@@ -58,10 +52,7 @@ module.exports = {
         question.options = await this.getDistinctOptions(question);
       }
 
-      return result;
-    } catch (error) {
-      throw error.message;
-    }
+      return result; } catch (error) { throw error.message; }
   },
 
   insertQuestions: async function (questions) {
@@ -69,10 +60,7 @@ module.exports = {
       await this.checkUp();
       await this.mongoose.connection
         .collection(this.collectionName)
-        .insertMany(questions);
-    } catch (error) {
-      throw error.message;
-    }
+        .insertMany(questions); } catch (error) { throw error.message; }
   },
 
   deleteQuestions: async function (groupId) {
@@ -80,16 +68,20 @@ module.exports = {
       await this.checkUp();
       await this.mongoose.connection
         .collection(this.collectionName)
-        .deleteMany({ groupId });
-    } catch (error) {
-      throw error.message;
-    }
+        .deleteMany({ groupId }); } catch (error) { throw error.message; }
+  },
+
+  removeQuestions: async function (filter, options) {
+
+    console.log("XD")
+    try {
+      await this.checkUp();
+      await this.mongoose.connection
+        .collection(this.collectionName)
+        .deleteMany(filter, options); } catch (error) { throw error.message; }
   },
 
   getDistinctOptions: async function (question) {
-    // FIXME: Make it distinct and exclude the answer
-    // also make sure there are always 4 options at the end
-
     try {
       await this.checkUp();
       let result = (
@@ -108,10 +100,7 @@ module.exports = {
 
       result.push(question.answer);
 
-      return result;
-    } catch (error) {
-      throw error;
-    }
+      return result; } catch (error) { throw error.message; }
   },
 
   findQuestionById: async function (id) {

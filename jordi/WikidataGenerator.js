@@ -77,11 +77,7 @@ class WikidataGenerator {
 
         });
 
-        return questions;
-
-        } else {
-            throw new Error("No Data found")
-        }
+        return questions; } else { throw new Error("No Data found") }
 
     }
 

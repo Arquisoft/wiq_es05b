@@ -203,16 +203,26 @@ describe("[Jordi Service] - /categories", () => {
   it("Should return 200 and an array of categories", async () => {
 
     axios.get.mockImplementation(() => Promise.resolve(WikidataMock));
+    
     await request(app).post("/addGroups").send(groups);
     await request(app).get("/gen");
         
-    const response = await request(app).get('/categories');
+    let response = await request(app).get('/categories');
 
     expect(response.status).toBe(200);
     expect(response).toHaveProperty("text");
 
     expect(response.text).toEqual("[\"area\",\"capitals\",\"continent\",\"currency\",\"economy\",\"gdp\",\"geography\",\"languages\",\"politics\",\"population\",\"president\"]");
     
+    await request(app).get("/removeAllGroups");
+
+    response = await request(app).get('/categories');
+
+    expect(response.status).toBe(200);
+    expect(response).toHaveProperty("text");
+
+    expect(response.text).toBe("[]");
+
   });
   
   it("Should return 200 and an empty array of categories if the database is empty", async () => {
@@ -226,6 +236,7 @@ describe("[Jordi Service] - /categories", () => {
     expect(response.text).toBe("[]");
 
   });
+
 });
 
 describe("[Jordi Service] - /questions/:category/:n", () => {
@@ -289,6 +300,7 @@ app2.set("i18next", require("i18next"))
 routes(app2, mockQuestionsRepository);
 
 describe('Routes', () => {
+
   it('fetches categories', async () => {
     mockQuestionsRepository.getCategories.mockResolvedValue([]);
     const res = await request(app2).get('/categories');
@@ -319,4 +331,5 @@ describe('Routes', () => {
     const res = await request(app2).get('/questions/category/invalid');
     expect(res.statusCode).toEqual(400);
   });
+
 });

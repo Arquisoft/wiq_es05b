@@ -8,7 +8,7 @@
     "scripts": {
         "start": "node jordi-service.js",
         "dev": "nodemon jordi-service.js",
-        "test": "jest"
+        "test": "jest --coverage"
     },
     "repository": {
         "type": "git",
