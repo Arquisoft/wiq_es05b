@@ -124,7 +124,7 @@
     "social_tooltip_delete": "Delete friend",
     "social_tooltip_profile": "View profile",
     "social_tooltip_back": "Back",
-    "social_tooltip_add": "Add friends",
+    "social_add": "Add friends",
     "social_empty_jordi": "Oops, this seems empty ...",
     "social_deletemodal_title": "Remove friend",
     "social_deletemodal_text": "Are you sure you want to remove % from your friend list?",
