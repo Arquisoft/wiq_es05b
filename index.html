@@ -622,7 +622,7 @@ The application must have the following functionalities:</p>
 <p>A user registration system with a history of their games.</p>
 </li>
 <li>
-<p>All of the questions data must be obtained from the WikiData knowledge database.</p>
+<p>All the questions data must be obtained from the WikiData knowledge database.</p>
 </li>
 <li>
 <p>The application must have an API to obtain users information.</p>
@@ -639,7 +639,7 @@ The application must have the following functionalities:</p>
 <div class="sect2">
 <h3 id="_quality_goals">1.2. Quality Goals</h3>
 <div class="paragraph">
-<p>The following table describes the project&#8217;s quality goals in a descending order.</p>
+<p>The following table describes the project&#8217;s quality goals in descending order.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -653,6 +653,10 @@ The application must have the following functionalities:</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Efficiency</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">As it&#8217;s a game, one of its main objectives is efficiency, as the game needs to run swiftly and smoothly.</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Usability</em></strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The application must be not only easy to learn and use but also fun because if a game has no joy in it, then it shall never be called for that name.</p></td>
@@ -922,8 +926,8 @@ The title of the table is the name of your system, the three columns contain the
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Users</em></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Answers to questions from the app, provides autentification data</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Interaction with the app interface to login and play</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answers to questions from the app, provides authentication data</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interaction with the app interface to log in and play</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Wikidata</em></strong></p></td>
@@ -1016,19 +1020,19 @@ we have decided to use the following technologies, as they were the one given to
 <p><strong><em>React</em></strong>: JavaScript library used in the design of graphical user interfaces.</p>
 </li>
 <li>
-<p><strong><em>ExpressJS</em></strong>: Framework built on the top of <em>Node.js</em> and used in the backend.</p>
+<p><strong><em>Express.js</em></strong>: Framework built on the top of <em>Node.js</em> and used in the backend.</p>
 </li>
 <li>
 <p><strong><em>MongoDB</em></strong>: Several instances are used to persist the information of the app.</p>
 </li>
 <li>
-<p><strong><em>Github</em></strong>: Used for versioning the proyect and as a mean of communication for the dev team.</p>
+<p><strong><em>GitHub</em></strong>: Used for versioning the project and as a mean of communication for the dev team.</p>
 </li>
 <li>
 <p><strong><em>Docker</em></strong>: Used for the app deployment.</p>
 </li>
 <li>
-<p><strong><em>Github actions</em></strong>: Used for testing purposes, app deployment and as a CI/CD tool.</p>
+<p><strong><em>GitHub actions</em></strong>: Used for testing purposes, app deployment and as a CI/CD tool.</p>
 </li>
 </ul>
 </div>
@@ -1036,13 +1040,13 @@ we have decided to use the following technologies, as they were the one given to
 <div class="sect2">
 <h3 id="_top_level_decomposition">4.2. Top-level Decomposition</h3>
 <div class="paragraph">
-<p>We have decided to implement a microservices arquitecture, with diferrent modules
-for different purpouses. For instance, we currently have the following microservices:</p>
+<p>We have decided to implement a microservices architecture, with different modules
+for different purposes. For instance, we currently have the following microservices:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong><em>User service</em></strong>: Service used to add new users.</p>
+<p><strong><em>User service</em></strong>: Service used to add new users, and also manage friends system.</p>
 </li>
 <li>
 <p><strong><em>Auth service</em></strong>: Service used for the authentication of users.</p>
@@ -1054,10 +1058,10 @@ for different purpouses. For instance, we currently have the following microserv
 <p><strong><em>Webapp service</em></strong>. Web application that uses the <em>gateway service</em> to allow basic login and user features.</p>
 </li>
 <li>
-<p><strong><em>Jordi service</em></strong>. Sevice to generate and return questions from the Wikidata API.</p>
+<p><strong><em>Jordi service</em></strong>. Service to generate and return questions from the Wikidata API.</p>
 </li>
 <li>
-<p><strong><em>Userhistory service</em></strong>. Service to generate the user&#8217;s history and global ranking.</p>
+<p><strong><em>User history service</em></strong>. Service to generate the user&#8217;s history and global ranking.</p>
 </li>
 </ul>
 </div>
@@ -1078,29 +1082,29 @@ for different purpouses. For instance, we currently have the following microserv
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Usability</em></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The user must be able to use the application without any doubt or trouble. For this purpouse,
-we must use internationalice the app, so it can be used by people from different countries,
+<td class="tableblock halign-left valign-top"><p class="tableblock">The user must be able to use the application without any doubt or trouble. For this purpose,
+we must use internationalize the app, so it can be used by people from different countries,
 elect a good font and its size, and make the app responsive.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Perfomance</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Performance</em></strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">To optimize performance and reduce the risk of system overload, we are strategically reducing our requests to WikiData.
 This measure will help maintain stable service. Additionally, we are enhancing our infrastructure by upgrading from an
-Azure B1s VM to a more capable Oracle Cloud VM.Standard.A1.Flex instance, which features 4 OCPU cores, 24 GB of RAM, and 50 GB of storage.</p>
+Azure B1s VM to a more capable Oracle Cloud VM.Standard.A1.Flex instance, which features 4 CPU cores, 24 GB of RAM, and 50 GB of storage.</p>
 <p class="tableblock">To further alleviate server stress, we have recalibrated our monitoring probes to gather data at 15-second intervals.
 We are also implementing a reverse proxy in our application to serve as a load balancer.
 This setup efficiently distributes traffic across various microservices and caches static content,
 significantly reducing backend server load and improving user response times.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Maintainability and Escalability</em></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The application must be well structured so that modifications or expansions can be made in a straightforward manner
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>Maintainability and Scalability</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must be well-structured so that modifications or expansions can be made in a straightforward manner
 without requiring excessive alterations to existing code. To achieve this, along with employing a microservices architecture,
 we will utilize design patterns and coding conventions to maintain clean, maintainable code.</p>
 <p class="tableblock">To be more specific, the Gateway Pattern and the Single Responsibility Pattern define the architectural design
 principles that we will follow in our microservices implementation. The Gateway Pattern will be used to provide a unified
 entry point for all external requests, while the Single Responsibility Pattern will ensure that each microservice has a clear and specific role.
-Also we will integrate a reverse proxy to our application to serve as a load balancer, which will help us to scale our application horizontally.
+Also, we will integrate a reverse proxy to our application to serve as a load balancer, which will help us to scale our application horizontally.
 Also simplifies the SSL configuration and the management of the certificates.</p></td>
 </tr>
 </tbody>
@@ -1117,10 +1121,10 @@ Also simplifies the SSL configuration and the management of the certificates.</p
 <p><strong><em>Tasks</em></strong>: We have decided to distribute the tasks equally per person so that everyone has approximately the same workload. We think it is a good idea that once a task is done, it should be reviewed by at least 50% of the group to be taken as valid.</p>
 </li>
 <li>
-<p><strong><em>Github Issues</em></strong>: We make use of <em>Github Issues</em> to create the tasks mentioned above and assign them to different team members. We will also use them to discuss any critical decisions that need to be made about the project.</p>
+<p><strong><em>GitHub Issues</em></strong>: We make use of <em>GitHub Issues</em> to create the tasks mentioned above and assign them to different team members. We will also use them to discuss any critical decisions that need to be made about the project.</p>
 </li>
 <li>
-<p><strong><em>Github Projects</em></strong>: We also take into account <em>Github Projects</em> to organize the workflow and to track the progress of the project.</p>
+<p><strong><em>GitHub Projects</em></strong>: We also take into account <em>GitHub Projects</em> to organize the workflow and to track the progress of the project.</p>
 </li>
 <li>
 <p><strong><em>Language</em></strong>: We have agreed that we will develop the project in <em>English</em> so the code and documentation will use it as the main language. This way we will guarantee that the project is accessible to everyone.</p>
@@ -1654,10 +1658,6 @@ internal and external technical risks, as well as the technical debts that shoul
 </div>
 <div class="sect2">
 <h3 id="_technical_risks">11.1. Technical risks</h3>
-<div class="paragraph">
-<p>We consider a technical risk a potential event that can threaten the successful completion of the project, delay timelines, increase costs, or even lead to project failure if not properly managed.
-The following subsections outline the internal and external technical risks that have been identified for the project.</p>
-</div>
 <div class="sect3">
 <h4 id="_internal">11.1.1. Internal</h4>
 <table class="tableblock frame-all grid-all stretch">
@@ -1970,7 +1970,7 @@ low time, all geography categories, wrong password message not found</p></td>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-04-30 16:12:34 UTC
+Last updated 2024-04-30 16:17:00 UTC
 </div>
 </div>
 </body>
