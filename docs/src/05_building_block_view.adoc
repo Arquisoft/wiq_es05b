@@ -66,7 +66,7 @@ Contained Building Blocks::
 |Service containing all user related information such as scores or history of games played.
 
 |Questions
-|Service that bears the responsability of interacting with te Wikidata API and generating the questions to be presented to the user.
+|Service that bears the responsibility of interacting with te Wikidata API and generating the questions to be presented to the user.
 
 |===
 

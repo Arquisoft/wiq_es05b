@@ -5,9 +5,9 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 The required quality goals are:
 
-- Perfomance: Performance is critical in the application, especially in the game itself.
+- Performance: Performance is critical in the application, especially in the game itself.
 This is intended to save the user long waiting times between questions, providing a fast and fluid experience.
-- Maintainability and Escalability:  The application must be well structured so that functionalities
+- Maintainability and Scalability:  The application must be well-structured so that functionalities
 can be added or modified at any time in a simple and intuitive way, which will facilitate the work of the developers.
 - Scalability: The application should be able to handle a large number of concurrent users and scale horizontally as the user base grows.
 - Availability: The application should be highly available, with minimal downtime and the ability to recover quickly from failures.
@@ -56,7 +56,7 @@ to the main page of the game, if not, it returns them to the login screen and
 informs them of the error.
 |===
 
-===== Perfomance
+===== Performance
 
 |===
 | Usage Scenario | System Response
@@ -80,7 +80,7 @@ quickly know what they have to do to register and how they have to use the appli
 |===
 ==== Change scenarios
 
-===== Maintainability and Escalability
+===== Maintainability and Scalability
 
 |===
 | Change Scenario | System Response

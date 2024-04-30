@@ -25,7 +25,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 | API consumed by the application to generate the questions of the game
 
 | ADR
-| Arquitechtural Design Record. 
+| Architectural Design Record.
 
 | Continuous integration and delivery
 |The process of automating the integration of code changes from multiple contributors into a single software project.   

@@ -76,7 +76,7 @@ This is mainly because load balancing and auto-scaling are not implemented yet.
 
 | Inadequate security measures
 | 4
-| The project's security measures may not be sufficient to protect against common threats such as, cross-site scripting, and DDoS attacks. Regular security audits and penetration testing are essential to identify vulnerabilities and ensure that the project's security measures are up to date.
+| The project's security measures may not be sufficient to protect against common threats such as, cross-site scripting, and DDoS attacks. Regular security audits and penetration testing are essential to identify vulnerabilities and ensure that the project's security measures are up-to-date.
 
 | Make the entire web internationalized
 | 6

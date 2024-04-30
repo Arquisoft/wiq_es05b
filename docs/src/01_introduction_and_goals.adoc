@@ -28,18 +28,21 @@ The application must have the following functionalities:
 
 * A front-end web that allows users to register and play the game.
 * A user registration system with a history of their games.
-* All of the questions data must be obtained from the WikiData knowledge database.
+* All the questions data must be obtained from the WikiData knowledge database.
 * The application must have an API to obtain users information.
 * The application must have an API to obtain generated questions.
 
-Further information can be found link:https://docs.google.com/document/d/1pahOfYFY--Wi7_9bbxiKOGevB_9tOSyRm78blncgBKg/[here].
+Further information can be found link:https://unioviedo-my.sharepoint.com/:b:/g/personal/uo276255_uniovi_es/ES2-y4wEcjBIgM8nCghtDJMBv3tlu08WjjhTeQdwdLKTZA?e=Saxsim/[here].
 
 === Quality Goals
 
-The following table describes the project's quality goals in a descending order.
+The following table describes the project's quality goals in descending order.
 
 |=== 
 | Quality Goal | Motivation
+
+| *_Efficiency_*
+| As it's a game, one of its main objectives is efficiency, as the game needs to run swiftly and smoothly.
 
 | *_Usability_*
 | The application must be not only easy to learn and use but also fun because if a game has no joy in it, then it shall never be called for that name.
@@ -48,14 +51,14 @@ The following table describes the project's quality goals in a descending order.
 | Projects must always have enough quality to be able to be modified without making more changes than necessary.
 Not following this principle would heavily increase costs in new feature implementation or bug solving that may arise in the future.
 
-| *_Security_*
-| Security is always key and therefore effort will be put into fighting against unauthorised access of information, including the users' personal or sensitive data that the information system may contain.
-
 | *_Scalability_*
 | Given an exponential growth of users, the application should allow for capacity resizing and overall a robust handling for a large number of connections.
 
 | *_Testability_*
 | The performance of the system is needed to be tested covering as many use cases as possible so all the other goals will be met.
+
+| *_Security_*
+| Security is always key and therefore effort will be put into fighting against unauthorised access of information, including the users' personal or sensitive data that the information system may contain.
 
 |=== 
 

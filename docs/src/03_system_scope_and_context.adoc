@@ -37,8 +37,8 @@ image::03_business_context.drawio.png["Diagram of business context", align="cent
 | Response to the answers of the user 
 
 | *_Users_*
-| Answers to questions from the app, provides autentification data
-| Interaction with the app interface to login and play
+| Answers to questions from the app, provides authentication data
+| Interaction with the app interface to log in and play
 
 | *_Wikidata_*
 | Request an specific category's questions and their possible answers
@@ -68,8 +68,8 @@ image::03_technical_context.drawio.png["Technical Context diagram", align="cente
 | User's history
 
 | *_Users_*
-| Questions and posible answers  
-| Interaction to login and answer to questions
+| Questions and possible answers
+| Interaction to log in and answer to questions
 
 | *_Wikidata_*
 | Request for question data with category

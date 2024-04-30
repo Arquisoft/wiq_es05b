@@ -7,7 +7,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 The infrastructure of our system consists mainly on a single server, which is hosted in
 an Oracle Virtual Machine arm64 running Ubuntu 22.04 LTS. It contains a dockerized
-NodeJS app based on microservices architecture which exposes port 443 and 80 to
+Node.js app based on microservices architecture which exposes port 443 and 80 to
 the internet as an entry point to the user interface of the system aswell as for the API.
 The server contains a MongoDB database used to store the application data.
 The system also interacts with the Wikidata API in order to provide
@@ -30,7 +30,7 @@ Quality and/or Performance Features::
 
 - Maintainability: The system can be updated (each container can be maintained/updated individually) by replacing the docker containers with new versions of the application, which allows the system to be maintained without remarkable issues.
 
-- Security: The system is hosted in a secure environment (each container is a isolated enviroment, so in the case of a security breach, it only affects one of them) provided by the Azure cloud platform, which ensures its security and availability.
+- Security: The system is hosted in a secure environment (each container is a isolated environment, so in the case of a security breach, it only affects one of them) provided by the Azure cloud platform, which ensures its security and availability.
 
 Mapping of Building Blocks to Infrastructure::
 
