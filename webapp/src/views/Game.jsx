@@ -1,6 +1,6 @@
 import ProtectedComponent from "./components/ProtectedComponent";
 import {Box, Button, Container, LinearProgress, Paper, Typography} from "@mui/material";
-import coinImage from "../media/coin.svg";
+import coinImage from "../media/coin.min.svg";
 import imgFondoBtn from "../media/border.png";
 import axios from "axios";
 import {useContext, useEffect, useRef, useState} from "react";
@@ -43,7 +43,7 @@ const Points = ({points}) => {
 }
 
 const Title = ({question,special}) => {
-  const color = special ? "red" : "black";
+  const color = special ? "#ff0000" : "black";
   return (
     <Paper elevation={3} sx={{ padding: "1rem" }}>
       <Typography variant="h4" style={{color}}>{question.statement}</Typography>
@@ -209,7 +209,7 @@ const Game = () => {
           setCorrect(correct + 1)
         }
         setTotalTime((initialTime - time) + totalTime)
-        changeButtonColor(iCorrect, "green")
+        changeButtonColor(iCorrect, "#00cf00")
 
         setTimeout(() => {
           setTime(initialTime)

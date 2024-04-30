@@ -118,5 +118,19 @@
             "geography",
             "politics"
         ]
+    },
+    {
+        "groupId": "religion",
+        "questionItem": "Q6256",
+        "answer": "P140",
+        "statements": [
+            "The religion of <QuestionItem> is...",
+            "What is the religion of <QuestionItem>",
+            "Select the religion of <QuestionItem>"
+        ],
+        "categories": [
+            "religion",
+            "geography"
+        ]
     }
 ]
