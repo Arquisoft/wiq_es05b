@@ -93,6 +93,7 @@ export default function GameMenu() {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
   const [fetched, setFetched] = useState(false);
+  const { t } = useContext(LocaleContext);
 
     useEffect(() => {
     if(!isAuthenticated()) return;
