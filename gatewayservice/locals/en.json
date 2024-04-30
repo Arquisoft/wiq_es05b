@@ -29,8 +29,9 @@
     "error_social_accept_request": "An error occurred while accepting friend request",
     "error_social_reject_request": "An error occurred while rejecting friend request",
     "error_social_fetch_friends": "An error occurred while fetching friends",
-    "error_social_remove_friend": "An error occurred while removing friend"
-
-
+    "error_social_remove_friend": "An error occurred while removing friend",
+    "error_no_userid": "No user id provided",
+    "error_no_friends": "You are not a friend of this user",
+    "error_fetching_user": "An error occurred while checking user friendship"
   }
 }

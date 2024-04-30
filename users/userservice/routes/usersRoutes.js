@@ -38,7 +38,6 @@ module.exports = function (app, userRepository) {
   })
 
   app.get("/users/search/:filter", async (req, res, next) => {
-
     let filter;
     if (req.params.filter && req.params.filter === 'all')
       filter = null;
@@ -47,12 +46,13 @@ module.exports = function (app, userRepository) {
 
     try {
       const users = await userRepository.getUsers(filter);
-      res.json(users);
+      const output = users.map(user => {
+        const { __v, password, ...output } = user
+        return output
+      })
+      res.json(output);
     } catch (error) {
       next({ error: "us: An error occurred while fetching user data: " + error })
     };
   })
-
-
-
 };

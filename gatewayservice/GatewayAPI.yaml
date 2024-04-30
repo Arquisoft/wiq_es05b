@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: Gateway API specification
-  description: API used by the client to access the services
-  version: 1.0.2
+  title: CyT API specification
+  description: Public API specification for the CyT project
+  version: 2.0.0
 servers:
   - url: 'https://cyt.is-cool.dev/api'
 components:
@@ -95,9 +95,11 @@ components:
           type: integer
           example: 10
 paths:
+# ------------------------------ Gateway Routes ------------------------------ #
+
   /health:
     get:
-      summary: Health check
+      summary: Check service availability
       responses:
         '200':
           description: OK
@@ -109,9 +111,26 @@ paths:
                   status:
                     type: string
                     example: 'OK'
+  /:
+    get:
+        summary: ¯\_(ツ)_/¯
+        responses:
+          '418':
+            description: ¯\_(ツ)_/¯
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: '¯\_(ツ)_/¯'
+
+# -------------------------------- Auth Routes ------------------------------- #
+
   /login:
     post:
-      summary: Login
+      summary: Logs the user in
       requestBody:
         required: true
         content:
@@ -182,9 +201,53 @@ paths:
                   error:
                     type: string
                     example: 'Service unavailable'
+  /validate/{token}:
+    get:
+      summary: Validates a user token
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIifQ.1J4Q7'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                    example: true
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: 'Service Unavailable'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service Unavailable'
+
+# -------------------------------- User Routes ------------------------------- #
+
   /adduser:
     post:
-      summary: Signup
+      summary: Adds a user to the system
       requestBody:
         required: true
         content:
@@ -251,9 +314,925 @@ paths:
                   message:
                     type: string
                     example: 'Service Unavailable'
+  /user/{userId}:
+    get:
+      summary: Get user details
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    example: 'user'
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: '2021-06-01T00:00:00.000Z'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid id format'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'User not found'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Service Unavailable'
+  /users/search/{username}:
+    get:
+      summary: Searchs users by username
+      # TODO - Add security
+      # security:
+      #   - bearerAuth: [ ]
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'user'
+      # TODO - Add error mapping
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: '507f1f77bcf86cd799439011'
+                    username:
+                      type: string
+                      example: 'user'
+                    createdAt:
+                      type: string
+                      format: date-time
+                      example: '2021-06-01T00:00:00.000Z'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Service Unavailable'
+  /users/social/sendrequest:
+    post:
+      summary: Sends a friendrequest to a user
+      # TODO - Add security
+      # security:
+      #   - bearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fromId:
+                  type: string
+                  example: '507f1f77bcf86cd799439011'
+                toId:
+                  type: string
+                  example: '507f1f77bcf86cd799439011'
+                name:
+                  type: string
+                  example: 'user'
+      # TODO - Add error mapping
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Friend request added successfully'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Service Unavailable'
+  /users/social/sentrequests/{userId}:
+    get:
+      summary: Returns the friends requests sent by a user
+      # TODO - Add security
+      # security:
+      #   - bearerAuth: [ ]
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+      # TODO - Add error mapping
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: '507f1f77bcf86cd799439011'
+                    from:
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                          example: 'user'
+                        userId:
+                          type: string
+                          example: '507f1f77bcf86cd799439011'
+                    to:
+                      type: object
+                      properties:
+                        userId:
+                          type: string
+                          example: '507f1f77bcf86cd799439011'
+                    createdAt:
+                      type: string
+                      format: date-time
+                      example: '2021-06-01T00:00:00.000Z'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Service Unavailable'
+  /users/social/receivedrequests/{userId}:
+    get:
+      summary: Returns the friends requests received by the user
+      # TODO - Add security
+      # security:
+      #   - bearerAuth: [ ]
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+      # TODO - Add error mapping
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: '507f1f77bcf86cd799439011'
+                    from:
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                          example: 'user'
+                        userId:
+                          type: string
+                          example: '507f1f77bcf86cd799439011'
+                    to:
+                      type: object
+                      properties:
+                        userId:
+                          type: string
+                          example: '507f1f77bcf86cd799439011'
+                    createdAt:
+                      type: string
+                      format: date-time
+                      example: '2021-06-01T00:00:00.000Z'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Service Unavailable'
+  /users/social/acceptrequest/{fromId}/{userId}:
+    post:
+      summary: Accepts a friend request
+      # TODO - Add security
+      # security:
+      #   - bearerAuth: [ ]
+      parameters:
+        - name: fromId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+        - name: userId
+          in: path
+          required: true
+          schema:
+              type: string
+              example: '507f1f77bcf86cd799439011'
+      # TODO - Add error mapping
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Friendship added successfully'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Service Unavailable'
+  /users/social/friends/{userId}:
+    get:
+      summary: Returns the user friends
+      # TODO - Add security
+      # security:
+      #   - bearerAuth: [ ]
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+      # TODO - Add error mapping
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    user1:
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                          example: 'user'
+                        _id:
+                          type: string
+                          example: '507f1f77bcf86cd799439011'
+                        createdAt:
+                          type: string
+                          format: date-time
+                          example: '2021-06-01T00:00:00.000Z'
+                    user2:
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                          example: 'user'
+                        _id:
+                          type: string
+                          example: '507f1f77bcf86cd799439011'
+                        createdAt:
+                          type: string
+                          format: date-time
+                          example: '2021-06-01T00:00:00.000Z'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Service Unavailable'
+  /users/social/removefriend:
+    post:
+      summary: Removes a friend
+      # TODO - Add security
+      # security:
+      #   - bearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: '507f1f77bcf86cd799439011'
+                user2:
+                  type: string
+                  example: '507f1f77bcf86cd799439011'
+      # TODO - Add error mapping
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Friendship deleted successfully'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Service Unavailable'
+  /users/social/rejectrequest:
+    post:
+      summary: Rejects a friendrequest
+      # TODO - Add security
+      # security:
+      #   - bearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: '507f1f77bcf86cd799439011'
+                fromId:
+                  type: string
+                  example: '507f1f77bcf86cd799439011'
+      # TODO - Add error mapping
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Friend request deleted successfully"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Service Unavailable'
+  /ranking/{n}:
+    get:
+      summary: Get the top n users
+      parameters:
+        - name: n
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 5
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Record'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid value for n'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service unavailable'
+
+# ------------------------------ History Routes ------------------------------ #
+
+  /history/get/{userId}?page={page}&limit={limit}:
+    get:
+      summary: Get all saves from a user
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            example: 1
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            example: 10
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+      security:
+        - BearerAuth: []
+      responses:
+        # TODO - Add error mapping
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  maxPages:
+                    type: integer
+                    example: 1
+                  saves:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Save'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid id format'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid session token'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service unavailable'
+  /history/get/{userId}/{id}:
+    get:
+      summary: Get a save
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '507f1f77bcf86cd799439011'
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Save'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid id format'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid session token'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Save not found'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service unavailable'
+  /history/create:
+    post:
+      summary: Creates a new save
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: '507f1f77bcf86cd799439011'
+                category:
+                  type: string
+                  example: 'Category 1'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Save created successfully'
+                  id:
+                    type: string
+                    example: '507f1f77bcf86cd799439011'
+        '400':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Missing required fields'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid session token'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'An error occurred'
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Service unavailable'
+  /history/add/{id}:
+    post:
+        summary: Adds a question to a save
+        security:
+          - BearerAuth: []
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+              example: '507f1f77bcf86cd799439011'
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  last:
+                    type: boolean
+                    example: true
+                  statement:
+                    type: string
+                    example: 'Statement'
+                  options:
+                    type: array
+                    items:
+                      type: string
+                      example: 'Option 1'
+                  answer:
+                    type: integer
+                    example: 1
+        responses:
+          '201':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: 'Save created successfully'
+                    id:
+                      type: string
+                      example: '507f1f77bcf86cd799439011'
+          '400':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: 'Missing required fields'
+          '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid session token'
+          '404':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: 'Save not found'
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: 'An error occurred'
+          '503':
+            description: Service unavailable
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: 'Service unavailable'
+
+# -------------------------------- Game Routes ------------------------------- #
+
   /game/answer:
     post:
       summary: Get the answer of a question
+      parameters:
+        - name: isHot
+          in: query
+          required: false
+          schema:
+            type: boolean
+            example: false
       requestBody:
         required: true
         content:
@@ -368,6 +1347,16 @@ paths:
                 items:
                   type: string
                   example: 'Category 1'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid session token'
         '500':
           description: 'Internal Server Error'
           content:
@@ -407,7 +1396,6 @@ paths:
       security:
         - BearerAuth: [ ]
       responses:
-        # TODO - 404 when category not found
         '200':
           description: OK
           content:
@@ -416,6 +1404,26 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Question'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid session token'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Question not found'
         '500':
           description: 'Internal Server Error'
           content:
@@ -436,6 +1444,9 @@ paths:
                   error:
                     type: string
                     example: 'Service Unavailable'
+  
+# ------------------------------- Admin Routes ------------------------------- #
+  
   /admin/gen/{groupId}:
     get:
       summary: Generate questions for a specified group
@@ -459,6 +1470,26 @@ paths:
                   message:
                     type: string
                     example: 'Questions generated successfully'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid session token'
+        '403':
+          description: 'Forbidden'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'You are not an admin'
         '404':
           description: 'Not Found'
           content:
@@ -505,6 +1536,26 @@ paths:
                   message:
                     type: string
                     example: 'Questions generated successfully'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid session token'
+        '403':
+          description: 'Forbidden'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'You are not an admin'
         '500':
           description: 'Internal Server Error'
           content:
@@ -540,6 +1591,26 @@ paths:
                 items:
                   type: string
                   example: 'capitals'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid session token'
+        '403':
+          description: 'Forbidden'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'You are not an admin'
         '500':
           description: 'Internal Server Error'
           content:
@@ -598,6 +1669,26 @@ paths:
                   error:
                     type: string
                     example: 'Missing required fields'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid session token'
+        '403':
+          description: 'Forbidden'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'You are not an admin'
         '409':
           description: Conflict
           content:
@@ -651,6 +1742,26 @@ paths:
                   message:
                     type: string
                     example: 'Group removed successfully'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid session token'
+        '403':
+          description: 'Forbidden'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'You are not an admin'
         '404':
           description: 'Not Found'
           content:
@@ -697,6 +1808,26 @@ paths:
                   message:
                     type: string
                     example: 'Groups removed successfully'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid session token'
+        '403':
+          description: 'Forbidden'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'You are not an admin'
         '500':
           description: 'Internal Server Error'
           content:
@@ -717,205 +1848,4 @@ paths:
                   error:
                     type: string
                     example: 'Service Unavailable'
-  /ranking/{n}:
-    get:
-      summary: Get the top n users
-      parameters:
-        - name: n
-          in: path
-          required: true
-          schema:
-            type: integer
-            example: 5
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Record'
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: 'An error occurred'
-        '503':
-          description: Service unavailable
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: 'Service unavailable'
-  /valid/{token}:
-    get:
-      summary: Validate a token
-      parameters:
-        - name: token
-          in: path
-          required: true
-          schema:
-            type: string
-            example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIifQ.1J4Q7'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  valid:
-                    type: boolean
-                    example: true
-        '500':
-          description: 'Internal Server Error'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: 'An error occurred'
-        '503':
-          description: 'Service Unavailable'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: 'Service Unavailable'
-  /history/get/{userId}/{id}:
-    get:
-      summary: Get a save
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            example: '507f1f77bcf86cd799439011'
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-            example: '507f1f77bcf86cd799439011'
-      security:
-        - BearerAuth: []
-      responses:
-        # TODO - Add error mapping
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Save'
-  /history/get/{userId}?page={page}&limit={limit}:
-    get:
-      summary: Get all saves from a user
-      parameters:
-        - name: page
-          in: query
-          required: false
-          schema:
-            type: integer
-            example: 1
-        - name: limit
-          in: query
-          required: false
-          schema:
-            type: integer
-            example: 10
-      security:
-        - BearerAuth: []
-      responses:
-        # TODO - Add error mapping
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  maxPages:
-                    type: integer
-                    example: 1
-                  saves:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Save'
-  /history/create:
-    post:
-      summary: Creates a new save
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                userId:
-                  type: string
-                  example: '507f1f77bcf86cd799439011'
-                category:
-                  type: string
-                  example: 'Category 1'
-                token:
-                  type: string
-                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIifQ.1J4Q7'
-      responses:
-        # TODO - Add error mapping
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: 'Save created successfully'
-                  id:
-                    type: string
-                    example: '507f1f77bcf86cd799439011'
-  /user/{userId}:
-    get:
-      summary: Get user details
-      security:
-        - bearerAuth: [ ]
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-            example: '507f1f77bcf86cd799439011'
-      responses:
-        # TODO - Add error mapping
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  username:
-                    type: string
-                    example: 'user'
-                  createdAt:
-                    type: string
-                    format: date-time
-                    example: '2021-06-01T00:00:00.000Z'
+  

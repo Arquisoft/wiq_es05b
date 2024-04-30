@@ -40,15 +40,20 @@ module.exports = (app, axios) => {
           .then(() => res.json({answer: question.answer, points}))
           .catch(() => res.json({answer: question.answer, points, error: i18next.t("error_adding_answer")}));
       })
-      .catch(() => next({error: i18next.t("error_fetch_answer")}));
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, error: e.response.data})
+      });
   });
 
   app.get("/game/categories", (_req, res, next) => {
     axios
       .get(`${questionServiceUrl}/categories`)
       .then((response) => res.status(response.status).send(response.data))
-      .catch(() => next({error: i18next.t("error_fetch_categories")})
-      );
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, error: e.response.data})
+      });
   });
 
   app.get("/game/questions/:category/:n", async (req, res, next) => {
@@ -61,7 +66,10 @@ module.exports = (app, axios) => {
           })
           res.status(response.status).send(questions)
         })
-        .catch(() => next({ error: i18next.t("error_fetch_questions")}));
+        .catch(e => {
+          if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+          next({status: e.response.status, error: e.response.data})
+        });
   });
 
 
@@ -70,7 +78,10 @@ module.exports = (app, axios) => {
 
     axios.get(`${questionServiceUrl}/gen/${req.params.groupId}`)
       .then(response => res.status(response.status).send(response.data))
-      .catch(error => next(error));
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, error: e.response.data})
+      });
 
   });
 
@@ -78,7 +89,10 @@ module.exports = (app, axios) => {
     
     axios.get(`${questionServiceUrl}/gen`)
       .then(response => res.status(response.status).send(response.data))
-      .catch(error => next(error));
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, error: e.response.data})
+      });
 
   });
 
@@ -86,7 +100,10 @@ module.exports = (app, axios) => {
     
     axios.get(`${questionServiceUrl}/groups`)
       .then(response => res.status(response.status).send(response.data))
-      .catch(error => next(error));
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, error: e.response.data})
+      });
 
   });
 
@@ -94,7 +111,10 @@ module.exports = (app, axios) => {
     
     axios.post(`${questionServiceUrl}/addGroups`, req.body)
       .then(response => res.status(response.status).send(response.data))
-      .catch(error => next(error));
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, error: e.response.data})
+      });
 
   });
 
@@ -102,7 +122,10 @@ module.exports = (app, axios) => {
     
     axios.get(`${questionServiceUrl}/removeGroup/${req.params.groupId}`)
       .then(response => res.status(response.status).send(response.data))
-      .catch(error => next(error));
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, error: e.response.data})
+      });
 
   });
 
@@ -110,7 +133,10 @@ module.exports = (app, axios) => {
     
     axios.get(`${questionServiceUrl}/removeAllGroups`)
       .then(response => res.status(response.status).send(response.data))
-      .catch(error => next(error));
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, error: e.response.data})
+      });
 
   });
 

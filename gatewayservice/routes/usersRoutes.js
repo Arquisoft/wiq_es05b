@@ -32,7 +32,10 @@ module.exports = (app, axios, authTokenMiddleware) => {
     axios
       .get(`${userServiceUrl}/user/${userId}`)
       .then(({ data }) => res.json(data))
-      .catch(() => next({ error: i18next.t("error_fetch_user") }))
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, ...e.response.data})
+      })
   });
 
   app.get("/users/search/:filter", async (req, res, next) => {
@@ -40,20 +43,22 @@ module.exports = (app, axios, authTokenMiddleware) => {
 
     axios
       .get(`${userServiceUrl}/users/search/${filter}`)
-      .then(({ data }) => {
-        res.json(data);
-      })
-      .catch((error) => next({ error: i18next.t("error_fetch_user") }));
+      .then(({ data }) => res.json(data))
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, ...e.response.data})
+      });
   });
 
   app.post("/users/social/sendrequest", authTokenMiddleware, async (req, res, next) => {
 
     axios
       .post(`${userServiceUrl}/social/sendrequest`, req.body)
-      .then(({ data }) => {
-        res.json(data);
-      })
-      .catch((error) => next({ error: i18next.t("error_social_request") }));
+      .then(({ data }) => res.json(data))
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, ...e.response.data})
+      });
   });
 
   app.get("/users/social/sentrequests/:userId", authTokenMiddleware, async (req, res, next) => {
@@ -61,10 +66,11 @@ module.exports = (app, axios, authTokenMiddleware) => {
 
     axios
       .get(`${userServiceUrl}/social/sentrequests/${userId}`)
-      .then(({ data }) => {
-        res.json(data);
-      })
-      .catch((error) => next({ error: i18next.t("error_social_fetch_requests") }));
+      .then(({ data }) => res.json(data))
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, ...e.response.data})
+      });
   });
 
   app.get("/users/social/receivedrequests/:userId", authTokenMiddleware, async (req, res, next) => {
@@ -75,7 +81,10 @@ module.exports = (app, axios, authTokenMiddleware) => {
       .then(({ data }) => {
         res.json(data);
       })
-      .catch((error) => next({ error:  i18next.t("error_social_fetch_requests") }));
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, ...e.response.data})
+      });
   });
 
   app.get("/users/social/acceptrequest/:fromId/:userId", authTokenMiddleware, async (req, res, next) => {
@@ -86,7 +95,10 @@ module.exports = (app, axios, authTokenMiddleware) => {
       .then(({ data }) => {
         res.json(data);
       })
-      .catch((error) => next({ error:  i18next.t("error_social_accept_request") }));
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, ...e.response.data})
+      });
   });
 
   app.get("/users/social/friends/:userId", authTokenMiddleware, async (req, res, next) => {
@@ -97,7 +109,10 @@ module.exports = (app, axios, authTokenMiddleware) => {
       .then(({ data }) => {
         res.json(data);
       })
-      .catch((error) => next({ error:  i18next.t("error_social_fetch_friends") }));
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, ...e.response.data})
+      });
   });
 
   app.post("/users/social/removefriend", authTokenMiddleware, async (req, res, next) => {
@@ -106,7 +121,10 @@ module.exports = (app, axios, authTokenMiddleware) => {
       .then(({ data }) => {
         res.json(data);
       })
-      .catch((error) => next({ error: i18next.t("error_social_remove_friend") }));
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, ...e.response.data})
+      });
   });
 
   app.post("/users/social/rejectrequest", authTokenMiddleware,  async (req, res, next) => {
@@ -115,7 +133,10 @@ module.exports = (app, axios, authTokenMiddleware) => {
       .then(({ data }) => {
         res.json(data);
       })
-      .catch((error) => next({ error:  i18next.t("error_social_reject_request") }));
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, ...e.response.data})
+      });
   });
 
 };

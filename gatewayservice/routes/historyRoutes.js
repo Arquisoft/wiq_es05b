@@ -18,7 +18,10 @@ module.exports = (app, axios, authMiddleware) => {
     axios
       .get(url)
       .then(response => res.status(response.status).json(response.data))
-      .catch(() => next({error: i18next.t("error_fetch_history")}))
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, error: e.response.data})
+      })
   })
 
   app.get("/history/get/:userId/:id", authMiddleware, (req, res, next) => {
@@ -27,7 +30,10 @@ module.exports = (app, axios, authMiddleware) => {
     axios
       .get(`${historyServiceUrl}/get/${userId}/${id}`)
       .then(response => res.status(response.status).json(response.data))
-      .catch(() => next({error: i18next.t("error_fetch_history")}))
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, error: e.response.data})
+      })
   })
 
   app.post("/history/create", authMiddleware, (req, res, next) => {
@@ -39,7 +45,10 @@ module.exports = (app, axios, authMiddleware) => {
     axios
       .post(`${historyServiceUrl}/create`, { userId, category })
       .then(response => res.status(response.status).json(response.data))
-      .catch(() => next({error: i18next.t("error_create_save")}))
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, error: e.response.data})
+      })
   })
 
   app.post("/history/add/:id", (req, res, next) => {
@@ -52,7 +61,10 @@ module.exports = (app, axios, authMiddleware) => {
     axios
       .post(`${historyServiceUrl}/add/${id}`, { last, statement, options, answer, correct, time, points })
       .then(response => res.status(response.status).json(response.data))
-      .catch(() => next({error: i18next.t("error_create_save")}))
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, error: e.response.data})
+      })
   })
 
   app.get("/ranking/:n", (req, res, next) => {
@@ -73,6 +85,9 @@ module.exports = (app, axios, authMiddleware) => {
         }))
         res.status(response.status).json(response.data)
       })
-      .catch(() => next({error: i18next.t("error_fetch_ranking")}))
+      .catch(e => {
+        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+        next({status: e.response.status, error: e.response.data})
+      })
   })
 }

@@ -1,49 +1,33 @@
 const axios = require('axios');
 
-module.exports = async (req, res, next) => {
+module.exports = (i18next) => async (req, res, next) => {
     const { userIdToken } = req
     let userId
 
-    console.log("Friend middleware")
+    if ("userId" in req.params) userId = req.params.userId
+    else if ("userId" in req.body) userId = req.body.userId
+    else userId = req.query.userId
 
-    if ("userId" in req.params) {
-        userId = req.params.userId
-    } else if ("userId" in req.body) {
-        userId = req.body.userId
-    } else {
-        userId = req.query.userId
-    }
+    if (!userId) return next({ status: 400, error: i18next.t("error_no_userid") })
+    // If the user is trying to access its own data
+    if (userIdToken && userIdToken === userId) return next() 
+    
+    //Check whether the requested user is a friend of the logged one
+    try {
+        const response = await axios
+            .get(`/users/social/friends/${userIdToken}`,
+            {headers: {Authorization: `Bearer ${userIdToken}`}})
 
-    if (!userId) return next({ status: 400, error: "No userId provided" })
-    if (userIdToken && userIdToken === userId) // If the user is trying to access its own data
-        next()
-    else { //Check whether the requested user is a friend of the logged one
-        try {
 
-            const url = `${req.protocol}://${req.headers.host}/users/social/friends/${userIdToken}`
-            const response = await axios({
-                method: 'get',
-                url: url,
-                headers: {
-                    Authorization: `Bearer ${userIdToken}`
-                }
-            });
-            console.log("Friendships retrieved:")
-            console.log(response.data)
-
-            const friendIds = [];
-            for (let friendship of response.data){
-                friendIds.push(friendship.user1._id);
-                friendIds.push(friendship.user2._id);
-            }
-
-            if (friendIds.includes(userId))
-                next();
-            else
-                next({ status: 403, error: "You are not friends with this user" });
-        } catch (error) {
-            console.log(error)
-            next({ status: 500, error: "An error occurred while checking user friendships" });
+        const friendIds = [];
+        for (let friendship of response.data){
+            friendIds.push(friendship.user1._id);
+            friendIds.push(friendship.user2._id);
         }
+
+        if (friendIds.includes(userId)) return next();
+        next({ status: 403, error: i18next.t("error_no_friends") });
+    } catch (error) {
+        next({ status: 500, error: i18next.t("error_fetching_user") });
     }
 }

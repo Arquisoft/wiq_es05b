@@ -29,17 +29,17 @@ describe('[Gateway Service] - /login', () => {
         expect(response.body).toHaveProperty("userId", '1234');
     });
 
-    it('should repsond with 500 after a invalid login', async () => {
+    it('should repsond with 401 after a invalid login', async () => {
         // Mock responses from external service
         axios.post.mockImplementation((url, data) => {
-            return Promise.reject({error: "Invalid credentials"});
+            return Promise.reject({data:{error: "Invalid credentials"}, response: {status: 401}});
         });
 
         const response = await request(app)
             .post('/login')
             .send({username: 'testuser', password: 'testpassword'});
 
-        expect(response.statusCode).toBe(500);
+        expect(response.statusCode).toBe(401);
     });
 
 });
@@ -58,17 +58,17 @@ describe('[Gateway Service] - /validate', () => {
         expect(response.body).toHaveProperty("valid", true);
     });
 
-    it('should respond with 500 due to an invalid token validation', async () => {
+    it('should respond with 200 due to an invalid token validation', async () => {
         // Mock responses from external service with a rejected value containing specific values
-        const errorResponse = {valid: false};
+        const errorResponse = {data: {valid: false}};
         axios.get.mockImplementation((url, data) => {
-            return Promise.reject(errorResponse);
+            return Promise.resolve(errorResponse);
         });
 
         const response = await request(app).get('/validate/faketoken');
 
         // Assertions
-        expect(response.statusCode).toBe(500);
+        expect(response.statusCode).toBe(200);
     });
 
 });

@@ -15,7 +15,11 @@ module.exports = function (app, userRepository, socialRepository) {
 
         try {
             const result = await socialRepository.getSentRequests(userId);
-            res.json(result);
+            const output = result.map(x => {
+                const {__v, ...rest} = x._doc;
+                return rest;
+            })
+            res.json(output);
         } catch (error) {
             next({ error: error });
         }
@@ -26,7 +30,11 @@ module.exports = function (app, userRepository, socialRepository) {
 
         try {
             const result = await socialRepository.getReceivedRequests(userId);
-            res.json(result);
+            const output = result.map(x => {
+                const {__v, ...rest} = x._doc;
+                return rest;
+            })
+            res.json(output);
         } catch (error) {
             next({ error: error });
         }
@@ -50,9 +58,7 @@ module.exports = function (app, userRepository, socialRepository) {
         try {
             const result = await socialRepository.getFriendships(userId);
 
-            if(!result || result.length === 0) {
-                res.json([]);
-            }
+            if(!result || result.length === 0) return res.json([]);
             
 
             const friendships = [];
@@ -65,6 +71,8 @@ module.exports = function (app, userRepository, socialRepository) {
             for(let friendship of friendships) {
                 delete friendship.user1.password;
                 delete friendship.user2.password;
+                delete friendship.user1.__v;
+                delete friendship.user2.__v;
             }
 
             res.json(friendships);
