@@ -282,8 +282,6 @@ jobs:
       ELASTIC_PASSWORD: ${{ secrets.ELASTIC_PASSWORD }}
       LOGSTASH_INTERNAL_PASSWORD: ${{ secrets.LOGSTASH_INTERNAL_PASSWORD }}
       KIBANA_SYSTEM_PASSWORD: ${{ secrets.KIBANA_SYSTEM_PASSWORD }}
-      CUSTOM_USER: ${{ secrets.CUSTOM_USER }}
-      CUSTOM_USER_PASSWORD: ${{ secrets.CUSTOM_USER_PASSWORD }}
 
   docker-push-elasticsearch:
     name: Push elasticsearch service Docker Image to GitHub Packages
@@ -391,7 +389,6 @@ jobs:
       GF_SECURITY_ADMIN_PASSWORD: ${{ secrets.GF_SECURITY_ADMIN_PASSWORD }}
       GF_SERVER_SERVE_FROM_SUB_PATH: false
       GF_SERVER_DOMAIN: cyt.is-cool.dev
-      GF_SERVER_HTTP_PORT: 443
       GF_SERVER_PROTOCOL: https
 
   docker-push-prometheus:
