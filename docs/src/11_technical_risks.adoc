@@ -10,6 +10,9 @@ internal and external technical risks, as well as the technical debts that shoul
 
 === Technical risks
 
+We consider a technical risk a potential event that can threaten the successful completion of the project, delay timelines, increase costs, or even lead to project failure if not properly managed.
+The following subsections outline the internal and external technical risks that have been identified for the project.
+
 ==== Internal
 
 [options="header",cols="1,3,3"] 
