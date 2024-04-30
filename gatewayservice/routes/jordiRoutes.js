@@ -2,6 +2,11 @@ const { fieldChecker } = require("cyt-utils")
 const questionServiceUrl = process.env.JORDI_SERVICE_URL || "http://localhost:8003";
 const historyService = process.env.HISTORY_SERVICE_URL || "http://localhost:8004";
 
+const errorParser = (e, next) => {
+  if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+  next({status: e.response.status, error: e.response.data})
+}
+
 module.exports = (app, axios) => {
 
   const i18next = app.get("i18next")
@@ -40,20 +45,14 @@ module.exports = (app, axios) => {
           .then(() => res.json({answer: question.answer, points}))
           .catch(() => res.json({answer: question.answer, points, error: i18next.t("error_adding_answer")}));
       })
-      .catch(e => {
-        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-        next({status: e.response.status, error: e.response.data})
-      });
+      .catch(e => errorParser(e, next));
   });
 
   app.get("/game/categories", (_req, res, next) => {
     axios
       .get(`${questionServiceUrl}/categories`)
       .then((response) => res.status(response.status).send(response.data))
-      .catch(e => {
-        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-        next({status: e.response.status, error: e.response.data})
-      });
+      .catch(e => errorParser(e, next));
   });
 
   app.get("/game/questions/:category/:n", async (req, res, next) => {
@@ -66,22 +65,15 @@ module.exports = (app, axios) => {
           })
           res.status(response.status).send(questions)
         })
-        .catch(e => {
-          if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-          next({status: e.response.status, error: e.response.data})
-        });
+        .catch(e => errorParser(e, next));
   });
-
 
   // ADMIN ROUTES ONLY
   app.get("/admin/gen/:groupId", async (req, res, next) => {
 
     axios.get(`${questionServiceUrl}/gen/${req.params.groupId}`)
       .then(response => res.status(response.status).send(response.data))
-      .catch(e => {
-        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-        next({status: e.response.status, error: e.response.data})
-      });
+      .catch(e => errorParser(e, next));
 
   });
 
@@ -89,10 +81,7 @@ module.exports = (app, axios) => {
     
     axios.get(`${questionServiceUrl}/gen`)
       .then(response => res.status(response.status).send(response.data))
-      .catch(e => {
-        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-        next({status: e.response.status, error: e.response.data})
-      });
+      .catch(e => errorParser(e, next));
 
   });
 
@@ -100,10 +89,7 @@ module.exports = (app, axios) => {
     
     axios.get(`${questionServiceUrl}/groups`)
       .then(response => res.status(response.status).send(response.data))
-      .catch(e => {
-        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-        next({status: e.response.status, error: e.response.data})
-      });
+      .catch(e => errorParser(e, next));
 
   });
 
@@ -111,10 +97,7 @@ module.exports = (app, axios) => {
     
     axios.post(`${questionServiceUrl}/addGroups`, req.body)
       .then(response => res.status(response.status).send(response.data))
-      .catch(e => {
-        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-        next({status: e.response.status, error: e.response.data})
-      });
+      .catch(e => errorParser(e, next));
 
   });
 
@@ -122,21 +105,14 @@ module.exports = (app, axios) => {
     
     axios.get(`${questionServiceUrl}/removeGroup/${req.params.groupId}`)
       .then(response => res.status(response.status).send(response.data))
-      .catch(e => {
-        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-        next({status: e.response.status, error: e.response.data})
-      });
-
+      .catch(e => errorParser(e, next));
   });
 
   app.get("/admin/removeAllGroups", async (req, res, next) => {
     
     axios.get(`${questionServiceUrl}/removeAllGroups`)
       .then(response => res.status(response.status).send(response.data))
-      .catch(e => {
-        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-        next({status: e.response.status, error: e.response.data})
-      });
+      .catch(e => errorParser(e, next));
 
   });
 

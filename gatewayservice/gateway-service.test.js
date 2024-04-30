@@ -311,6 +311,119 @@ describe("[Gateway Service] - /ranking/:n", () => {
     })
 })
 
+describe("[Gateway Service] - /admin/gen/:groupId", () => {
+    beforeEach(() => {
+        axios.get.mockImplementation((url, data) => {
+            if (url.includes("/validate")) return Promise.resolve({data: {valid: true, data: {userId: "foo"}}})
+            if (url.includes("/gen")) return Promise.resolve({data: {success: true}, status: 200})
+            if (url.includes("/user/foo")) return Promise.resolve({data: {username: "admin"}})
+        })
+    })
+
+    it("should return 200 and generate the data", async () => {
+        const res = await request(app)
+          .get('/admin/gen/bar')
+          .set('Authorization', 'Bearer your_token')
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+    })
+})
+
+describe("[Gateway Service] - /admin/gen", () => {
+    beforeEach(() => {
+        axios.get.mockImplementation((url, data) => {
+            if (url.includes("/validate")) return Promise.resolve({data: {valid: true, data: {userId: "foo"}}})
+            if (url.includes("/gen")) return Promise.resolve({data: {success: true}, status: 200})
+            if (url.includes("/user/foo")) return Promise.resolve({data: {username: "admin"}})
+        })
+    })
+
+    it("should return 200 and generate the data", async () => {
+        const res = await request(app)
+          .get('/admin/gen')
+          .set('Authorization', 'Bearer your_token')
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+    })
+})
+
+describe("[Gateway Service] - /admin/groups", () => {
+    beforeEach(() => {
+        axios.get.mockImplementation((url, data) => {
+            if (url.includes("/validate")) return Promise.resolve({data: {valid: true, data: {userId: "foo"}}})
+            if (url.includes("/groups")) return Promise.resolve({data: {success: true}, status: 200})
+            if (url.includes("/user/foo")) return Promise.resolve({data: {username: "admin"}})
+        })
+    })
+
+    it("should return 200 and generate the data", async () => {
+        const res = await request(app)
+          .get('/admin/groups')
+          .set('Authorization', 'Bearer your_token')
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+    })
+})
+
+
+describe("[Gateway Service] - /admin/addGroups", () => {
+    beforeEach(() => {
+        axios.get.mockImplementation((url, data) => {
+            if (url.includes("/validate")) return Promise.resolve({data: {valid: true, data: {userId: "foo"}}})
+            if (url.includes("/user/foo")) return Promise.resolve({data: {username: "admin"}})
+        })
+        axios.post.mockImplementation((url, data) => {
+            if (url.includes("/addGroups")) return Promise.resolve({data: {success: true}, status: 200})
+        })
+    })
+
+    it("should return 200 and add the groups", async () => {
+        const res = await request(app)
+          .post('/admin/addGroups')
+          .set('Authorization', 'Bearer your_token')
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+    })
+})
+
+
+describe("[Gateway Service] - /admin/removeGroup/:groupId", () => {
+    beforeEach(() => {
+        axios.get.mockImplementation((url, data) => {
+            if (url.includes("/validate")) return Promise.resolve({data: {valid: true, data: {userId: "foo"}}})
+            if (url.includes("removeGroup")) return Promise.resolve({data: {success: true}, status: 200})
+            if (url.includes("/user/foo")) return Promise.resolve({data: {username: "admin"}})
+        })
+    })
+
+    it("should return 200 and remove the group data", async () => {
+        const res = await request(app)
+          .get('/admin/removeGroup/foo')
+          .set('Authorization', 'Bearer your_token')
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+    })
+})
+
+
+describe("[Gateway Service] - /admin/removeAllGroups", () => {
+    beforeEach(() => {
+        axios.get.mockImplementation((url, data) => {
+            if (url.includes("/validate")) return Promise.resolve({data: {valid: true, data: {userId: "foo"}}})
+            if (url.includes("/removeAllGroups")) return Promise.resolve({data: {success: true}, status: 200})
+            if (url.includes("/user/foo")) return Promise.resolve({data: {username: "admin"}})
+        })
+    })
+
+    it("should return 200 and remove all groups", async () => {
+        const res = await request(app)
+          .get('/admin/removeAllGroups')
+          .set('Authorization', 'Bearer your_token')
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+    })
+})
+
 const express = require('express');
 const routes = require('./routes/gatewayRoutes');
 
