@@ -516,8 +516,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_technical_debts">11.2. Technical debts</a></li>
 </ul>
 </li>
-<li><a href="#section-glossary">12. Glossary</a></li>
-<li><a href="#_legend">13. Legend</a></li>
+<li><a href="#_12_testing_report">12. 12. Testing report</a>
+<ul class="sectlevel2">
+<li><a href="#_12_1_unit_tests">12.1. 12.1. Unit tests</a></li>
+<li><a href="#_12_1_1_coverage_result">12.2. 12.1.1. Coverage result</a></li>
+<li><a href="#_12_2_e2e_tests">12.3. 12.2. E2E tests</a></li>
+<li><a href="#_12_3_gatling_tests">12.4. 12.3. Gatling tests</a></li>
+<li><a href="#_12_4_usability_tests">12.5. 12.4. Usability tests</a></li>
+<li><a href="#_improvements_based_on_usability_testing">12.6. Improvements based on usability testing</a></li>
+</ul>
+</li>
+<li><a href="#section-glossary">13. Glossary</a></li>
+<li><a href="#_legend">14. Legend</a></li>
 </ul>
 </div>
 </div>
@@ -1767,7 +1777,132 @@ internal and external technical risks, as well as the technical debts that shoul
 </div>
 </div>
 <div class="sect1">
-<h2 id="section-glossary">12. Glossary</h2>
+<h2 id="_12_testing_report">12. 12. Testing report</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_12_1_unit_tests">12.1. 12.1. Unit tests</h3>
+<div class="paragraph">
+<p>Every component is equipped with its own unit tests to ensure its functionality operates accurately, thereby enhancing the project&#8217;s security and resilience.</p>
+</div>
+<div class="paragraph">
+<p>TODO finish when merge</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_12_1_1_coverage_result">12.2. 12.1.1. Coverage result</h3>
+<div class="paragraph">
+<p>We employ the Sonar tool to validate that our code is thoroughly tested.
+If the coverage falls below 80% or if there&#8217;s more than 3% duplication, it triggers an error, halting integration until the minimum coverage is met.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_12_2_e2e_tests">12.3. 12.2. E2E tests</h3>
+<div class="paragraph">
+<p>An end-to-end (E2E) test checks the entire application&#8217;s functionality from start to finish,
+simulating real user interactions to ensure it works as expected.
+Our end-to-end approach focused on this functionality:
+- Check game integrity
+- Menu categories
+- Answering a game question
+- Game result
+- Login / register</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_12_3_gatling_tests">12.4. 12.3. Gatling tests</h3>
+<div class="paragraph">
+<p>TODO when deployes</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_12_4_usability_tests">12.5. 12.4. Usability tests</h3>
+<div class="paragraph">
+<p>In today&#8217;s digital age, web usability plays a crucial role in ensuring a positive user experience. A website that is intuitive, easy to navigate, and responsive not only attracts users but also keeps them engaged and satisfied. Recognizing this importance, our team prioritized usability testing to ensure our website meets the needs and expectations of our target audience.
+To conduct comprehensive testing, we divided our participants into two distinct groups. The first group consisted of individuals with prior experience using computers and navigating websites. Their insights and feedback helped us assess the effectiveness of our interface design and navigation structure for users familiar with digital platforms.
+In contrast, the second group consisted of individuals with limited or no experience using computers. By including these participants, we aimed to identify any usability barriers or challenges that might difficult their interaction with our website. Their feedback provided valuable insights into areas where we could improve accessibility for individuals with varying levels of digital knowledge.
+By testing our website with these diverse groups, we gained a comprehensive understanding of its usability across different users. This approach not only ensures inclusivity but also enhances the overall user experience, ultimately contributing to the success of our website in meeting its objectives.</p>
+</div>
+<div class="sect3">
+<h4 id="_group_1_individuals_with_high_computer_exp">12.5.1. Group 1: Individuals with high computer exp</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">User</th>
+<th class="tableblock halign-left valign-top">Challenges</th>
+<th class="tableblock halign-left valign-top">Strengths</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>User 1</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tried to click the response too quickly and got confused with the answers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Good aesthetics</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>User 2</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Too little time to answer questions, area category too weird</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Intuitive colors for correct and incorrect answers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>User 3</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Confused by the swap button, thought that it meant switching accounts, couldn&#8217;t find logout</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Nice endgame, liked being able to see his points and time</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_group_2_those_with_limited_computer_usage_experience">12.5.2. Group 2: Those with limited computer usage experience</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">User</th>
+<th class="tableblock halign-left valign-top">Challenges</th>
+<th class="tableblock halign-left valign-top">Strengths</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>User 1</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">There are too many categories simultaneously. Overwhelming, problems with register(trying to log in without an account),
+low time, all geography categories, wrong password message not found</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">fun game, nice looking</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>User 2</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Account not found, would like a "how to play" screen, low time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Somewhat intuitive</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>User 3</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Didn´t know that by clicking in a history game it would show details, low time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">nothing to highlight</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_improvements_based_on_usability_testing">12.6. Improvements based on usability testing</h3>
+<div class="paragraph">
+<p>Added more time to answer the questions and how to play menu</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-glossary">13. Glossary</h2>
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1818,7 +1953,7 @@ internal and external technical risks, as well as the technical debts that shoul
 </div>
 </div>
 <div class="sect1">
-<h2 id="_legend">13. Legend</h2>
+<h2 id="_legend">14. Legend</h2>
 <div class="sectionbody">
 <div class="imageblock text-center">
 <div class="content">
@@ -1831,7 +1966,7 @@ internal and external technical risks, as well as the technical debts that shoul
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-04-28 19:39:25 UTC
+Last updated 2024-04-30 14:10:26 UTC
 </div>
 </div>
 </body>
