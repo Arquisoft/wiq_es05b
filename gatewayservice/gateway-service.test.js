@@ -2,6 +2,10 @@ const request = require('supertest');
 const axios = require('axios');
 let app = require('./gateway-service');
 
+beforeEach(() => {
+    axios.get.mockReset();
+    axios.post.mockReset();
+})
 afterAll(async () => {
     app.close();
 });
@@ -195,10 +199,6 @@ describe('[Gateway Service] - /game/answer', () => {
 
 /* User service tests */
 describe('[Gateway Service] - /user/:userId', () => {
-    beforeEach(() => {
-        axios.get.mockReset()
-    })
-
     it('should return 200 status and the user', async () => {
         // Get user from users service
         axios.get.mockImplementation(() => Promise.resolve({data: {username: "Berengario"}}));
@@ -212,9 +212,6 @@ describe('[Gateway Service] - /user/:userId', () => {
 
 /* History service tests */
 describe('[Gateway Service] - /history/get/:userId', () => {
-    beforeEach(() => {
-        axios.get.mockReset();
-    })
     it('should return 200 and the history for the user', async () => {
 
         axios.get.mockImplementation((url, data) => {
@@ -228,6 +225,90 @@ describe('[Gateway Service] - /history/get/:userId', () => {
         expect(res.status).toBe(200);
         expect(res.body).toHaveProperty("history", 'mockHistory');
     });
+})
+describe('[Gateway Service] - /history/get/:userId/:id', () => {
+    beforeEach(() => {
+        axios.get.mockImplementation((url, data) => {
+            if (url.includes("/validate")) return Promise.resolve({data: {valid: true, data: {userId: "id1"}}})
+            if (url.includes("/get/id1")) return Promise.resolve({data: {success: true}, status: 200})
+            if (url.includes("/social/friends/")) return Promise.resolve({data: [{user1: {_id: "id1"}, user2: {_id: "id2"}}]})
+        })
+    })
+
+    it("should return 200 and a user game", async () => {
+        const res = await request(app)
+          .get('/history/get/id1/id2')
+          .set('Authorization', 'Bearer your_token');
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+    })
+})
+describe('[Gateway Service] - /history/create', () => {
+    beforeEach(() => {
+        axios.get.mockImplementation((url, data) => {
+            if (url.includes("/validate")) return Promise.resolve({data: {valid: true, data: {userId: "id1"}}})
+            if (url.includes("/social/friends/")) return Promise.resolve({data: [{user1: {_id: "id1"}, user2: {_id: "id2"}}]})
+        })
+        axios.post.mockImplementation((url, data) => {
+            if (url.includes("/create")) return Promise.resolve({data: {success: true, data: {userId: "id1"}}, status: 200})
+        })
+    })
+
+    it("should return 200 and a create a game", async () => {
+        const res = await request(app)
+          .post('/history/create')
+          .set('Authorization', 'Bearer your_token')
+          .send({userId: "id1", category: "category"});
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+    })
+})
+describe("[Gateway Service] - /history/add/:id", () => {
+    beforeEach(() => {
+        axios.get.mockImplementation((url, data) => {
+            if (url.includes("/validate")) return Promise.resolve({data: {valid: true, data: {userId: "id1"}}})
+            if (url.includes("/social/friends/")) return Promise.resolve({data: [{user1: {_id: "id1"}, user2: {_id: "id2"}}]})
+        })
+        axios.post.mockImplementation((url, data) => {
+            if (url.includes("/add")) return Promise.resolve({data: {success: true}, status: 200})
+        })
+    })
+
+    it("should return 200 and save the question to the game", async () => {
+        const res = await request(app)
+          .post('/history/add/:id')
+          .set('Authorization', 'Bearer your_token')
+          .send({
+              last: "foo",
+              statement: "foo",
+              options: "foo",
+              answer: "foo",
+              correct: "foo",
+              time: "foo",
+              points: "foo"
+          });
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+    })
+})
+
+describe("[Gateway Service] - /ranking/:n", () => {
+    beforeEach(() => {
+        axios.get.mockImplementation((url, data) => {
+            if (url.includes("/validate")) return Promise.resolve({data: {valid: true, data: {userId: "id1"}}})
+            if (url.includes("/social/friends/")) return Promise.resolve({data: [{user1: {_id: "id1"}, user2: {_id: "id2"}}]})
+            if (url.includes("/user")) return Promise.resolve({data: {username: "foo"}})
+            if (url.includes("/ranking")) return Promise.resolve({data: [{userId: "foo", user: "bar"}], status: 200})
+        })
+    })
+
+    it("should return 200 and fetch the ranking", async () => {
+        const res = await request(app)
+          .get('/ranking/10')
+          .set('Authorization', 'Bearer your_token')
+        expect(res.status).toBe(200);
+        expect(res.body[0]).toHaveProperty("user", "foo");
+    })
 })
 
 const express = require('express');
