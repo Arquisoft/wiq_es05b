@@ -41,10 +41,10 @@ function useAuth(i = null) {
   const init = (input) => {
     if (!input) return null;
 
-    if (typeof input !== "string") sUser(input);
-    else sUser(JSON.parse(input));
+    if (typeof input !== "string") setUser(input);
+    else setUser(JSON.parse(input));
   }
-  const [user, sUser] = useState(i ? init(i) : JSON.parse(localStorage.getItem("user")));
+  const [user, setUser] = useState(i ? init(i) : JSON.parse(localStorage.getItem("user")));
 
   useEffect(() => {
     if (!user) return;
@@ -65,14 +65,14 @@ function useAuth(i = null) {
 
   const getUser = () => user || null;
   const isAuthenticated = () => !!user
-  const logout = () => sUser(null)
-  const setUser = i => init(i);
+  const logout = () => setUser(null)
+  const sUser = i => init(i);
 
   return {
     getUser,
     isAuthenticated,
     logout,
-    setUser
+    setUser: sUser
   }
 }
 
