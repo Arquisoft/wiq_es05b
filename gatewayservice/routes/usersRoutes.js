@@ -1,6 +1,11 @@
 const userServiceUrl = process.env.USER_SERVICE_URL || "http://localhost:8001";
 const authServiceUrl = process.env.AUTH_SERVICE_URL || "http://localhost:8002";
 
+const errorHandler = (e, next) => {
+  if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+  next({status: e.response.status, ...e.response.data})
+}
+
 module.exports = (app, axios, authTokenMiddleware) => {
 
   const i18next = app.get("i18next")
@@ -55,10 +60,7 @@ module.exports = (app, axios, authTokenMiddleware) => {
     axios
       .post(`${userServiceUrl}/social/sendrequest`, req.body)
       .then(({ data }) => res.json(data))
-      .catch(e => {
-        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-        next({status: e.response.status, ...e.response.data})
-      });
+      .catch(e => errorHandler(e, next));
   });
 
   app.get("/users/social/sentrequests/:userId", authTokenMiddleware, async (req, res, next) => {
@@ -67,10 +69,7 @@ module.exports = (app, axios, authTokenMiddleware) => {
     axios
       .get(`${userServiceUrl}/social/sentrequests/${userId}`)
       .then(({ data }) => res.json(data))
-      .catch(e => {
-        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-        next({status: e.response.status, ...e.response.data})
-      });
+      .catch(e => errorHandler(e, next));
   });
 
   app.get("/users/social/receivedrequests/:userId", authTokenMiddleware, async (req, res, next) => {
@@ -81,10 +80,7 @@ module.exports = (app, axios, authTokenMiddleware) => {
       .then(({ data }) => {
         res.json(data);
       })
-      .catch(e => {
-        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-        next({status: e.response.status, ...e.response.data})
-      });
+      .catch(e => errorHandler(e, next));
   });
 
   app.get("/users/social/acceptrequest/:fromId/:userId", authTokenMiddleware, async (req, res, next) => {
@@ -95,10 +91,7 @@ module.exports = (app, axios, authTokenMiddleware) => {
       .then(({ data }) => {
         res.json(data);
       })
-      .catch(e => {
-        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-        next({status: e.response.status, ...e.response.data})
-      });
+      .catch(e => errorHandler(e, next));
   });
 
   app.get("/users/social/friends/:userId", authTokenMiddleware, async (req, res, next) => {
@@ -109,10 +102,7 @@ module.exports = (app, axios, authTokenMiddleware) => {
       .then(({ data }) => {
         res.json(data);
       })
-      .catch(e => {
-        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-        next({status: e.response.status, ...e.response.data})
-      });
+      .catch(e => errorHandler(e, next));
   });
 
   app.post("/users/social/removefriend", authTokenMiddleware, async (req, res, next) => {
@@ -121,10 +111,7 @@ module.exports = (app, axios, authTokenMiddleware) => {
       .then(({ data }) => {
         res.json(data);
       })
-      .catch(e => {
-        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-        next({status: e.response.status, ...e.response.data})
-      });
+      .catch(e => errorHandler(e, next));
   });
 
   app.post("/users/social/rejectrequest", authTokenMiddleware,  async (req, res, next) => {
@@ -133,10 +120,7 @@ module.exports = (app, axios, authTokenMiddleware) => {
       .then(({ data }) => {
         res.json(data);
       })
-      .catch(e => {
-        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-        next({status: e.response.status, ...e.response.data})
-      });
+      .catch(e => errorHandler(e, next));
   });
 
 };

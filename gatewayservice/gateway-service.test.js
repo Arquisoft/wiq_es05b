@@ -341,7 +341,6 @@ describe("[Gateway Service] - /admin/gen", () => {
     it("should return 200 and generate the data", async () => {
         const res = await request(app)
           .get('/admin/gen')
-          .set('Authorization', 'Bearer your_token')
         expect(res.status).toBe(200);
         expect(res.body).toHaveProperty("success", true);
     })
@@ -359,7 +358,6 @@ describe("[Gateway Service] - /admin/groups", () => {
     it("should return 200 and generate the data", async () => {
         const res = await request(app)
           .get('/admin/groups')
-          .set('Authorization', 'Bearer your_token')
         expect(res.status).toBe(200);
         expect(res.body).toHaveProperty("success", true);
     })
@@ -380,7 +378,6 @@ describe("[Gateway Service] - /admin/addGroups", () => {
     it("should return 200 and add the groups", async () => {
         const res = await request(app)
           .post('/admin/addGroups')
-          .set('Authorization', 'Bearer your_token')
         expect(res.status).toBe(200);
         expect(res.body).toHaveProperty("success", true);
     })
@@ -399,7 +396,6 @@ describe("[Gateway Service] - /admin/removeGroup/:groupId", () => {
     it("should return 200 and remove the group data", async () => {
         const res = await request(app)
           .get('/admin/removeGroup/foo')
-          .set('Authorization', 'Bearer your_token')
         expect(res.status).toBe(200);
         expect(res.body).toHaveProperty("success", true);
     })
@@ -418,7 +414,139 @@ describe("[Gateway Service] - /admin/removeAllGroups", () => {
     it("should return 200 and remove all groups", async () => {
         const res = await request(app)
           .get('/admin/removeAllGroups')
-          .set('Authorization', 'Bearer your_token')
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+    })
+})
+
+describe("[Gateway Service] - /adduser", () => {
+
+    beforeEach(() => {
+        axios.post.mockImplementation(() => Promise.resolve({data: {message: "User added"}, status: 200}));
+    })
+
+    it("should return 200 and add the user to the system", async () => {
+        const res = await request(app)
+          .post('/adduser')
+          .send({
+              username: "foo",
+              password: "Baaaaaar6)"
+          })
+
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("message", "User added");
+    })
+})
+
+describe("[Gateway Service] - /users/serach/:filter", () => {
+    beforeEach(() => {
+        axios.get.mockImplementation(() => Promise.resolve({data: {success: true}, status: 200}))
+    })
+
+    it("should return 200 and the searched user", async () => {
+        const res = await request(app)
+          .get('/users/search/foo')
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+    })
+})
+
+describe("[Gateway Service] - /users/social/sendrequest", () => {
+    beforeEach(() => {
+        axios.post.mockImplementation(() => Promise.resolve({data: {success: true}, status: 200}))
+    })
+
+    it("should return 200 and send the request to the desired user", async () => {
+        const res = await request(app)
+          .post('/users/social/sendrequest')
+          .send({ userId: "foo" })
+
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+    })
+})
+
+describe("[Gateway Service] - /users/social/sentrequests/:userId", () => {
+    beforeEach(() => {
+        axios.get.mockImplementation(() => Promise.resolve({data: {success: true}, status: 200}))
+    })
+
+    it("should return 200 and retrieve the friend requests", async () => {
+        const res = await request(app)
+          .get('/users/social/sentrequests/foo')
+
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+    })
+})
+
+describe("[Gateway Service] - /users/social/receivedrequests/:userId", () => {
+    beforeEach(() => {
+        axios.get.mockImplementation(() => Promise.resolve({data: {success: true}, status: 200}))
+    })
+
+    it("should return 200 and retrieve the recieved friend requests", async () => {
+        const res = await request(app)
+          .get('/users/social/receivedrequests/foo')
+
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+    })
+})
+
+describe("[Gateway Service] - /users/social/acceptrequest/:fromId/:userId", () => {
+    beforeEach(() => {
+        axios.get.mockImplementation(() => Promise.resolve({data: {success: true}, status: 200}))
+    })
+
+    it("should return 200 and accept the friend request", async () => {
+        const res = await request(app)
+          .get('/users/social/acceptrequest/foo/bar')
+
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+    })
+})
+
+describe("[Gateway Service] - /users/social/friends/:userId", () => {
+    beforeEach(() => {
+        axios.get.mockImplementation(() => Promise.resolve({data: {success: true}, status: 200}))
+    })
+
+    it("should return 200 and show the friend data", async () => {
+        const res = await request(app)
+          .get('/users/social/friends/foo')
+
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+    })
+})
+
+describe("[Gateway Service] - /users/social/removefriend", () => {
+    beforeEach(() => {
+        axios.post.mockImplementation(() => Promise.resolve({data: {success: true}, status: 200}))
+    })
+
+    it("should return 200 and remove the friend", async () => {
+        const res = await request(app)
+          .post('/users/social/removefriend')
+          .send({userId: "bar"})
+
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty("success", true);
+    })
+})
+
+describe("[Gateway Service] - /users/social/rejectrequest", () => {
+    beforeEach(() => {
+        axios.post.mockImplementation(() => Promise.resolve({data: {success: true}, status: 200}))
+    })
+
+    it("should return 200 and remove the friend", async () => {
+        const res = await request(app)
+          .post('/users/social/rejectrequest')
+          .send({userId: "bar"})
+
         expect(res.status).toBe(200);
         expect(res.body).toHaveProperty("success", true);
     })
