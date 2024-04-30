@@ -38,13 +38,15 @@ const dataValidatorMiddleware = require('./middleware/DataValidatorMiddleware')(
 const authMiddleware = require('./middleware/AuthMiddleware')(i18next)
 const adminMiddleware = require('./middleware/AdminMiddleware')(i18next)
 const authTokenMiddleware = require("./middleware/AuthTokenMiddleware")(i18next)
+const friendMiddleware = require("./middleware/FriendMiddleware")(i18next)
 
 // Routes middleware
 app.use("/adduser", dataValidatorMiddleware)
 app.use("/login", dataValidatorMiddleware)
 app.use("/game", authMiddleware)
 app.use("/history", authMiddleware)
-app.use("/user", authMiddleware)
+// app.use("/user", authMiddleware)
+app.use("/history/get/:userId",friendMiddleware)
 
 app.use("/admin", authMiddleware)
 app.use("/admin", adminMiddleware)

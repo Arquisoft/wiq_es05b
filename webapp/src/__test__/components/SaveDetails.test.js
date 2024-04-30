@@ -57,7 +57,7 @@ describe('SaveDetails component', () => {
     });
 
     it('calls back function when "Go back" button is clicked', () => {
-        const goBackButton = screen.getByText('Go back');
+        const goBackButton = screen.getByText('Go Back');
         fireEvent.click(goBackButton);
         expect(mockBack).toHaveBeenCalled();
     });

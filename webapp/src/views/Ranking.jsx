@@ -1,10 +1,11 @@
-import { TextField, Autocomplete, Avatar, Container, Paper, Typography, Table, TableContainer, TableHead, TableBody, TableRow, TableCell } from "@mui/material";
+import { Autocomplete, Avatar, Box, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import axios from "axios";
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import grave from "../media/graveRanking.svg";
 import Loader from "./components/Loader";
 import ServiceDownMessage from "./components/ServiceDownMessage";
-import {LocaleContext} from "./context/LocaleContext";
+import { AuthContext } from "./context/AuthContext";
+import { LocaleContext } from "./context/LocaleContext";
 
 const baseFilters = [
   { filter: "totalPoints", code: "ranking_filter_points" },
@@ -70,47 +71,89 @@ const RankingList = ({ scores, error, setFilter }) => {
   );
 };
 
-const fetchRanking = async (order) => {
-  try {
-    const response = await axios.get(`/ranking/10?order=${order}`)
-    return response.data;
-  } catch (error) {
-    throw error.response;
-  }
+const RankingComponent = (props) => {
+
+  const { scores, error, setFilter } = props;
+
+  return (
+    <Container sx={{ display: "flex", flexFlow: "column", gap: "1rem"}}>
+      <RankingList scores={scores} error={error} setFilter={setFilter} />
+    </ Container>
+  );
+
 }
 
-export default function Ranking() {
+export default function Ranking(props) {
+  const { t } = useContext(LocaleContext);
+  const { getUser } = useContext(AuthContext);
   const [scores, setScores] = useState();
   const [init, setInit] = useState(false); //To prevent error message from showing while fetching
   const [error, setError] = useState();
   const [filter, setFilter] = useState(baseFilters[0].filter);
-  const { t } = useContext(LocaleContext)
+  const [friendMode, setFriendMode] = useState(false);
+
+
+  const { friends } = props;
+  if (friends && friendMode === false)
+    setFriendMode(true);
+
 
   // Fetch the top 10 users at first render
-
   useEffect(() => {
     setInit(false);
     fetchRanking(filter)
       .then((response) => setScores(response))
-      .catch((error) => setError({message: error.data.message, status: error.status}))
+      .catch((error) => setError({ message: error.data.message, status: error.status }))
       .finally(() => setInit(true));
+      //eslint-disable-next-line
   }, [filter]);
-  
+
+  const fetchRanking = async (order) => {
+    try {
+      const response = await axios.get(`/ranking/10?order=${order}`)
+
+      if (!friendMode)
+        return response.data;
+      else {
+        const friendNames = friends.map(friend => friend.username);
+        return response.data.filter(score => friendNames.includes(score.user) || score.user === getUser().username);
+      }
+    } catch (error) {
+      return error.response;
+    }
+  }
+
   return (
-    <Container style={{ paddingTop: "2rem" }}>
-      <Paper
-        elevation={3}
-        style={{ padding: 16, margin: "auto" }}
-      >
-        <Typography variant="h4" component="h1" align="center" gutterBottom>
-          {t("ranking_title")}
-        </Typography>
-        { !init ? <Loader /> : (
-          <Container sx={{display: "flex", flexFlow: "column", gap: "1rem"}}>
-            <RankingList scores={scores} error={error} setFilter={setFilter} />
-          </ Container>
-        ) }
-      </Paper>
-    </Container>
+    <>
+
+      {!init && <Loader />}
+
+      {!friendMode && init &&
+        <Container style={{ paddingTop: "2rem" }}>
+          <Paper
+            elevation={3}
+            style={{ padding: 16, margin: "auto" }}
+          >
+            <Typography variant="h4" component="h1" align="center" gutterBottom>
+              {t("ranking_title")}
+            </Typography>
+
+            <RankingComponent error={error} scores={scores} setFilter={setFilter} />
+
+          </Paper>
+        </Container>
+      }
+
+
+      {friendMode && init &&
+        <Box style={{ paddingTop: "2rem"}}>
+          <Typography variant="h4" component="h1" align="center" gutterBottom>
+          {t("ranking_title_friends")}
+          </Typography>
+          <RankingComponent error={error} scores={scores} setFilter={setFilter} />
+        </Box>
+      }
+
+    </>
   );
 }

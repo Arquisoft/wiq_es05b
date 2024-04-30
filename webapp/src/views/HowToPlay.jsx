@@ -1,6 +1,5 @@
 import React, {useContext} from 'react';
-import {Container, Typography, Paper, Link} from '@mui/material';
-import {ReactComponent as Logo} from "../media/logoL.svg";
+import {Container, Typography, Paper} from '@mui/material';
 import {LocaleContext} from "./context/LocaleContext";
 const NavigateCard = () => {
     const { t } = useContext(LocaleContext)

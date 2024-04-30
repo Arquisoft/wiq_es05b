@@ -3,6 +3,8 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const User = require("./user-model")
+const FriendRequest = require("./friendRequest-model")
+const Friend = require("./friendship-model")
 
 let mongoServer;
 let app;
@@ -21,7 +23,16 @@ afterAll(async () => {
 const removeAllUsers = async () => {
   await mongoose.connect(process.env.MONGODB_URI);
   await User.deleteMany({});
-  await mongoose.connection.close();
+}
+
+const removeAllFr = async () => {
+  await mongoose.connect(process.env.MONGODB_URI);
+  await FriendRequest.deleteMany({});
+}
+
+const removeAllF = async () => {
+  await mongoose.connect(process.env.MONGODB_URI);
+  await Friend.deleteMany({});
 }
 
 async function addUser(user){
@@ -31,9 +42,19 @@ async function addUser(user){
     username: user.username,
     password: hashedPassword,
   });
-  const u = await newUser.save();
-  await mongoose.connection.close()
-  return u
+  return await newUser.save()
+}
+
+async function addFriendRequest(fr){
+  await mongoose.connect(process.env.MONGODB_URI);
+  const newFr = new FriendRequest(fr);
+  return await newFr.save()
+}
+
+async function addFriends(fr){
+  await mongoose.connect(process.env.MONGODB_URI);
+  const newF = new Friend(fr);
+  return await newF.save()
 }
 
 describe('[User Service] - /adduser', () => {
@@ -101,4 +122,239 @@ describe('[User Service] - /user/:userId', () => {
   })
 })
 
+describe("[User Service] - /users/search/:filter", () => {
+  beforeAll(async () => {
+    await removeAllUsers()
+    const newUser = {
+      username: 'testuser',
+      password: 'testpassword',
+    }
 
+    await addUser(newUser);
+  })
+
+  it("Should return 200 and all the users", async () => {
+    const response = await request(app).get(`/users/search/all`)
+
+    expect(response.status).toBe(200)
+    expect(response.body[0]).toHaveProperty("username", "testuser")
+  })
+})
+
+describe("[User Service] - /social/sendrequest", () => {
+
+  it("Should return 200 and all the users", async () => {
+    const response = await request(app)
+      .post(`/social/sendrequest`)
+      .send({
+        name: "foo",
+        userId: new mongoose.Types.ObjectId(new Uint8Array(12)).toString(),
+        toId: new mongoose.Types.ObjectId(new Uint8Array(12)).toString()
+      })
+
+    expect(response.status).toBe(200)
+    expect(response.body).toHaveProperty("message", "Friend request added successfully")
+  })
+})
+
+describe("[User Service] - /social/sentrequests/:userId", () => {
+
+  let targetId
+  let objectiveId
+
+  beforeAll(async () => {
+    await removeAllFr()
+    await removeAllUsers()
+    const target = await addUser({
+      username: "foo",
+      password: "foo"
+    })
+    targetId = target._id
+    const objective = await addUser({
+      username: "bar",
+      password: "bar"
+    })
+    objectiveId = objective._id
+    addFriendRequest({
+      from: { username: "foo", userId: targetId },
+      to: { userId: objectiveId }
+    })
+  })
+
+  it("Should return 200 and the sent friend requests", async () => {
+    const response = await request(app)
+      .get(`/social/sentrequests/${targetId}`)
+
+    expect(response.status).toBe(200)
+    expect(response.body[0]).toHaveProperty("from", {username: "foo", userId: targetId.toString()})
+    expect(response.body[0]).toHaveProperty("to", {userId: objectiveId.toString()})
+  })
+})
+
+describe("[User Service] - /social/receivedrequests/:userId", () => {
+
+  let targetId
+  let objectiveId
+
+  beforeAll(async () => {
+    await removeAllFr()
+    await removeAllUsers()
+    const target = await addUser({
+      username: "foo",
+      password: "foo"
+    })
+    targetId = target._id
+    const objective = await addUser({
+      username: "bar",
+      password: "bar"
+    })
+    objectiveId = objective._id
+    addFriendRequest({
+      from: { username: "foo", userId: targetId },
+      to: { userId: objectiveId }
+    })
+  })
+
+  it("Should return 200 and return the received requests", async () => {
+    const response = await request(app)
+      .get(`/social/receivedrequests/${objectiveId}`)
+
+    expect(response.status).toBe(200)
+    expect(response.body[0]).toHaveProperty("from", {username: "foo", userId: targetId.toString()})
+    expect(response.body[0]).toHaveProperty("to", {userId: objectiveId.toString()})
+  })
+})
+
+describe("[User Service] - /social/acceptrequest/:fromId/:toId", () => {
+
+  let targetId
+  let objectiveId
+
+  beforeAll(async () => {
+    await removeAllFr()
+    await removeAllUsers()
+    const target = await addUser({
+      username: "foo",
+      password: "foo"
+    })
+    targetId = target._id
+    const objective = await addUser({
+      username: "bar",
+      password: "bar"
+    })
+    objectiveId = objective._id
+    addFriendRequest({
+      from: { username: "foo", userId: targetId },
+      to: { userId: objectiveId }
+    })
+  })
+
+  it("Should return 200 and accept the request", async () => {
+    const response = await request(app)
+      .get(`/social/acceptrequest/${targetId}/${objectiveId}`)
+
+    expect(response.status).toBe(200)
+    expect(response.body).toHaveProperty("message", "Friendship added successfully")
+  })
+})
+describe("[User Service] - /social/friends/:userId", () => {
+
+  let targetId
+  let objectiveId
+
+  beforeAll(async () => {
+    await removeAllF()
+    await removeAllUsers()
+    const target = await addUser({
+      username: "foo",
+      password: "foo"
+    })
+    targetId = target._id
+    const objective = await addUser({
+      username: "bar",
+      password: "bar"
+    })
+    objectiveId = objective._id
+    await addFriends({users: [targetId, objectiveId]})
+  })
+
+  it("Should return 200 and return the user friends", async () => {
+    const response = await request(app)
+      .get(`/social/friends/${targetId}`)
+
+    expect(response.status).toBe(200)
+    expect(response.body[0].user1).toHaveProperty("_id", targetId.toString())
+    expect(response.body[0].user1).toHaveProperty("username", "foo")
+    expect(response.body[0].user2).toHaveProperty("_id", objectiveId.toString())
+    expect(response.body[0].user2).toHaveProperty("username", "bar")
+  })
+})
+describe("[User Service] - /social/removefriend", () => {
+
+  let targetId
+  let objectiveId
+
+  beforeAll(async () => {
+    await removeAllF()
+    await removeAllUsers()
+    const target = await addUser({
+      username: "foo",
+      password: "foo"
+    })
+    targetId = target._id
+    const objective = await addUser({
+      username: "bar",
+      password: "bar"
+    })
+    objectiveId = objective._id
+    await addFriends({users: [targetId, objectiveId]})
+  })
+
+  it("Should return 200 and remove the friendship", async () => {
+    const response = await request(app)
+      .post(`/social/removefriend/`)
+      .send({
+        userId: targetId,
+        user2: objectiveId
+      })
+
+    expect(response.status).toBe(200)
+    expect(response.body).toHaveProperty("message", "Friendship deleted successfully")
+  })
+})
+describe("[User Service] - /social/rejectrequest", () => {
+
+  let targetId
+  let objectiveId
+
+  beforeAll(async () => {
+    await removeAllFr()
+    await removeAllUsers()
+    const target = await addUser({
+      username: "foo",
+      password: "foo"
+    })
+    targetId = target._id
+    const objective = await addUser({
+      username: "bar",
+      password: "bar"
+    })
+    objectiveId = objective._id
+    addFriendRequest({
+      from: { username: "foo", userId: targetId },
+      to: { userId: objectiveId }
+    })
+  })
+
+  it("Should return 200 and remove the request", async () => {
+    const response = await request(app)
+      .post(`/social/rejectrequest/`)
+      .send({
+        fromId: targetId,
+        userId: objectiveId
+      })
+
+    expect(response.status).toBe(200)
+    expect(response.body).toHaveProperty("message", "Friend request deleted successfully")
+  })
+})

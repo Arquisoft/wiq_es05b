@@ -9,6 +9,7 @@
     "home_menu_login": "Login",
     "home_menu_sign_up": "Sign Up",
     "home_menu_logout": "Logout",
+    "home_menu_social": "Social",
 
     "signup_title": "Signup",
     "signup_suggestion_text": "Already have an account?",
@@ -26,6 +27,7 @@
     "form_password": "Password",
 
     "ranking_title": "Global Ranking",
+    "ranking_title_friends": "Friends Ranking",
     "ranking_filter": "Filter by:",
     "ranking_filter_points": "Points",
     "ranking_filter_time": "Time",
@@ -47,6 +49,12 @@
     "menu_no_categories": "No categories to show",
 
     "about_title": "About Us",
+    "about_app": "About the app",
+    "about_guide": "About the game",
+    "about_guide_line": "Check the game guide here!",
+    "about_program": "About the program",
+    "about_program_line": "This project is inspired by the popular spanish show 'Saber y Ganar'",
+    "about_program_line2": "Don't forget to check the official program page!",
     "about_p1": "Welcome to our project! We are dedicated to providing quality content and services to our users.",
     "about_p2": "Our mission is to provide a fun way of learning and practicing general knowledge through a Q&A game.",
     "about_p3": "Feel free to explore our site and discover more about what we have to offer.",
@@ -59,16 +67,15 @@
 
     "howto_title": "How to play",
     "howto_g_title": "Game guide",
-    "howto_g1": "To start playing, you first need to log in or register. Once logged in, selecting the play button allows you to choose from various categories",
-    "howto_g2": "You can enable or disable hot questions,a feature that adds one random question worth double points",
+    "howto_g1": "To start playing, you first need to log in or register. Once logged in, selecting the play button allows you to choose from various categories of questions.",
+    "howto_g2": "You can enable or disable hot questions,a feature that adds one random question worth double points.",
     "howto_g3": "You'll have 20 seconds to answer each question, earning 100 points for a correct answer, losing 10 points for a wrong answer, and gaining 0 points for leaving it blank.",
-    "howto_g4": "After 10 questions, you'll see a summary of the game",
+    "howto_g4": "After 10 questions, you'll see a summary of the game.",
     "howto_n_title": "How to navigate",
-    "howto_n1": "To access your profile, you must click on the icon with the first letter of your username, and then go to the section: 'Account'",
-    "howto_n2": "To log out, you must click on the same icon, and then go to the section: 'Log out'",
-    "howto_n3": "To access a specific game from your history, after accessing your profile, simply click on the desired game for its breakdown",
+    "howto_n1": "To access your profile, you must click on the icon with the first letter of your username, and then go to the section: 'Account'.",
+    "howto_n2": "To log out, you must click on the same icon, and then go to the section: 'Log out'.",
+    "howto_n3": "To access a specific game from your history, after accessing your profile, simply click on the desired game for its breakdown.",
     "howto_summary": "There are also several added options such as adding friends or viewing a global ranking available on the top navigation bar.",
-
 
     "account_user_data": "User Data",
 
@@ -88,6 +95,7 @@
     "endgame_home_button": "Go Home",
 
     "button_play": "Play",
+    "button_back": "Go Back",
 
     "loader_msg": "Loading, please wait...",
 
@@ -102,6 +110,26 @@
     "error_occurred": "Oh no, an error occurred.",
     "error_bad_request": "It seems the requested URL does no exist or you don't have enough privileges to see it.",
     "error_sinner": "Go back sinner.",
-    "error_home_button": "Go Home"
+    "error_home_button": "Go Home",
+
+    "social_menu_friends": "Friends",
+    "social_menu_requests": "Requests",
+    "social_menu_search": "Search users",
+    "social_menu_ranking": "Friends Ranking",
+    "social_snackbar_fq_accepted": "Friendship request accepted",
+    "social_tooltip_search": "Search users",
+    "social_tooltip_accept": "Accept request",
+    "social_tooltip_reject": "Reject request",
+    "social_tooltip_send": "Send friend request",
+    "social_tooltip_delete": "Delete friend",
+    "social_tooltip_profile": "View profile",
+    "social_tooltip_back": "Back",
+    "social_tooltip_add": "Add friends",
+    "social_empty_jordi": "Oops, this seems empty ...",
+    "social_deletemodal_title": "Remove friend",
+    "social_deletemodal_text": "Are you sure you want to remove % from your friend list?",
+    "social_deletemodal_cancel": "Cancel",
+    "social_deletemodal_delete": "Delete"
+
   }
 }

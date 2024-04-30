@@ -23,6 +23,7 @@ app.set("i18next", i18next);
 // Connect to MongoDB
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
 const userRepository = require('./repositories/userRepository');
+const socialRepository = require('./repositories/socialRepository');
 mongoose.connect(mongoUri);
 
 // Middleware to log requests and responses
@@ -44,9 +45,11 @@ app.use("/adduser", dataMiddleware)
 
 // Initialize the repository
 userRepository.init(mongoose, mongoUri, i18next);
+socialRepository.init(mongoose, mongoUri);
 
 // Routes
 require('./routes/usersRoutes')(app, userRepository)
+require('./routes/socialRoutes')(app, userRepository, socialRepository)
 
 // Error handling middleware
 app.use(errorHandlerMiddleware(logger.error.bind(logger), "User Service"))

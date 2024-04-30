@@ -41,6 +41,18 @@ module.exports = {
       throw error.message;
     }
   },
+  //If not filter, return last 10 created users, otherwise return users that match the filter
+  getUsers: async function (filter) {
+    try {
+      await this.checkUp()
+      if (!filter)
+        return await this.mongoose.connection.collection("users").find({}).sort({ createdAt: -1 }).limit(10).toArray();
+      else
+        return await this.mongoose.connection.collection("users").find(filter).toArray()
+    } catch (error) {
+      throw error.message;
+    }
+  },
   checkValidId: function (id) {
     return !(!id || !this.mongoose.isValidObjectId(id));
   },

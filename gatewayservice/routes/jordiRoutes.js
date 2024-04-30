@@ -1,6 +1,11 @@
-const checkFields = require("../utils/FieldChecker")
+const { fieldChecker } = require("cyt-utils")
 const questionServiceUrl = process.env.JORDI_SERVICE_URL || "http://localhost:8003";
 const historyService = process.env.HISTORY_SERVICE_URL || "http://localhost:8004";
+
+const errorParser = (e, next) => {
+  if(e.code && e.code === "ECONNREFUSED") return next(e.code)
+  next({status: e.response.status, error: e.response.data})
+}
 
 module.exports = (app, axios) => {
 
@@ -15,7 +20,7 @@ module.exports = (app, axios) => {
     // TODO - Check save ownership
     // const { userIdToken: userId } = req
 
-    const result = checkFields(["questionId", "last", "answer", "time", "saveId", "statement", "options"], req.body)
+    const result = fieldChecker(["questionId", "last", "answer", "time", "saveId", "statement", "options"], req.body)
     if(result) return next({status: 400, error: `${i18next.t("error_missing_field")} ${result}`})
 
     const { questionId, last, answer, time, saveId, statement, options } = req.body
@@ -40,15 +45,14 @@ module.exports = (app, axios) => {
           .then(() => res.json({answer: question.answer, points}))
           .catch(() => res.json({answer: question.answer, points, error: i18next.t("error_adding_answer")}));
       })
-      .catch(() => next({error: i18next.t("error_fetch_answer")}));
+      .catch(e => errorParser(e, next));
   });
 
   app.get("/game/categories", (_req, res, next) => {
     axios
       .get(`${questionServiceUrl}/categories`)
       .then((response) => res.status(response.status).send(response.data))
-      .catch(() => next({error: i18next.t("error_fetch_categories")})
-      );
+      .catch(e => errorParser(e, next));
   });
 
   app.get("/game/questions/:category/:n", async (req, res, next) => {
@@ -61,16 +65,15 @@ module.exports = (app, axios) => {
           })
           res.status(response.status).send(questions)
         })
-        .catch(() => next({ error: i18next.t("error_fetch_questions")}));
+        .catch(e => errorParser(e, next));
   });
 
-
   // ADMIN ROUTES ONLY
-  app.get("/gen/:groupId", async (req, res, next) => {
+  app.get("/admin/gen/:groupId", async (req, res, next) => {
 
     axios.get(`${questionServiceUrl}/gen/${req.params.groupId}`)
       .then(response => res.status(response.status).send(response.data))
-      .catch(error => next(error));
+      .catch(e => errorParser(e, next));
 
   });
 
@@ -78,7 +81,7 @@ module.exports = (app, axios) => {
     
     axios.get(`${questionServiceUrl}/gen`)
       .then(response => res.status(response.status).send(response.data))
-      .catch(error => next(error));
+      .catch(e => errorParser(e, next));
 
   });
 
@@ -86,7 +89,7 @@ module.exports = (app, axios) => {
     
     axios.get(`${questionServiceUrl}/groups`)
       .then(response => res.status(response.status).send(response.data))
-      .catch(error => next(error));
+      .catch(e => errorParser(e, next));
 
   });
 
@@ -94,7 +97,7 @@ module.exports = (app, axios) => {
     
     axios.post(`${questionServiceUrl}/addGroups`, req.body)
       .then(response => res.status(response.status).send(response.data))
-      .catch(error => next(error));
+      .catch(e => errorParser(e, next));
 
   });
 
@@ -102,15 +105,14 @@ module.exports = (app, axios) => {
     
     axios.get(`${questionServiceUrl}/removeGroup/${req.params.groupId}`)
       .then(response => res.status(response.status).send(response.data))
-      .catch(error => next(error));
-
+      .catch(e => errorParser(e, next));
   });
 
   app.get("/admin/removeAllGroups", async (req, res, next) => {
     
     axios.get(`${questionServiceUrl}/removeAllGroups`)
       .then(response => res.status(response.status).send(response.data))
-      .catch(error => next(error));
+      .catch(e => errorParser(e, next));
 
   });
 

@@ -159,7 +159,7 @@ Note that this action logs in the remote machine and downloads the docker-compos
 
 We would like to extend our special thanks to the following individuals for their valuable contributions and collaborations:
 
-- Thanks to all of the JordiBurger Easter Event participants.
+- Thanks to all the JordiBurger Easter Event participants.
 - Thanks to Jordi Hurtado for not denouncing us legally.
 - Thanks to Omitg24 for the footer I've just stolen.
 
@@ -169,7 +169,11 @@ We are grateful for their support and dedication in making this project a succes
 <img src="projectmedia/console.svg" style="width: 5%">
 
 ## Links of interest
-- [Grafana](https://cyt.is-cool.dev/grafana)
+
+- [Project](https://cyt.is-cool.dev/)
+- [Docs](https://arquisoft.github.io/wiq_es05b/)
+- [npm package](https://www.npmjs.com/package/cyt-utils?activeTab=versions)
 - [OpenApi](https://cyt.is-cool.dev/api/doc)
-- [Elastic](https://cyt.is-cool.dev/kibana) 
+- [Grafana](https://cyt.is-cool.dev/grafana)
+- [Kibana](https://cyt.is-cool.dev/kibana) 
 
