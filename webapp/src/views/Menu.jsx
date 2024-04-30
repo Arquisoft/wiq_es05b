@@ -29,7 +29,7 @@ const categorySearch = {
 }
 
 const MyButton = ({ text, link }) => (
-  <Button variant="contained" sx={buttonConfig} component={Link} to={link} role="button">
+  <Button variant="contained" sx={buttonConfig} component={Link} to={link}>
     {text}
   </Button>
 );
@@ -66,6 +66,27 @@ const Buttons = ({ categories, fetched }) => {
   );
 };
 
+const ColorToggleButton = () => {
+  const { hotQuestion, setHotQuestion } = useContext(GameContext);
+  const { t } = useContext(LocaleContext);
+
+  const handleChange = () => {
+    setHotQuestion(!hotQuestion);
+  };
+
+  return (
+    <ToggleButtonGroup
+      color={hotQuestion ? "secondary" : "primary"}
+      exclusive
+      onChange={handleChange}
+      aria-label="Platform"
+    >
+      <ToggleButton value="hotQuestion">
+        {hotQuestion ? t('menu_hotQ_disable') : t('menu_hotQ_enable')}
+      </ToggleButton>
+    </ToggleButtonGroup>
+  );
+}
 
 export default function GameMenu() {
   const { getUser, isAuthenticated } = useContext(AuthContext)
@@ -73,26 +94,6 @@ export default function GameMenu() {
   const [error, setError] = useState(null);
   const [fetched, setFetched] = useState(false);
   const { t } = useContext(LocaleContext);
-  const { hotQuestion, setHotQuestion } = useContext(GameContext);
-
-    const ColorToggleButton = () => {
-        const handleChange = () => {
-            setHotQuestion(!hotQuestion);
-        };
-
-        return (
-            <ToggleButtonGroup
-                color={hotQuestion ? "secondary" : "primary"}
-                exclusive
-                onChange={handleChange}
-                aria-label="Platform"
-            >
-                <ToggleButton value="hotQuestion">
-                    {hotQuestion ? t('menu_hotQ_disable') : t('menu_hotQ_enable')}
-                </ToggleButton>
-            </ToggleButtonGroup>
-        );
-    }
 
     useEffect(() => {
     if(!isAuthenticated()) return;

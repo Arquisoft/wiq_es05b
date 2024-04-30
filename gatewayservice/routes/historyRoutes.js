@@ -76,12 +76,10 @@ module.exports = (app, axios, authMiddleware) => {
     axios.get(order ? url + `?order=${encodeURIComponent(order)}`: url)
       .then(async response => {
         response.data = await Promise.all(response.data.map(async record => {
-          try {
             let response = await axios.get(`${userServiceUrl}/user/${record.userId}`)
             delete record.userId
             record.user = response.data.username
             return record
-          } catch (error) { throw(error) }
         }))
         res.status(response.status).json(response.data)
       })

@@ -7,7 +7,6 @@ import {LocaleContext} from "./context/LocaleContext";
 function Home() {
   const { t } = useContext(LocaleContext)
   return (
-    <>
       <Container
         style={{
           position: "absolute",
@@ -40,7 +39,6 @@ function Home() {
           </Button>
         </Container>
       </Container>
-    </>
   );
 }
 

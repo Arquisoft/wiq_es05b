@@ -21,6 +21,7 @@ async function startServer() {
     userhistory = await require("../../userhistory/history-service");
 
     await testUtils.insertSampleUser(axios);
+    await testUtils.insertGroups(axios);
 
 }
 startServer().then(e=>{});

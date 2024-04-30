@@ -24,12 +24,12 @@ module.exports = (app, axios, authTokenMiddleware) => {
           })
           .catch((error) => {
             let e = error.error || i18next.t("error_login_service_unable")
-            if (error.code && error.code.includes("ECONNREFUSED"))
+            if (error.code?.includes("ECONNREFUSED"))
               e = { error: i18next.t("error_service_unavailable") }
             res.json({ message: response.data.message, error: e })
           })
       })
-      .catch(() => next({ error: i18next.t("error_adding_user") }));
+      .catch(e => errorHandler(e, next));
   });
 
   app.get("/user/:userId", authTokenMiddleware, (req, res, next) => {
@@ -37,10 +37,7 @@ module.exports = (app, axios, authTokenMiddleware) => {
     axios
       .get(`${userServiceUrl}/user/${userId}`)
       .then(({ data }) => res.json(data))
-      .catch(e => {
-        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-        next({status: e.response.status, ...e.response.data})
-      })
+      .catch(e => errorHandler(e, next));
   });
 
   app.get("/users/search/:filter", async (req, res, next) => {
@@ -49,10 +46,8 @@ module.exports = (app, axios, authTokenMiddleware) => {
     axios
       .get(`${userServiceUrl}/users/search/${filter}`)
       .then(({ data }) => res.json(data))
-      .catch(e => {
-        if(e.code && e.code === "ECONNREFUSED") return next(e.code)
-        next({status: e.response.status, ...e.response.data})
-      });
+      .catch(e => errorHandler(e, next));
+
   });
 
   app.post("/users/social/sendrequest", authTokenMiddleware, async (req, res, next) => {

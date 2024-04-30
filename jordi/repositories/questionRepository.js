@@ -47,8 +47,7 @@ module.exports = {
         ])
         .toArray();
 
-      for (let i = 0; i < result.length; i++) {
-        const question = result[i];
+      for (const question of result) {
         question.options = await this.getDistinctOptions(question);
       }
 
@@ -100,7 +99,10 @@ module.exports = {
 
       result.push(question.answer);
 
-      return result; } catch (error) { throw error.message; }
+      return result;
+    } catch (error) {
+      throw error.message;
+    }
   },
 
   findQuestionById: async function (id) {

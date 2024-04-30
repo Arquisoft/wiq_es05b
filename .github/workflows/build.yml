@@ -4,12 +4,10 @@ on:
     branches:
       - master
       - develop
-      - coverage_fix
   pull_request:
     branches:
       - master
       - develop
-      - coverage_fix
     types: [opened, synchronize, reopened]
     
 jobs:

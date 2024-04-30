@@ -212,7 +212,7 @@ describe("[Jordi Service] - /categories", () => {
     expect(response.status).toBe(200);
     expect(response).toHaveProperty("text");
 
-    expect(response.text).toEqual("[\"area\",\"capitals\",\"continent\",\"currency\",\"economy\",\"gdp\",\"geography\",\"languages\",\"politics\",\"population\",\"president\"]");
+    expect(response.text).toEqual("[\"area\",\"capitals\",\"continent\",\"currency\",\"economy\",\"gdp\",\"geography\",\"languages\",\"politics\",\"population\",\"president\",\"religion\"]");
     
     await request(app).get("/removeAllGroups");
 

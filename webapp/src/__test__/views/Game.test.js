@@ -1,6 +1,6 @@
 import React from 'react';
 import { customRender } from "../utils/customRenderer"
-import { render, waitFor, act, screen } from '@testing-library/react';
+import { waitFor, act, screen } from '@testing-library/react';
 import axios from 'axios';
 import Game from '../../views/Game.jsx';
 import { useAuth } from "../../App.jsx";
