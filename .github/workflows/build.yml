@@ -2,7 +2,7 @@ name: Build
 on:
   push:
     branches:
-      - master
+      - ft_sonarproblems
       - develop
   pull_request:
     branches:
