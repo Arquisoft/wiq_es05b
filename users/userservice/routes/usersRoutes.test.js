@@ -7,6 +7,7 @@ const mockUserRepository = {
   getUser: jest.fn(),
   insertUser: jest.fn(),
   checkValidId: jest.fn(),
+  getUsers: jest.fn(),
 };
 
 
@@ -55,4 +56,31 @@ describe('User Routes', () => {
     const res = await request(app).get('/user/nonexistent');
     expect(res.statusCode).toEqual(404);
   });
+
+  it("returns an empty list with no matches", async () => {
+    mockUserRepository.getUsers.mockResolvedValue([]);
+    const res = await request(app).get('/users/search/foo');
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toEqual([]);
+
+  })
+
+  it("returns a result when matches", async () => {
+    mockUserRepository.getUsers.mockResolvedValue([{__v: 1, password: "boo", username: "foo"}]);
+    const res = await request(app).get('/users/search/foo');
+    expect(res.statusCode).toEqual(200);
+    expect(res.body[0]).toHaveProperty("username", "foo");
+  })
+  it("returns all the results", async () => {
+    mockUserRepository.getUsers.mockResolvedValue([
+      {__v: 1, password: "boo", username: "foo"},
+      {__v: 1, password: "boo", username: "bar"},
+      {__v: 1, password: "boo", username: "boo"},
+    ]);
+    const res = await request(app).get('/users/search/all');
+    expect(res.statusCode).toEqual(200);
+    expect(res.body[0]).toHaveProperty("username", "foo");
+    expect(res.body[1]).toHaveProperty("username", "bar");
+    expect(res.body[2]).toHaveProperty("username", "boo");
+  })
 });

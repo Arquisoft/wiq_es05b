@@ -1,5 +1,3 @@
-const { get } = require("mongoose");
-
 module.exports = {
     mongoose: null,
     uri: null,

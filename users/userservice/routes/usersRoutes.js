@@ -53,6 +53,6 @@ module.exports = function (app, userRepository) {
       res.json(output);
     } catch (error) {
       next({ error: "us: An error occurred while fetching user data: " + error })
-    };
+    }
   })
 };
