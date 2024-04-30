@@ -12,6 +12,7 @@ const mockUserRepository = {
 
 const app = express();
 app.use(express.json());
+app.set("i18next", require("i18next"))
 routes(app, mockUserRepository);
 
 describe('User Routes', () => {
@@ -25,14 +26,13 @@ describe('User Routes', () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  /** TODO: works in local, when in github actions (500 -> internal server error)
   it('fails to add a new user with existing username', async () => {
     mockUserRepository.getUser.mockResolvedValue({ username: 'username' });
 
-    const res = await request(app2).post('/adduser').send({ username: 'username', password: 'password' });
+    const res = await request(app).post('/adduser').send({ username: 'username', password: 'password' });
     expect(res.statusCode).toEqual(400);
   });
-  */
+
   it('fetches user by id', async () => {
     mockUserRepository.checkValidId.mockReturnValue(true);
     mockUserRepository.getUser.mockResolvedValue({ _id: 'userId', username: 'username' });
@@ -41,11 +41,10 @@ describe('User Routes', () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  /** 
   it('returns error for invalid id format', async () => {
     mockUserRepository.checkValidId.mockReturnValue(false);
 
-    const res = await request(app2).get('/user/invalid');
+    const res = await request(app).get('/user/invalid');
     expect(res.statusCode).toEqual(400);
   });
 
@@ -53,8 +52,7 @@ describe('User Routes', () => {
     mockUserRepository.checkValidId.mockReturnValue(true);
     mockUserRepository.getUser.mockResolvedValue(null);
 
-    const res = await request(app2).get('/user/nonexistent');
+    const res = await request(app).get('/user/nonexistent');
     expect(res.statusCode).toEqual(404);
   });
-  */
 });

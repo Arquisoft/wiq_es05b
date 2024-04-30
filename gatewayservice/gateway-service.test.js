@@ -194,17 +194,14 @@ describe('[Gateway Service] - /game/answer', () => {
 });
 
 /* User service tests */
-// FIXME
-/*
 describe('[Gateway Service] - /user/:userId', () => {
+    beforeEach(() => {
+        axios.get.mockReset()
+    })
 
     it('should return 200 status and the user', async () => {
-
-        //Auth middleware request
-        // mockAxios.onPost()
-        axios.get.mockResolvedValueOnce({data: {valid: true, data: {userId: "mockedUserId"}}})
         // Get user from users service
-        axios.get.mockResolvedValueOnce({data: {username: "Berengario"}});
+        axios.get.mockImplementation(() => Promise.resolve({data: {username: "Berengario"}}));
 
         const res = await request(app).get('/user/mockedUserId');
 
@@ -212,26 +209,26 @@ describe('[Gateway Service] - /user/:userId', () => {
         expect(res.body).toHaveProperty("username", 'Berengario');
     });
 })
-*/
 
 /* History service tests */
-// FIXME
-/*describe('[Gateway Service] - /history/get/:userId', () => {
+describe('[Gateway Service] - /history/get/:userId', () => {
+    beforeEach(() => {
+        axios.get.mockReset();
+    })
     it('should return 200 and the history for the user', async () => {
 
-        //Auth middleware request
-        axios.get.mockResolvedValueOnce({data: {valid: true, data: {userId: "mockedUserId"}}})
-        // Get user from users service
-        // mockAxios.onGet(`/validate`).reply(200, {valid: true, data: {userId: "mockedUserId"}});
-        // mockAxios.onGet(`/history/get`).reply(200, {history: 'mockHistory'});
-        axios.get.mockResolvedValueOnce({status: 200, data: {history: 'mockHistory'}});
+        axios.get.mockImplementation((url, data) => {
+            if (url.includes("/validate")) return Promise.resolve({data: {valid: true, data: {userId: "mockedUserId"}}})
+            if (url.includes("/get/mockedUserId")) return Promise.resolve({data: {history: 'mockHistory'}, status: 200})
+        })
 
-        const res = await request(app).get('/history/get/mockedUserId');
-
+        const res = await request(app)
+          .get('/history/get/mockedUserId')
+          .set('Authorization', 'Bearer your_token');
         expect(res.status).toBe(200);
         expect(res.body).toHaveProperty("history", 'mockHistory');
     });
-})*/
+})
 
 const express = require('express');
 const routes = require('./routes/gatewayRoutes');

@@ -6,7 +6,6 @@ module.exports = (app, axios) => {
     axios.post(`${authServiceUrl}/login`, req.body)
       .then(response => res.json(response.data))
       .catch(e => {
-        console.log(e)
         if(e.code) return next(e.code)
         next({status: e.response.status, error: e.response.data})
       });

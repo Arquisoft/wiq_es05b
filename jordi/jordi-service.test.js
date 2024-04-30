@@ -285,6 +285,7 @@ const mockQuestionsRepository = {
 
 let app2 = express();
 app2.use(express.json());
+app2.set("i18next", require("i18next"))
 routes(app2, mockQuestionsRepository);
 
 describe('Routes', () => {
@@ -301,13 +302,11 @@ describe('Routes', () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  /** TODO: works in local, when in github actions (500 -> internal server error) 
   it('returns error for invalid id format', async () => {
     mockQuestionsRepository.checkValidId.mockReturnValue(false);
     const res = await request(app2).get('/question/invalid');
     expect(res.statusCode).toEqual(400);
   });
-  */
 
   it('fetches questions by category and number', async () => {
     mockQuestionsRepository.getQuestions.mockResolvedValue([]);
@@ -316,10 +315,8 @@ describe('Routes', () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  /** TODO: works in local, when in github actions (500 -> internal server error) 
   it('returns error for non-numeric number of questions', async () => {
     const res = await request(app2).get('/questions/category/invalid');
     expect(res.statusCode).toEqual(400);
   });
-  */
 });
