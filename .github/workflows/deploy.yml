@@ -390,6 +390,9 @@ jobs:
       GF_SECURITY_ADMIN_USER: ${{ secrets.GF_SECURITY_ADMIN_USER }}
       GF_SECURITY_ADMIN_PASSWORD: ${{ secrets.GF_SECURITY_ADMIN_PASSWORD }}
       GF_SERVER_SERVE_FROM_SUB_PATH: false
+      GF_SERVER_DOMAIN: cyt.is-cool.dev
+      GF_SERVER_HTTP_PORT: 443
+      GF_SERVER_PROTOCOL: https
 
   docker-push-prometheus:
     name: Push prometheus service Docker Image to GitHub Packages
