@@ -4,6 +4,10 @@ import { default as React, useEffect, useState } from "react";
 import { Route, Routes } from "react-router";
 import About from "./views/About";
 import Account from "./views/Account";
+import defaultTheme from "./views/components/config/defaultTheme.json";
+import configGraph from "./views/components/config/particles-config-graph";
+import configJordi from "./views/components/config/particles-config-jordi";
+import configDefault from "./views/components/config/particles-config.json";
 import Footer from "./views/components/Footer";
 import Nav from "./views/components/Nav";
 import Particles from "./views/components/Particles";
@@ -17,11 +21,6 @@ import Menu from "./views/Menu";
 import Ranking from "./views/Ranking";
 import Signup from "./views/Signup";
 import Social from "./views/Social";
-
-import defaultTheme from "./views/components/config/defaultTheme.json";
-import configGraph from "./views/components/config/particles-config-graph";
-import configJordi from "./views/components/config/particles-config-jordi";
-import configDefault from "./views/components/config/particles-config.json";
 
 import { AuthContext } from "./views/context/AuthContext";
 import { ConfigContext } from "./views/context/ConfigContext";

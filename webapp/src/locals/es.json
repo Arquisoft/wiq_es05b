@@ -49,6 +49,12 @@
     "menu_hotQ_disable": "Desactivar pregunta caliente",
 
     "about_title": "Acerca de",
+    "about_app": "Nuestra app",
+    "about_guide": "Nuestro juego",
+    "about_guide_line": "Mira nuestra guía de juego aquí",
+    "about_program": "El programa",
+    "about_program_line": "Este proyecto está inspirado en el programa español 'Saber y ganar'",
+    "about_program_line2": "¡No olvides visitar su página web oficial aquí!",
     "about_p1": "¡Bienvenido a nuestro proyecto! Nos dedicamos a ofrecer contenidos y servicios de calidad a nuestros usuarios.",
     "about_p2": "Nuestra misión es proporcionar una forma divertida de aprender y practicar conocimientos generales a través de un juego de preguntas y respuestas.",
     "about_p3": "No dude en explorar nuestro sitio y descubrir más sobre lo que podemos ofrecerle.",
@@ -57,7 +63,7 @@
     "about_contact_us": "Contáctenos",
     "about_contact_channels": "Puede ponerse en contacto con nosotros a través de los siguientes canales:",
     "about_mailing": "Correo:",
-    "about_github": "¡Visite nuestra página de github!",
+    "about_github": "¡Visita nuestro github!",
 
     "howto_title": "Cómo jugar",
     "howto_n_title": "Navegación",
