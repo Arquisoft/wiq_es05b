@@ -1,5 +1,5 @@
-const WikidataGenerator = require("../WikidataGenerator");
-const script = require("../scripts/script")
+const WikidataGenerator = require("./WikidataGenerator");
+const script = require("./scripts/script")
 
 module.exports = function (app, questionsRepository, groupsRepository) {
 

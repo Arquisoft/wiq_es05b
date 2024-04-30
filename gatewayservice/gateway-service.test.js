@@ -553,7 +553,7 @@ describe("[Gateway Service] - /users/social/rejectrequest", () => {
 })
 
 const express = require('express');
-const routes = require('./routes/gatewayRoutes');
+const routes = require('./gatewayRoutes');
 
 let app2 = express();
 app2.use(express.json());
