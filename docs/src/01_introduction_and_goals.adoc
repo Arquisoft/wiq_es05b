@@ -28,7 +28,7 @@ The application must have the following functionalities:
 
 * A front-end web that allows users to register and play the game.
 * A user registration system with a history of their games.
-* All of the questions data must be obtained from the WikiData knowledge database.
+* All the questions data must be obtained from the WikiData knowledge database.
 * The application must have an API to obtain users information.
 * The application must have an API to obtain generated questions.
 
@@ -36,10 +36,13 @@ Further information can be found link:https://docs.google.com/document/d/1pahOfY
 
 === Quality Goals
 
-The following table describes the project's quality goals in a descending order.
+The following table describes the project's quality goals in descending order.
 
 |=== 
 | Quality Goal | Motivation
+
+| *_Efficiency_*
+| As it's a game, one of its main objectives is efficiency, as the game needs to run swiftly and smoothly.
 
 | *_Usability_*
 | The application must be not only easy to learn and use but also fun because if a game has no joy in it, then it shall never be called for that name.
