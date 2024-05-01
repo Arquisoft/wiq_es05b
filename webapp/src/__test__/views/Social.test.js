@@ -5,10 +5,10 @@ import Social from '../../views/Social.jsx';
 import { screen, waitFor, act } from '@testing-library/react';
 import { customRender } from "../utils/customRenderer";
 import React from 'react';
-// import axios from "axios";
+import axios from "axios";
 
 const render = customRender((() => useAuth())())
-// jest.mock('axios');
+jest.mock('axios');
 jest.mock('../../App.jsx', () => ({
   useAuth: jest.fn().mockReturnValue({
     getUser: jest.fn().mockReturnValue({
@@ -23,6 +23,13 @@ jest.mock('../../App.jsx', () => ({
 }));
 
 describe('Social component', () => {
+
+  beforeAll(() => {
+    axios.get.mockReset();
+    axios.get.mockImplementation(() => Promise.resolve([{}]))
+    axios.post.mockReset();
+    axios.post.mockImplementation(() => Promise.resolve([{}]))
+  })
 
   it('load component', async () => {
     await act(async () => render(<Social />));
