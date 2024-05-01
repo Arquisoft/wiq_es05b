@@ -63,10 +63,13 @@ Contained Building Blocks::
 |Service which will handle the user authentication process when a new user logs in
 
 |Users
-|Service containing all user related information such as scores or history of games played.
+|Service containing all user related information.
 
 |Questions
 |Service that bears the responsibility of interacting with te Wikidata API and generating the questions to be presented to the user.
+
+|History
+|Service that stores the user's game history.
 
 |===
 
