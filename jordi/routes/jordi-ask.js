@@ -11,23 +11,28 @@ module.exports = function (app, questionsRepository) {
   })
 
   app.get("/question/:id", (req, res, next) => {
-    if(!questionsRepository.checkValidId(req.params.id)) return next({status: 400, error: i18next.t("error_invalid_id")})
-    
-    questionsRepository
-      .findQuestionById(req.params.id)
-      .then(result => {
-        if(!result) return next({status: 404, error: i18next.t("error_question_not_found")})
-        res.json(result)
-      })
-      .catch(err => next(err));
+    if (!questionsRepository.checkValidId(req.params.id)) return next({ status: 400, error: i18next.t("error_invalid_id") })
+
+    //Check if the question is cached
+    const cachedQuestion = questionsCache.getQuestion(req.params.id);
+    if (cachedQuestion)
+      return res.json(cachedQuestion);
+    else //If not retrieve from db
+      questionsRepository
+        .findQuestionById(req.params.id)
+        .then(result => {
+          if (!result) return next({ status: 404, error: i18next.t("error_question_not_found") })
+          res.json(result)
+        })
+        .catch(err => next(err));
   })
 
   app.get('/questions/:category/:n', async (req, res, next) => {
-    const {category, n} = req.params;
+    const { category, n } = req.params;
 
-    if(isNaN(n)) return next({status: 400, error: i18next.t("error_invalid_n")})
+    if (isNaN(n)) return next({ status: 400, error: i18next.t("error_invalid_n") })
     const c = await questionsRepository.checkCategory(category);
-    if(!c) return next({status: 404, error: i18next.t("error_category_not_found")})
+    if (!c) return next({ status: 404, error: i18next.t("error_category_not_found") })
 
     questionsRepository.getQuestions(category, n)
       .then(result => {
@@ -39,7 +44,7 @@ module.exports = function (app, questionsRepository) {
 
         // Return questions without answer
         const answerLessQuestions = result.map(q => {
-          const {statements, ...rest} = q;
+          const { statements, ...rest } = q;
           rest.statement = statements[Math.floor(Math.random() * statements.length)]
           rest.options = rest.options.sort(() => Math.random() - 0.5);
           return rest;
