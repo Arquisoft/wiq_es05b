@@ -31,7 +31,7 @@ we introduce an additional 401 requests distributed over 21 seconds, concluding 
 image::gatling_test_01.PNG["First gatling test", align="center"]
 image::gatling_test_01_graphics.PNG["Graphics of the first gatling test", align="center"]
 
-In the second scenario, we initiated 26060 requests, of which 18935 passed succesfully, with a response time lower than 1200 ms, and 7125 that failes, leaving it with a percentaje of failure of  27%.
+In the second scenario, we initiated 26060 requests, of which 18935 passed succesfully, with a response time lower than 1200 ms, and 7125 that failed, leaving it with a percentaje of failure of 27%.
 
 image::gatling_test_02.PNG["Second gatling test", align="center"]
 
