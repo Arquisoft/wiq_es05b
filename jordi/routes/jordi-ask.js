@@ -1,3 +1,5 @@
+const questionsCache = require("../questionCache");
+
 module.exports = function (app, questionsRepository) {
 
   const i18next = app.get("i18next")
@@ -10,7 +12,7 @@ module.exports = function (app, questionsRepository) {
 
   app.get("/question/:id", (req, res, next) => {
     if(!questionsRepository.checkValidId(req.params.id)) return next({status: 400, error: i18next.t("error_invalid_id")})
-
+    
     questionsRepository
       .findQuestionById(req.params.id)
       .then(result => {
@@ -31,6 +33,9 @@ module.exports = function (app, questionsRepository) {
       .then(result => {
         // Randomize the order of questions
         result = result.sort(() => Math.random() - 0.5);
+
+        //Cache answers to prevent db access when answering
+        result.forEach(q => questionsCache.storeQuestion(q));
 
         // Return questions without answer
         const answerLessQuestions = result.map(q => {
