@@ -30,7 +30,7 @@ const metricsMiddleware = promBundle({includeMethod: true});
 app.use(metricsMiddleware);
 
 // Initialize the user repository
-const userRepository = require('./repositories/userRepository');
+const userRepository = require('./repositories/authUserRepository');
 userRepository.init(mongoose, mongoUri);
 
 // Middleware to parse JSON in request body

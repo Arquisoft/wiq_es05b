@@ -54,9 +54,9 @@ app.use("/admin", adminMiddleware)
 // Routes
 require("./routes/gatewayRoutes")(app)
 require("./routes/jordiRoutes")(app, axios)
-require("./routes/usersRoutes")(app, axios, authTokenMiddleware)
-require("./routes/authRoutes")(app, axios)
-require("./routes/historyRoutes")(app, axios, authTokenMiddleware)
+require("./routes/gatewayUsersRoutes")(app, axios, authTokenMiddleware)
+require("./routes/gatewayAuthRoutes")(app, axios)
+require("./routes/gatewayHistoryRoutes")(app, axios, authTokenMiddleware)
 
 // Open API
 const openapiPath='./GatewayAPI.yaml'

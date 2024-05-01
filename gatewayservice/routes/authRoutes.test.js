@@ -1,7 +1,7 @@
 const request = require('supertest');
 const express = require('express');
 const axios = require('axios');
-const authRoutes = require('./authRoutes');
+const authRoutes = require('./gatewayAuthRoutes');
 
 jest.mock('axios');
 
