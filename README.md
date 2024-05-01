@@ -29,8 +29,7 @@ This repo is a basic application composed of several components.
 - **User service**. Express service that handles the insertion of new users in the system.
 - **Auth service**. Express service that handles the authentication of users.
 - **Webapp**. React web application that uses the gateway service to allow basic login and new user features.
-- **Jordi Ask Service**. Express service that handles the wikidata-based questions generated.
-- **Jordi Think Service**. Local service that generates questions periodically using the WikiData API.
+- **Jordi**. Express service that generates Wikidata-based questions and serves them to the users.
 - **Ranking Service**. Express service that handles the global scoring system of the app.
 
 Both the user and auth service share a Mongo database that is accessed with mongoose.
@@ -173,7 +172,7 @@ We are grateful for their support and dedication in making this project a succes
 - [Project](https://cyt.is-cool.dev/)
 - [Docs](https://arquisoft.github.io/wiq_es05b/)
 - [npm package](https://www.npmjs.com/package/cyt-utils?activeTab=versions)
-- [OpenApi](https://cyt.is-cool.dev/api/doc)
+- [OpenApi](https://cyt.is-cool.dev/api/doc) (For unknown reasons it is necessary to open the link and refresh the URL on the open page or [clear the browser cache](https://kinsta.com/knowledgebase/how-to-clear-browser-cache/#how-to-force-refresh-a-single-page). [#226](https://github.com/Arquisoft/wiq_es05b/issues/226))
 - [Grafana](https://cyt.is-cool.dev/grafana)
 - [Kibana](https://cyt.is-cool.dev/kibana) 
 
