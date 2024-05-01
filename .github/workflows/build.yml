@@ -31,6 +31,9 @@ jobs:
     - run: npm --prefix jordi test -- --coverage
     - run: npm --prefix webapp test -- --coverage
 
+    - name: Remove some coverage files
+      run: rm -rf gatewayservice/node_modules/difunc/coverage
+
     - name: Analyze with SonarCloud
       uses: sonarsource/sonarcloud-github-action@master
       env:
