@@ -521,9 +521,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_12_1_unit_tests">12.1. 12.1. Unit tests</a></li>
 <li><a href="#_12_1_1_coverage_result">12.2. 12.1.1. Coverage result</a></li>
 <li><a href="#_12_2_e2e_tests">12.3. 12.2. E2E tests</a></li>
-<li><a href="#_12_3_gatling_tests">12.4. 12.3. Gatling tests</a></li>
+<li><a href="#_12_3_load_tests">12.4. 12.3. Load tests</a></li>
 <li><a href="#_12_4_usability_tests">12.5. 12.4. Usability tests</a></li>
-<li><a href="#_improvements_based_on_usability_testing">12.6. Improvements based on usability testing</a></li>
+<li><a href="#_12_4_accessibility_tests">12.6. 12.4. Accessibility tests</a></li>
 </ul>
 </li>
 <li><a href="#section-glossary">13. Glossary</a></li>
@@ -1817,9 +1817,33 @@ Our end-to-end approach focused on this functionality:
 </div>
 </div>
 <div class="sect2">
-<h3 id="_12_3_gatling_tests">12.4. 12.3. Gatling tests</h3>
+<h3 id="_12_3_load_tests">12.4. 12.3. Load tests</h3>
 <div class="paragraph">
-<p>TODO when deploys</p>
+<p>Load tests are conducted to assess performance under anticipated normal or peak loads. For these tests,
+we utilized the Gatling tool, enabling the recording of a usage scenario and adjusting the load intensity accordingly.</p>
+</div>
+<div class="paragraph">
+<p>We approached our testing by simulating gameplay with multiple users, employing two distinct scenarios.
+In the first scenario, we initially load 205 requests simultaneously, followed by a 5-second pause. Subsequently,
+we introduce an additional 401 requests distributed over 21 seconds, concluding with a load of 48 users per second maintained for 16 seconds.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="./images/gatling_test_01.PNG" alt="First gatling test">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="./images/gatling_test_01_graphics.PNG" alt="Graphics of the first gatling test">
+</div>
+</div>
+<div class="paragraph">
+<p>In the second scenario, we initiated 26060 requests, of which 18935 passed succesfully, with a response time lower than 1200 ms, and 7125 that failes, leaving it with a percentaje of failure of  27%.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="./images/gatling_test_02.PNG" alt="Second gatling test">
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1899,13 +1923,62 @@ low time, all geography categories, wrong password message not found</p></td>
 </tbody>
 </table>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_improvements_based_on_usability_testing">12.6. Improvements based on usability testing</h3>
+<div class="sect3">
+<h4 id="_improvements_based_on_usability_testing">12.5.3. Improvements based on usability testing</h4>
 <div class="paragraph">
 <p>Added more time to answer the questions and how to play menu</p>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_12_4_accessibility_tests">12.6. 12.4. Accessibility tests</h3>
+<div class="paragraph">
+<p>Accessibility testing is a critical aspect of web development, ensuring that websites are usable by all individuals.
+By conducting accessibility tests, we can identify and address potential barriers that may prevent users from accessing or interacting with our website effectively.
+Our team is committed to creating an inclusive and accessible website that meets the needs of all users, regardless of their abilities or limitations.</p>
+</div>
+<div class="paragraph">
+<p>Using lighthouse, we tested two of the views of our website, the home page, and the game page. The results are shown below.</p>
+</div>
+<div class="sect3">
+<h4 id="_menu_view">12.6.1. Menu view</h4>
+<div class="paragraph">
+<p>With the desktop setting we got good results:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="./images/accessibility_menu_desktop.png" alt="Accessibility menu desktop">
+</div>
+</div>
+<div class="paragraph">
+<p>With the mobile setting we got worse results, but as expected as the application is not fully accommodated to smaller screens.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="./images/accessibility_menu_desktop.png" alt="Accessibility menu mobile">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_game_view">12.6.2. Game view</h4>
+<div class="paragraph">
+<p>With the desktop setting we got good results, a bit worse than the menu:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="./images/accessibility_game_desktop.png" alt="Accessibility game desktop">
+</div>
+</div>
+<div class="paragraph">
+<p>Same happens with the mobile setting</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="./images/accessibility_game_mobile.png" alt="Accessibility game mobile">
+</div>
+</div>
 <div style="page-break-after: always;"></div>
+</div>
 </div>
 </div>
 </div>
@@ -1974,7 +2047,7 @@ low time, all geography categories, wrong password message not found</p></td>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-04-30 23:30:06 UTC
+Last updated 2024-05-01 16:50:25 UTC
 </div>
 </div>
 </body>
