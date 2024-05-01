@@ -53,13 +53,17 @@ module.exports = function (app, questionsRepository, groupsRepository) {
     try {
       const { groupId } = req.params;
       await groupsRepository.removeGroups({ groupId: groupId });
+      await questionsRepository.deleteQuestions({ groupId: groupId });
       res.json({ message: i18next.t("group_removed") })
     } catch (error) { next(error); }
   });
 
   app.get("/removeAllGroups", async (req, res, next) => {
     try {
+
       await groupsRepository.removeGroups();
+      await questionsRepository.removeQuestions();
+
       res.json({ message: i18next.t("all_groups_removed") });
     } catch (error) { next(error); }
   });
