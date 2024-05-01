@@ -446,6 +446,14 @@ jobs:
           rm -rf ./*
           wget https://raw.githubusercontent.com/arquisoft/wiq_es05b/master/docker-compose.yml -O docker-compose.yml
           wget https://raw.githubusercontent.com/arquisoft/wiq_es05b/master/.env -O .env
+          echo "GF_SECURITY_ADMIN_USER=${{ secrets.GF_SECURITY_ADMIN_USER }}" >> .env
+          echo "GF_SECURITY_ADMIN_PASSWORD=${{ secrets.GF_SECURITY_ADMIN_PASSWORD }}" >> .env
+          echo "GF_SERVER_SERVE_FROM_SUB_PATH=false" >> .env
+          echo "GF_SERVER_DOMAIN=cyt.is-cool.dev" >> .env
+          echo "GF_SERVER_PROTOCOL=http" >> .env
+          echo "ELASTIC_PASSWORD=${{ secrets.ELASTIC_PASSWORD }}" >> .env
+          echo "LOGSTASH_INTERNAL_PASSWORD=${{ secrets.LOGSTASH_INTERNAL_PASSWORD }}" >> .env
+          echo "KIBANA_SYSTEM_PASSWORD=${{ secrets.KIBANA_SYSTEM_PASSWORD }}" >> .env
           docker logout ghcr.io
           docker logout ghcr
           docker image prune -f
