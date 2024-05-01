@@ -13,6 +13,7 @@ declare -A users_passwords
 users_passwords=(
 	[logstash_internal]="${LOGSTASH_INTERNAL_PASSWORD:-}"
 	[kibana_system]="${KIBANA_SYSTEM_PASSWORD:-}"
+	[elastic]="${ELASTIC_PASSWORD:-}"
 #	[metricbeat_internal]="${METRICBEAT_INTERNAL_PASSWORD:-}"
 #	[filebeat_internal]="${FILEBEAT_INTERNAL_PASSWORD:-}"
 #	[heartbeat_internal]="${HEARTBEAT_INTERNAL_PASSWORD:-}"
