@@ -149,7 +149,7 @@ Note that this action logs in the remote machine and downloads the docker-compos
 | 📚 UOId | 🧑‍💻 Name | 📧 Email | 😺 GitHub |
 | :---: | :---: | :---: | :---: |
 | UO289295 | Álvaro García | [UO289295@uniovi.es](mailto:UO289295@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-algarfer-brightgreen)](https://github.com/algarfer) |
-| UO288787 | Donato Martín | [UO288787@uniovi.es](mailto:UO288787@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-dononitram-brightgreen)](https://github.com/dononitram) |
+| UO288787 | Donato Martín | [UO288787@uniovi.es](mailto:UO288787@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-donatomartin-brightgreen)](https://github.com/donatomartin) |
 | UO288705 | David Álvarez | [UO288705@uniovi.es](mailto:UO288705@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-DavidAlvrz-brightgreen)](https://github.com/DavidAlvrz) |
 | UO276255 | Rubén Rubio | [UO276255@uniovi.es](mailto:UO276255@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-UO276255-brightgreen)](https://github.com/UO2766255) |
 | UO289321 | Luna Valdés | [UO289321@uniovi.es](mailto:UO289321@uniovi.es) | [![GitHub](https://img.shields.io/badge/GitHub-uo28931-brightgreen)](https://github.com/uo289321) |
